@@ -4,6 +4,7 @@ import collision
 import character.player as player
 import json
 import hud.menu as _menu
+import time
 
 screen = None
 
@@ -73,7 +74,8 @@ class Game(object):
         self.trigger_cache = Cache()
 
         self.level = None
-        self.load_level("level_1", 100, 100)
+        load_coord = self.get_save_value("last_level_coord", [100, 100])
+        self.load_level(self.get_save_value("last_level", "level_1"), load_coord[0], load_coord[1])
 
         self.clock = pygame.time.Clock()
         self.collision = collision.Collision()
@@ -94,8 +96,15 @@ class Game(object):
         with open("data/save/{}.json".format(save), 'r', encoding='utf-8') as file:
             self._save = json.load(file)
         self.save_name = save
+        if self.get_save_value("last_save", 0) == 0:
+            self.save_data("last_save", int(time.time()))
 
     def save(self):
+        save = self.get_save_value("last_save", 0)
+        ct = int(time.time())
+        tp = self.get_save_value("time_played", 0)
+        self.save_data("time_played", tp + ct - save)
+        self.save_data("last_save", ct)
         with open("data/save/{}.json".format(self.save_name), 'w', encoding='utf-8') as file:
             # copy to escape current modification
             json.dump(self._save.copy(), file)
@@ -134,6 +143,8 @@ class Game(object):
         self.level.layer_1.load_asset(self.layer_cache)
         self.level.load_asset(self.trigger_cache)
         self.player.set_pos((x, y))
+        self.save_data("last_level", name)
+        self.save_data("last_level_coord", [x, y])
 
     def render(self):
 

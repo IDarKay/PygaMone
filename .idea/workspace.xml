@@ -70,7 +70,7 @@
       <updated>1606646293173</updated>
       <workItem from="1606646294425" duration="48744000" />
       <workItem from="1606730494803" duration="36874000" />
-      <workItem from="1606807133613" duration="41302000" />
+      <workItem from="1606807133613" duration="47685000" />
     </task>
     <servers />
   </component>
@@ -82,22 +82,22 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="704" y="310" key="#com.intellij.fileTypes.FileTypeChooser/1920.0.1920.1040/-1857.0.1857.1080/0.0.1920.1040@0.0.1920.1040" timestamp="1606750139912" />
-    <state width="1877" height="375" key="GridCell.Tab.0.bottom" timestamp="1606855902102">
+    <state width="1877" height="15" key="GridCell.Tab.0.bottom" timestamp="1606863080693">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="375" key="GridCell.Tab.0.bottom/1920.0.1920.1040/-1857.0.1857.1080/0.0.1920.1040@0.0.1920.1040" timestamp="1606855902102" />
-    <state width="1877" height="375" key="GridCell.Tab.0.center" timestamp="1606855902102">
+    <state width="1877" height="15" key="GridCell.Tab.0.bottom/1920.0.1920.1040/-1857.0.1857.1080/0.0.1920.1040@0.0.1920.1040" timestamp="1606863080693" />
+    <state width="1877" height="15" key="GridCell.Tab.0.center" timestamp="1606863080693">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="375" key="GridCell.Tab.0.center/1920.0.1920.1040/-1857.0.1857.1080/0.0.1920.1040@0.0.1920.1040" timestamp="1606855902102" />
-    <state width="1877" height="375" key="GridCell.Tab.0.left" timestamp="1606855902102">
+    <state width="1877" height="15" key="GridCell.Tab.0.center/1920.0.1920.1040/-1857.0.1857.1080/0.0.1920.1040@0.0.1920.1040" timestamp="1606863080693" />
+    <state width="1877" height="15" key="GridCell.Tab.0.left" timestamp="1606863080693">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="375" key="GridCell.Tab.0.left/1920.0.1920.1040/-1857.0.1857.1080/0.0.1920.1040@0.0.1920.1040" timestamp="1606855902102" />
-    <state width="1877" height="375" key="GridCell.Tab.0.right" timestamp="1606855902102">
+    <state width="1877" height="15" key="GridCell.Tab.0.left/1920.0.1920.1040/-1857.0.1857.1080/0.0.1920.1040@0.0.1920.1040" timestamp="1606863080693" />
+    <state width="1877" height="15" key="GridCell.Tab.0.right" timestamp="1606863080693">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="375" key="GridCell.Tab.0.right/1920.0.1920.1040/-1857.0.1857.1080/0.0.1920.1040@0.0.1920.1040" timestamp="1606855902102" />
+    <state width="1877" height="15" key="GridCell.Tab.0.right/1920.0.1920.1040/-1857.0.1857.1080/0.0.1920.1040@0.0.1920.1040" timestamp="1606863080693" />
     <state width="1877" height="140" key="GridCell.Tab.1.bottom" timestamp="1606697011571">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -130,6 +130,10 @@
       <screen x="-1857" y="0" width="1857" height="1080" />
     </state>
     <state x="-1387" y="32" width="1403" height="894" key="dock-window-2/1920.0.1920.1040/-1857.0.1857.1080/0.0.1920.1040@0.0.1920.1040" timestamp="1606846420813" />
+    <state x="-1596" y="117" width="1403" height="836" key="dock-window-3" timestamp="1606857200640">
+      <screen x="-1857" y="0" width="1857" height="1080" />
+    </state>
+    <state x="-1596" y="117" width="1403" height="836" key="dock-window-3/1920.0.1920.1040/-1857.0.1857.1080/0.0.1920.1040@0.0.1920.1040" timestamp="1606857200640" />
     <state x="668" y="237" width="583" height="624" key="find.popup" timestamp="1606855512001">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -140,6 +144,6 @@
     <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/1920.0.1920.1040/-1857.0.1857.1080/0.0.1920.1040@0.0.1920.1040" timestamp="1606766676969" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/pokemon$main.coverage" NAME="main Coverage Results" MODIFIED="1606855734714" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/pokemon$main.coverage" NAME="main Coverage Results" MODIFIED="1606863080687" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

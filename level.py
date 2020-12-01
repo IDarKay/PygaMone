@@ -110,6 +110,8 @@ class Level(object):
             raise er.LevelParseError("No layer_1 in {}".format(path))
         self.layer_1 = Layers(LAYER_1, l)
 
+        self.name = data["name"] if "name" in data else "undefined"
+
         if self.layer_1.size != self.floor.size:
             raise er.LevelParseError("Floor and layer haven't same size !! in {}".format(path))
 
@@ -132,6 +134,8 @@ class Level(object):
                 _id = np["id"]
                 self.npc.append(npc.load(_id, np))
 
+    def get_translate_name(self):
+        return game.get_game_instance().get_message(self.name)
 
     def npc_render(self, display, collision):
         for np in self.npc:

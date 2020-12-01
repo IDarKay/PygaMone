@@ -1,6 +1,8 @@
 import pygame
 import character.character as chr
 import game
+from datetime import datetime
+import time
 import character.player as pl
 
 MENU_IMAGE = pygame.image.load("assets/textures/hud/menu.png")
@@ -135,7 +137,7 @@ class MainMenu(Menu):
             if self.selected > 0:
                 self.selected -= 1
         elif value > 0 and press:
-            if self.selected < 5:
+            if self.selected < 4:
                 self.selected += 1
 
     def on_key_y(self, value, press):
@@ -168,6 +170,7 @@ s_poly_2 = (
     (int(x * 0.25), y)
 )
 
+
 class SaveMenu(Menu):
 
     def __init__(self, player):
@@ -175,30 +178,66 @@ class SaveMenu(Menu):
         self.selected = 0
         self.arrow = chr.get_part(MENU_IMAGE, (0, 64, 22, 91), (12, 14))
         self.text = [game.get_game_instance().get_message(t) for t in ["save_game", "back"]]
+        self.text_2 = [
+            game.FONT.render(game.get_game_instance().get_message(t) + " :", True, (0, 0, 0)) for t in
+            ["date_hour", "actual_position", "time_play", "pokedex",]]
+        self.last_save_f = game.FONT.render(game.get_game_instance().get_message("last_save"), True, (255, 255, 255))
+        self.last_save_size = game.FONT_SIZE[0] * len(game.get_game_instance().get_message("last_save"))
+        self.time_play = game.FONT.render(time_to_string(game.get_game_instance().get_save_value("time_played", 0)), True, (0, 0, 0))
+        # todo: pokedex n
+        self.pokedex = game.FONT.render("0", True, (0, 0, 0))
+        self.last_save = game.FONT.render(str(datetime.fromtimestamp(game.get_game_instance().get_save_value("last_save", 0))
+                                              .strftime('%d/%m/%y  %H:%M')), True,(255, 255, 255))
+        self.open_time = time.time()
 
     def render(self, display):
-        display.fill((55, 193, 193))
-        pygame.draw.polygon(display, (225, 223, 234), s_poly_1)
-        pygame.draw.polygon(display, (51, 171, 169), s_poly_2)
+        if time.time() - self.open_time < 0.2:
+            display.fill((255, 255, 255))
+        else:
+            display.fill((55, 193, 193))
+            pygame.draw.polygon(display, (225, 223, 234), s_poly_1)
+            pygame.draw.polygon(display, (51, 171, 169), s_poly_2)
 
-        x = SURFACE_SIZE[0] * 0.6
-        y = SURFACE_SIZE[1] * 0.75
+            _x = SURFACE_SIZE[0] * 0.55
+            _y = SURFACE_SIZE[1] * 0.38
 
-        for i in range(2):
+            for i in range(4):
+                display.blit(self.text_2[i], (_x, _y))
+                _y += SURFACE_SIZE[1] * 0.07
 
-            color = (0, 0, 0) if self.selected == i else (255, 255, 255)
-            tex_color = (255, 255, 255) if self.selected == i else (0, 0, 0)
-            pygame.draw.circle(display, color, (x + 10, y + SURFACE_SIZE[1] * 0.025), SURFACE_SIZE[1] * 0.025)
-            pygame.draw.circle(display, color, (x + 10 + SURFACE_SIZE[0] * 0.3, y + SURFACE_SIZE[1] * 0.025), SURFACE_SIZE[1] * 0.025)
-            pygame.draw.rect(display, color, pygame.Rect(x + 10, y, SURFACE_SIZE[0] * 0.3, SURFACE_SIZE[1] * 0.05))
+            _x = SURFACE_SIZE[0] * 0.76
+            _y = SURFACE_SIZE[1] * 0.38
 
-            t_i = game.FONT.render(self.text[i], True, tex_color)
-            x_min = (len(self.text[i]) / 2) * game.FONT_SIZE[0]
-            display.blit(t_i, (x + 20 + (SURFACE_SIZE[0] * 0.3) / 2 - x_min, y + 2))
+            time_f = game.FONT.render(str(datetime.fromtimestamp(time.time()).strftime('%d/%m/%y %H:%M')), True, (0, 0, 0))
+            display.blit(time_f, (_x, _y))
+            _y += SURFACE_SIZE[1] * 0.07
+            display.blit(game.FONT.render(game.get_game_instance().level.get_translate_name(), True, (0, 0, 0)), (_x, _y))
+            _y += SURFACE_SIZE[1] * 0.07
+            display.blit(self.time_play, (_x, _y))
+            _y += SURFACE_SIZE[1] * 0.07
+            display.blit(self.pokedex, (_x, _y))
 
-            if self.selected == i:
-                display.blit(self.arrow, (x - 10, y))
-            y += SURFACE_SIZE[1] * 0.07
+            display.blit(self.last_save_f, (SURFACE_SIZE[0] * 0.85 - self.last_save_size, SURFACE_SIZE[1] * 0.95))
+            display.blit(self.last_save, (SURFACE_SIZE[0] * 0.86, SURFACE_SIZE[1] * 0.95))
+
+            _x = SURFACE_SIZE[0] * 0.6
+            _y = SURFACE_SIZE[1] * 0.75
+
+            for i in range(2):
+
+                color = (0, 0, 0) if self.selected == i else (255, 255, 255)
+                tex_color = (255, 255, 255) if self.selected == i else (0, 0, 0)
+                pygame.draw.circle(display, color, (_x + 10, _y + SURFACE_SIZE[1] * 0.025), SURFACE_SIZE[1] * 0.025)
+                pygame.draw.circle(display, color, (_x + 10 + SURFACE_SIZE[0] * 0.3, _y + SURFACE_SIZE[1] * 0.025), SURFACE_SIZE[1] * 0.025)
+                pygame.draw.rect(display, color, pygame.Rect(_x + 10, _y, SURFACE_SIZE[0] * 0.3, SURFACE_SIZE[1] * 0.05))
+
+                t_i = game.FONT.render(self.text[i], True, tex_color)
+                x_min = (len(self.text[i]) / 2) * game.FONT_SIZE[0]
+                display.blit(t_i, (_x + 20 + (SURFACE_SIZE[0] * 0.3) / 2 - x_min, _y + 2))
+
+                if self.selected == i:
+                    display.blit(self.arrow, (_x - 10, _y))
+                _y += SURFACE_SIZE[1] * 0.07
 
     def on_key_y(self, value, press):
         if value < 0 and press:
@@ -214,3 +253,11 @@ class SaveMenu(Menu):
             self.player.close_menu()
         else:
             self.player.open_menu(MainMenu(self.player))
+
+def time_to_string(time):
+    hours = time // (60 * 60)
+    time -= hours * (60 * 60)
+    minutes = time // 60
+    time -= minutes * 60
+    secondes = time
+    return str(hours) + ":" + ("0" if minutes < 9 else "") + str(minutes)

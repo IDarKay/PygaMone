@@ -12,5 +12,12 @@
   "map": "world map",
   "options": "options",
   "save_game": "Save the game",
-  "back": "Back"
+  "back": "Back",
+  "level_1": "Level 1",
+  "poke_center_level_1": "Level 1 poke center",
+  "actual_position": "Actual Position",
+  "date_hour": "Date and hour",
+  "time_play": "Time Play",
+  "pokedex": "Pokédex",
+  "last_save": "Last save"
 }
