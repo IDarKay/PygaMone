@@ -1,0 +1,9 @@
+{
+  "type": "DIALOGUE",
+  "collision_side": {
+    "*": {
+      "need_action": true,
+      "text": "null"
+    }
+  }
+}

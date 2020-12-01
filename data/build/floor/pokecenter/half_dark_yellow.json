@@ -1,0 +1,11 @@
+{
+  "type": "floor",
+  "size":[1, 1],
+  "display": [
+    {
+      "image": "floor/pokecenter_ground",
+      "from": [16, 32],
+      "to": [32, 48]
+    }
+  ]
+}

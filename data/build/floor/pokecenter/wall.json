@@ -1,0 +1,13 @@
+{
+  "type": "floor",
+  "size": [1, 2],
+  "collision": [0, 0, 1, 1],
+  "display": [
+    {
+      "start": [0, -0.9375],
+      "image": "floor/pokecenter_ground",
+      "from": [96, 0],
+      "to": [112, 31]
+    }
+  ]
+}

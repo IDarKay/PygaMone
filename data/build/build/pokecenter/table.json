@@ -1,0 +1,12 @@
+{
+  "type": "build",
+  "size":[2, 2],
+  "collision": [0.0625, 0.0625, 1.9375, 1.9375],
+  "display": [
+    {
+      "image": "build/pokecenter",
+      "from": [48, 128],
+      "to": [80, 160]
+    }
+  ]
+}

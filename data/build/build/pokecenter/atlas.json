@@ -1,0 +1,12 @@
+{
+  "type": "build",
+  "size":[2, 1],
+  "display": [
+    {
+      "start": [0.25, -0.375],
+      "image": "build/pokecenter",
+      "from": [36, 76],
+      "to": [59, 88]
+    }
+  ]
+}

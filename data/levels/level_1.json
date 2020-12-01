@@ -1,0 +1,82 @@
+{
+  "seed": "457456157845975",
+  "floor": {
+    "key": {
+      "C": {
+        "ref": "floor/clean_floor"
+      },
+      "G": {
+        "ref": "floor/grass_floor"
+      },
+      "W": {
+        "ref": "floor/water"
+      },
+      "B": {
+        "ref": "floor/grass_b_south"
+      }
+    },
+    "pattern": [
+      "CCCCCCCCCCCCCCCCCCCC",
+      "CGGGGGGGGGGGGGGGGGGC",
+      "CGGGGGGGGGGGGGGGGGGC",
+      "CGGGGGGGGGGGGGGGGGGC",
+      "CGGGGGGGGGGGGGGGGGGC",
+      "CGGGGGGGGGGGGGGGGGGC",
+      "CGGGGGGGGGGGGGGGGGGC",
+      "CGGGGGGGWWWGGGGGGGGC",
+      "CGGGGGGGWWWGGGGGGGGC",
+      "CGGGGGGGGGGGGGGGGGGC",
+      "CGGGGGGGGGGGGGGGGGGC",
+      "CGGGGGGGGGGGGGGGGGGC",
+      "CGGGGGGGGGGGGGGGGGGC",
+      "CGGGGGGGGGGGGGGGGGGC",
+      "CGGGGGGGBBBBGGGGGGGC",
+      "CGGGGGGGGGGGGGGGGGGC",
+      "CGGGGGGGGGGGGGGGGGGC",
+      "CGGGGGGGGGGGGGGGGGGC",
+      "CGGGGGGGGGGGGGGGGGGC",
+      "CCCCCCCCCCCCCCCCCCCC"
+    ]
+  },
+  "layer_1": {
+    "key": {
+      "_": {
+        "ref": "EMPTY"
+      },
+      "T": {
+        "ref": "build/tree"
+      },
+      "C": {
+        "ref": "build/center"
+      }
+    },
+    "pattern": [
+      "TTTTTTTTTTTTTTTTTTTT",
+      "T__________________T",
+      "T__________________T",
+      "T________C_________T",
+      "T__________________T",
+      "T__________________T",
+      "T__________________T",
+      "T__________________T",
+      "T__________________T",
+      "T__________________T",
+      "T__________________T",
+      "T__________________T",
+      "T__________________T",
+      "T__________________T",
+      "T__________________T",
+      "T__________________T",
+      "T__________________T",
+      "T__________________T",
+      "T__________________T",
+      "TTTTTTTTTTTTTTTTTTTT"
+    ]
+  },
+  "trigger": [
+    {
+      "id": "level_1/poke_center_enter",
+      "loc": [11, 7, 12, 8]
+    }
+  ]
+}

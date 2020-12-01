@@ -1,0 +1,10 @@
+{
+  "type": "LOAD_LVL",
+  "collision_side": {
+    "down": {
+      "lvl_name": "poke_center_level_1",
+      "player_x": 128,
+      "player_y": 100
+    }
+  }
+}

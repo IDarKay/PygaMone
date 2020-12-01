@@ -1,0 +1,136 @@
+{
+  "seed": "457456157845975",
+  "floor": {
+    "key": {
+      "D": {
+        "ref": "floor/pokecenter/full_dark_yellow"
+      },
+      "H": {
+        "ref": "floor/pokecenter/half_dark_yellow"
+      },
+      "V": {
+        "ref": "floor/pokecenter/half_v_dark_yellow"
+      },
+      "Y": {
+        "ref": "floor/pokecenter/full_light_yellow"
+      },
+      "P": {
+        "ref": "floor/pokecenter/pokeball_yellow"
+      },
+      "W": {
+        "ref": "floor/pokecenter/wall"
+      },
+      "R": {
+        "ref": "floor/pokecenter/wall_r"
+      },
+      "L": {
+        "ref": "floor/pokecenter/wall_l"
+      },
+      "_": {
+        "ref": "EMPTY"
+      }
+    },
+    "pattern": [
+      "_LWWWWWWWWWWWWWR_",
+      "__DDDDDDDDDDDHH__",
+      "_DYYYYYYYYYYVYYY_",
+      "_DYYYYHHHHHHYYYY_",
+      "_DYYYYYP__YYYYYY_",
+      "_DYYYYY___YYDDVY_",
+      "_DYYYYY___YYDDVY_",
+      "_DYYYYYYYYYYHHYY_",
+      "_________________"
+    ]
+  },
+  "layer_1": {
+    "key": {
+      "_": {
+        "ref": "EMPTY"
+      },
+      "C": {
+        "ref": "build/pokecenter/carpet"
+      },
+      "L": {
+        "ref": "build/pokecenter/counter_l_flower"
+      },
+      "R": {
+        "ref": "build/pokecenter/counter_r_flower"
+      },
+      "H": {
+        "ref": "build/pokecenter/counter_h"
+      },
+      "B": {
+        "ref": "build/pokecenter/counter_h_button"
+      },
+      "%": {
+        "ref": "build/pokecenter/heal_machine"
+      },
+      ")": {
+        "ref": "build/pokecenter/heal_computer"
+      },
+      "M": {
+        "ref": "build/pokecenter/monitor"
+      },
+      "Z": {
+        "ref": "build/pokecenter/green_bookshelf"
+      },
+      "U": {
+        "ref": "build/pokecenter/blue_bookshelf"
+      },
+      "T": {
+        "ref": "build/pokecenter/tree"
+      },
+      "A": {
+        "ref": "build/pokecenter/atlas"
+      },
+      "E": {
+        "ref": "build/pokecenter/computer"
+      },
+      "G": {
+        "ref": "build/pokecenter/TABLE"
+      },
+      "Y": {
+        "ref": "build/pokecenter/yellow_sofa"
+      },
+      "S": {
+        "ref": "build/pokecenter/blue_sofa"
+      },
+      "V": {
+        "ref": "build/invisble_collision_box"
+      },
+      "X": {
+        "ref": "build/invisble_collision_box_3"
+      },
+      "N": {
+        "ref": "build/invisble_collision_box_4"
+      }
+    },
+    "pattern": [
+      "________M____A__N",
+      "X_TZ_L%___)RE___N",
+      "X_____HHBHH_____N",
+      "X_______________N",
+      "X___________YS__N",
+      "X__Z________G__YN",
+      "X______________SN",
+      "X__U____C_______N",
+      "_VVVVVV___VVVVVV_"
+    ]
+  },
+  "trigger": [
+    {
+      "id": "poke_center_level_1/pokecenter_exit",
+      "loc": [7, 8, 10, 9]
+    }
+  ],
+  "npc": [
+    {
+      "id": "JOY",
+      "pos_x": 128,
+      "pos_y": 2,
+      "facing": 2,
+      "heal_facing": 1,
+      "heal_machine": [0,0,1,1]
+    }
+  ]
+}

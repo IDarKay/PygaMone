@@ -1,0 +1,10 @@
+{
+  "type": "LOAD_LVL",
+  "collision_side": {
+    "*": {
+      "lvl_name": "level_1",
+      "player_x": 177,
+      "player_y": 112
+    }
+  }
+}

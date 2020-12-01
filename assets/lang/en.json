@@ -1,0 +1,16 @@
+{
+  "test" : "yo ça vas bien ? moi je vais bien bon je  peux écrire quoi là cç deviens long bon df df sde rhfjg hfgj hidhfd hfhjdbfoh hdijfhi sd",
+  "poke_center": "Hello, and welcome to the pokémon center! [l] We restore your tired pokémon to dull health! [l] Would you like to rest your pokemon?",
+  "poke_center_yes": "Okay, I'll take your pokémon for a few seconds",
+  "poke_center_end": "Thank you for waiting. [l] [l] We've restored your pokémon to full health. [l] We hope to see you again!",
+  "poke_center_no": "Okay, We hope to see you again!",
+  "yes": "yes",
+  "no": "no",
+  "pokemon": "pokémon",
+  "bag": "bag",
+  "save": "save",
+  "map": "world map",
+  "options": "options",
+  "save_game": "Save the game",
+  "back": "Back"
+}

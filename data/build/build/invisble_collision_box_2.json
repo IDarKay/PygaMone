@@ -1,0 +1,10 @@
+{
+  "type": "build",
+  "size":[1, 1],
+  "collision": [0, -0.5, 1, 0],
+  "display": [
+    {
+      "image": "build/empty"
+    }
+  ]
+}

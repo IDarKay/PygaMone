@@ -1,0 +1,12 @@
+{
+  "type": "floor",
+  "size":[1, 1],
+  "display": [
+    {
+      "image": "floor/grass_0"
+    },
+    {
+      "image": "floor/grass_1"
+    }
+  ]
+}

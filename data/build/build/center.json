@@ -1,0 +1,11 @@
+{
+  "type": "build",
+  "size": [5, 5],
+  "collision": [0, 0, 5, 5],
+  "display": [
+    {
+      "start": [0, -0.32],
+      "image": "build/center"
+    }
+  ]
+}

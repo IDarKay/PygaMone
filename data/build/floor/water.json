@@ -1,0 +1,9 @@
+{
+  "type": "floor",
+  "size":[1, 1],
+  "display": [
+    {
+      "image": "floor/water"
+    }
+  ]
+}
