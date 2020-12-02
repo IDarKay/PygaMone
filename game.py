@@ -8,16 +8,18 @@ import time
 
 screen = None
 
-CASE_SIZE = 16
+CASE_SIZE = 32
 SCREEN_SIZE = (1600, 900)
-SURFACE_SIZE = (530, 300)
+SURFACE_SIZE = (1060, 600)
 
 DIRECTION = ["top", "left", "down", "right"]
 
 game_instance = None
 
-FONT = None
-FONT_SIZE = (0, 0)
+FONT_16: pygame.font.Font = None
+FONT_24: pygame.font.Font = None
+FONT_SIZE_16 = (0, 0)
+FONT_SIZE_24 = (0, 0)
 
 came_scroll = (0, 0)
 
@@ -52,9 +54,11 @@ class Game(object):
         pygame.display.set_caption("Test Pokemon")
 
         # asset load
-        global FONT, FONT_SIZE
-        FONT = pygame.font.SysFont(None, 14)
-        FONT_SIZE = FONT.size('X')
+        global FONT_16, FONT_SIZE_16, FONT_24, FONT_SIZE_24
+        FONT_16 = pygame.font.Font("assets/font/MyFont-Regular.otf", 16)
+        FONT_24 = pygame.font.Font("assets/font/MyFont-Regular.otf", 24)
+        FONT_SIZE_16 = FONT_16.size('X')
+        FONT_SIZE_24 = FONT_16.size('X')
         self.lang = {}
         self.save_name = ""
         self._save = {}
@@ -154,8 +158,6 @@ class Game(object):
         if self.player.have_open_menu():
             self.player.current_menu.render(self.display)
         else:
-            if self.debug:
-                print(self.player.rect.x, self.player.rect.y)
             start = self.player.get_scroll_start()
             global came_scroll
             came_scroll = start
@@ -173,6 +175,16 @@ class Game(object):
                 self.render_collision()
 
             self.render_hud(self.display)
+
+            if self.debug:
+                p_pos = self.player.get_pos()
+                surf = FONT_16.render("x: {:+.4f}, y: {:+.4f}".format(p_pos[0], p_pos[1]), True, (255, 255, 255))
+
+                # back_ground = pygame.Surface(surf.get_rect().size)
+                # back_ground.fill((0, 0, 0))
+                # back_ground.set_alpha(200)
+                # self.display.blit(back_ground, (0, 0))
+                self.display.blit(surf, (0, 0))
 
         self.screen.blit(pygame.transform.scale(self.display, SCREEN_SIZE), (0, 0))
         pygame.display.update()

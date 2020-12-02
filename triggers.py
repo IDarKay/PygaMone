@@ -17,11 +17,11 @@ class Trigger(object):
         for key, value in data["collision_side"].items():
             self.side[key] = self.dat(value)
 
-    def get_property(self, data, key, cast_check):
+    def get_property(self, data, key, cast_check=None):
         if key not in data:
             raise err.TriggerParseError("No {} in trigger id: {}".format(key, self._id))
         value = data[key]
-        if not isinstance(value, cast_check):
+        if cast_check and not isinstance(value, cast_check):
             raise err.TriggerParseError(
                 "Value for {} in {} isn't good type need be {}".format(key, self._id, cast_check))
         return value
@@ -41,8 +41,8 @@ class LoadLvlTrigger(Trigger):
     def dat(self, data):
         return (
             self.get_property(data, "lvl_name", str),
-            self.get_property(data, "player_x", int),
-            self.get_property(data, "player_y", int)
+            self.get_property(data, "player_x"),
+            self.get_property(data, "player_y")
         )
 
     def trigger(self, data):

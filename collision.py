@@ -2,7 +2,7 @@ import math
 import pygame
 import triggers
 
-QUARTER_PI = math.pi / 4
+# QUARTER_PI = math.pi / 4
 
 # SOUTH = math.pi
 # SOUTH_EAST = (math.pi / 4) * 3
@@ -168,24 +168,24 @@ class SquaredCollisionBox(CollisionBox):
                     y = box.y1 + offset_y
                     return self.apply_event("inside", x, y)
                 elif offset_x > 0:
-                    x = self.x1 - x_edit
+                    x = self.x1 - x_edit - 1
                     # y = (((self.x1 - side[0]) * (self.center[1] - side[1])) / (self.center[0] - self.x1)) + side[1] - y_edit
                     y = box.y1 + offset_y
                     return self.apply_event("left", x, y)
                 elif offset_x < 0:
-                    x = self.x2 - x_edit
+                    x = self.x2 - x_edit + 1
                     # y = (((self.x2 - side[0]) * (self.center[1] - side[1])) / (self.center[0] - self.x2)) + side[1] - y_edit
                     y = box.y1 + offset_y
                     return self.apply_event("right", x, y)
                 elif offset_y > 0:
                     # x = (((self.y1 - side[1]) * (self.center[0] - side[0])) / (self.center[1] - self.y1)) + side[0] - x_edit
                     x = box.x1 + offset_x
-                    y = self.y1 - y_edit
+                    y = self.y1 - y_edit - 1
                     return self.apply_event("up", x, y)
                 elif offset_y < 0:
                     # x = (((self.y2 - side[1]) * (self.center[0] - side[0])) / (self.center[1] - self.y2)) + side[0] - x_edit
                     x = box.x1 + offset_x
-                    y = self.y2 - y_edit
+                    y = self.y2 - y_edit + 1
                     return self.apply_event("down", x, y)
 
         return False

@@ -20,7 +20,7 @@ class Displayer(object):
                 self.image = pygame.image.load("assets/textures/{}.png".format(images_path))
                 game.IMAGE_CACHE.put(images_path, self.image)
 
-            rescale = data["rescale"] if "rescale" in data else 1
+            rescale = data["rescale"] if "rescale" in data else 2
             if "from" in data:
                 d = data["from"]
                 if isinstance(d, list) and len(d) == 2:

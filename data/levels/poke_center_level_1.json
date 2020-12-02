@@ -127,8 +127,8 @@
   "npc": [
     {
       "id": "JOY",
-      "pos_x": 128,
-      "pos_y": 2,
+      "pos_x": 8,
+      "pos_y": 0.2,
       "facing": 2,
       "heal_facing": 1,
       "heal_machine": [0,0,1,1]

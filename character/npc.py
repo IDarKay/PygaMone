@@ -12,7 +12,7 @@ class NPC(chr.character.Character):
     #    pos_y => y pos of npc (int) no default
 
     def __init__(self, data, size):
-        pos = NPC.get_args(data, "pos_x", type_check=int), NPC.get_args(data, "pos_y", type_check=int)
+        pos = NPC.get_args(data, "pos_x"), NPC.get_args(data, "pos_y")
         super().__init__(pos, size)
 
     def get_triggers_box(self):
@@ -50,7 +50,7 @@ class NPC(chr.character.Character):
 class JoyNPC(NPC):
 
     IMAGE_LOC = ((34, 25, 53, 50), (54, 25, 73, 50), (34, 0, 53, 25), (54, 0, 73, 25))
-    BOX = ((0, -32), (-32, 0), (0, 32), (32, 0))
+    BOX = ((0, -64), (-64, 0), (0, 64), (64, 0))
 
     #    USE DATA:
     #    heal_machine => pos of heal machine lis[int, int, int, int] (loc in case) no default
@@ -58,13 +58,13 @@ class JoyNPC(NPC):
     #    heal_facing => facing of npc when heal pokemon  0 = top 1 = left 2 = down 3 = right default (0)
 
     def __init__(self, data):
-        super().__init__(data, (19, 25))
+        super().__init__(data, (38, 50))
         self.facing = min_max(0, NPC.get_args(data, "facing", 0, int), 3)
         heal_facing = min_max(0, NPC.get_args(data, "heal_facing", 0, int), 3)
         self.heal_machine = NPC.get_args(data, "heal_machine", type_check=list)
 
-        self.facing_image = chr.character.get_part(chr.character.NPC_IMAGE, JoyNPC.IMAGE_LOC[self.facing])
-        self.heal_facing_image = chr.character.get_part(chr.character.NPC_IMAGE, JoyNPC.IMAGE_LOC[heal_facing])
+        self.facing_image = chr.character.get_part(chr.character.NPC_IMAGE, JoyNPC.IMAGE_LOC[self.facing], (38, 50))
+        self.heal_facing_image = chr.character.get_part(chr.character.NPC_IMAGE, JoyNPC.IMAGE_LOC[heal_facing], (38, 50))
         # 0 nothing, 1 talk
         self.status = 0
 
@@ -72,7 +72,7 @@ class JoyNPC(NPC):
         return self.facing_image
 
     def get_triggers_box(self):
-        return self.get_relative_trigger((16, 16), JoyNPC.BOX[self.facing])
+        return self.get_relative_trigger((game.CASE_SIZE, game.CASE_SIZE), JoyNPC.BOX[self.facing])
 
     def trigger(self, pos, face):
         player = game.game_instance.player

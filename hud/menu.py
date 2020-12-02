@@ -6,7 +6,7 @@ import time
 import character.player as pl
 
 MENU_IMAGE = pygame.image.load("assets/textures/hud/menu.png")
-SURFACE_SIZE = (530, 300)
+SURFACE_SIZE = (1060, 600)
 
 
 class Menu(object):
@@ -116,7 +116,7 @@ class MainMenu(Menu):
         pygame.draw.polygon(display, (50, 50, 50), poly_7)
         pygame.draw.polygon(display, (40, 35, 32), poly_8)
 
-        info = game.FONT.render("todo: information here and back to line", True, (255, 255, 255))
+        info = game.FONT_16.render("todo: information here and back to line", True, (255, 255, 255))
         display.blit(info, (int(SURFACE_SIZE[0] * 0.25), int(SURFACE_SIZE[1] * 0.85)))
 
         for i in range(len(centre_circle)):
@@ -127,10 +127,9 @@ class MainMenu(Menu):
             else:
                 pygame.draw.circle(display, (255, 255, 255), c, 40)
             display.blit(self.image[i], (c[0] - 32, c[1] - 32))
-            t_i = game.FONT.render(self.text[i], True, (255, 255, 255))
-            x_min = (len(self.text[i]) / 2) * game.FONT_SIZE[0]
+            t_i = game.FONT_16.render(self.text[i], True, (255, 255, 255))
+            x_min = (len(self.text[i]) / 2) * game.FONT_SIZE_16[0]
             display.blit(t_i, (c[0] - x_min, c[1] + 45))
-
 
     def on_key_x(self, value, press):
         if value < 0 and press:
@@ -179,15 +178,15 @@ class SaveMenu(Menu):
         self.arrow = chr.get_part(MENU_IMAGE, (0, 64, 22, 91), (12, 14))
         self.text = [game.get_game_instance().get_message(t) for t in ["save_game", "back"]]
         self.text_2 = [
-            game.FONT.render(game.get_game_instance().get_message(t) + " :", True, (0, 0, 0)) for t in
+            game.FONT_16.render(game.get_game_instance().get_message(t) + " :", True, (0, 0, 0)) for t in
             ["date_hour", "actual_position", "time_play", "pokedex",]]
-        self.last_save_f = game.FONT.render(game.get_game_instance().get_message("last_save"), True, (255, 255, 255))
-        self.last_save_size = game.FONT_SIZE[0] * len(game.get_game_instance().get_message("last_save"))
-        self.time_play = game.FONT.render(time_to_string(game.get_game_instance().get_save_value("time_played", 0)), True, (0, 0, 0))
+        self.last_save_f = game.FONT_16.render(game.get_game_instance().get_message("last_save"), True, (255, 255, 255))
+        self.last_save_size = game.FONT_SIZE_16[0] * len(game.get_game_instance().get_message("last_save"))
+        self.time_play = game.FONT_16.render(time_to_string(game.get_game_instance().get_save_value("time_played", 0)), True, (0, 0, 0))
         # todo: pokedex n
-        self.pokedex = game.FONT.render("0", True, (0, 0, 0))
-        self.last_save = game.FONT.render(str(datetime.fromtimestamp(game.get_game_instance().get_save_value("last_save", 0))
-                                              .strftime('%d/%m/%y  %H:%M')), True,(255, 255, 255))
+        self.pokedex = game.FONT_16.render("0", True, (0, 0, 0))
+        self.last_save = game.FONT_16.render(str(datetime.fromtimestamp(game.get_game_instance().get_save_value("last_save", 0))
+                                                 .strftime('%d/%m/%y  %H:%M')), True, (255, 255, 255))
         self.open_time = time.time()
 
     def render(self, display):
@@ -208,10 +207,10 @@ class SaveMenu(Menu):
             _x = SURFACE_SIZE[0] * 0.76
             _y = SURFACE_SIZE[1] * 0.38
 
-            time_f = game.FONT.render(str(datetime.fromtimestamp(time.time()).strftime('%d/%m/%y %H:%M')), True, (0, 0, 0))
+            time_f = game.FONT_16.render(str(datetime.fromtimestamp(time.time()).strftime('%d/%m/%y %H:%M')), True, (0, 0, 0))
             display.blit(time_f, (_x, _y))
             _y += SURFACE_SIZE[1] * 0.07
-            display.blit(game.FONT.render(game.get_game_instance().level.get_translate_name(), True, (0, 0, 0)), (_x, _y))
+            display.blit(game.FONT_16.render(game.get_game_instance().level.get_translate_name(), True, (0, 0, 0)), (_x, _y))
             _y += SURFACE_SIZE[1] * 0.07
             display.blit(self.time_play, (_x, _y))
             _y += SURFACE_SIZE[1] * 0.07
@@ -231,9 +230,9 @@ class SaveMenu(Menu):
                 pygame.draw.circle(display, color, (_x + 10 + SURFACE_SIZE[0] * 0.3, _y + SURFACE_SIZE[1] * 0.025), SURFACE_SIZE[1] * 0.025)
                 pygame.draw.rect(display, color, pygame.Rect(_x + 10, _y, SURFACE_SIZE[0] * 0.3, SURFACE_SIZE[1] * 0.05))
 
-                t_i = game.FONT.render(self.text[i], True, tex_color)
-                x_min = (len(self.text[i]) / 2) * game.FONT_SIZE[0]
-                display.blit(t_i, (_x + 20 + (SURFACE_SIZE[0] * 0.3) / 2 - x_min, _y + 2))
+                t_i = game.FONT_16.render(self.text[i], True, tex_color)
+                x_min = (len(self.text[i]) / 2) * game.FONT_SIZE_16[0]
+                display.blit(t_i, (_x + 10 + (SURFACE_SIZE[0] * 0.3) / 2 - x_min, _y + 2))
 
                 if self.selected == i:
                     display.blit(self.arrow, (_x - 10, _y))

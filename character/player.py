@@ -6,17 +6,13 @@ import character.character as character
 DIALOGUE_MAX_CHAR_LINES = 0
 LEFT_X = 0
 
-
-
-
-
-load = False
-DIALOGUE_BOX = None
-RIGHT_ARROW = None
-DOWN_ARROW = None
-SELECT_TOP = None
-SELECT_DOWN = None
-SELECT_MID = None
+load: bool = False
+DIALOGUE_BOX: pygame.Surface = None
+RIGHT_ARROW: pygame.Surface = None
+DOWN_ARROW: pygame.Surface = None
+SELECT_TOP: pygame.Surface = None
+SELECT_DOWN: pygame.Surface = None
+SELECT_MID: pygame.Surface = None
 
 
 def load_hud_item():
@@ -25,13 +21,13 @@ def load_hud_item():
     if not load:
         load = True
         HUD = pygame.image.load("assets/textures/hud/HUD.png")
-        DIALOGUE_BOX = character.get_part(HUD, (0, 25, 280, 78), (game.SURFACE_SIZE[0] * 0.9, -1))
-        RIGHT_ARROW = character.get_part(HUD, (0, 0, 6, 10))
-        DOWN_ARROW = character.get_part(HUD, (6, 0, 16, 6))
-        SELECT_TOP = character.get_part(HUD, (0, 10, 74, 15), (game.SURFACE_SIZE[0] * 0.2, -1))
-        SELECT_DOWN = character.get_part(HUD, (0, 19, 74, 25), (game.SURFACE_SIZE[0] * 0.2, -1))
-        SELECT_MID = character.get_part(HUD, (74, 10, 149, 25), (game.SURFACE_SIZE[0] * 0.2, -1))
-        DIALOGUE_MAX_CHAR_LINES = int(game.SURFACE_SIZE[0] * 0.85) // game.FONT_SIZE[0]
+        DIALOGUE_BOX = character.get_part(HUD, (0, 25, 280, 78), (game.SURFACE_SIZE[0] * 0.9, game.SURFACE_SIZE[1] * 0.2))
+        RIGHT_ARROW = character.get_part(HUD, (0, 0, 6, 10), (12, 20))
+        DOWN_ARROW = character.get_part(HUD, (6, 0, 16, 6), (20, 12))
+        SELECT_TOP = character.get_part(HUD, (0, 10, 74, 15), (game.SURFACE_SIZE[0] * 0.2, game.SURFACE_SIZE[1] * 0.05))
+        SELECT_DOWN = character.get_part(HUD, (0, 19, 74, 25), (game.SURFACE_SIZE[0] * 0.2, game.SURFACE_SIZE[1] * 0.05))
+        SELECT_MID = character.get_part(HUD, (74, 10, 149, 25), (game.SURFACE_SIZE[0] * 0.2, game.SURFACE_SIZE[1] * 0.08))
+        DIALOGUE_MAX_CHAR_LINES = int(game.SURFACE_SIZE[0] * 0.85) // game.FONT_SIZE_16[0]
         LEFT_X = int(game.SURFACE_SIZE[0] * 0.15)
         del HUD
 
@@ -71,7 +67,7 @@ class Dialog(object):
         self.open_time = current_milli_time()
         self.is_end_line = False
 
-    def render(self, display):
+    def render(self, display: pygame.Surface):
         display.blit(DIALOGUE_BOX, (int(game.SURFACE_SIZE[0] * 0.05), game.SURFACE_SIZE[1] * 0.75))
         t = current_milli_time()
 
@@ -83,37 +79,37 @@ class Dialog(object):
         if self.start_render_line == -1:
             self.start_render_line = t
         nb_char = (((t - self.start_render_line) // self.speed) + 1) if self.speed > 0 else (len(self.text[self.current_line]) + 1)
-        if nb_char > len(self.text[self.current_line]):
+        if nb_char > len(self.text[self.current_line]) or self.is_end_line:
             if self.show_line == 0 and not self.mono_line:
                 self.show_line = 1
                 self.current_line += 1
                 self.start_render_line = t
                 nb_char = 1
-                self.is_end_line = False
             else:
                 nb_char = len(self.text[self.current_line])
                 if self.display_arrow:
                     display.blit(DOWN_ARROW, (game.SURFACE_SIZE[0] * 0.88, game.SURFACE_SIZE[1] * 0.88))
                 self.need_enter = True
                 self.is_end_line = True
-        else:
-            self.is_end_line = False
 
         if self.show_line == 1:
-            l = game.FONT.render(self.text[self.current_line - 1], True, (0, 0, 0))
+            l = game.FONT_24.render(self.text[self.current_line - 1], True, (0, 0, 0))
             display.blit(l, (LEFT_X, int(game.SURFACE_SIZE[1] * 0.78)))
 
         l = self.text[self.current_line]
-        current = game.FONT.render(l[0: nb_char], True, (0, 0, 0))
+        current = game.FONT_24.render(l[0: nb_char], True, (0, 0, 0))
         display.blit(current, (LEFT_X, int(game.SURFACE_SIZE[1] * 0.78) + ((game.SURFACE_SIZE[1] * 0.2 / 3) * self.show_line)))
 
     def press_action(self):
 
         if self.need_enter or self.speed_skip or (self.timed > 0 and current_milli_time() - self.open_time > self.open_time):
             self.need_enter = False
-            print(self.current_line, (len(self.text) - 1))
             if self.mono_line or (self.current_line == (len(self.text) - 1)):
-                return True
+                if self.speed and not self.is_end_line:
+                    self.is_end_line = True
+                    return False
+                else:
+                    return True
             if self.show_line == 0 and not self.mono_line:
                 self.show_line = 1
             self.current_line += 1
@@ -155,42 +151,41 @@ class QuestionDialog(Dialog):
         self.select = 0
         self.callback = callback
 
-    def render(self, display):
-        # todo: fix bug
+    def render(self, display: pygame.Surface):
         super().render(display)
         if self.current_line == len(self.text) - 1 and self.need_enter:
             self.display_arrow = False
             nb_line = len(self.ask)
             draw_x = int(game.SURFACE_SIZE[0] * 0.75)
-            draw_y = int(game.SURFACE_SIZE[1] * 0.70)
+            draw_y = int(game.SURFACE_SIZE[1] * 0.68)
             display.blit(SELECT_DOWN, (draw_x, draw_y))
             for i in range(nb_line):
-                draw_y -= 15
+                draw_y -= game.SURFACE_SIZE[1] * 0.08
                 display.blit(SELECT_MID, (draw_x, draw_y))
 
-            draw_y -= 5
+            draw_y -= game.SURFACE_SIZE[1] * 0.05
             display.blit(SELECT_TOP, (draw_x, draw_y))
 
-            draw_y += 7
-            draw_x += 12
+            draw_y += game.SURFACE_SIZE[1] * 0.06
+            draw_x += 35
             c = 0
             for key in self.ask:
                 if c == self.select:
-                    display.blit(RIGHT_ARROW, (draw_x - 8, draw_y))
-                font = game.FONT.render(key, True, (0, 0, 0))
+                    display.blit(RIGHT_ARROW, (draw_x - 18, draw_y + 3))
+                font = game.FONT_24.render(key, True, (0, 0, 0))
                 display.blit(font, (draw_x, draw_y))
-                draw_y += 14
+                draw_y += game.SURFACE_SIZE[1] * 0.08
                 c += 1
 
     def pres_y(self, up):
-        if self.current_line == len(self.text) - 1 and self.is_end_line:
+        if self.current_line == len(self.text) - 1 and self.need_enter:
             if up:
                 self.select = self.select = max(self.select - 1, 0)
             else:
                 self.select = min(self.select + 1, len(self.ask) - 1)
 
     def press_action(self):
-        if self.current_line == len(self.text) - 1 and self.is_end_line:
+        if self.current_line == len(self.text) - 1 and self.need_enter:
             return not self.callback(self.ask[self.select], self.select)
         else:
             return super().press_action()
@@ -200,11 +195,11 @@ class QuestionDialog(Dialog):
 class Player(character.Character):
 
     def __init__(self):
-        super().__init__((100, 100), (17, 25))
+        super().__init__((100, 100), (34, 50))
 
-        self.image = [character.get_part(character.NPC_IMAGE, cord) for cord in [(0, 25, 17, 50), (17, 25, 34, 50), (0, 0, 17, 25), (17, 0, 34, 25)]]
+        self.image = [character.get_part(character.NPC_IMAGE, cord, (34, 50)) for cord in [(0, 25, 17, 50), (17, 25, 34, 50), (0, 0, 17, 25), (17, 0, 34, 25)]]
         self.movement = [0, 0]
-        self.speed = 1
+        self.speed = 2
         self.direction = 2
         self.current_dialogue = None
         self.freeze_time = 0
@@ -233,12 +228,13 @@ class Player(character.Character):
         :type check_last_open: int
         :type dialogue: Dialog
         """
-        print("open")
+        if 0 < check_last_open and check_last_open > current_milli_time() - self.last_close_dialogue and not over:
+            return
+
         if self.current_dialogue and not over:
             raise RuntimeError("try open dialog while other is open")
 
-        if 0 < check_last_open and check_last_open > current_milli_time() - self.last_close_dialogue and not over:
-            return
+
 
         self.freeze_time = -2
         self.current_dialogue = dialogue
