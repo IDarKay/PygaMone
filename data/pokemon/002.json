@@ -1,0 +1,20 @@
+{
+  "type": ["GRASS", "POISON"],
+  "xp_point": 141,
+  "color": "GREEN",
+  "parent": 1,
+  "curve": "MEDIUM_SLOW",
+  "display": {
+    "image": "pokemon/1_G",
+    "from": [64, 0],
+    "to": [128, 64]
+  },
+  "base_stats": {
+    "hp": 60,
+    "attack": 62,
+    "defense": 63,
+    "sp_attack": 80,
+    "sp_defense": 80,
+    "speed": 60
+  }
+}

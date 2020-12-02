@@ -1,0 +1,14 @@
+{
+  "1": {
+    "name": "bulbizarre",
+    "pokedex": "Il y a une graine sur son dos depuis sa naissance. elle grossit un peu chaque jour."
+  },
+  "2": {
+    "name": "herbizarre",
+    "pokedex": "Son bulbe dorsal est devenu si gros qu'il ne peut plus se tenir sur ses pattes postérieures."
+  },
+  "3": {
+    "name": "florizarre",
+    "pokedex": "Sa plante donne une grosse fleur quand elle absorbe les rayons du soleil. Il est toujours à la recherche des endroits les plus ensoleillés."
+  }
+}

@@ -5,6 +5,7 @@ import character.player as player
 import json
 import hud.menu as _menu
 import time
+import pokemon.pokemon as pokemon
 
 screen = None
 
@@ -17,8 +18,10 @@ DIRECTION = ["top", "left", "down", "right"]
 game_instance = None
 
 FONT_16: pygame.font.Font = None
+FONT_20: pygame.font.Font = None
 FONT_24: pygame.font.Font = None
 FONT_SIZE_16 = (0, 0)
+FONT_SIZE_20 = (0, 0)
 FONT_SIZE_24 = (0, 0)
 
 came_scroll = (0, 0)
@@ -54,16 +57,21 @@ class Game(object):
         pygame.display.set_caption("Test Pokemon")
 
         # asset load
-        global FONT_16, FONT_SIZE_16, FONT_24, FONT_SIZE_24
+        global FONT_16, FONT_SIZE_16, FONT_20, FONT_SIZE_20, FONT_24, FONT_SIZE_24
         FONT_16 = pygame.font.Font("assets/font/MyFont-Regular.otf", 16)
+        FONT_20 = pygame.font.Font("assets/font/MyFont-Regular.otf", 20)
         FONT_24 = pygame.font.Font("assets/font/MyFont-Regular.otf", 24)
         FONT_SIZE_16 = FONT_16.size('X')
+        FONT_SIZE_20 = FONT_16.size('X')
         FONT_SIZE_24 = FONT_16.size('X')
         self.lang = {}
+        self.poke_lang = {}
         self.save_name = ""
         self._save = {}
         self.load_save("save")
         self.load_lang("en")
+        self.load_poke_lang("en")
+        pokemon.Pokemon.load_pokemons()
         player.load_hud_item()
         # ============
 
@@ -71,7 +79,7 @@ class Game(object):
         game_instance = self
         self.screen = pygame.display.set_mode(SCREEN_SIZE)
         self.display = pygame.Surface(SURFACE_SIZE)
-        self.player = player.Player()
+        self.player = player.Player(self)
 
         self.floor_cache = Cache()
         self.layer_cache = Cache()
@@ -93,8 +101,12 @@ class Game(object):
             self.clock.tick(60)
 
     def load_lang(self, lang):
-        with open("assets/lang/{}.json".format(lang), 'r', encoding='utf-8') as file:
+        with open("assets/lang/text/{}.json".format(lang), 'r', encoding='utf-8') as file:
             self.lang = json.load(file)
+
+    def load_poke_lang(self, lang):
+        with open("assets/lang/pokemon/{}.json".format(lang), 'r', encoding='utf-8') as file:
+            self.poke_lang = json.load(file)
 
     def load_save(self, save):
         with open("data/save/{}.json".format(save), 'r', encoding='utf-8') as file:
@@ -109,6 +121,7 @@ class Game(object):
         tp = self.get_save_value("time_played", 0)
         self.save_data("time_played", tp + ct - save)
         self.save_data("last_save", ct)
+        self.player.save(self._save)
         with open("data/save/{}.json".format(self.save_name), 'w', encoding='utf-8') as file:
             # copy to escape current modification
             json.dump(self._save.copy(), file)
@@ -128,6 +141,12 @@ class Game(object):
     def get_message(self, key):
         if key in self.lang:
             return self.lang[key]
+        else:
+            return key
+
+    def get_poke_message(self, key):
+        if key in self.poke_lang:
+            return self.poke_lang[key]
         else:
             return key
 
@@ -249,6 +268,9 @@ class Game(object):
                         self.player.action_press()
                     elif event.type == pygame.KEYUP:
                         self.player.action_unpress()
+                if event.key == pygame.K_ESCAPE:
+                    if event.type == pygame.KEYDOWN:
+                        self.player.escape_press()
         return True
 
 

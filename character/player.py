@@ -1,7 +1,8 @@
 import pygame
 import game
-import time
+from utils import current_milli_time
 import character.character as character
+import pokemon.player_pokemon as player_pokemon
 
 DIALOGUE_MAX_CHAR_LINES = 0
 LEFT_X = 0
@@ -194,7 +195,11 @@ class QuestionDialog(Dialog):
 
 class Player(character.Character):
 
-    def __init__(self):
+    def __init__(self, game_i):
+        """
+
+        :type game_i: game.Game
+        """
         super().__init__((100, 100), (34, 50))
 
         self.image = [character.get_part(character.NPC_IMAGE, cord, (34, 50)) for cord in [(0, 25, 17, 50), (17, 25, 34, 50), (0, 0, 17, 25), (17, 0, 34, 25)]]
@@ -206,6 +211,42 @@ class Player(character.Character):
         self.is_action_press = False
         self.last_close_dialogue = current_milli_time()
         self.current_menu = None
+        self.team = [player_pokemon.PlayerPokemon.from_json(p) for p in game_i.get_save_value("team", [])]
+        self.normalize_team()
+
+        # todo: change
+        self.pc = [player_pokemon.PlayerPokemon.from_json(p) for p in game_i.get_save_value("pc", [])]
+
+    def normalize_team(self):
+        if len(self.team) < 6:
+            for i in range(len(self.team), 6):
+                self.team.append(None)
+        elif len(self.team) > 6:
+            self.team = self.team[0:6]
+            print("WARN to much pokemon in team deleting !")
+
+    def add_pokemon_in_pc(self, pokemon):
+        #todo: change
+        self.pc.append(pokemon)
+
+    def move_pokemon_to_pc(self, team_nb: int):
+        if 0 <= team_nb < 6 and self.team[team_nb]:
+            self.add_pokemon_in_pc(self.team[team_nb])
+            # del to sort
+            del self.team[team_nb]
+            self.normalize_team()
+
+    def switch_pokemon(self, team_nb1 : int, team_nb2: int):
+        if 0 <= team_nb1 < 6 and 0 <= team_nb2 < 6:
+            self.team[team_nb1], self.team[team_nb2] = self.team[team_nb2], self.team[team_nb1]
+
+    def save(self, data):
+        team = []
+        for t in self.team:
+            if t:
+                team.append(t.serialisation())
+        data["team"] = team
+        data["pc"] = [u.serialisation() for u in self.pc]
 
     def have_open_menu(self):
         return self.current_menu
@@ -234,8 +275,6 @@ class Player(character.Character):
         if self.current_dialogue and not over:
             raise RuntimeError("try open dialog while other is open")
 
-
-
         self.freeze_time = -2
         self.current_dialogue = dialogue
 
@@ -246,6 +285,10 @@ class Player(character.Character):
                 self.close_dialogue()
         if self.current_menu:
             self.current_menu.on_key_action()
+
+    def escape_press(self):
+        if self.current_menu:
+            self.current_menu.on_key_escape()
 
     def close_dialogue(self):
         self.last_close_dialogue = current_milli_time()
@@ -317,7 +360,6 @@ class Player(character.Character):
         if self.current_dialogue and not up:
             self.current_dialogue.pres_y(value < 0)
 
-def current_milli_time():
-    return int(round(time.time() * 1000))
+
 
 

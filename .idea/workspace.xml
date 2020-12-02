@@ -2,21 +2,25 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ea3e728b-c0c8-417b-bdcf-b87cc6630e2a" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/font/ARIAL.TTF" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/lang/pokemon/en.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/textures/pokemon/1_G.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/pokemon/001.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/pokemon/002.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/pokemon/003.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pokemon/player_pokemon.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pokemon/pokemon.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pokemon/pokemon_type.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/utils.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/lang/en.json" beforeDir="false" afterPath="$PROJECT_DIR$/assets/lang/en.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/character/character.py" beforeDir="false" afterPath="$PROJECT_DIR$/character/character.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/character/npc.py" beforeDir="false" afterPath="$PROJECT_DIR$/character/npc.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/lang/en.json" beforeDir="false" afterPath="$PROJECT_DIR$/assets/lang/text/en.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/textures/character/main_character_down.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/textures/character/main_character_left.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/textures/character/main_character_right.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/textures/character/main_character_top.png" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/character/player.py" beforeDir="false" afterPath="$PROJECT_DIR$/character/player.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/collision.py" beforeDir="false" afterPath="$PROJECT_DIR$/collision.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/levels/poke_center_level_1.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/levels/poke_center_level_1.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/trigger/level_1/poke_center_enter.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/trigger/level_1/poke_center_enter.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/trigger/poke_center_level_1/pokecenter_exit.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/trigger/poke_center_level_1/pokecenter_exit.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/displayer.py" beforeDir="false" afterPath="$PROJECT_DIR$/displayer.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/game.py" beforeDir="false" afterPath="$PROJECT_DIR$/game.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/game_error.py" beforeDir="false" afterPath="$PROJECT_DIR$/game_error.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/hud/menu.py" beforeDir="false" afterPath="$PROJECT_DIR$/hud/menu.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/triggers.py" beforeDir="false" afterPath="$PROJECT_DIR$/triggers.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,14 +47,15 @@
     <property name="node.js.path.for.package.tslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
-    <property name="settings.editor.selected.configurable" value="editor.preferences.webOptions" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\Dev\py\pokemon\assets\textures\pokemon" />
+      <recent name="E:\Dev\py\pokemon\assets\lang\text" />
       <recent name="E:\Dev\py\pokemon\assets\font" />
       <recent name="E:\Dev\py\pokemon" />
       <recent name="E:\Dev\py\pokemon\data\build\build" />
-      <recent name="E:\Dev\py\pokemon\data\trigger\level_1" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="E:\Dev\py\pokemon\data\build\build\pokecenter" />
@@ -93,7 +98,8 @@
       <workItem from="1606646294425" duration="48744000" />
       <workItem from="1606730494803" duration="36874000" />
       <workItem from="1606807133613" duration="47919000" />
-      <workItem from="1606900505467" duration="9491000" />
+      <workItem from="1606900505467" duration="17345000" />
+      <workItem from="1606919441794" duration="21914000" />
     </task>
     <servers />
   </component>
@@ -101,26 +107,26 @@
     <option name="version" value="3" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="704" y="310" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1606750139912">
+    <state x="704" y="310" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1606919478965">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="704" y="310" key="#com.intellij.fileTypes.FileTypeChooser/1920.0.1920.1040/-1857.0.1857.1080/0.0.1920.1040@0.0.1920.1040" timestamp="1606750139912" />
-    <state width="1877" height="42" key="GridCell.Tab.0.bottom" timestamp="1606909913334">
+    <state x="704" y="310" key="#com.intellij.fileTypes.FileTypeChooser/1920.0.1920.1040/-1857.0.1857.1080/0.0.1920.1040@0.0.1920.1040" timestamp="1606919478965" />
+    <state width="1877" height="101" key="GridCell.Tab.0.bottom" timestamp="1606942526746">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="42" key="GridCell.Tab.0.bottom/1920.0.1920.1040/-1857.0.1857.1080/0.0.1920.1040@0.0.1920.1040" timestamp="1606909913334" />
-    <state width="1877" height="42" key="GridCell.Tab.0.center" timestamp="1606909913334">
+    <state width="1877" height="101" key="GridCell.Tab.0.bottom/1920.0.1920.1040/-1857.0.1857.1080/0.0.1920.1040@0.0.1920.1040" timestamp="1606942526746" />
+    <state width="1877" height="101" key="GridCell.Tab.0.center" timestamp="1606942526746">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="42" key="GridCell.Tab.0.center/1920.0.1920.1040/-1857.0.1857.1080/0.0.1920.1040@0.0.1920.1040" timestamp="1606909913334" />
-    <state width="1877" height="42" key="GridCell.Tab.0.left" timestamp="1606909913334">
+    <state width="1877" height="101" key="GridCell.Tab.0.center/1920.0.1920.1040/-1857.0.1857.1080/0.0.1920.1040@0.0.1920.1040" timestamp="1606942526746" />
+    <state width="1877" height="101" key="GridCell.Tab.0.left" timestamp="1606942526746">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="42" key="GridCell.Tab.0.left/1920.0.1920.1040/-1857.0.1857.1080/0.0.1920.1040@0.0.1920.1040" timestamp="1606909913334" />
-    <state width="1877" height="42" key="GridCell.Tab.0.right" timestamp="1606909913334">
+    <state width="1877" height="101" key="GridCell.Tab.0.left/1920.0.1920.1040/-1857.0.1857.1080/0.0.1920.1040@0.0.1920.1040" timestamp="1606942526746" />
+    <state width="1877" height="101" key="GridCell.Tab.0.right" timestamp="1606942526746">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="42" key="GridCell.Tab.0.right/1920.0.1920.1040/-1857.0.1857.1080/0.0.1920.1040@0.0.1920.1040" timestamp="1606909913334" />
+    <state width="1877" height="101" key="GridCell.Tab.0.right/1920.0.1920.1040/-1857.0.1857.1080/0.0.1920.1040@0.0.1920.1040" timestamp="1606942526746" />
     <state width="1877" height="140" key="GridCell.Tab.1.bottom" timestamp="1606697011571">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -137,18 +143,18 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1877" height="140" key="GridCell.Tab.1.right/1920.0.1920.1040/-1857.0.1857.1080/0.0.1920.1040@0.0.1920.1040" timestamp="1606697011571" />
-    <state x="461" y="165" key="SettingsEditor" timestamp="1606767873523">
+    <state x="461" y="165" key="SettingsEditor" timestamp="1606919429717">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="461" y="165" key="SettingsEditor/1920.0.1920.1040/-1857.0.1857.1080/0.0.1920.1040@0.0.1920.1040" timestamp="1606767873523" />
+    <state x="461" y="165" key="SettingsEditor/1920.0.1920.1040/-1857.0.1857.1080/0.0.1920.1040@0.0.1920.1040" timestamp="1606919429717" />
     <state width="498" height="446" key="SwitcherDM" timestamp="1606813238144">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="498" height="446" key="SwitcherDM/1920.0.1920.1040/-1857.0.1857.1080/0.0.1920.1040@0.0.1920.1040" timestamp="1606813238144" />
-    <state x="507" y="273" width="1403" height="844" key="dock-window-1" timestamp="1606829850239">
+    <state x="546" y="180" width="1381" height="972" key="dock-window-1" timestamp="1606940189079">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="507" y="273" width="1403" height="844" key="dock-window-1/1920.0.1920.1040/-1857.0.1857.1080/0.0.1920.1040@0.0.1920.1040" timestamp="1606829850239" />
+    <state x="546" y="180" width="1381" height="972" key="dock-window-1/1920.0.1920.1040/-1857.0.1857.1080/0.0.1920.1040@0.0.1920.1040" timestamp="1606940189079" />
     <state x="-1387" y="32" width="1403" height="894" key="dock-window-2" timestamp="1606846420813">
       <screen x="-1857" y="0" width="1857" height="1080" />
     </state>
@@ -157,16 +163,16 @@
       <screen x="-1857" y="0" width="1857" height="1080" />
     </state>
     <state x="-1596" y="117" width="1403" height="836" key="dock-window-3/1920.0.1920.1040/-1857.0.1857.1080/0.0.1920.1040@0.0.1920.1040" timestamp="1606857200640" />
-    <state x="668" y="237" width="583" height="624" key="find.popup" timestamp="1606907730403">
+    <state x="668" y="237" width="583" height="624" key="find.popup" timestamp="1606935713725">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="668" y="237" width="583" height="624" key="find.popup/1920.0.1920.1040/-1857.0.1857.1080/0.0.1920.1040@0.0.1920.1040" timestamp="1606907730403" />
+    <state x="668" y="237" width="583" height="624" key="find.popup/1920.0.1920.1040/-1857.0.1857.1080/0.0.1920.1040@0.0.1920.1040" timestamp="1606935713725" />
     <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1606766676969">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/1920.0.1920.1040/-1857.0.1857.1080/0.0.1920.1040@0.0.1920.1040" timestamp="1606766676969" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/pokemon$main.coverage" NAME="main Coverage Results" MODIFIED="1606909913329" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/pokemon$main.coverage" NAME="main Coverage Results" MODIFIED="1606942526740" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
