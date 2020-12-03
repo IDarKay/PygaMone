@@ -39,6 +39,7 @@ class Pokemon(object):
         self.curve = CURVE[self.curve_name]
         self.base_stats = get_args(data, "base_stats", _id)
         self.ability = get_args(data, "ability", _id, default={})
+        self.catch_rate = get_args(data, "catch_rate", _id)
 
     def get_all_possible_ability(self, lvl: int) -> List[str]:
         back = []

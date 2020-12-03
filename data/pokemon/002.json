@@ -4,6 +4,7 @@
   "color": "GREEN",
   "parent": 1,
   "curve": "MEDIUM_SLOW",
+  "catch_rate": 45,
   "display": {
     "image": "pokemon/1_G",
     "from": [64, 0],

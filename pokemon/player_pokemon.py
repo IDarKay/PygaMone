@@ -2,7 +2,7 @@ import pokemon.pokemon as pokemon
 from typing import Dict, List, Tuple
 from random import randint
 import pokemon.ability as p_ability
-import game
+import item.items as items
 
 class PokemonAbility(object):
 
@@ -43,7 +43,7 @@ class PokemonAbility(object):
 
 class PlayerPokemon(object):
 
-    def __init__(self, _id: int, xp, ivs, heal, ability: List[PokemonAbility]):
+    def __init__(self, _id: int, xp, ivs, heal, ability: List[PokemonAbility], poke_ball):
         self._id = _id
         self.xp = xp
         self.poke = pokemon.get_pokemon(self._id)
@@ -53,13 +53,18 @@ class PlayerPokemon(object):
         self.stats = {}
         self.calculate_stats()
         self.ability = ability
+        self.poke_ball = poke_ball
 
         # heal check
         if self.heal == 1 or self.heal > self.get_max_heal():
             self.heal = self.get_max_heal()
 
-
-
+    def get_ability(self, slot: int):
+        if slot < 0 or slot > 4:
+            raise ValueError("Slot need be in [0:4]")
+        if len(self.ability) - 1 >= slot:
+            return self.ability[slot]
+        return None
 
     def get_max_heal(self):
         return self.stats[pokemon.HEAL]
@@ -104,11 +109,12 @@ class PlayerPokemon(object):
             "xp": self.xp,
             "ivs": ivs_to_int(self.ivs),
             "heal": self.heal,
-            "ability": [a.serialisation() for a in self.ability]
+            "ability": [a.serialisation() for a in self.ability],
+            "pokeball": self.poke_ball._id
         }
 
     @staticmethod
-    def create_pokemon(_id: int, lvl: int):
+    def create_pokemon(_id: int, lvl: int, poke_ball=items.POKE_BALL):
         poke = pokemon.get_pokemon(_id)
         xp = poke.get_lvl(lvl)
         ivs = random_ivs()
@@ -118,14 +124,15 @@ class PlayerPokemon(object):
             a = randint(0, len(ability) - 1)
             _ability[i] = PokemonAbility.new_ability(ability[a])
             del ability[a]
-        return PlayerPokemon(_id, xp, ivs, -1, _ability)
+        return PlayerPokemon(_id, xp, ivs, -1, _ability, poke_ball)
         pass
 
     @staticmethod
     def from_json(data):
         return PlayerPokemon(data["_id"], data["xp"],
                              ivs_from_int(data["ivs"]), data["heal"],
-                             [PokemonAbility.deserialisation(a) for a in data["ability"]]
+                             [PokemonAbility.deserialisation(a) for a in data["ability"]],
+                             items.ITEMS[data["pokeball"]]
                              )
 
 

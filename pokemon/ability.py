@@ -3,6 +3,7 @@ import pokemon.pokemon_type as p_type
 import game_error as err
 import os
 import json
+import game
 
 CATEGORYS = ["PHYSICAL", "SPECIAL", "STATUS"]
 
@@ -29,6 +30,9 @@ class Ability(object):
         self.king_rock = self.get_args("king_rock", default=False, type_check=bool)
         self.target = self.get_args("target")
         del self.data
+
+    def get_name(self):
+        return game.get_game_instance().get_message("ability." + self._id)
 
     def get_args(self, key: str, default=None, type_check=None):
         return utils.get_args(self.data, key, self._id, default, type_check, _type="ability")

@@ -28,7 +28,7 @@
   "pokedex": "Pokédex",
   "last_save": "Last save",
 
-  "attack.tackle": "Tackle",
+  "ability.tackle": "Tackle",
   "levels.level_1": "Level 1",
   "levels.poke_center_level_1": "Level 1 poke center",
 
@@ -46,5 +46,13 @@
   "type.fighting" : "fighting",
   "type.ghost" : "ghost",
   "type.flying" : "flying",
-  "type.electric" : "electric"
+  "type.electric" : "electric",
+  "item.pokeball.poke_ball.lore": "A device for catching wild Pokémon. It's thrown like a ball at a Pokémon, comfortably encapsulating its target.",
+  "item.pokeball.great_ball.lore": "A good, high-performance Poké Ball that provides a higher success rate for catching Pokémon than a standard Poké Ball.",
+  "item.pokeball.ultra_ball.lore": "An ultra-high-performance Poké Ball that provides a higher success rate for catching Pokémon than a Great Ball.",
+  "item.pokeball.master_ball.lore": "The best Poké Ball with the ultimate level of performance. With it, you will catch any wild Pokémon without fail.",
+  "item.pokeball.poke_ball.name": "Poké Ball",
+  "item.pokeball.great_ball.name": "Great Ball",
+  "item.pokeball.ultra_ball.name": "Ultra Ball",
+  "item.pokeball.master_ball.name": "Master Ball"
 }

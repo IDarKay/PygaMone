@@ -3,6 +3,7 @@ import pygame
 from typing import Tuple, List
 import game_error as err
 import game
+import pokemon.player_pokemon as p_poke
 
 def current_milli_time() -> int:
     return int(round(time.time() * 1000))
@@ -61,11 +62,39 @@ def draw_type(display: pygame.Surface, _x: float, _y: float, _type):
     pygame.draw.rect(display, (0, 0, 0), pygame.Rect(_x, _y, 85, 16),
                      border_radius=2)
     display.blit(_type.image, (_x, _y))
-    display.blit(game.FONT_16.render(_type.get_name(), True, (255, 255, 255)), (_x + 26, _y + 85))
+    display.blit(game.FONT_16.render(_type.get_name(), True, (255, 255, 255)), (_x + 26, _y))
+
+
+def draw_ability(display: pygame.Surface, coord: Tuple[float, float], p_ability):
+    draw_rond_rectangle(display, coord[0], coord[1], 34, game.SCREEN_SIZE[0] * 0.2, (255, 255, 255))
+    draw_rond_rectangle(display, coord[0] + game.SCREEN_SIZE[0] * 0.18, coord[1], 34, 40, (70, 68, 69))
+    display.blit(game.FONT_20.render(p_ability.ability.get_name() if p_ability else "-------------", True, (0, 0, 0)),
+                 (coord[0] + 5, coord[1] + 6))
+    if p_ability:
+        draw_type(display, coord[0] + game.SCREEN_SIZE[0] * 0.11, coord[1] + 8,  p_ability.ability.type)
+
+    pp = "{}/{}".format(p_ability.pp, p_ability.max_pp) if p_ability else "--/--"
+    move = game.FONT_SIZE_20[0] * (1.8 if not p_ability else (2.5 if p_ability.pp > 9 else 1.5))
+    display.blit(game.FONT_20.render(pp, True, (255, 255, 255)),
+                 (coord[0] + game.SCREEN_SIZE[0] * 0.19 - move, coord[1] + 6))
+    pass
 
 
 def draw_progress_bar(display: pygame.Surface, coord: Tuple[float, float], size: Tuple[float, float],
                       bg_color: Tuple[int, int, int], color: Tuple[int, int, int], progress: float):
 
     pygame.draw.rect(display, bg_color, pygame.Rect(coord[0], coord[1], size[0], size[1]))
-    pygame.draw.rect(display, color, pygame.Rect(coord[0], coord[1], size[0] * progress , size[1]))
+    pygame.draw.rect(display, color, pygame.Rect(coord[0], coord[1], size[0] * progress, size[1]))
+
+def get_part(image: pygame.Surface, coord: Tuple[float, float, float, float], transform: Tuple[int, int] = (0, 0)) -> pygame.Surface:
+    s = pygame.Surface((coord[2] - coord[0], coord[3] - coord[1]), pygame.SRCALPHA)
+    s.blit(image, (0, 0), pygame.Rect(coord))
+    if transform != (0, 0):
+        copy_transform = [transform[0], transform[1]]
+        if copy_transform[0] == -1:
+            copy_transform[0] = coord[2] - coord[0]
+        if copy_transform[1] == -1:
+            copy_transform[1] = coord[3] - coord[1]
+        transform = int(copy_transform[0]), int(copy_transform[1])
+        return pygame.transform.scale(s, transform)
+    return s

@@ -275,24 +275,24 @@ class SaveMenu(Menu):
             self.player.open_menu(MainMenu(self.player))
 
 
-x = SURFACE_SIZE[0]
-y = SURFACE_SIZE[1]
-
-t_poly_1 = (
-    (0, 0),
-    (int(x * 0.5), 0),
-    (int(x * 0.30), y),
-    (0, y),
-)
-t_poly_2 = (
-    (int(x * 0.5), 0),
-    (int(x * 0.6), 0),
-    (int(x * 0.4), y),
-    (int(x * 0.30), y),
-)
-
-
 class TeamMenu(Menu):
+
+    x = SURFACE_SIZE[0]
+    y = SURFACE_SIZE[1]
+
+    t_poly_1 = (
+        (0, 0),
+        (int(x * 0.5), 0),
+        (int(x * 0.30), y),
+        (0, y),
+    )
+    t_poly_2 = (
+        (int(x * 0.5), 0),
+        (int(x * 0.6), 0),
+        (int(x * 0.4), y),
+        (int(x * 0.30), y),
+    )
+
     def __init__(self, player):
         super().__init__(player)
 
@@ -306,6 +306,7 @@ class TeamMenu(Menu):
         self.display_small = []
         self.display_large = []
         self.text = []
+        self.poke_ball = []
         self.text_2 = [(game.FONT_20.render(game.get_game_instance().get_message(t), True, (0, 0, 0)),
                         game.FONT_20.render(game.get_game_instance().get_message(t), True, (255, 255, 255)))
                        for t in ["summary", "move", "heal", "object", "back"]]
@@ -324,12 +325,12 @@ class TeamMenu(Menu):
                 game.FONT_20.render(poke.get_name(True), True, (0, 0, 0)),
                 game.FONT_20.render(poke.get_name(True), True, (255, 255, 255)),
             ])
-
+            self.poke_ball.append(pygame.transform.scale(poke.poke_ball.image, (16, 16)))
 
     def render(self, display):
         display.fill((255, 255, 255))
-        pygame.draw.polygon(display, (241, 65, 78), t_poly_1)
-        pygame.draw.polygon(display, (206, 51, 65), t_poly_2)
+        pygame.draw.polygon(display, (241, 65, 78), TeamMenu.t_poly_1)
+        pygame.draw.polygon(display, (206, 51, 65), TeamMenu.t_poly_2)
 
         g_x = SURFACE_SIZE[0] * 0.1
         g_y = SURFACE_SIZE[1] * 0.1
@@ -380,8 +381,10 @@ class TeamMenu(Menu):
         display.blit(text[start], (_x + _x2, _y + SURFACE_SIZE[0] * 0.028))
         # display lvl
         display.blit(text[start + 2], (_x + _x2 + SURFACE_SIZE[1] * 0.25, _y + SURFACE_SIZE[0] * 0.025))
-        # dismay name
+        # display name
         display.blit(text[start + 4], (_x + _x2, _y + 2))
+        # display pokeball
+        display.blit(self.poke_ball[i], (_x + _x2 + SURFACE_SIZE[1] * 0.3, _y + 5))
 
         if self.selected == i:
             display.blit(self.arrow, (_x - 50, _y + 2))
@@ -423,8 +426,10 @@ class TeamMenu(Menu):
             elif self.action_selected == 1:
                 self.move, self.action_selected = self.selected, -1
             elif self.action_selected == 2:
+                # todo heal
                 print("todo heal")
             elif self.action_selected == 3:
+                # todo object
                 print("todo object")
             elif self.action_selected == 4:
                 self.action_selected = -1
@@ -491,7 +496,11 @@ class StatusMenu(Menu):
         self.xp_s = poke.current_xp_status()
         self.need_xp = game.FONT_20.render("{:,}".format(self.xp_s[1] - self.xp_s[0]).replace(',', ' '), True, (0, 0, 0))
         self._type = [game.FONT_16.render(_type.get_name(), True, (255, 255, 255)) for _type in poke.poke.types]
+        self.poke_ball = pygame.transform.scale(self.poke.poke_ball.image, (16, 16))
         # todo: add pokeball
+
+    def on_key_escape(self):
+        self.player.open_menu(TeamMenu(self.player))
 
     def on_key_y(self, value, press):
         l = self.player.get_non_null_team_number()
@@ -523,6 +532,7 @@ class StatusMenu(Menu):
 
         display.blit(self.name, (SURFACE_SIZE[0] * 0.6, SURFACE_SIZE[1] * 0.06))
         display.blit(self.lvl, (SURFACE_SIZE[0] * 0.8, SURFACE_SIZE[1] * 0.06))
+        display.blit(self.poke_ball, (SURFACE_SIZE[0] * 0.555, SURFACE_SIZE[1] * 0.06 + 1))
 
         _y = SURFACE_SIZE[1] * 0.1
 
@@ -542,10 +552,6 @@ class StatusMenu(Menu):
             if i == 0:
                 display.blit(self.name2, (_x_, _y + SURFACE_SIZE[1] * 0.015))
                 for ii in range(len(self._type)):
-                    print(SURFACE_SIZE[0] * 0.08)
-                    # pygame.draw.rect(display, (0, 0, 0), pygame.Rect(_x_, _y + SURFACE_SIZE[1] * 0.085, SURFACE_SIZE[0] * 0.08, 16), border_radius=2)
-                    # display.blit(self.poke.poke.types[ii].image, (_x_, _y + SURFACE_SIZE[1] * 0.085))
-                    # display.blit(self._type[ii], (_x_ + 26, _y + SURFACE_SIZE[1] * 0.085))
                     draw_type(display, _x_, _y + SURFACE_SIZE[1] * 0.085, self.poke.poke.types[ii])
                     _x_ += SURFACE_SIZE[0] * 0.11
 
@@ -557,7 +563,12 @@ class StatusMenu(Menu):
 
             _y += SURFACE_SIZE[1] * 0.14
 
+        _x = SURFACE_SIZE[0] * 0.03
+        _y = SURFACE_SIZE[1] * 0.5
 
+        for ab in range(4):
+            draw_ability(display, (_x, _y), self.poke.get_ability(ab))
+            _y += 40
 
 
 

@@ -7,11 +7,13 @@ import hud.menu as _menu
 import time
 import pokemon.pokemon as pokemon
 import pokemon.ability as ability
+import item.items as items
 
 screen = None
 
 CASE_SIZE = 32
 SCREEN_SIZE = (1600, 900)
+# SCREEN_SIZE = (1920, 1080)
 SURFACE_SIZE = (1060, 600)
 
 DIRECTION = ["top", "left", "down", "right"]
@@ -72,6 +74,7 @@ class Game(object):
         self.load_save("save")
         self.load_lang("en")
         self.load_poke_lang("en")
+        items.load()
         ability.load_ability()
         pokemon.Pokemon.load_pokemons()
         player.load_hud_item()
@@ -261,7 +264,7 @@ class Game(object):
                     else:
                         self.player.open_menu(_menu.MainMenu(self.player))
                 if event.key == pygame.K_F5 and event.type == pygame.KEYDOWN and self.player.freeze_time == 0:
-                    x, y = self.player.rect.x, self.player.rect.y
+                    x, y = self.player.get_pos()
                     path = self.level.path
                     self.unload_level()
                     self.load_level(path, x, y)
