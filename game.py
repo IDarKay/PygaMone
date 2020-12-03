@@ -1,3 +1,4 @@
+from typing import Optional
 import pygame
 import level
 import collision
@@ -19,7 +20,7 @@ SURFACE_SIZE = (1060, 600)
 
 DIRECTION = ["top", "left", "down", "right"]
 
-game_instance = None
+game_instance: Optional['Game']  = None
 
 FONT_16: pygame.font.Font = None
 FONT_20: pygame.font.Font = None
@@ -84,8 +85,8 @@ class Game(object):
         global game_instance
         game_instance = self
         self.screen = pygame.display.set_mode(SCREEN_SIZE)
-        self.display = pygame.Surface(SURFACE_SIZE)
-        self.player = player.Player(self)
+        self.display: 'pygame.Surface' = pygame.Surface(SURFACE_SIZE)
+        self.player: 'player.Player' = player.Player(self)
 
         self.floor_cache = Cache()
         self.layer_cache = Cache()

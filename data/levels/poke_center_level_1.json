@@ -131,7 +131,7 @@
       "pos_y": 0.2,
       "facing": 2,
       "heal_facing": 1,
-      "heal_machine": [0,0,1,1]
+      "heal_machine": [6, 1]
     }
   ]
 }

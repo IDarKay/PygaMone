@@ -1,11 +1,13 @@
-from typing import Dict, Any, Tuple, NoReturn, Callable
+from typing import Dict, Any, Tuple, NoReturn, Callable, Optional
 from utils import min_max, get_part_i
 import character as char
+import character.player as char_p
 import pygame
 import game_error as err
 import collision
 import game
 import hud.hud as hud
+import utils
 
 
 class NPC(char.character.Character):
@@ -21,7 +23,8 @@ class NPC(char.character.Character):
     def get_triggers_box(self):
         raise RuntimeError("get_triggers ne to be redefine")
 
-    def get_relative_trigger(self, box_size: Tuple[int, int], relative: Tuple[int, int]) -> 'collision.NPCTriggerCollisionBox':
+    def get_relative_trigger(self, box_size: Tuple[int, int],
+                             relative: Tuple[int, int]) -> 'collision.NPCTriggerCollisionBox':
         npc_box = self.get_box()
 
         s_x = npc_box.x1 + relative[0]
@@ -32,8 +35,7 @@ class NPC(char.character.Character):
     def trigger(self, pos: Tuple[int, int], face: str) -> NoReturn:
         pass
 
-    def tick(self) -> NoReturn:
-        # todo:
+    def tick_render(self, display: pygame.Surface) -> NoReturn:
         pass
 
     @staticmethod
@@ -52,9 +54,17 @@ class NPC(char.character.Character):
 
 
 class JoyNPC(NPC):
-
     IMAGE_LOC = ((34, 25, 53, 50), (54, 25, 73, 50), (34, 0, 53, 25), (54, 0, 73, 25))
     BOX = ((0, -64), (-64, 0), (0, 64), (64, 0))
+    RELATIVE = (
+        (15, -20),
+        (30, -20),
+        (15, -10),
+        (30, -10),
+        (15, 0),
+        (30, 0)
+
+    )
 
     #    USE DATA:
     #    heal_machine => pos of heal machine lis[int, int, int, int] (loc in case) no default
@@ -66,14 +76,22 @@ class JoyNPC(NPC):
         self.__facing = min_max(0, NPC.get_args(data, "facing", 0, int), 3)
         heal_facing = min_max(0, NPC.get_args(data, "heal_facing", 0, int), 3)
         self.__heal_machine = NPC.get_args(data, "heal_machine", type_check=list)
+        self.__heal_machine = self.__heal_machine[0] * game.CASE_SIZE, self.__heal_machine[1] * game.CASE_SIZE
 
         self.facing_image = get_part_i(char.character.NPC_IMAGE, JoyNPC.IMAGE_LOC[self.__facing], (38, 50))
         self.__heal_facing_image = get_part_i(char.character.NPC_IMAGE, JoyNPC.IMAGE_LOC[heal_facing], (38, 50))
         # 0 nothing, 1 talk
         self.__status = 0
+        self.__action: Optional[int] = None
+        self.__image_to_show: pygame.Surface = self.facing_image
+        self.__player: 'char_p.Player' = game.game_instance.player
+        self.__glow = pygame.Surface((16, 16), pygame.SRCALPHA)
+        self.__glow.set_alpha(200)
+        pygame.draw.rect(self.__glow, (33, 191, 62), pygame.Rect(0, 0, 16, 16), border_radius=4)
+        self.have_start_song = False
 
     def get_image(self) -> pygame.Surface:
-        return self.facing_image
+        return self.__image_to_show
 
     def get_triggers_box(self) -> 'collision.NPCTriggerCollisionBox':
         return self.get_relative_trigger((game.CASE_SIZE, game.CASE_SIZE), JoyNPC.BOX[self.__facing])
@@ -83,14 +101,49 @@ class JoyNPC(NPC):
         if player.is_action_press and self.__status == 0:
             yes = game.game_instance.get_message("yes")
             no = game.game_instance.get_message("no")
-            dialog = hud.QuestionDialog("dialog.poke_center", self.talk_callback, (yes, no), speed_skip=True, need_morph_text=True)
+            dialog = hud.QuestionDialog("dialog.poke_center", self.talk_callback, (yes, no), speed_skip=True,
+                                        need_morph_text=True)
             player.open_dialogue(dialog, 1000)
 
     def talk_callback(self, value, index) -> NoReturn:
         player = game.game_instance.player
         if index == 1:
             player.open_dialogue(hud.Dialog("dialog.poke_center_no", speed_skip=True, need_morph_text=True), over=True)
+        else:
+            self.have_start_song = False
+            self.__action = utils.current_milli_time()
+            self.__player.open_dialogue(hud.Dialog("dialog.poke_center_yes", need_morph_text=True, none_skip=True),
+                                        over=True)
+            for poke in self.__player.team:
+                if poke:
+                    poke.heal = poke.get_max_heal()
         return True
+
+    def get_where_pose(self, i: int) -> Tuple[int, int]:
+        return self.__heal_machine[0] - game.came_scroll[0] + JoyNPC.RELATIVE[i][0], \
+               self.__heal_machine[1] - game.came_scroll[1] + JoyNPC.RELATIVE[i][1]
+
+    def tick_render(self, display: pygame.Surface) -> NoReturn:
+        if self.__action:
+            dif_t = utils.current_milli_time() - self.__action
+            if dif_t > 1000:
+                dif_t -= 1000
+                self.__image_to_show = self.__heal_facing_image
+                nb_poke = self.__player.get_non_null_team_number()
+                nb_poke_to_show = dif_t // 1000
+                for i in range(min(nb_poke, nb_poke_to_show)):
+                    display.blit(self.__player.team[i].poke_ball.small_image, self.get_where_pose(i))
+                    if nb_poke_to_show > nb_poke and dif_t % 400 > 200:
+                        display.blit(self.__glow, self.get_where_pose(i))
+                if nb_poke_to_show > nb_poke:
+                    if not self.have_start_song:
+                        self.have_start_song = True
+                        pygame.mixer.Channel(1).play(pygame.mixer.Sound('assets/sound/heal.mp3'))
+                    if dif_t - 1000 * nb_poke > 3000:
+                        self.__image_to_show = self.facing_image
+                        self.__action = None
+                        self.__player.open_dialogue(
+                            hud.Dialog("dialog.poke_center_end", speed_skip=True, need_morph_text=True), over=True)
 
 
 NPC_list: Dict[str, Callable[[Dict[str, Any]], NPC]] = {

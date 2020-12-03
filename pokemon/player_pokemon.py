@@ -4,6 +4,8 @@ import pokemon.pokemon as pokemon
 import pokemon.ability as p_ability
 import item.items as items
 import item.item as item
+import item.pokeball as poke_item
+import game_error as err
 
 
 class PokemonAbility(object):
@@ -56,7 +58,8 @@ class PlayerPokemon(object):
         self.stats = {}
         self.calculate_stats()
         self.ability = ability
-        self.poke_ball = poke_ball
+
+        self.poke_ball: 'poke_item.Pokeball' = poke_ball
 
         # heal check
         if self.heal == 1 or self.heal > self.get_max_heal():

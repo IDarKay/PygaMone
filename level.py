@@ -135,6 +135,7 @@ class Level(object):
         for np in self.npc:
             collision.add(np.get_triggers_box())
             np.render(display)
+            np.tick_render(display)
 
     def load_trigger(self, x_start: float, y_start: float, x_end: float, y_end: float,
                      cache: 'game.Cache', collision: 'col.Collision'):

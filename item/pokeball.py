@@ -11,6 +11,7 @@ class Pokeball(item.Item):
 
     def __init__(self, _id: str, image: pygame.Surface, bonus: float):
         super().__init__("item.pokeball." + _id, image, item.OBJECT)
+        self.small_image: pygame.Surface = pygame.transform.scale(image, (16, 16))
         self.__bonus: float = bonus
 
     def try_catch(self, p_poke: 'player_pokemon.PlayerPokemon') -> int:

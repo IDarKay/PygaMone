@@ -33,7 +33,8 @@ def load_hud_item():
 
 class Dialog(object):
 
-    def __init__(self, text: Any, speed: int = 50, speed_skip: bool = False, timed: int = 0, need_morph_text: bool = False):
+    def __init__(self, text: Any, speed: int = 50, speed_skip: bool = False, timed: int = 0,
+                 need_morph_text: bool = False, none_skip: bool = False):
         """
 
         text => sting list with each lines or sting lang key with need_morph_text=True
@@ -62,9 +63,10 @@ class Dialog(object):
         self._speed_skip: bool = speed_skip
         self._need_enter: bool = False
         self._mono_line: int = len(self._text) == 1
-        self._display_arrow: int = timed == 0
+        self._display_arrow: int = timed == 0 and not none_skip
         self._open_time: int = current_milli_time()
         self._is_end_line: bool = False
+        self.none_skip: bool = none_skip
 
     def render(self, display: pygame.Surface) -> NoReturn:
         display.blit(DIALOGUE_BOX, (int(game.SURFACE_SIZE[0] * 0.05), game.SURFACE_SIZE[1] * 0.75))
@@ -101,7 +103,7 @@ class Dialog(object):
 
     def press_action(self) -> NoReturn:
 
-        if self._need_enter or self._speed_skip or (self._timed > 0 and current_milli_time() - self._open_time > self._open_time):
+        if not self.none_skip and (self._need_enter or self._speed_skip or (self._timed > 0 and current_milli_time() - self._open_time > self._open_time)):
             self._need_enter = False
             if self._mono_line or (self._current_line == (len(self._text) - 1)):
                 if self._speed and not self._is_end_line:
@@ -109,6 +111,7 @@ class Dialog(object):
                     return False
                 else:
                     return True
+            self._is_end_line = False
             if self._show_line == 0 and not self._mono_line:
                 self._show_line = 1
             self._current_line += 1
