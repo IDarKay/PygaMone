@@ -3,7 +3,8 @@ from typing import Dict, List
 import json
 import displayer
 import game
-import pokemon.pokemon_type as poke_type
+import pokemon.pokemon_type as pok_t
+from utils import get_args
 
 NB_POKEMON = 3
 POKEMONS = [None for i in range(NB_POKEMON + 1)]
@@ -28,7 +29,7 @@ class Pokemon(object):
         self.parent: int = get_args(data, "parent", _id, default=0, type_check=int)
         if not (0 <= self.parent <= NB_POKEMON) or self.parent == _id:
             raise err.PokemonParseError("Pokemon ({}) have invalid parent !".format(_id))
-        self.types = get_args(data, "type", _id)
+        self.types = [pok_t.TYPES[t] for t in get_args(data, "type", _id)]
         self.xp_points: int = get_args(data, "xp_point", _id, type_check=int)
         self.color: str = get_args(data, "color", _id, type_check=str)
         self.evolution = get_args(data, "evolution", _id, default=[])
@@ -37,6 +38,25 @@ class Pokemon(object):
         self.curve_name = get_args(data, "curve", _id, type_check=str)
         self.curve = CURVE[self.curve_name]
         self.base_stats = get_args(data, "base_stats", _id)
+        self.ability = get_args(data, "ability", _id, default={})
+
+    def get_all_possible_ability(self, lvl: int) -> List[str]:
+        back = []
+        for key, value in self.ability.items():
+            if value >= lvl:
+                back.append(key)
+        if self.parent != 0:
+            return back + get_pokemon(self.parent).get_all_possible_ability(lvl)
+        return back
+
+    def get_possible_ability_at_lvl(self, lvl: int) -> List[str]:
+        back = []
+        for key, value in self.ability.items():
+            if value == lvl:
+                back.append(key)
+        if self.parent != 0:
+            return back + get_pokemon(self.parent).get_possible_ability_at_lvl(lvl)
+        return back
 
     def get_xp(self, lvl: int) -> int:
         return CURVE_VALUE[self.curve_name][lvl]
@@ -90,16 +110,4 @@ def to_3_digit(num: int) -> str:
     return str(num)
 
 
-def get_args(data, key: str, _id: int, default=None, type_check=None):
-    value = None
-    if default is not None:
-        value = data[key] if key in data else None if default == "NONE" else default
-    else:
-        if key not in data:
-            raise err.PokemonParseError("No {} value for a pokemon ({}) !".format(key, _id))
-        value = data[key]
-    if type_check:
-        if value and not isinstance(value, type_check):
-            raise err.PokemonParseError(
-                "Invalid var type for {} need be {} for pokemon ({})".format(key, type_check, _id))
-    return value
+

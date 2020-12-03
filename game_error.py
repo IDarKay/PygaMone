@@ -56,6 +56,20 @@ class PokemonParseError(Exception):
         else:
             return "PokemonParseError has been raised"
 
+class AbilityParseError(Exception):
+
+    def __init__(self, *args):
+        if args:
+            self.message = args[0]
+        else:
+            self.message = None
+
+    def __str__(self):
+        if self.message:
+            return "AbilityParseError, {} ".format(self.message)
+        else:
+            return "AbilityParseError has been raised"
+
 class LevelParseError(Exception):
 
     def __init__(self, *args):

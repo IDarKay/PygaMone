@@ -6,6 +6,7 @@ import json
 import hud.menu as _menu
 import time
 import pokemon.pokemon as pokemon
+import pokemon.ability as ability
 
 screen = None
 
@@ -71,6 +72,7 @@ class Game(object):
         self.load_save("save")
         self.load_lang("en")
         self.load_poke_lang("en")
+        ability.load_ability()
         pokemon.Pokemon.load_pokemons()
         player.load_hud_item()
         # ============

@@ -1,11 +1,49 @@
-from typing import Tuple
 import pokemon.pokemon as pokemon
-from typing import Dict
+from typing import Dict, List, Tuple
 from random import randint
+import pokemon.ability as p_ability
+import game
+
+class PokemonAbility(object):
+
+    def __init__(self, _id: str, pp: int, max_pp: int):
+        self._id = _id
+        self.ability = p_ability.ABILITYS[_id]
+        self.pp = pp
+        self.max_pp = max_pp
+
+
+    def serialisation(self) -> Dict:
+        return {
+            "_id": self._id,
+            "pp": self.pp,
+            "max_pp": self.max_pp,
+        }
+
+    @staticmethod
+    def new_ability(_id: str):
+        """
+
+        :rtype: PokemonAbility
+        """
+        ab = p_ability.ABILITYS[_id]
+        return PokemonAbility(_id, ab.pp, ab.max_pp)
+
+    @staticmethod
+    def deserialisation(data):
+        """
+
+        :rtype: PokemonAbility
+        """
+        return PokemonAbility(
+            data["_id"],
+            data["pp"],
+            data["max_pp"]
+        )
 
 class PlayerPokemon(object):
 
-    def __init__(self, _id: int, xp, ivs, heal):
+    def __init__(self, _id: int, xp, ivs, heal, ability: List[PokemonAbility]):
         self._id = _id
         self.xp = xp
         self.poke = pokemon.get_pokemon(self._id)
@@ -14,10 +52,14 @@ class PlayerPokemon(object):
         self.heal = heal
         self.stats = {}
         self.calculate_stats()
+        self.ability = ability
 
         # heal check
         if self.heal == 1 or self.heal > self.get_max_heal():
             self.heal = self.get_max_heal()
+
+
+
 
     def get_max_heal(self):
         return self.stats[pokemon.HEAL]
@@ -36,41 +78,55 @@ class PlayerPokemon(object):
         else:
             return 0
 
+    def add_attack(self, slot: int, ability_name: str):
+        if slot < 0 or slot > 4:
+            raise ValueError("Slot need be in [0:4]")
+        self.ability[slot] = PokemonAbility.new_ability(ability_name)
+
     def get_name(self, upper_first=False):
         return self.poke.get_name(upper_first)
 
-    def add_xp(self, amount: int) -> bool:
+    def add_xp(self, amount: int) -> Tuple[bool, int, int]:
         if amount < 0:
             raise ValueError("negative xp amount")
         if self.lvl == 100:
-            return False
+            return False, 100, 100
         self.xp += amount
         n = self.get_lvl()
         if self.lvl != n:
             self.lvl = n
-            return True
-        return False
+            return True, n, self.lvl
+        return False, n, n
 
     def serialisation(self):
         return {
             "_id": self._id,
             "xp": self.xp,
             "ivs": ivs_to_int(self.ivs),
-            "heal": self.heal
+            "heal": self.heal,
+            "ability": [a.serialisation() for a in self.ability]
         }
-
 
     @staticmethod
     def create_pokemon(_id: int, lvl: int):
-        xp = pokemon.get_pokemon(_id).get_lvl(lvl)
+        poke = pokemon.get_pokemon(_id)
+        xp = poke.get_lvl(lvl)
         ivs = random_ivs()
-        return PlayerPokemon(_id, xp, ivs, -1)
+        ability = poke.get_all_possible_ability(lvl)
+        _ability = []
+        for i in range(min(len(ability), 4)):
+            a = randint(0, len(ability) - 1)
+            _ability[i] = PokemonAbility.new_ability(ability[a])
+            del ability[a]
+        return PlayerPokemon(_id, xp, ivs, -1, _ability)
         pass
 
     @staticmethod
     def from_json(data):
         return PlayerPokemon(data["_id"], data["xp"],
-                             ivs_from_int(data["ivs"]), data["heal"])
+                             ivs_from_int(data["ivs"]), data["heal"],
+                             [PokemonAbility.deserialisation(a) for a in data["ability"]]
+                             )
 
 
 # IVS =

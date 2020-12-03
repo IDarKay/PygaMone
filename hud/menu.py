@@ -295,13 +295,20 @@ t_poly_2 = (
 class TeamMenu(Menu):
     def __init__(self, player):
         super().__init__(player)
+
         self.selected = 0
+        self.action_selected = -1
+        self.move = -1
+
         self.arrow = chr.get_part(MENU_IMAGE, (0, 64, 22, 91), (33, 41))
         self.open_time = current_milli_time()
         self.progress = []
         self.display_small = []
         self.display_large = []
         self.text = []
+        self.text_2 = [(game.FONT_20.render(game.get_game_instance().get_message(t), True, (0, 0, 0)),
+                        game.FONT_20.render(game.get_game_instance().get_message(t), True, (255, 255, 255)))
+                       for t in ["summary", "move", "heal", "object", "back"]]
         for poke in self.player.team:
             if not poke:
                 break
@@ -324,8 +331,8 @@ class TeamMenu(Menu):
         pygame.draw.polygon(display, (241, 65, 78), t_poly_1)
         pygame.draw.polygon(display, (206, 51, 65), t_poly_2)
 
-        _x = SURFACE_SIZE[0] * 0.1
-        _y = SURFACE_SIZE[1] * 0.1
+        g_x = SURFACE_SIZE[0] * 0.1
+        g_y = SURFACE_SIZE[1] * 0.1
 
         _time = current_milli_time() - self.open_time
         part_time = _time % 2000
@@ -341,53 +348,214 @@ class TeamMenu(Menu):
 
         for i in range(len(self.progress)):
 
-            color, start = ((0, 0, 0), 1) if self.selected == i else ((255, 255, 255), 0)
-            draw_rond_rectangle(display, _x, _y, SURFACE_SIZE[1] * 0.08, SURFACE_SIZE[0] * 0.2, color)
-            xp = self.progress[i]
-            _x2 = SURFACE_SIZE[1] * 0.04
-            text = self.text[i]
-            # todo: change  for heal and no xp
-            draw_progress_bar(display,
-                              (_x + _x2, _y + SURFACE_SIZE[0] * 0.02),
-                              (SURFACE_SIZE[1] * 0.28, 5),
-                              (52, 56, 61), (45, 181, 4), xp[0] / xp[1])
+            if self.move != i or self.move == self.selected:
+                self.draw_pokemon(display, i, g_x, g_y, poke_y)
+            g_y += SURFACE_SIZE[1] * 0.15
 
-            display.blit(self.display_small[i], (_x - 15, _y + 6 - poke_y))
+        # draw move
+        if self.move != -1 and self.move != self.selected:
+            self.draw_pokemon(display, self.move, g_x + SURFACE_SIZE[0] * 0.04, self.selected * SURFACE_SIZE[1] * 0.15 + SURFACE_SIZE[1] * 0.05, poke_y)
 
-            # display heal
-            # todo: change  for heal and no xp
-            display.blit(text[start], (_x + _x2, _y + SURFACE_SIZE[0] * 0.028))
-            # display lvl
-            display.blit(text[start + 2], (_x + _x2 + SURFACE_SIZE[1] * 0.25, _y + SURFACE_SIZE[0] * 0.025))
-            # dismay name
-            display.blit(text[start + 4], (_x + _x2, _y + 2))
+        # action hud
+        if self.action_selected != -1:
+            _y = SURFACE_SIZE[1] * 0.13 + SURFACE_SIZE[1] * 0.15 * self.selected
+            _x = SURFACE_SIZE[0] * 0.31
+            draw_select_box(display, _x, _y, self.text_2, self.action_selected, 100)
 
+    def draw_pokemon(self, display: pygame.Surface, i: int, _x: float, _y: float, poke_y: int):
+        color, start = ((0, 0, 0), 1) if self.selected == i else ((255, 255, 255), 0)
+        draw_rond_rectangle(display, _x, _y, SURFACE_SIZE[1] * 0.08, SURFACE_SIZE[0] * 0.2, color)
+        xp = self.progress[i]
+        _x2 = SURFACE_SIZE[1] * 0.04
+        text = self.text[i]
 
+        draw_progress_bar(display,
+                          (_x + _x2, _y + SURFACE_SIZE[0] * 0.02),
+                          (SURFACE_SIZE[1] * 0.28, 5),
+                          (52, 56, 61), (45, 181, 4), xp[0] / xp[1])
 
-            # tex_color = (255, 255, 255) if self.selected == i else (0, 0, 0)
-            # t_i = game.FONT_16.render(self.text[i], True, tex_color)
-            # x_min = (len(self.text[i]) / 2) * game.FONT_SIZE_16[0]
-            # display.blit(t_i, (_x + 10 + (SURFACE_SIZE[0] * 0.3) / 2 - x_min, _y + 6))
+        display.blit(self.display_small[i], (_x - 15, _y + 6 - poke_y))
 
-            if self.selected == i:
-                display.blit(self.arrow, (_x - 50, _y + 2))
-                display.blit(self.display_large[i], (SURFACE_SIZE[0] * 0.5, SURFACE_SIZE[1] * 0.2))
-            _y += SURFACE_SIZE[1] * 0.15
+        # display heal
+        display.blit(text[start], (_x + _x2, _y + SURFACE_SIZE[0] * 0.028))
+        # display lvl
+        display.blit(text[start + 2], (_x + _x2 + SURFACE_SIZE[1] * 0.25, _y + SURFACE_SIZE[0] * 0.025))
+        # dismay name
+        display.blit(text[start + 4], (_x + _x2, _y + 2))
+
+        if self.selected == i:
+            display.blit(self.arrow, (_x - 50, _y + 2))
+            display.blit(self.display_large[i], (SURFACE_SIZE[0] * 0.5, SURFACE_SIZE[1] * 0.2))
 
     def on_key_escape(self):
-        self.player.open_menu(MainMenu(self.player))
+        if self.action_selected != -1:
+            self.action_selected = -1
+        else:
+            self.player.open_menu(MainMenu(self.player))
 
     def on_key_y(self, value, press):
         if value < 0 and press:
-            if self.selected > 0:
+            if self.action_selected != -1:
+                if self.action_selected > 0:
+                    self.action_selected -= 1
+            elif self.selected > 0:
                 self.selected -= 1
         elif value > 0 and press:
-            if self.selected < len(self.progress) - 1:
+            if self.action_selected != -1:
+                if self.action_selected < 4:
+                    self.action_selected += 1
+            elif self.selected < len(self.progress) - 1:
                 self.selected += 1
 
     def on_key_action(self):
+        if self.move != -1:
+            if self.selected == self.move:
+                self.move = -1
+            else:
+                self.player.switch_pokemon(self.move, self.selected)
+                # reopen to actualise data
+                self.player.open_menu(TeamMenu(self.player))
+        elif self.action_selected == -1:
+            self.action_selected = 0
+        else:
+            if self.action_selected == 0:
+                self.player.open_menu(StatusMenu(self.player, self.selected))
+            elif self.action_selected == 1:
+                self.move, self.action_selected = self.selected, -1
+            elif self.action_selected == 2:
+                print("todo heal")
+            elif self.action_selected == 3:
+                print("todo object")
+            elif self.action_selected == 4:
+                self.action_selected = -1
         pass
 
+
+class StatusMenu(Menu):
+
+    x = SURFACE_SIZE[0]
+    y = SURFACE_SIZE[1]
+
+    st_poly_1 = (
+        (0, 0),
+        (SURFACE_SIZE[0] * 0.43, 0),
+        (SURFACE_SIZE[0] * 0.23, y),
+        (0, y)
+    )
+
+    st_poly_2 = (
+        (SURFACE_SIZE[0] * 0.43, 0),
+        (SURFACE_SIZE[0] * 0.5, 0),
+        (SURFACE_SIZE[0] * 0.3, y),
+        (SURFACE_SIZE[0] * 0.23, y)
+    )
+
+    st_poly_3 = (
+        (SURFACE_SIZE[0] * 0.55, SURFACE_SIZE[1] * 0.05),
+        (x, SURFACE_SIZE[1] * 0.05),
+        (x, SURFACE_SIZE[1] * 0.1),
+        (SURFACE_SIZE[0] * 0.54, SURFACE_SIZE[1] * 0.1)
+    )
+
+    st_arrow_1 = (
+        (SURFACE_SIZE[0] * 0.555, SURFACE_SIZE[1] * 0.045),
+        (SURFACE_SIZE[0] * 0.575, SURFACE_SIZE[1] * 0.045),
+        (SURFACE_SIZE[0] * 0.565, SURFACE_SIZE[1] * 0.032),
+    )
+
+    st_arrow_2 = (
+        (SURFACE_SIZE[0] * 0.555, SURFACE_SIZE[1] * 0.105),
+        (SURFACE_SIZE[0] * 0.575, SURFACE_SIZE[1] * 0.105),
+        (SURFACE_SIZE[0] * 0.565, SURFACE_SIZE[1] * 0.119),
+    )
+
+    def __init__(self, player, poke_n: int):
+        super().__init__(player)
+        self.poke_n = poke_n
+        # self.display_large = None
+        self.get_data()
+        self.text = [game.FONT_20.render(game.get_game_instance().get_message(m) + ":", True, (0, 0, 0)) for m in ["name", "type", "xp_point", "next_level"]]
+
+        self.text_width = [t.get_rect().size[0] * 0.5 for t in self.text]
+
+    # noinspection PyAttributeOutsideInit
+    def get_data(self):
+        poke = self.player.team[self.poke_n]
+        self.poke = poke
+        self.display_large = pygame.transform.scale(poke.poke.display.get_image(), (512, 512))
+        self.name = game.FONT_20.render(poke.get_name(True), True, (255, 255, 255))
+        self.name2 = game.FONT_20.render(poke.get_name(True), True, (0, 0, 0))
+        self.lvl = game.FONT_20.render("N.{}".format(poke.lvl), True, (255, 255, 255))
+        self.xp = game.FONT_20.render("{:,}".format(poke.xp).replace(',', ' '), True, (0, 0, 0))
+        self.xp_size = self.xp.get_rect().size[0]
+        self.xp_s = poke.current_xp_status()
+        self.need_xp = game.FONT_20.render("{:,}".format(self.xp_s[1] - self.xp_s[0]).replace(',', ' '), True, (0, 0, 0))
+        self._type = [game.FONT_16.render(_type.get_name(), True, (255, 255, 255)) for _type in poke.poke.types]
+        # todo: add pokeball
+
+    def on_key_y(self, value, press):
+        l = self.player.get_non_null_team_number()
+        if l == 0:
+            self.player.close_menu()
+        if value < 0 and press:
+            if self.poke_n > 0:
+                self.poke_n -= 1
+            else:
+                self.poke_n = l - 1
+            self.get_data()
+        elif value > 0 and press:
+            if self.poke_n < l - 1:
+                self.poke_n += 1
+            else:
+                self.poke_n = 0
+            self.get_data()
+
+
+    def render(self, display):
+        display.fill((238, 235, 252))
+        pygame.draw.polygon(display, (241, 65, 78), StatusMenu.st_poly_1)
+        pygame.draw.polygon(display, (206, 51, 65), StatusMenu.st_poly_2)
+        pygame.draw.polygon(display, (0, 0, 0), StatusMenu.st_poly_3)
+        pygame.draw.polygon(display, (241, 65, 78), StatusMenu.st_arrow_1)
+        pygame.draw.polygon(display, (241, 65, 78), StatusMenu.st_arrow_2)
+
+        display.blit(self.display_large, (SURFACE_SIZE[0] * 0.5, SURFACE_SIZE[1] * 0.2))
+
+        display.blit(self.name, (SURFACE_SIZE[0] * 0.6, SURFACE_SIZE[1] * 0.06))
+        display.blit(self.lvl, (SURFACE_SIZE[0] * 0.8, SURFACE_SIZE[1] * 0.06))
+
+        _y = SURFACE_SIZE[1] * 0.1
+
+        for i in range(2):
+            pygame.draw.rect(display, (219, 219, 217), pygame.Rect(0, _y, SURFACE_SIZE[0] * 0.25, SURFACE_SIZE[1] * 0.13))
+            pygame.draw.rect(display, (255, 255, 255), pygame.Rect(SURFACE_SIZE[0] * 0.25, _y, SURFACE_SIZE[0] * 0.25, SURFACE_SIZE[1] * 0.13))
+
+            pygame.draw.rect(display, (241, 241, 241), pygame.Rect(0, _y + SURFACE_SIZE[1] * 0.06, SURFACE_SIZE[0] * 0.5, SURFACE_SIZE[1] * 0.01))
+
+            a = 0 if i == 0 else 2
+
+            display.blit(self.text[a], (SURFACE_SIZE[0] * 0.125 - self.text_width[a], _y + SURFACE_SIZE[1] * 0.015))
+            display.blit(self.text[a + 1], (SURFACE_SIZE[0] * 0.125 - self.text_width[a + 1], _y + SURFACE_SIZE[1] * 0.085))
+
+            _x_ = SURFACE_SIZE[0] * 0.27
+
+            if i == 0:
+                display.blit(self.name2, (_x_, _y + SURFACE_SIZE[1] * 0.015))
+                for ii in range(len(self._type)):
+                    print(SURFACE_SIZE[0] * 0.08)
+                    # pygame.draw.rect(display, (0, 0, 0), pygame.Rect(_x_, _y + SURFACE_SIZE[1] * 0.085, SURFACE_SIZE[0] * 0.08, 16), border_radius=2)
+                    # display.blit(self.poke.poke.types[ii].image, (_x_, _y + SURFACE_SIZE[1] * 0.085))
+                    # display.blit(self._type[ii], (_x_ + 26, _y + SURFACE_SIZE[1] * 0.085))
+                    draw_type(display, _x_, _y + SURFACE_SIZE[1] * 0.085, self.poke.poke.types[ii])
+                    _x_ += SURFACE_SIZE[0] * 0.11
+
+
+            else:
+                display.blit(self.xp, (_x_, _y + SURFACE_SIZE[1] * 0.015))
+                display.blit(self.xp, (SURFACE_SIZE[0] * 0.46 - self.xp_size, _y + SURFACE_SIZE[1] * 0.078))
+                draw_progress_bar(display, (_x_, _y + SURFACE_SIZE[1] * 0.11), (SURFACE_SIZE[0] * 0.19, 4), (101, 100, 98), (96, 204, 212), self.xp_s[0] / self.xp_s[1])
+
+            _y += SURFACE_SIZE[1] * 0.14
 
 
 

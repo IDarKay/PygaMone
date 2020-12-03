@@ -135,7 +135,7 @@ class Level(object):
                 self.npc.append(npc.load(_id, np))
 
     def get_translate_name(self):
-        return game.get_game_instance().get_message(self.name)
+        return game.get_game_instance().get_message("levels.{}".format(self.name))
 
     def npc_render(self, display, collision):
         for np in self.npc:

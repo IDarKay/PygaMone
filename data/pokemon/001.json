@@ -18,6 +18,9 @@
       "pokemon": 3
     }
   ],
+  "ability": {
+    "tackle": 1
+  },
   "base_stats": {
     "hp": 45,
     "attack": 49,

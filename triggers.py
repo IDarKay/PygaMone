@@ -2,6 +2,7 @@ import game_error as err
 import json
 import game
 import character.player as player
+import hud.hud as hud
 
 LOAD_LVL = "LOAD_LVL"
 DIALOGUE = "DIALOGUE"
@@ -64,8 +65,8 @@ class ShowTextTrigger(Trigger):
 
     def trigger(self, data):
         if (not data[0]) or game.game_instance.player.is_action_press and (not game.game_instance.player.current_dialogue):
-            game.game_instance.player.open_dialogue(player.QuestionDialog(
-                player.Dialog.split(game.game_instance.get_message("test")),
+            game.game_instance.player.open_dialogue(hud.QuestionDialog(
+                hud.Dialog.split(game.game_instance.get_message("test")),
                  self.callback, ["oui", "non", "jsp"], speed_skip=True), check_last_open=1000)
 
     def callback(self, value, index):

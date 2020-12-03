@@ -1,12 +1,20 @@
 from typing import Dict
+import pygame
+import game
 import pokemon.pokemon
 
+IMAGES = pygame.image.load("assets/textures/hud/type.png")
 
 class Type(object):
 
-    def __init__(self, name: str, edit: Dict):
+    def __init__(self, image_y: int, name: str, edit: Dict):
         self.name = name
         self.edit = edit
+        self.image = pygame.Surface((22, 16))
+        self.image.blit(IMAGES, (0, 0), pygame.Rect(0, 16 * image_y, 22, 16 * (image_y + 1)))
+
+    def get_name(self):
+        return game.get_game_instance().get_message("type.{}".format(self.name.lower()))
 
     def get_attack_edit(self, poke):
         v = 1
@@ -35,21 +43,21 @@ N_FLYING = "FLYING"
 N_ELECTRIC = "ELECTRIC"
 # N_FAIRY = "FAIRY"
 
-NORMAL = Type(N_NORMAL, {N_ROCK: 0.5, N_GHOST: 0})
-FIRE = Type(N_FIRE, {N_FIRE: 0.5, N_WATER: 0.5, N_GRASS: 2, N_ICE: 2, N_BUG: 2, N_ROCK: 0.5, N_DRAGON: 0.5})
-WATER = Type(N_WATER, {N_FIRE: 2, N_WATER: 0.5, N_GRASS: 0.5, N_GROUND: 2, N_ROCK: 2, N_DRAGON: 0.5})
-GRASS = Type(N_GRASS, {N_FIRE: 0.5, N_WATER: 2, N_GRASS: 0.5, N_POISON: 0.5, N_GROUND: 2, N_FLYING: 0.5, N_BUG: 0.5, N_ROCK: 2, N_DRAGON: 0.5})
-ELECTRIC = Type(N_ELECTRIC, {N_WATER: 2, N_GRASS: 0.5, N_ELECTRIC: 0.5, N_GROUND: 0, N_FLYING: 2, N_DRAGON: 0.5})
-ICE = Type(N_ICE, {N_WATER: 0.5, N_GRASS: 2, N_ICE: 0.5, N_GROUND: 2, N_FLYING: 2, N_DRAGON: 2})
-FIGHTING = Type(N_FIGHTING, {N_NORMAL: 2, N_ICE: 2, N_POISON: 0.5, N_FLYING: 0.5, N_PSYCHIC: 0.5, N_BUG: 0.5, N_ROCK: 2, N_GHOST: 0})
-POISON = Type(N_POISON, {N_GRASS: 2, N_POISON: 0.5, N_GROUND: 0.5, N_BUG: 2, N_ROCK: 0.5, N_GHOST: 0.5})
-GROUND = Type(N_GROUND, {N_FIRE: 2, N_GRASS: 0.5, N_ELECTRIC: 2, N_POISON: 2, N_FLYING: 0, N_BUG: 0.5, N_ROCK: 2})
-FLYING = Type(N_FLYING, {N_GRASS: 2, N_ELECTRIC: 0.5, N_FIGHTING: 2, N_BUG: 2, N_ROCK: 0.5})
-PSYCHIC = Type(N_PSYCHIC, {N_FIGHTING: 2, N_POISON: 2, N_PSYCHIC: 0.5})
-BUG = Type(N_BUG, {N_FIRE: 0.5, N_GRASS: 2, N_FIGHTING: 0.5, N_POISON: 2, N_FLYING: 0.5, N_PSYCHIC: 2, N_GHOST: 0.5})
-ROCK = Type(N_ROCK, {N_FIRE: 2, N_ICE: 2, N_FIGHTING: 0.5, N_GROUND: 0.5, N_FLYING: 2, N_BUG: 2})
-GHOST = Type(N_GHOST, {N_NORMAL: 0, N_PSYCHIC: 0, N_GHOST: 2})
-DRAGON = Type(N_DRAGON, {N_DRAGON: 2})
+NORMAL = Type(2, N_NORMAL, {N_ROCK: 0.5, N_GHOST: 0})
+FIRE = Type(7, N_FIRE, {N_FIRE: 0.5, N_WATER: 0.5, N_GRASS: 2, N_ICE: 2, N_BUG: 2, N_ROCK: 0.5, N_DRAGON: 0.5})
+WATER = Type(10, N_WATER, {N_FIRE: 2, N_WATER: 0.5, N_GRASS: 0.5, N_GROUND: 2, N_ROCK: 2, N_DRAGON: 0.5})
+GRASS = Type(1, N_GRASS, {N_FIRE: 0.5, N_WATER: 2, N_GRASS: 0.5, N_POISON: 0.5, N_GROUND: 2, N_FLYING: 0.5, N_BUG: 0.5, N_ROCK: 2, N_DRAGON: 0.5})
+ELECTRIC = Type(14, N_ELECTRIC, {N_WATER: 2, N_GRASS: 0.5, N_ELECTRIC: 0.5, N_GROUND: 0, N_FLYING: 2, N_DRAGON: 0.5})
+ICE = Type(6, N_ICE, {N_WATER: 0.5, N_GRASS: 2, N_ICE: 0.5, N_GROUND: 2, N_FLYING: 2, N_DRAGON: 2})
+FIGHTING = Type(11, N_FIGHTING, {N_NORMAL: 2, N_ICE: 2, N_POISON: 0.5, N_FLYING: 0.5, N_PSYCHIC: 0.5, N_BUG: 0.5, N_ROCK: 2, N_GHOST: 0})
+POISON = Type(3, N_POISON, {N_GRASS: 2, N_POISON: 0.5, N_GROUND: 0.5, N_BUG: 2, N_ROCK: 0.5, N_GHOST: 0.5})
+GROUND = Type(5, N_GROUND, {N_FIRE: 2, N_GRASS: 0.5, N_ELECTRIC: 2, N_POISON: 2, N_FLYING: 0, N_BUG: 0.5, N_ROCK: 2})
+FLYING = Type(13, N_FLYING, {N_GRASS: 2, N_ELECTRIC: 0.5, N_FIGHTING: 2, N_BUG: 2, N_ROCK: 0.5})
+PSYCHIC = Type(4, N_PSYCHIC, {N_FIGHTING: 2, N_POISON: 2, N_PSYCHIC: 0.5})
+BUG = Type(0, N_BUG, {N_FIRE: 0.5, N_GRASS: 2, N_FIGHTING: 0.5, N_POISON: 2, N_FLYING: 0.5, N_PSYCHIC: 2, N_GHOST: 0.5})
+ROCK = Type(8, N_ROCK, {N_FIRE: 2, N_ICE: 2, N_FIGHTING: 0.5, N_GROUND: 0.5, N_FLYING: 2, N_BUG: 2})
+GHOST = Type(12, N_GHOST, {N_NORMAL: 0, N_PSYCHIC: 0, N_GHOST: 2})
+DRAGON = Type(9, N_DRAGON, {N_DRAGON: 2})
 
 
 TYPES = {

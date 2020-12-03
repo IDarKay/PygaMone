@@ -3,6 +3,7 @@ import character as chr
 import game_error as err
 import collision
 import game
+import hud.hud as hud
 
 
 class NPC(chr.character.Character):
@@ -79,13 +80,13 @@ class JoyNPC(NPC):
         if player.is_action_press and self.status == 0:
             yes = game.game_instance.get_message("yes")
             no = game.game_instance.get_message("no")
-            dialog = chr.player.QuestionDialog("poke_center", self.talk_callback, (yes, no), speed_skip=True, need_morph_text=True)
+            dialog = hud.QuestionDialog("dialog.poke_center", self.talk_callback, (yes, no), speed_skip=True, need_morph_text=True)
             player.open_dialogue(dialog, 1000)
 
     def talk_callback(self, value, index):
         player = game.game_instance.player
         if index == 1:
-            player.open_dialogue(chr.player.Dialog("poke_center_no", speed_skip=True, need_morph_text=True), over=True)
+            player.open_dialogue(hud.Dialog("dialog.poke_center_no", speed_skip=True, need_morph_text=True), over=True)
         return True
 
 
