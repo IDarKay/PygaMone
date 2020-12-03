@@ -1,11 +1,8 @@
+from typing import NoReturn
 import pygame
-import character.character as chr
-import game
+import character.player as char_play
 from datetime import datetime
-from typing import Tuple
-import time
 from utils import *
-import character.player as pl
 
 MENU_IMAGE = pygame.image.load("assets/textures/hud/menu.png")
 SURFACE_SIZE = (1060, 600)
@@ -13,28 +10,22 @@ SURFACE_SIZE = (1060, 600)
 
 class Menu(object):
 
-    def __init__(self, player):
-        """
-        :type player: character.player.Player
-        """
+    def __init__(self, player: 'char_play.Player'):
         self.player = player
 
-    def on_key_x(self, value, press):
+    def on_key_x(self, value: float, press: bool) -> NoReturn:
         pass
 
-    def on_key_y(self, value, press):
+    def on_key_y(self, value: float, press: bool) -> NoReturn:
         pass
 
-    def on_key_action(self):
+    def on_key_action(self) -> NoReturn:
         pass
 
-    def on_key_escape(self):
+    def on_key_escape(self) -> NoReturn:
         pass
 
-    def render(self, display):
-        """
-        :type display: pygame.Surface
-        """
+    def render(self, display: pygame.Surface):
         pass
 
 
@@ -107,8 +98,8 @@ class MainMenu(Menu):
             (128, 0, 195, 64),
             (192, 0, 256, 64)
         )
-        self.image = [chr.get_part(MENU_IMAGE, c) for c in coord]
-        self.arrow = chr.get_part(MENU_IMAGE, (0, 64, 22, 91))
+        self.image = [get_part_i(MENU_IMAGE, c) for c in coord]
+        self.arrow = get_part_i(MENU_IMAGE, (0, 64, 22, 91))
         self.selected = 0
         self.text = [game.get_game_instance().get_message(t).upper() for t in
                      ["pokemon", "bag", "map", "save", "options"]]
@@ -187,7 +178,7 @@ class SaveMenu(Menu):
     def __init__(self, player):
         super().__init__(player)
         self.selected = 0
-        self.arrow = chr.get_part(MENU_IMAGE, (0, 64, 22, 91), (12, 14))
+        self.arrow = get_part_i(MENU_IMAGE, (0, 64, 22, 91), (12, 14))
         self.text = [game.get_game_instance().get_message(t) for t in ["save_game", "back"]]
         self.text_2 = [
             game.FONT_16.render(game.get_game_instance().get_message(t) + " :", True, (0, 0, 0)) for t in
@@ -300,7 +291,7 @@ class TeamMenu(Menu):
         self.action_selected = -1
         self.move = -1
 
-        self.arrow = chr.get_part(MENU_IMAGE, (0, 64, 22, 91), (33, 41))
+        self.arrow = get_part_i(MENU_IMAGE, (0, 64, 22, 91), (33, 41))
         self.open_time = current_milli_time()
         self.progress = []
         self.display_small = []
@@ -569,6 +560,3 @@ class StatusMenu(Menu):
         for ab in range(4):
             draw_ability(display, (_x, _y), self.poke.get_ability(ab))
             _y += 40
-
-
-

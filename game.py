@@ -8,6 +8,7 @@ import time
 import pokemon.pokemon as pokemon
 import pokemon.ability as ability
 import item.items as items
+import utils
 
 screen = None
 
@@ -143,13 +144,13 @@ class Game(object):
         elif key in self._save:
             del self._save[key]
 
-    def get_message(self, key):
+    def get_message(self, key: str) -> str:
         if key in self.lang:
             return self.lang[key]
         else:
             return key
 
-    def get_poke_message(self, key):
+    def get_poke_message(self, key: str) -> str:
         if key in self.poke_lang:
             return self.poke_lang[key]
         else:
@@ -190,7 +191,7 @@ class Game(object):
                                     [])
             # self.player.render(self.display)
             self.level.layer_1.render(start[0], start[1], end[0], end[1], self.layer_cache, self.display,
-                                      self.collision, [[self.player.get_render_y(), self.player.render]])
+                                      self.collision, [(self.player.get_render_y(), self.player.render)])
 
             self.level.npc_render(self.display, self.collision)
             self.level.load_trigger(start[0], start[1], end[0], end[1], self.trigger_cache, self.collision)
@@ -265,7 +266,7 @@ class Game(object):
                         self.player.open_menu(_menu.MainMenu(self.player))
                 if event.key == pygame.K_F5 and event.type == pygame.KEYDOWN and self.player.freeze_time == 0:
                     x, y = self.player.get_pos()
-                    path = self.level.path
+                    path = self.level.__path
                     self.unload_level()
                     self.load_level(path, x, y)
                 if event.key == pygame.K_SPACE:

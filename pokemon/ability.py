@@ -1,3 +1,4 @@
+from typing import List, Dict, NoReturn, Any
 import utils
 import pokemon.pokemon_type as p_type
 import game_error as err
@@ -5,19 +6,20 @@ import os
 import json
 import game
 
-CATEGORYS = ["PHYSICAL", "SPECIAL", "STATUS"]
+CATEGORYS: List[str] = ["PHYSICAL", "SPECIAL", "STATUS"]
 
-ABILITYS = {}
+ABILITYS: Dict[str, 'Ability'] = {}
+
 
 class Ability(object):
 
-    def __init__(self, _id, data):
-        self._id = _id
-        self.data = data
+    def __init__(self, id_, data):
+        self.id_ = id_
+        self.__data = data
         self.type = p_type.TYPES[self.get_args("type", type_check=str)]
         self.category = self.get_args("category")
         if self.category not in CATEGORYS:
-            raise err.AbilityParseError("Invalid category for {}".format(_id))
+            raise err.AbilityParseError("Invalid category for {}".format(id_))
         self.pp = self.get_args("pp", type_check=int)
         self.max_pp = self.get_args("max_pp", type_check=int)
         self.power = self.get_args("power", type_check=int)
@@ -29,19 +31,19 @@ class Ability(object):
         self.mirror_move = self.get_args("mirror_move", default=False, type_check=bool)
         self.king_rock = self.get_args("king_rock", default=False, type_check=bool)
         self.target = self.get_args("target")
-        del self.data
+        del self.__data
 
-    def get_name(self):
-        return game.get_game_instance().get_message("ability." + self._id)
+    def get_name(self) -> NoReturn:
+        return game.get_game_instance().get_message("ability." + self.id_)
 
-    def get_args(self, key: str, default=None, type_check=None):
-        return utils.get_args(self.data, key, self._id, default, type_check, _type="ability")
-
-
-load = False
+    def get_args(self, key: str, default=None, type_check=None) -> Any:
+        return utils.get_args(self.__data, key, self.id_, default, type_check, _type="ability")
 
 
-def load_ability():
+load: bool = False
+
+
+def load_ability() -> NoReturn:
     global load, ABILITYS
     if not load:
         load = True

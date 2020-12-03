@@ -1,18 +1,21 @@
+from utils import get_part_i
 import game
-import pokemon.player_pokemon as player_pokemon
 from hud.hud import *
+import hud.menu as hud_menu
+import pygame
+import collision
 
 
 class Player(character.Character):
 
-    def __init__(self, game_i):
+    def __init__(self, game_i: 'game.Game'):
         """
 
         :type game_i: game.Game
         """
         super().__init__((100, 100), (34, 50))
 
-        self.image = [character.get_part(character.NPC_IMAGE, cord, (34, 50)) for cord in [(0, 25, 17, 50), (17, 25, 34, 50), (0, 0, 17, 25), (17, 0, 34, 25)]]
+        self.image: List[pygame.Surface] = [get_part_i(character.NPC_IMAGE, cord, (34, 50)) for cord in [(0, 25, 17, 50), (17, 25, 34, 50), (0, 0, 17, 25), (17, 0, 34, 25)]]
         self.movement = [0, 0]
         self.speed = 2
         self.direction = 2
@@ -27,13 +30,13 @@ class Player(character.Character):
         # todo: change
         self.pc = [player_pokemon.PlayerPokemon.from_json(p) for p in game_i.get_save_value("pc", [])]
 
-    def get_non_null_team_number(self):
+    def get_non_null_team_number(self) -> int:
         i = 0
         while self.team[i]:
             i += 1
         return i
 
-    def normalize_team(self):
+    def normalize_team(self) -> NoReturn:
         if len(self.team) < 6:
             for i in range(len(self.team), 6):
                 self.team.append(None)
@@ -41,22 +44,22 @@ class Player(character.Character):
             self.team = self.team[0:6]
             print("WARN to much pokemon in team deleting !")
 
-    def add_pokemon_in_pc(self, pokemon):
+    def add_pokemon_in_pc(self, pokemon: 'player_pokemon.PlayerPokemon') -> NoReturn:
         # todo: change
         self.pc.append(pokemon)
 
-    def move_pokemon_to_pc(self, team_nb: int):
+    def move_pokemon_to_pc(self, team_nb: int) -> NoReturn:
         if 0 <= team_nb < 6 and self.team[team_nb]:
             self.add_pokemon_in_pc(self.team[team_nb])
             # del to sort
             del self.team[team_nb]
             self.normalize_team()
 
-    def switch_pokemon(self, team_nb1 : int, team_nb2: int):
+    def switch_pokemon(self, team_nb1: int, team_nb2: int):
         if 0 <= team_nb1 < 6 and 0 <= team_nb2 < 6:
             self.team[team_nb1], self.team[team_nb2] = self.team[team_nb2], self.team[team_nb1]
 
-    def save(self, data):
+    def save(self, data: Dict[str, Any]):
         team = []
         for t in self.team:
             if t:
@@ -64,10 +67,10 @@ class Player(character.Character):
         data["team"] = team
         data["pc"] = [u.serialisation() for u in self.pc]
 
-    def have_open_menu(self):
-        return self.current_menu
+    def have_open_menu(self) -> bool:
+        return self.current_menu is not None
 
-    def open_menu(self, menu):
+    def open_menu(self, menu: 'hud_menu.Menu') -> bool:
         # check if can open
         if self.current_dialogue:
             return False
@@ -75,16 +78,12 @@ class Player(character.Character):
         self.current_menu = menu
         return True
 
-    def close_menu(self):
+    def close_menu(self) -> NoReturn:
         self.freeze_time = 2
         self.current_menu = None
 
-    def open_dialogue(self, dialogue, check_last_open=0, over=False):
-        """
-        :type over: bool
-        :type check_last_open: int
-        :type dialogue: Dialog
-        """
+    def open_dialogue(self, dialogue: 'Dialog', check_last_open: int = 0, over: bool = False) -> NoReturn:
+
         if 0 < check_last_open and check_last_open > current_milli_time() - self.last_close_dialogue and not over:
             return
 
@@ -94,7 +93,7 @@ class Player(character.Character):
         self.freeze_time = -2
         self.current_dialogue = dialogue
 
-    def action_press(self):
+    def action_press(self) -> NoReturn:
         self.is_action_press = True
         if self.current_dialogue:
             if self.current_dialogue.press_action():
@@ -102,28 +101,28 @@ class Player(character.Character):
         if self.current_menu:
             self.current_menu.on_key_action()
 
-    def escape_press(self):
+    def escape_press(self) -> NoReturn:
         if self.current_menu:
             self.current_menu.on_key_escape()
 
-    def close_dialogue(self):
+    def close_dialogue(self) -> NoReturn:
         self.last_close_dialogue = current_milli_time()
         self.current_dialogue = None
         self.freeze_time = 2
 
-    def action_unpress(self):
+    def action_unpress(self) -> NoReturn:
         self.is_action_press = False
 
-    def get_scroll_start(self):
+    def get_scroll_start(self) -> Tuple[int, int]:
         return int(self.rect.x-(game.SURFACE_SIZE[0]/2) + 8.5), int(self.rect.y - (game.SURFACE_SIZE[1]/2) + 12.5)
 
-    def get_scroll_end(self):
+    def get_scroll_end(self) -> Tuple[int, int]:
         return int(self.rect.x + (game.SURFACE_SIZE[0] / 2) + 8.5), int(self.rect.y + (game.SURFACE_SIZE[1] / 2) + 12.5)
 
-    def get_image(self):
+    def get_image(self) -> pygame.Surface:
         return self.image[self.direction]
 
-    def move(self, co):
+    def move(self, co: 'collision') -> NoReturn:
         """
 
         :type co: collision.Collision
@@ -145,7 +144,7 @@ class Player(character.Character):
             self.rect.x += offset_x
             self.rect.y += offset_y
 
-    def update_direction(self):
+    def update_direction(self) -> bool:
         if self.movement[1] < 0:
             self.direction = 0
         elif self.movement[1] > 0:
@@ -158,7 +157,7 @@ class Player(character.Character):
             return False
         return True
 
-    def on_key_x(self, value, up):
+    def on_key_x(self, value: float, up: bool) -> NoReturn:
         if up:
             self.movement[0] -= value
         else:
@@ -166,7 +165,7 @@ class Player(character.Character):
         if self.current_menu:
             self.current_menu.on_key_x(value, not up)
 
-    def on_key_y(self, value, up):
+    def on_key_y(self, value: float, up: bool) -> NoReturn:
         if up:
             self.movement[1] -= value
         else:
@@ -175,7 +174,3 @@ class Player(character.Character):
             self.current_menu.on_key_y(value, not up)
         if self.current_dialogue and not up:
             self.current_dialogue.pres_y(value < 0)
-
-
-
-

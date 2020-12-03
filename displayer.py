@@ -1,3 +1,4 @@
+from typing import List, Dict, Any, NoReturn
 import game_error as er
 import pygame
 import game
@@ -7,17 +8,17 @@ DEFAULT_START = [0, 0]
 
 class Displayer(object):
 
-    def __init__(self, images_path, start, data, path):
-        self.images_path = images_path
-        self.start = start
+    def __init__(self, images_path: str, start: List[float], data: Dict[str, Any], path: str):
+        self.__images_path: str = images_path
+        self.__start: List[float] = start
 
         if game.DISPLAYER_CACHE.have(path):
-            self.image = game.DISPLAYER_CACHE.get(path)
+            self.image: pygame.Surface = game.DISPLAYER_CACHE.get(path)
         else:
             if game.IMAGE_CACHE.have(images_path):
-                self.image = game.IMAGE_CACHE.get(images_path)
+                self.image: pygame.Surface = game.IMAGE_CACHE.get(images_path)
             else:
-                self.image = pygame.image.load("assets/textures/{}.png".format(images_path))
+                self.image: pygame.Surface = pygame.image.load("assets/textures/{}.png".format(images_path))
                 game.IMAGE_CACHE.put(images_path, self.image)
 
             rescale = data["rescale"] if "rescale" in data else 2
@@ -43,19 +44,15 @@ class Displayer(object):
                 self.image = pygame.transform.scale(self.image, (s[0] * rescale, s[1] * rescale))
                 game.IMAGE_CACHE.put(path, self.image)
 
-    def get_image(self):
+    def get_image(self) -> pygame.Surface:
         return self.image
 
     def __del__(self):
         # safe unload
         del self.image
 
-    def display(self, display, x, y):
-        """
-
-        :type display: pygame.Surface
-        """
-        coord = int(x + self.start[0] * game.CASE_SIZE), int(y + self.start[1] * game.CASE_SIZE)
+    def display(self, display: pygame.Surface, x: int, y: int) -> NoReturn:
+        coord = int(x + self.__start[0] * game.CASE_SIZE), int(y + self.__start[1] * game.CASE_SIZE)
         # if self.need_plot:
         #     print(self.plot)
         #     display.blit(self.image, coord, self.plot)
@@ -63,7 +60,7 @@ class Displayer(object):
         display.blit(self.image, coord)
 
 
-def parse(data, path):
+def parse(data: Dict[str, Any], path: str) -> Displayer:
     image = data["image"]
     if not image:
         raise er.StructureParseError("No image from {}".format(path))

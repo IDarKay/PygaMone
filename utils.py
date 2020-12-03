@@ -1,9 +1,11 @@
+from typing import Dict, List, Any, Tuple
 import time
 import pygame
-from typing import Tuple, List
 import game_error as err
 import game
-import pokemon.player_pokemon as p_poke
+import pokemon.pokemon_type as pokemon_type
+import pokemon.player_pokemon as player_pokemon
+
 
 def current_milli_time() -> int:
     return int(round(time.time() * 1000))
@@ -36,14 +38,15 @@ def draw_select_box(display: pygame.Surface, _x: float, _y: float,
         _y += 28
 
 
-def draw_rond_rectangle(display: pygame.Surface, _x, _y, height, width, color):
+def draw_rond_rectangle(display: pygame.Surface, _x: float, _y: float,
+                        height: float, width: float, color: Tuple[int, int, int]):
     height *= 0.5
     pygame.draw.circle(display, color, (_x, _y + height), height)
     pygame.draw.circle(display, color, (_x + width, _y + height), height)
     pygame.draw.rect(display, color, pygame.Rect(_x, _y, width, height * 2))
 
 
-def get_args(data, key: str, _id, default=None, type_check=None, _type="pokmon"):
+def get_args(data: Dict[str, Any], key: str, _id: Any, default=None, type_check=None, _type="pokmon") -> Any:
     value = None
     if default is not None:
         value = data[key] if key in data else None if default == "NONE" else default
@@ -58,14 +61,14 @@ def get_args(data, key: str, _id, default=None, type_check=None, _type="pokmon")
     return value
 
 
-def draw_type(display: pygame.Surface, _x: float, _y: float, _type):
+def draw_type(display: pygame.Surface, _x: float, _y: float, _type: 'pokemon_type.Type'):
     pygame.draw.rect(display, (0, 0, 0), pygame.Rect(_x, _y, 85, 16),
                      border_radius=2)
     display.blit(_type.image, (_x, _y))
     display.blit(game.FONT_16.render(_type.get_name(), True, (255, 255, 255)), (_x + 26, _y))
 
 
-def draw_ability(display: pygame.Surface, coord: Tuple[float, float], p_ability):
+def draw_ability(display: pygame.Surface, coord: Tuple[float, float], p_ability: 'player_pokemon.PokemonAbility'):
     draw_rond_rectangle(display, coord[0], coord[1], 34, game.SCREEN_SIZE[0] * 0.2, (255, 255, 255))
     draw_rond_rectangle(display, coord[0] + game.SCREEN_SIZE[0] * 0.18, coord[1], 34, 40, (70, 68, 69))
     display.blit(game.FONT_20.render(p_ability.ability.get_name() if p_ability else "-------------", True, (0, 0, 0)),
@@ -86,7 +89,13 @@ def draw_progress_bar(display: pygame.Surface, coord: Tuple[float, float], size:
     pygame.draw.rect(display, bg_color, pygame.Rect(coord[0], coord[1], size[0], size[1]))
     pygame.draw.rect(display, color, pygame.Rect(coord[0], coord[1], size[0] * progress, size[1]))
 
-def get_part(image: pygame.Surface, coord: Tuple[float, float, float, float], transform: Tuple[int, int] = (0, 0)) -> pygame.Surface:
+
+def min_max(min_v: int, value:int , max_v: int) -> int:
+    return min_v if value < min_v else max_v if value > max_v else value
+
+
+def get_part_i(image: pygame.Surface, coord: Tuple[float, float, float, float],
+               transform: Tuple[int, int] = (0, 0)) -> pygame.Surface:
     s = pygame.Surface((coord[2] - coord[0], coord[3] - coord[1]), pygame.SRCALPHA)
     s.blit(image, (0, 0), pygame.Rect(coord))
     if transform != (0, 0):

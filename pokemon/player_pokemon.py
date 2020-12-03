@@ -1,27 +1,28 @@
-import pokemon.pokemon as pokemon
-from typing import Dict, List, Tuple
+from typing import Dict, List, Tuple, Any, Optional, NoReturn
 from random import randint
+import pokemon.pokemon as pokemon
 import pokemon.ability as p_ability
 import item.items as items
+import item.item as item
+
 
 class PokemonAbility(object):
 
-    def __init__(self, _id: str, pp: int, max_pp: int):
-        self._id = _id
-        self.ability = p_ability.ABILITYS[_id]
-        self.pp = pp
-        self.max_pp = max_pp
+    def __init__(self, id_: str, pp: int, max_pp: int):
+        self.id_: str = id_
+        self.ability: 'p_ability.Ability' = p_ability.ABILITYS[id_]
+        self.pp: int = pp
+        self.max_pp: int = max_pp
 
-
-    def serialisation(self) -> Dict:
+    def serialisation(self) -> Dict[str, Any]:
         return {
-            "_id": self._id,
+            "_id": self.id_,
             "pp": self.pp,
             "max_pp": self.max_pp,
         }
 
     @staticmethod
-    def new_ability(_id: str):
+    def new_ability(_id: str) -> 'PokemonAbility':
         """
 
         :rtype: PokemonAbility
@@ -30,7 +31,7 @@ class PokemonAbility(object):
         return PokemonAbility(_id, ab.pp, ab.max_pp)
 
     @staticmethod
-    def deserialisation(data):
+    def deserialisation(data: Dict[str, Any]) -> 'PokemonAbility':
         """
 
         :rtype: PokemonAbility
@@ -41,12 +42,14 @@ class PokemonAbility(object):
             data["max_pp"]
         )
 
+
 class PlayerPokemon(object):
 
-    def __init__(self, _id: int, xp, ivs, heal, ability: List[PokemonAbility], poke_ball):
-        self._id = _id
+    def __init__(self, _id: int, xp: int, ivs: Dict[str, int], heal: int,
+                 ability: List[PokemonAbility], poke_ball: 'item.Item'):
+        self.id_ = _id
         self.xp = xp
-        self.poke = pokemon.get_pokemon(self._id)
+        self.poke = pokemon.get_pokemon(self.id_)
         self.lvl = self.get_lvl()
         self.ivs = ivs
         self.heal = heal
@@ -59,36 +62,36 @@ class PlayerPokemon(object):
         if self.heal == 1 or self.heal > self.get_max_heal():
             self.heal = self.get_max_heal()
 
-    def get_ability(self, slot: int):
+    def get_ability(self, slot: int) -> Optional[PokemonAbility]:
         if slot < 0 or slot > 4:
             raise ValueError("Slot need be in [0:4]")
         if len(self.ability) - 1 >= slot:
             return self.ability[slot]
         return None
 
-    def get_max_heal(self):
+    def get_max_heal(self) -> int:
         return self.stats[pokemon.HEAL]
 
-    def calculate_stats(self):
+    def calculate_stats(self) -> NoReturn:
         for st in pokemon.STATS:
             self.stats[st] = calculate_stats(self.lvl, self.poke.base_stats[st], self.ivs[st], st == pokemon.STATS[0])
 
     def get_lvl(self) -> int:
         return self.poke.get_lvl(self.xp)
 
-    def current_xp_status(self):
+    def current_xp_status(self) -> Tuple[int, int]:
         if self.lvl < 100:
             this_l = self.poke.get_xp(self.lvl)
             return self.xp - this_l, self.poke.get_xp(self.lvl + 1) - this_l
         else:
-            return 0
+            return 0, 0
 
-    def add_attack(self, slot: int, ability_name: str):
+    def add_attack(self, slot: int, ability_name: str) -> NoReturn:
         if slot < 0 or slot > 4:
             raise ValueError("Slot need be in [0:4]")
         self.ability[slot] = PokemonAbility.new_ability(ability_name)
 
-    def get_name(self, upper_first=False):
+    def get_name(self, upper_first=False) -> str:
         return self.poke.get_name(upper_first)
 
     def add_xp(self, amount: int) -> Tuple[bool, int, int]:
@@ -103,18 +106,18 @@ class PlayerPokemon(object):
             return True, n, self.lvl
         return False, n, n
 
-    def serialisation(self):
+    def serialisation(self) -> Dict[str, Any]:
         return {
-            "_id": self._id,
+            "_id": self.id_,
             "xp": self.xp,
             "ivs": ivs_to_int(self.ivs),
             "heal": self.heal,
             "ability": [a.serialisation() for a in self.ability],
-            "pokeball": self.poke_ball._id
+            "pokeball": self.poke_ball.identifier
         }
 
     @staticmethod
-    def create_pokemon(_id: int, lvl: int, poke_ball=items.POKE_BALL):
+    def create_pokemon(_id: int, lvl: int, poke_ball: 'item.Item' = items.POKE_BALL):
         poke = pokemon.get_pokemon(_id)
         xp = poke.get_lvl(lvl)
         ivs = random_ivs()
@@ -140,14 +143,14 @@ class PlayerPokemon(object):
 # 0000-0000-0000-0000-0000-0000-0000-0000
 #                     ATTA/DEF/SPEED/SPECIAL
 
-def calculate_stats(level: int, base: int, iv: int, is_hp: bool):
+def calculate_stats(level: int, base: int, iv: int, is_hp: bool) -> int:
     n = ((((base + iv) * 2) * level) / 100) + 10
     if is_hp:
         n += level
     return int(n)
 
 
-def ivs_from_int(ivs: int) -> Dict:
+def ivs_from_int(ivs: int) -> Dict[str, int]:
     back = {
         pokemon.STATS[1]: (ivs & (0b1111 << 12)) >> 12,
         pokemon.STATS[2]: (ivs & (0b1111 << 8)) >> 8,
@@ -162,9 +165,12 @@ def ivs_from_int(ivs: int) -> Dict:
     return back
 
 
-def random_ivs():
+def random_ivs() -> Dict[str, int]:
     return ivs_from_int((randint(0, 15) << 12) + (randint(0, 15) << 8) + (randint(0, 15) << 4) + randint(0, 15))
 
 
 def ivs_to_int(ivs_dic: dict) -> int:
-    return (ivs_dic[pokemon.STATS[1]] << 12) + (ivs_dic[pokemon.STATS[2]] << 8) + (ivs_dic[pokemon.STATS[3]] << 4) + ivs_dic[pokemon.STATS[4]]
+    return (ivs_dic[pokemon.STATS[1]] << 12) +\
+           (ivs_dic[pokemon.STATS[2]] << 8) +\
+           (ivs_dic[pokemon.STATS[3]] << 4) +\
+           ivs_dic[pokemon.STATS[4]]

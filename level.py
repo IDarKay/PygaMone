@@ -1,3 +1,4 @@
+from typing import NoReturn, Any, List, Dict, Callable, Tuple
 import structure
 import game_error as er
 import json
@@ -16,7 +17,7 @@ LAYER_1 = "layer_1"
 
 class Key(object):
 
-    def __init__(self, key, data):
+    def __init__(self, key: str, data: Dict[str, Any]):
         self.key = key
         self.ref = structure.parse(data["ref"])
         if not self.ref:
@@ -25,37 +26,31 @@ class Key(object):
 
 class Layers(object):
 
-    def __init__(self, type, data):
-        self.type = type
+    def __init__(self, type_: str, data):
+        self.type = type_
         self.key = data["key"]
-        self.pattern = [[c for c in l] for l in data["pattern"]]
+        self.pattern: List[List[str]] = [[c for c in l] for l in data["pattern"]]
         self.size = len(self.pattern), len(self.pattern[0])
-        self.random_tab = [[random.random() for i in range(self.size[1])] for y in range(self.size[0])]
+        self.__random_tab: List[List[float]] = [[random.random() for i in range(self.size[1])] for y in range(self.size[0])]
 
-    def load_asset(self, cache):
-        """
-
-        :type cache: game.Cache
-        """
+    def load_asset(self, cache: 'game.Cache') -> NoReturn:
         for key, value in self.key.items():
             if value["ref"] == EMPTY:
                 cache.put(key, None)
             else:
                 cache.put(key, Key(key, value))
 
-    def get_case(self, x, y):
+    def get_case(self, x: int, y: int) -> str:
         return self.pattern[y][x]
 
-    def render(self, x_start, y_start, x_end, y_end, cache, display, collision, to_add):
-        """
+    def render(self, x_start: float, y_start: float, x_end: float, y_end: float,
+               cache: 'game.Cache', display: pygame.Surface, collision: 'col.Collision',
+               to_add: List[Tuple[int, Callable[[pygame.Surface], NoReturn]]]):
 
-        :type display: pygame.Surface
-        :type cache: game.Cache
-        """
-        x_start_mod = (x_start // game.CASE_SIZE) - 5
-        y_start_mod = (y_start // game.CASE_SIZE) - 5
-        x_end_mod = (x_end // game.CASE_SIZE) + 8
-        y_end_mod = (y_end // game.CASE_SIZE) + 8
+        x_start_mod: int = (x_start // game.CASE_SIZE) - 5
+        y_start_mod: int = (y_start // game.CASE_SIZE) - 5
+        x_end_mod: int = (x_end // game.CASE_SIZE) + 8
+        y_end_mod: int = (y_end // game.CASE_SIZE) + 8
 
         to_render = {}
 
@@ -68,7 +63,7 @@ class Layers(object):
 
         for x in range(x_start_mod, x_end_mod):
             for y in range(y_start_mod, y_end_mod):
-                if x < 0 or x >= self.size[1] or y < 0 or y >= self.size[0 ]:
+                if x < 0 or x >= self.size[1] or y < 0 or y >= self.size[0]:
                     continue
                 key = cache.get(self.get_case(x, y))
                 if key:
@@ -81,17 +76,16 @@ class Layers(object):
         od = collections.OrderedDict(sorted(to_render.items()))
         for v in od.values():
             for s in v:
-                # print("struct: ", s[0].name,  "x: ", (s[1] - x_start_mod) * game.CASE_SIZE, "y: ", (s[2] - y_start_mod) * game.CASE_SIZE)
                 if s[0]:
-                    s[1].render(display, s[2] * game.CASE_SIZE - x_start, s[3] * game.CASE_SIZE - y_start, s[2], s[3], self.random_tab, collision)
+                    s[1].render(display, s[2] * game.CASE_SIZE - x_start, s[3] * game.CASE_SIZE - y_start, s[2], s[3], self.__random_tab, collision)
                 else:
                     s[1](display)
 
 
 class Level(object):
 
-    def __init__(self, path):
-        self.path = path
+    def __init__(self, path: str):
+        self.__path = path
         with open("data/levels/{}.json".format(path), "r", encoding='utf-8') as file:
             data = json.load(file)
 
@@ -103,19 +97,19 @@ class Level(object):
         f = data[FLOOR]
         if not f:
             raise er.LevelParseError("No floor in {}".format(path))
-        self.floor = Layers(FLOOR, f)
+        self.floor: Layers = Layers(FLOOR, f)
 
         l = data[LAYER_1]
         if not l:
             raise er.LevelParseError("No layer_1 in {}".format(path))
-        self.layer_1 = Layers(LAYER_1, l)
+        self.layer_1: Layers = Layers(LAYER_1, l)
 
-        self.name = data["name"] if "name" in data else "undefined"
+        self.name: str = data["name"] if "name" in data else "undefined"
 
         if self.layer_1.size != self.floor.size:
             raise er.LevelParseError("Floor and layer haven't same size !! in {}".format(path))
 
-        self.trigger = []
+        self.trigger: List[Tuple[str, List[int]]] = []
         if "trigger" in data:
             for tr in data["trigger"]:
                 if "id" not in tr:
@@ -126,7 +120,7 @@ class Level(object):
                 loc = tr["loc"]
                 self.trigger.append((_id, loc))
 
-        self.npc = []
+        self.npc: List['npc.NPC'] = []
         if "npc" in data:
             for np in data["npc"]:
                 if "id" not in np:
@@ -134,18 +128,16 @@ class Level(object):
                 _id = np["id"]
                 self.npc.append(npc.load(_id, np))
 
-    def get_translate_name(self):
+    def get_translate_name(self) -> str:
         return game.get_game_instance().get_message("levels.{}".format(self.name))
 
-    def npc_render(self, display, collision):
+    def npc_render(self, display: pygame.Surface, collision: 'col.Collision') -> NoReturn:
         for np in self.npc:
             collision.add(np.get_triggers_box())
             np.render(display)
 
-    def load_trigger(self, x_start, y_start, x_end, y_end, cache, collision):
-        """
-        :type cache: game.Cache
-        """
+    def load_trigger(self, x_start: float, y_start: float, x_end: float, y_end: float,
+                     cache: 'game.Cache', collision: 'col.Collision'):
         x_start_mod = (x_start // game.CASE_SIZE) - 5
         y_start_mod = (y_start // game.CASE_SIZE) - 5
         x_end_mod = (x_end // game.CASE_SIZE) + 8
@@ -160,7 +152,7 @@ class Level(object):
                                                              loc[2] * game.CASE_SIZE - x_start,
                                                              loc[3] * game.CASE_SIZE - y_start, trigger))
 
-    def load_asset(self, cache):
+    def load_asset(self, cache: 'game.Cache') -> NoReturn:
         """
         :type cache: game.Cache
         """

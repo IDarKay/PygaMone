@@ -1,45 +1,46 @@
 import game_error as err
-from typing import Dict, List
+from typing import Dict, List, Optional, Callable, Any
 import json
 import displayer
 import game
 import pokemon.pokemon_type as pok_t
-from utils import get_args
+import utils
 
-NB_POKEMON = 3
-POKEMONS = [None for i in range(NB_POKEMON + 1)]
+NB_POKEMON: int = 3
+POKEMONS: List[Optional['Pokemon']] = [None for i in range(NB_POKEMON + 1)]
 
-CURVE = {
+CURVE: Dict[str, Callable[[int], float]] = {
     "FAST": lambda n: 0.8 * (n ** 3),
     "MEDIUM_FAST": lambda n: n ** 3,
     "MEDIUM_SLOW": lambda n: 1.2 * (n ** 3) - 15 * (n ** 2) + 100 * n - 140,
     "SLOW": lambda n: 1.25 * (n ** 3),
 }
 
-CURVE_VALUE = {N: [int(CURVE[N](x)) for x in range(101)] for N, V in CURVE.items()}
+CURVE_VALUE: Dict[str, List[int]] = {N: [int(CURVE[N](x)) for x in range(101)] for N, V in CURVE.items()}
 
-HEAL = "hp"
+HEAL: str = "hp"
 
-STATS = [HEAL, "attack", "defense", "speed", "sp_attack", "sp_defense"]
+STATS: List[str] = [HEAL, "attack", "defense", "speed", "sp_attack", "sp_defense"]
+
 
 class Pokemon(object):
 
-    def __init__(self, _id: int, data: Dict):
-        self._id: int = _id
-        self.parent: int = get_args(data, "parent", _id, default=0, type_check=int)
-        if not (0 <= self.parent <= NB_POKEMON) or self.parent == _id:
-            raise err.PokemonParseError("Pokemon ({}) have invalid parent !".format(_id))
-        self.types = [pok_t.TYPES[t] for t in get_args(data, "type", _id)]
-        self.xp_points: int = get_args(data, "xp_point", _id, type_check=int)
-        self.color: str = get_args(data, "color", _id, type_check=str)
-        self.evolution = get_args(data, "evolution", _id, default=[])
-        self.display: displayer.Displayer = displayer.parse(get_args(data, "display", _id),
-                                                            "pokemon/" + to_3_digit(_id))
-        self.curve_name = get_args(data, "curve", _id, type_check=str)
-        self.curve = CURVE[self.curve_name]
-        self.base_stats = get_args(data, "base_stats", _id)
-        self.ability = get_args(data, "ability", _id, default={})
-        self.catch_rate = get_args(data, "catch_rate", _id)
+    def __init__(self, id_: int, data: Dict):
+        self.id_: int = id_
+        self.parent: int = utils.get_args(data, "parent", id_, default=0, type_check=int)
+        if not (0 <= self.parent <= NB_POKEMON) or self.parent == id_:
+            raise err.PokemonParseError("Pokemon ({}) have invalid parent !".format(id_))
+        self.types: 'pok_t' = [pok_t.TYPES[t] for t in utils.get_args(data, "type", id_)]
+        self.xp_points: int = utils.get_args(data, "xp_point", id_, type_check=int)
+        self.color: str = utils.get_args(data, "color", id_, type_check=str)
+        self.evolution: List[Dict[str, Any]] = utils.get_args(data, "evolution", id_, default=[])
+        self.display: displayer.Displayer = displayer.parse(utils.get_args(data, "display", id_),
+                                                            "pokemon/" + to_3_digit(id_))
+        self.curve_name: str = utils.get_args(data, "curve", id_, type_check=str)
+        self.curve: Callable[[int], float] = CURVE[self.curve_name]
+        self.base_stats: Dict[str, int] = utils.get_args(data, "base_stats", id_)
+        self.ability: Dict[str, int] = utils.get_args(data, "ability", id_, default={})
+        self.catch_rate: float = utils.get_args(data, "catch_rate", id_)
 
     def get_all_possible_ability(self, lvl: int) -> List[str]:
         back = []
@@ -72,13 +73,13 @@ class Pokemon(object):
         else:
             return int(get_pokemon(self.parent).get_lvl(xp))
 
-    def get_name(self, upper_first=False):
-        name = game.get_game_instance().get_poke_message(str(self._id))["name"]
+    def get_name(self, upper_first=False) -> str:
+        name = game.get_game_instance().get_poke_message(str(self.id_))["name"]
         if upper_first:
             name = name[0].capitalize() + name[1:]
         return name
 
-    def get_evolution(self):
+    def get_evolution(self) -> List[Dict[str, int]]:
         if self.parent != 0:
             return self.evolution + get_pokemon(self.parent).get_evolution()
         return self.evolution
