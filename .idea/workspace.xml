@@ -143,7 +143,7 @@
       <workItem from="1606900505467" duration="17345000" />
       <workItem from="1606919441794" duration="23104000" />
       <workItem from="1606980427931" duration="52066000" />
-      <workItem from="1607070577217" duration="5599000" />
+      <workItem from="1607070577217" duration="6148000" />
     </task>
     <servers />
   </component>
@@ -171,22 +171,22 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="740" y="275" key="FileChooserDialogImpl/1920.0.1920.1040/-1857.0.1857.1080/0.0.1920.1040@0.0.1920.1040" timestamp="1606985074245" />
-    <state width="1877" height="197" key="GridCell.Tab.0.bottom" timestamp="1607076299963">
+    <state width="1877" height="197" key="GridCell.Tab.0.bottom" timestamp="1607076835384">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="197" key="GridCell.Tab.0.bottom/1920.0.1920.1040/-1857.0.1857.1080/0.0.1920.1040@0.0.1920.1040" timestamp="1607076299963" />
-    <state width="1877" height="197" key="GridCell.Tab.0.center" timestamp="1607076299963">
+    <state width="1877" height="197" key="GridCell.Tab.0.bottom/1920.0.1920.1040/-1857.0.1857.1080/0.0.1920.1040@0.0.1920.1040" timestamp="1607076835384" />
+    <state width="1877" height="197" key="GridCell.Tab.0.center" timestamp="1607076835384">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="197" key="GridCell.Tab.0.center/1920.0.1920.1040/-1857.0.1857.1080/0.0.1920.1040@0.0.1920.1040" timestamp="1607076299963" />
-    <state width="1877" height="197" key="GridCell.Tab.0.left" timestamp="1607076299963">
+    <state width="1877" height="197" key="GridCell.Tab.0.center/1920.0.1920.1040/-1857.0.1857.1080/0.0.1920.1040@0.0.1920.1040" timestamp="1607076835384" />
+    <state width="1877" height="197" key="GridCell.Tab.0.left" timestamp="1607076835384">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="197" key="GridCell.Tab.0.left/1920.0.1920.1040/-1857.0.1857.1080/0.0.1920.1040@0.0.1920.1040" timestamp="1607076299963" />
-    <state width="1877" height="197" key="GridCell.Tab.0.right" timestamp="1607076299963">
+    <state width="1877" height="197" key="GridCell.Tab.0.left/1920.0.1920.1040/-1857.0.1857.1080/0.0.1920.1040@0.0.1920.1040" timestamp="1607076835384" />
+    <state width="1877" height="197" key="GridCell.Tab.0.right" timestamp="1607076835384">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="197" key="GridCell.Tab.0.right/1920.0.1920.1040/-1857.0.1857.1080/0.0.1920.1040@0.0.1920.1040" timestamp="1607076299963" />
+    <state width="1877" height="197" key="GridCell.Tab.0.right/1920.0.1920.1040/-1857.0.1857.1080/0.0.1920.1040@0.0.1920.1040" timestamp="1607076835384" />
     <state width="1877" height="140" key="GridCell.Tab.1.bottom" timestamp="1607075512290">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -260,7 +260,7 @@
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/pokemon$sql.coverage" NAME="sql Coverage Results" MODIFIED="1606985381791" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="F:/nsi/0-terminale/py" />
-    <SUITE FILE_PATH="coverage/pokemon$main.coverage" NAME="main Coverage Results" MODIFIED="1607072755100" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/pokemon$main_gui.coverage" NAME="main-gui Coverage Results" MODIFIED="1607076299955" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/pokemon$main.coverage" NAME="main-no-gui Coverage Results" MODIFIED="1607076542294" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/pokemon$main_gui.coverage" NAME="main-gui Coverage Results" MODIFIED="1607076534442" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
