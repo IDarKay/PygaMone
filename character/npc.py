@@ -7,6 +7,7 @@ import game_error as err
 import collision
 import game
 import hud.hud as hud
+import sound_manager
 import utils
 
 
@@ -87,7 +88,8 @@ class JoyNPC(NPC):
         self.__player: 'char_p.Player' = game.game_instance.player
         self.__glow = pygame.Surface((16, 16), pygame.SRCALPHA)
         self.__glow.set_alpha(200)
-        pygame.draw.rect(self.__glow, (33, 191, 62), pygame.Rect(0, 0, 16, 16), border_radius=4)
+        # pygame.draw.rect(self.__glow, (33, 191, 62), pygame.Rect(0, 0, 16, 16), border_radius=4)
+        pygame.draw.circle(self.__glow, (33, 191, 62), (8, 8), 8, 1)
         self.have_start_song = False
 
     def get_image(self) -> pygame.Surface:
@@ -138,7 +140,7 @@ class JoyNPC(NPC):
                 if nb_poke_to_show > nb_poke:
                     if not self.have_start_song:
                         self.have_start_song = True
-                        pygame.mixer.Channel(1).play(pygame.mixer.Sound('assets/sound/heal.mp3'))
+                        sound_manager.TAUNT_CHANNEL.play(pygame.mixer.Sound('assets/sound/heal.mp3'))
                     if dif_t - 1000 * nb_poke > 3000:
                         self.__image_to_show = self.facing_image
                         self.__action = None

@@ -2,15 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ea3e728b-c0c8-417b-bdcf-b87cc6630e2a" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/assets/sound/heal.mp3" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/sound/music/ps_1.mp3" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sound_manager.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/start_menu.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/character/npc.py" beforeDir="false" afterPath="$PROJECT_DIR$/character/npc.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/levels/poke_center_level_1.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/levels/poke_center_level_1.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/game.py" beforeDir="false" afterPath="$PROJECT_DIR$/game.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hud/hud.py" beforeDir="false" afterPath="$PROJECT_DIR$/hud/hud.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/item/pokeball.py" beforeDir="false" afterPath="$PROJECT_DIR$/item/pokeball.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/level.py" beforeDir="false" afterPath="$PROJECT_DIR$/level.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pokemon/player_pokemon.py" beforeDir="false" afterPath="$PROJECT_DIR$/pokemon/player_pokemon.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,21 +38,21 @@
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\Dev\py\pokemon\assets\sound\music" />
+      <recent name="E:\Dev\py\pokemon\assets\song" />
+      <recent name="E:\Dev\py\pokemon\assets\heal" />
+      <recent name="E:\Dev\py\pokemon\assets\textures\item" />
+      <recent name="E:\Dev\py\pokemon\assets\textures\pokemon" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="E:\Dev\py\pokemon\data\build\build\pokecenter" />
       <recent name="E:\Dev\py\pokemon\data\build\build" />
       <recent name="E:\Dev\py\pokemon\data\build\floor\pokecenter" />
     </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="E:\Dev\py\pokemon\assets\song" />
-      <recent name="E:\Dev\py\pokemon\assets\heal" />
-      <recent name="E:\Dev\py\pokemon\assets\textures\item" />
-      <recent name="E:\Dev\py\pokemon\assets\textures\pokemon" />
-      <recent name="E:\Dev\py\pokemon\assets\lang\text" />
-    </key>
   </component>
-  <component name="RunManager" selected="Python.main">
-    <configuration name="main" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+  <component name="RunManager" selected="Python.main-no-gui">
+    <configuration name="main-gui" type="PythonConfigurationType" factoryName="Python">
       <module name="pokemon" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -69,6 +67,28 @@
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main.py" />
       <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="main-no-gui" type="PythonConfigurationType" factoryName="Python">
+      <module name="pokemon" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main.py" />
+      <option name="PARAMETERS" value="--non-start-gui" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
@@ -98,6 +118,11 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <list>
+      <item itemvalue="Python.main-no-gui" />
+      <item itemvalue="Python.main-gui" />
+      <item itemvalue="Python.sql" />
+    </list>
     <recent_temporary>
       <list>
         <item itemvalue="Python.sql" />
@@ -117,7 +142,8 @@
       <workItem from="1606807133613" duration="47919000" />
       <workItem from="1606900505467" duration="17345000" />
       <workItem from="1606919441794" duration="23104000" />
-      <workItem from="1606980427931" duration="51784000" />
+      <workItem from="1606980427931" duration="52066000" />
+      <workItem from="1607070577217" duration="5599000" />
     </task>
     <servers />
   </component>
@@ -129,50 +155,54 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="339" y="356" key="#SQL_Dialects/1920.0.1920.1040/-1857.0.1857.1080/0.0.1920.1040@0.0.1920.1040" timestamp="1606983656096" />
-    <state x="552" y="178" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1606985104427">
+    <state x="488" y="297" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1607073121139">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="552" y="178" key="#com.intellij.execution.impl.EditConfigurationsDialog/1920.0.1920.1040/-1857.0.1857.1080/0.0.1920.1040@0.0.1920.1040" timestamp="1606985104427" />
+    <state x="488" y="297" key="#com.intellij.execution.impl.EditConfigurationsDialog/1920.0.1920.1040/-1857.0.1857.1080/0.0.1920.1040@0.0.1920.1040" timestamp="1607073121139" />
     <state x="704" y="310" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1606919478965">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="704" y="310" key="#com.intellij.fileTypes.FileTypeChooser/1920.0.1920.1040/-1857.0.1857.1080/0.0.1920.1040@0.0.1920.1040" timestamp="1606919478965" />
+    <state x="583" y="220" key="#com.intellij.ide.macro.MacrosDialog" timestamp="1607072604001">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="583" y="220" key="#com.intellij.ide.macro.MacrosDialog/1920.0.1920.1040/-1857.0.1857.1080/0.0.1920.1040@0.0.1920.1040" timestamp="1607072604001" />
     <state x="740" y="275" key="FileChooserDialogImpl" timestamp="1606985074245">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="740" y="275" key="FileChooserDialogImpl/1920.0.1920.1040/-1857.0.1857.1080/0.0.1920.1040@0.0.1920.1040" timestamp="1606985074245" />
-    <state width="1877" height="58" key="GridCell.Tab.0.bottom" timestamp="1607039030631">
+    <state width="1877" height="197" key="GridCell.Tab.0.bottom" timestamp="1607076299963">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="58" key="GridCell.Tab.0.bottom/1920.0.1920.1040/-1857.0.1857.1080/0.0.1920.1040@0.0.1920.1040" timestamp="1607039030631" />
-    <state width="1877" height="58" key="GridCell.Tab.0.center" timestamp="1607039030631">
+    <state width="1877" height="197" key="GridCell.Tab.0.bottom/1920.0.1920.1040/-1857.0.1857.1080/0.0.1920.1040@0.0.1920.1040" timestamp="1607076299963" />
+    <state width="1877" height="197" key="GridCell.Tab.0.center" timestamp="1607076299963">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="58" key="GridCell.Tab.0.center/1920.0.1920.1040/-1857.0.1857.1080/0.0.1920.1040@0.0.1920.1040" timestamp="1607039030631" />
-    <state width="1877" height="58" key="GridCell.Tab.0.left" timestamp="1607039030631">
+    <state width="1877" height="197" key="GridCell.Tab.0.center/1920.0.1920.1040/-1857.0.1857.1080/0.0.1920.1040@0.0.1920.1040" timestamp="1607076299963" />
+    <state width="1877" height="197" key="GridCell.Tab.0.left" timestamp="1607076299963">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="58" key="GridCell.Tab.0.left/1920.0.1920.1040/-1857.0.1857.1080/0.0.1920.1040@0.0.1920.1040" timestamp="1607039030631" />
-    <state width="1877" height="58" key="GridCell.Tab.0.right" timestamp="1607039030631">
+    <state width="1877" height="197" key="GridCell.Tab.0.left/1920.0.1920.1040/-1857.0.1857.1080/0.0.1920.1040@0.0.1920.1040" timestamp="1607076299963" />
+    <state width="1877" height="197" key="GridCell.Tab.0.right" timestamp="1607076299963">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="58" key="GridCell.Tab.0.right/1920.0.1920.1040/-1857.0.1857.1080/0.0.1920.1040@0.0.1920.1040" timestamp="1607039030631" />
-    <state width="1877" height="140" key="GridCell.Tab.1.bottom" timestamp="1607001512599">
+    <state width="1877" height="197" key="GridCell.Tab.0.right/1920.0.1920.1040/-1857.0.1857.1080/0.0.1920.1040@0.0.1920.1040" timestamp="1607076299963" />
+    <state width="1877" height="140" key="GridCell.Tab.1.bottom" timestamp="1607075512290">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="140" key="GridCell.Tab.1.bottom/1920.0.1920.1040/-1857.0.1857.1080/0.0.1920.1040@0.0.1920.1040" timestamp="1607001512599" />
-    <state width="1877" height="140" key="GridCell.Tab.1.center" timestamp="1607001512599">
+    <state width="1877" height="140" key="GridCell.Tab.1.bottom/1920.0.1920.1040/-1857.0.1857.1080/0.0.1920.1040@0.0.1920.1040" timestamp="1607075512290" />
+    <state width="1877" height="140" key="GridCell.Tab.1.center" timestamp="1607075512290">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="140" key="GridCell.Tab.1.center/1920.0.1920.1040/-1857.0.1857.1080/0.0.1920.1040@0.0.1920.1040" timestamp="1607001512599" />
-    <state width="1877" height="140" key="GridCell.Tab.1.left" timestamp="1607001512598">
+    <state width="1877" height="140" key="GridCell.Tab.1.center/1920.0.1920.1040/-1857.0.1857.1080/0.0.1920.1040@0.0.1920.1040" timestamp="1607075512290" />
+    <state width="1877" height="140" key="GridCell.Tab.1.left" timestamp="1607075512290">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="140" key="GridCell.Tab.1.left/1920.0.1920.1040/-1857.0.1857.1080/0.0.1920.1040@0.0.1920.1040" timestamp="1607001512598" />
-    <state width="1877" height="140" key="GridCell.Tab.1.right" timestamp="1607001512599">
+    <state width="1877" height="140" key="GridCell.Tab.1.left/1920.0.1920.1040/-1857.0.1857.1080/0.0.1920.1040@0.0.1920.1040" timestamp="1607075512290" />
+    <state width="1877" height="140" key="GridCell.Tab.1.right" timestamp="1607075512290">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="140" key="GridCell.Tab.1.right/1920.0.1920.1040/-1857.0.1857.1080/0.0.1920.1040@0.0.1920.1040" timestamp="1607001512599" />
+    <state width="1877" height="140" key="GridCell.Tab.1.right/1920.0.1920.1040/-1857.0.1857.1080/0.0.1920.1040@0.0.1920.1040" timestamp="1607075512290" />
     <state width="196" height="539" key="HiddenNamespacesPopup" timestamp="1606985112918">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -205,10 +235,10 @@
       <screen x="-1857" y="0" width="1857" height="1080" />
     </state>
     <state x="-1596" y="117" width="1403" height="836" key="dock-window-3/1920.0.1920.1040/-1857.0.1857.1080/0.0.1920.1040@0.0.1920.1040" timestamp="1607029850797" />
-    <state x="668" y="237" width="583" height="624" key="find.popup" timestamp="1607038279606">
+    <state x="668" y="237" width="583" height="624" key="find.popup" timestamp="1607074675205">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="668" y="237" width="583" height="624" key="find.popup/1920.0.1920.1040/-1857.0.1857.1080/0.0.1920.1040@0.0.1920.1040" timestamp="1607038279606" />
+    <state x="668" y="237" width="583" height="624" key="find.popup/1920.0.1920.1040/-1857.0.1857.1080/0.0.1920.1040@0.0.1920.1040" timestamp="1607074675205" />
     <state x="785" y="305" key="refactoring.ChangeSignatureDialog" timestamp="1607029240776">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -218,8 +248,19 @@
     </state>
     <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/1920.0.1920.1040/-1857.0.1857.1080/0.0.1920.1040@0.0.1920.1040" timestamp="1607006100951" />
   </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/game.py</url>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/pokemon$sql.coverage" NAME="sql Coverage Results" MODIFIED="1606985381791" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="F:/nsi/0-terminale/py" />
-    <SUITE FILE_PATH="coverage/pokemon$main.coverage" NAME="main Coverage Results" MODIFIED="1607039030624" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/pokemon$main.coverage" NAME="main Coverage Results" MODIFIED="1607072755100" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/pokemon$main_gui.coverage" NAME="main-gui Coverage Results" MODIFIED="1607076299955" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

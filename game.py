@@ -9,12 +9,12 @@ import time
 import pokemon.pokemon as pokemon
 import pokemon.ability as ability
 import item.items as items
-import utils
+import main
 
 screen = None
 
 CASE_SIZE = 32
-SCREEN_SIZE = (1600, 900)
+
 # SCREEN_SIZE = (1920, 1080)
 SURFACE_SIZE = (1060, 600)
 
@@ -55,11 +55,11 @@ class Cache(object):
 IMAGE_CACHE = Cache()
 DISPLAYER_CACHE = Cache()
 
+
 class Game(object):
 
-    def __init__(self):
-        pygame.init()
-        pygame.display.set_caption("Test Pokemon")
+    def __init__(self, screen_s: pygame.Surface):
+        self.screen = screen_s
 
         # asset load
         global FONT_16, FONT_SIZE_16, FONT_20, FONT_SIZE_20, FONT_24, FONT_SIZE_24
@@ -84,7 +84,7 @@ class Game(object):
 
         global game_instance
         game_instance = self
-        self.screen = pygame.display.set_mode(SCREEN_SIZE)
+
         self.display: 'pygame.Surface' = pygame.Surface(SURFACE_SIZE)
         self.player: 'player.Player' = player.Player(self)
 
@@ -212,7 +212,7 @@ class Game(object):
                 # self.display.blit(back_ground, (0, 0))
                 self.display.blit(surf, (0, 0))
 
-        self.screen.blit(pygame.transform.scale(self.display, SCREEN_SIZE), (0, 0))
+        self.screen.blit(pygame.transform.scale(self.display, main.SCREEN_SIZE), (0, 0))
         pygame.display.update()
 
     def render_hud(self, display):
@@ -232,7 +232,7 @@ class Game(object):
         if self.player.freeze_time == -1:
             self.collision.clear()
             self.display.fill((0, 0, 0))
-            self.screen.blit(pygame.transform.scale(self.display, SCREEN_SIZE), (0, 0))
+            self.screen.blit(pygame.transform.scale(self.display, main.SCREEN_SIZE), (0, 0))
             pygame.display.update()
             return True
 
