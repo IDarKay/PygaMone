@@ -1,0 +1,18 @@
+{
+  "type": "FIRE",
+  "category": "SPECIAL",
+  "pp": 25,
+  "max_pp": 40,
+  "power": 40,
+  "accuracy": 100,
+  "contact": false,
+  "protect": true,
+  "magic_coat": false,
+  "snatch": false,
+  "mirror_move": true,
+  "king_rock": false,
+  "target": [
+    [true, true, false],
+    [false, true, false]
+  ]
+}

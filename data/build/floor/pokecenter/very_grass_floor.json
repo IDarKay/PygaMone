@@ -1,0 +1,16 @@
+{
+  "type": "floor",
+  "size":[1, 1],
+  "display": [
+    {
+      "image": "floor/tileset-pokemon_1",
+      "from": [64, 0],
+      "to": [80, 16]
+    },
+    {
+      "image": "floor/tileset-pokemon_1",
+      "from": [80, 0],
+      "to": [96, 16]
+    }
+  ]
+}

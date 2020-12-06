@@ -9,7 +9,7 @@ import game
 import hud.hud as hud
 import sound_manager
 import utils
-
+import sounds
 
 class NPC(char.character.Character):
 
@@ -119,6 +119,9 @@ class JoyNPC(NPC):
             for poke in self.__player.team:
                 if poke:
                     poke.heal = poke.get_max_heal()
+                    for ab in poke.ability:
+                        if ab:
+                            ab.pp = ab.max_pp
         return True
 
     def get_where_pose(self, i: int) -> Tuple[int, int]:
@@ -140,7 +143,7 @@ class JoyNPC(NPC):
                 if nb_poke_to_show > nb_poke:
                     if not self.have_start_song:
                         self.have_start_song = True
-                        sound_manager.TAUNT_CHANNEL.play(pygame.mixer.Sound('assets/sound/heal.mp3'))
+                        sound_manager.start_in_first_empty_taunt(pygame.mixer.Sound(sounds.HEAL.path))
                     if dif_t - 1000 * nb_poke > 3000:
                         self.__image_to_show = self.facing_image
                         self.__action = None

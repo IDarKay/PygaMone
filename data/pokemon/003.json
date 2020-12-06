@@ -7,8 +7,13 @@
   "catch_rate": 45,
   "display": {
     "image": "pokemon/1_G",
-    "from": [128, 0],
-    "to": [192, 64]
+    "from": [131, 6],
+    "to": [190, 60]
+  },
+  "back_display": {
+    "image": "pokemon/1_2_G_back",
+    "from": [198, 17],
+    "to": [279, 80]
   },
   "base_stats": {
     "hp": 80,

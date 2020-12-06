@@ -1,4 +1,4 @@
-from typing import NoReturn, Any, List, Dict, Callable, Tuple
+from typing import NoReturn, Any, List, Dict, Callable, Tuple, Optional
 import structure
 import game_error as er
 import json
@@ -85,7 +85,7 @@ class Layers(object):
 class Level(object):
 
     def __init__(self, path: str):
-        self.__path = path
+        self.path = path
         with open("data/levels/{}.json".format(path), "r", encoding='utf-8') as file:
             data = json.load(file)
 
@@ -127,6 +127,32 @@ class Level(object):
                     raise er.LevelParseError("Npc with no id in {}".format(path))
                 _id = np["id"]
                 self.npc.append(npc.load(_id, np))
+
+        self.wild_pokemon: Dict[str, List[List[int]]] = data["wild_pokemon"] if "wild_pokemon" in data else {}
+        self.wild_pokemon_rdm: Dict[str, List[List[int]]] = {}
+        self.wild_pokemon_rdm_max: Dict[str, int] = {}
+        self.can_cycling: bool = data["can_cycling"] if "can_cycling" in data else False
+
+        for key, p_t in self.wild_pokemon.items():
+            li = []
+            c = 0
+            for p in p_t:
+                li.append([c, c + p[1] , p[0]])
+                c += p[1]
+            self.wild_pokemon_rdm[key] = li
+            self.wild_pokemon_rdm_max[key] = c
+
+    def get_random_wild(self, type_: str) -> Optional[int]:
+        if type_ in self.wild_pokemon_rdm:
+            rdm_li = self.wild_pokemon_rdm[type_]
+            rdm_max = self.wild_pokemon_rdm_max[type_]
+            r = random.random() * rdm_max
+            for p_li in rdm_li:
+                if p_li[0] <= r <= p_li[1]:
+                    return p_li[2]
+            return None
+        else:
+            return None
 
     def get_translate_name(self) -> str:
         return game.get_game_instance().get_message("levels.{}".format(self.name))

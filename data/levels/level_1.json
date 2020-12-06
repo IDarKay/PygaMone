@@ -1,6 +1,14 @@
 {
   "seed": "457456157845975",
   "name": "level_1",
+  "can_cycling": true,
+  "wild_pokemon": {
+    "TALL_GRASS": [
+      [1, 10],
+      [2, 20],
+      [3, 10]
+    ]
+  },
   "floor": {
     "key": {
       "C": {
@@ -14,6 +22,9 @@
       },
       "B": {
         "ref": "floor/grass_b_south"
+      },
+      "T": {
+        "ref": "floor/tall_grass"
       }
     },
     "pattern": [
@@ -27,15 +38,15 @@
       "CGGGGGGGWWWGGGGGGGGC",
       "CGGGGGGGWWWGGGGGGGGC",
       "CGGGGGGGGGGGGGGGGGGC",
-      "CGGGGGGGGGGGGGGGGGGC",
-      "CGGGGGGGGGGGGGGGGGGC",
-      "CGGGGGGGGGGGGGGGGGGC",
+      "CGGGGGGTTTTTTGGGGGGC",
+      "CGGGGGGTTTTTTGGGGGGC",
+      "CGGGGGGTTTTTTGGGGGGC",
       "CGGGGGGGGGGGGGGGGGGC",
       "CGGGGGGGBBBBGGGGGGGC",
       "CGGGGGGGGGGGGGGGGGGC",
-      "CGGGGGGGGGGGGGGGGGGC",
-      "CGGGGGGGGGGGGGGGGGGC",
-      "CGGGGGGGGGGGGGGGGGGC",
+      "CGGTTTTTTGGGGGGGGGGC",
+      "CGGTTTTTTGGGGGGGGGGC",
+      "CGGTTTTTTGGGGGGGGGGC",
       "CCCCCCCCCCCCCCCCCCCC"
     ]
   },

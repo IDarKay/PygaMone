@@ -4,11 +4,19 @@
   "dialog.poke_center_yes": "Okay, I'll take your pokémon for a few seconds",
   "dialog.poke_center_end": "Thank you for waiting. [l] [l] We've restored your pokémon to full health. [l] We hope to see you again!",
   "dialog.poke_center_no": "Okay, We hope to see you again!",
+  "dialog.cant_bike": "Sorry, you can't cycle here ! [l] Go back home it's the lockdown",
+
+  "battle.use_ability": "{0} used {1}!",
+  "battle.critical": "A critical hit!",
+  "battle.super_effective": "It's very effective!",
+  "battle.not_effective": "It's not very effective!",
+  "battle.no_effect": "It has no effect!",
 
   "yes": "yes",
   "no": "no",
   "pokemon": "pokémon",
-  "bag": "bag",
+  "team": "Team",
+  "bag": "Bag",
   "save": "save",
   "map": "world map",
   "options": "options",
@@ -27,8 +35,10 @@
   "time_play": "Time Play",
   "pokedex": "Pokédex",
   "last_save": "Last save",
-
+  "attack": "Attack",
+  "run_away": "Run away",
   "ability.tackle": "Tackle",
+  "ability.ember": "Ember",
   "levels.level_1": "Level 1",
   "levels.poke_center_level_1": "Level 1 poke center",
 

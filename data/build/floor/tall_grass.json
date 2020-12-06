@@ -1,0 +1,18 @@
+{
+  "type": "floor",
+  "size":[1, 1],
+  "collision": [0, 0, 1, 1],
+  "collision_side": {
+    "*": {
+      "id": "WILD_POKEMON",
+      "type": "TALL_GRASS"
+    }
+  },
+  "display": [
+    {
+      "image": "build/tileset-pokemon_1",
+      "from": [96, 0],
+      "to": [112, 16]
+    }
+  ]
+}

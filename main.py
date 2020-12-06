@@ -1,14 +1,16 @@
-import game
-import sys
 import pygame
-import start_menu
 import sound_manager
+import game
+import start_menu
+import sys
+import utils
 
 SCREEN_SIZE = (1600, 900)
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    print(sys.argv)
+
+    utils.force()
     pygame.init()
     pygame.display.set_caption("Test Pokemon")
     screen = pygame.display.set_mode(SCREEN_SIZE)

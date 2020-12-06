@@ -3,6 +3,7 @@ import math
 import pygame
 import triggers
 import character.npc as char_npc
+import pokemon.battle.wild_start as wild_start
 
 # QUARTER_PI = math.pi / 4
 
@@ -28,6 +29,7 @@ import character.npc as char_npc
 
 BLOCK_EVENT = "BLOCK"
 JUMP_EVENT = "JUMP"
+WILD_POKEMON = "WILD_POKEMON"
 
 
 class CollisionEvent(object):
@@ -49,6 +51,17 @@ class BlockEvent(CollisionEvent):
         super().__init__(BLOCK_EVENT, data, True)
 
 
+class WildEvent(CollisionEvent):
+
+    def __init__(self, data: Dict[str, Any]):
+        super().__init__(WILD_POKEMON, data, False)
+        self.type = data["type"]
+
+    def edit_coord(self, x: float, y: float) -> Tuple[float, float]:
+        wild_start.player_in_area(self.type)
+        return x, y
+
+
 class JumpEvent(CollisionEvent):
 
     def __init__(self, data: Dict[str, Any]):
@@ -62,7 +75,8 @@ class JumpEvent(CollisionEvent):
 
 EVENTS: Dict[str, Callable[[Dict[str, Any]], CollisionEvent]]  = {
     BLOCK_EVENT: BlockEvent,
-    JUMP_EVENT: JumpEvent
+    JUMP_EVENT: JumpEvent,
+    WILD_POKEMON: WildEvent
 }
 
 
@@ -192,12 +206,16 @@ class SquaredCollisionBox(CollisionBox):
         return False
 
     def apply_event(self, face, x, y) -> Tuple[float, float, bool]:
-        if face in self.event:
-            e = self.event[face]
+        if face in self.event or "*" in self.event:
+            if face in self.event:
+                e = self.event[face]
+            else:
+                e = self.event["*"]
             if e.need_block():
                 return x, y, True
+
             b = e.edit_coord(x, y)
-            return b[0], b[1], True
+            return b[0], b[1], (x, y) != b
         return x, y, True
 
 

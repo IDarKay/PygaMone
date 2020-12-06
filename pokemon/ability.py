@@ -1,19 +1,22 @@
-from typing import List, Dict, NoReturn, Any
+from typing import List, Dict, NoReturn, Any, Tuple
 import utils
 import pokemon.pokemon_type as p_type
 import game_error as err
-import os
-import json
 import game
+import pygame
+import pygame_gif
+from pokemon.battle.battle import RenderAbilityCallback
 
-CATEGORYS: List[str] = ["PHYSICAL", "SPECIAL", "STATUS"]
+PHYSICAL = "PHYSICAL"
+SPECIAL = "SPECIAL"
+STATUS = "STATUS"
 
-ABILITYS: Dict[str, 'Ability'] = {}
+CATEGORYS: List[str] = [PHYSICAL, SPECIAL, STATUS]
 
 
-class Ability(object):
+class AbstractAbility(object):
 
-    def __init__(self, id_, data):
+    def __init__(self, id_, **data):
         self.id_ = id_
         self.__data = data
         self.type = p_type.TYPES[self.get_args("type", type_check=str)]
@@ -30,25 +33,109 @@ class Ability(object):
         self.snatch = self.get_args("snatch", default=False, type_check=bool)
         self.mirror_move = self.get_args("mirror_move", default=False, type_check=bool)
         self.king_rock = self.get_args("king_rock", default=False, type_check=bool)
+        self.high_critical = self.get_args("high_critical", default=False, type_check=bool)
         self.target = self.get_args("target")
+        self.render_during = 0
+        self.load = False
         del self.__data
 
     def get_name(self) -> NoReturn:
         return game.get_game_instance().get_message("ability." + self.id_)
 
     def get_args(self, key: str, default=None, type_check=None) -> Any:
-        return utils.get_args(self.__data, key, self.id_, default, type_check, _type="ability")
+        return self.get_args_2(self.__data, key, self.id_, default, type_check, _type="ability")
+
+    def get_args_2(self, data: Dict[str, Any], key: str, _id: Any, default=None, type_check=None, _type="pokmon") -> Any:
+        value = None
+        if default is not None:
+            value = data[key] if key in data else None if default == "NONE" else default
+        else:
+            if key not in data:
+                raise err.PokemonParseError("No {} value for a {} ({}) !".format(key, _type, _id))
+            value = data[key]
+        if type_check:
+            if value and not isinstance(value, type_check):
+                raise err.PokemonParseError(
+                    "Invalid var type for {} need be {} for {} ({})".format(key, type_check, _type, _id))
+        return value
+
+    def load_assets(self) -> bool:
+        if not self.load:
+            self.load = True
+            return True
+        return False
+
+    def unload_assets(self) -> bool:
+        if self.load:
+            self.load = False
+            return False
+        return True
+
+    def get_rac(self, target: List[Tuple[int, int]],
+               launcher: Tuple[int, int], ps_t: int, first_time: bool) -> RenderAbilityCallback:
+        return RenderAbilityCallback()
+
+    def render(self, display: pygame.display, target: List[Tuple[int, int]],
+               launcher: Tuple[int, int], ps_t: int, first_time: bool) -> NoReturn:
+        pass
+
+
+class TackleAbility(AbstractAbility):
+    def __init__(self):
+        super().__init__(id_='tackle',
+                         type="NORMAL",
+                         category="PHYSICAL",
+                         pp=34,
+                         max_pp=56,
+                         power=40,
+                         accuracy=100,
+                         contact=True,
+                         protect=True,
+                         mirror_move=True,
+                         king_rock=True,
+                         target=[[True, True, False],
+                                 [False, False, False]])
+
+        self.render_during = 2000
+
+
+class EmberAbility(AbstractAbility):
+
+    def __init__(self):
+        super().__init__(id_='ember',
+                         type="FIRE",
+                         category="SPECIAL",
+                         pp=25,
+                         max_pp=40,
+                         power=40,
+                         accuracy=100,
+                         protect=True,
+                         magic_coat=True,
+                         mirror_move=True,
+                         target=[[True, True, False],
+                                [False, True, False]])
+        self.render_during = 2000
+
+    def load_assets(self) -> bool:
+        if super().load_assets():
+            self.gif = pygame_gif.PygameGif('assets/textures/ability/ember.gif')
+            return True
+        return False
+
+
+    def unload_assets(self) -> bool:
+        if super().load_assets():
+            del self.gif
+            del self.g_i
+            return True
+        return False
+
+    def render(self, display: pygame.display, target: List[Tuple[int, int]],
+               launcher: Tuple[int, int], ps_t: int, first_time: bool) -> NoReturn:
+        if first_time:
+            self.g_i = self.gif.display(target[0])
+        for t in target:
+            self.g_i.render(display, (t[0] - 40, t[1] - 100))
 
 
 load: bool = False
-
-
-def load_ability() -> NoReturn:
-    global load, ABILITYS
-    if not load:
-        load = True
-        for file in os.listdir("data/ability"):
-            if file.endswith(".json"):
-                _id = file[0:-5]
-                with open(os.path.join("data/ability", file), 'r', encoding='utf-8') as _file:
-                    ABILITYS[_id] = Ability(_id, json.load(_file))

@@ -6,8 +6,13 @@
   "catch_rate": 45,
   "display": {
     "image": "pokemon/1_G",
-    "from": [0, 0],
-    "to": [64, 64]
+    "from": [14, 14],
+    "to": [48, 48]
+  },
+  "back_display": {
+    "image": "pokemon/1_2_G_back",
+    "from": [31, 33],
+    "to": [63, 63]
   },
   "evolution": [
     {
@@ -20,7 +25,7 @@
     }
   ],
   "ability": {
-    "tackle": 1
+    "ember": 1
   },
   "base_stats": {
     "hp": 45,

@@ -1,8 +1,12 @@
 from typing import NoReturn
-import pygame
 import character.player as char_play
 from datetime import datetime
-from utils import *
+import pygame
+import game
+import utils
+import time
+import sounds
+import sound_manager
 
 MENU_IMAGE = pygame.image.load("assets/textures/hud/menu.png")
 SURFACE_SIZE = (1060, 600)
@@ -64,7 +68,8 @@ centre_circle = (
     (int(x * 0.5), int(y * 0.2)),
     (int(x * 0.7), int(y * 0.2)),
     (int(x * 0.3), int(y * 0.6)),
-    (int(x * 0.5), int(y * 0.6))
+    (int(x * 0.5), int(y * 0.6)),
+    (int(x * 0.7), int(y * 0.6))
 )
 
 poly_6 = (
@@ -92,17 +97,18 @@ class MainMenu(Menu):
     def __init__(self, player):
         super().__init__(player)
         coord = (
+            (320, 0, 684, 64),
             (0, 0, 64, 64),
             (64, 0, 128, 64),
             (256, 0, 320, 64),
             (128, 0, 195, 64),
             (192, 0, 256, 64)
         )
-        self.image = [get_part_i(MENU_IMAGE, c) for c in coord]
-        self.arrow = get_part_i(MENU_IMAGE, (0, 64, 22, 91))
+        self.image = [utils.get_part_i(MENU_IMAGE, c) for c in coord]
+        self.arrow = utils.get_part_i(MENU_IMAGE, (0, 64, 22, 91))
         self.selected = 0
         self.text = [game.get_game_instance().get_message(t).upper() for t in
-                     ["pokemon", "bag", "map", "save", "options"]]
+                     ["pokedex", "pokemon", "bag", "map", "save", "options"]]
 
     def render(self, display):
         pygame.draw.polygon(display, (239, 226, 235), poly_1)
@@ -134,7 +140,7 @@ class MainMenu(Menu):
             if self.selected > 0:
                 self.selected -= 1
         elif value > 0 and press:
-            if self.selected < 4:
+            if self.selected < 5:
                 self.selected += 1
 
     def on_key_y(self, value, press):
@@ -142,16 +148,16 @@ class MainMenu(Menu):
             if self.selected - 3 >= 0:
                 self.selected -= 3
         elif value > 0 and press:
-            if self.selected + 3 <= 4:
+            if self.selected + 3 <= 5:
                 self.selected += 3
 
     def on_key_escape(self):
         self.player.close_menu()
 
     def on_key_action(self):
-        if self.selected == 3:
+        if self.selected == 4:
             self.player.open_menu(SaveMenu(self.player))
-        elif self.selected == 0:
+        elif self.selected == 1:
             self.player.open_menu(TeamMenu(self.player))
 
 
@@ -178,14 +184,14 @@ class SaveMenu(Menu):
     def __init__(self, player):
         super().__init__(player)
         self.selected = 0
-        self.arrow = get_part_i(MENU_IMAGE, (0, 64, 22, 91), (12, 14))
+        self.arrow = utils.get_part_i(MENU_IMAGE, (0, 64, 22, 91), (12, 14))
         self.text = [game.get_game_instance().get_message(t) for t in ["save_game", "back"]]
         self.text_2 = [
             game.FONT_16.render(game.get_game_instance().get_message(t) + " :", True, (0, 0, 0)) for t in
             ["date_hour", "actual_position", "time_play", "pokedex", ]]
         self.last_save_f = game.FONT_16.render(game.get_game_instance().get_message("last_save"), True, (255, 255, 255))
         self.last_save_size = game.FONT_SIZE_16[0] * len(game.get_game_instance().get_message("last_save"))
-        self.time_play = game.FONT_16.render(time_to_string(game.get_game_instance().get_save_value("time_played", 0)),
+        self.time_play = game.FONT_16.render(utils.time_to_string(game.get_game_instance().get_save_value("time_played", 0)),
                                              True, (0, 0, 0))
         # todo: pokedex n
         self.pokedex = game.FONT_16.render("0", True, (0, 0, 0))
@@ -260,6 +266,7 @@ class SaveMenu(Menu):
 
     def on_key_action(self):
         if self.selected == 0:
+            sound_manager.start_in_first_empty_taunt(pygame.mixer.Sound(sounds.SAVE.path))
             game.get_game_instance().save()
             self.player.close_menu()
         else:
@@ -291,8 +298,8 @@ class TeamMenu(Menu):
         self.action_selected = -1
         self.move = -1
 
-        self.arrow = get_part_i(MENU_IMAGE, (0, 64, 22, 91), (33, 41))
-        self.open_time = current_milli_time()
+        self.arrow = utils.get_part_i(MENU_IMAGE, (0, 64, 22, 91), (33, 41))
+        self.open_time = utils.current_milli_time()
         self.progress = []
         self.display_small = []
         self.display_large = []
@@ -306,8 +313,8 @@ class TeamMenu(Menu):
                 break
             heal = poke.heal, poke.get_max_heal()
             self.progress.append(heal)
-            self.display_small.append(pygame.transform.scale(poke.poke.display.get_image(), (40, 40)))
-            self.display_large.append(pygame.transform.scale(poke.poke.display.get_image(), (512, 512)))
+            self.display_small.append(pygame.transform.scale(poke.poke.display.get_image(), (int(poke.poke.display.image_size[0] * 0.3), int(poke.poke.display.image_size[0] * 0.3))))
+            self.display_large.append(pygame.transform.scale(poke.poke.display.get_image(), (poke.poke.display.image_size[0] * 4, poke.poke.display.image_size[1] * 4)))
             self.text.append([
                 game.FONT_16.render("{}/{}".format(heal[0], heal[1]), True, (0, 0, 0)),
                 game.FONT_16.render("{}/{}".format(heal[0], heal[1]), True, (255, 255, 255)),
@@ -326,7 +333,7 @@ class TeamMenu(Menu):
         g_x = SURFACE_SIZE[0] * 0.1
         g_y = SURFACE_SIZE[1] * 0.1
 
-        _time = current_milli_time() - self.open_time
+        _time = utils.current_milli_time() - self.open_time
         part_time = _time % 2000
         poke_y = 0
         if part_time < 900:
@@ -352,16 +359,16 @@ class TeamMenu(Menu):
         if self.action_selected != -1:
             _y = SURFACE_SIZE[1] * 0.13 + SURFACE_SIZE[1] * 0.15 * self.selected
             _x = SURFACE_SIZE[0] * 0.31
-            draw_select_box(display, _x, _y, self.text_2, self.action_selected, 100)
+            utils.draw_select_box(display, _x, _y, self.text_2, self.action_selected, 100)
 
     def draw_pokemon(self, display: pygame.Surface, i: int, _x: float, _y: float, poke_y: int):
         color, start = ((0, 0, 0), 1) if self.selected == i else ((255, 255, 255), 0)
-        draw_rond_rectangle(display, _x, _y, SURFACE_SIZE[1] * 0.08, SURFACE_SIZE[0] * 0.2, color)
+        utils.draw_rond_rectangle(display, _x, _y, SURFACE_SIZE[1] * 0.08, SURFACE_SIZE[0] * 0.2, color)
         xp = self.progress[i]
         _x2 = SURFACE_SIZE[1] * 0.04
         text = self.text[i]
 
-        draw_progress_bar(display,
+        utils.draw_progress_bar(display,
                           (_x + _x2, _y + SURFACE_SIZE[0] * 0.02),
                           (SURFACE_SIZE[1] * 0.28, 5),
                           (52, 56, 61), (45, 181, 4), xp[0] / xp[1])
@@ -418,10 +425,10 @@ class TeamMenu(Menu):
                 self.move, self.action_selected = self.selected, -1
             elif self.action_selected == 2:
                 # todo heal
-                print("todo heal")
+                pass
             elif self.action_selected == 3:
                 # todo object
-                print("todo object")
+                pass
             elif self.action_selected == 4:
                 self.action_selected = -1
         pass
@@ -543,14 +550,12 @@ class StatusMenu(Menu):
             if i == 0:
                 display.blit(self.name2, (_x_, _y + SURFACE_SIZE[1] * 0.015))
                 for ii in range(len(self._type)):
-                    draw_type(display, _x_, _y + SURFACE_SIZE[1] * 0.085, self.poke.poke.types[ii])
+                    utils.draw_type(display, _x_, _y + SURFACE_SIZE[1] * 0.085, self.poke.poke.types[ii])
                     _x_ += SURFACE_SIZE[0] * 0.11
-
-
             else:
                 display.blit(self.xp, (_x_, _y + SURFACE_SIZE[1] * 0.015))
                 display.blit(self.xp, (SURFACE_SIZE[0] * 0.46 - self.xp_size, _y + SURFACE_SIZE[1] * 0.078))
-                draw_progress_bar(display, (_x_, _y + SURFACE_SIZE[1] * 0.11), (SURFACE_SIZE[0] * 0.19, 4), (101, 100, 98), (96, 204, 212), self.xp_s[0] / self.xp_s[1])
+                utils.draw_progress_bar(display, (_x_, _y + SURFACE_SIZE[1] * 0.11), (SURFACE_SIZE[0] * 0.19, 4), (101, 100, 98), (96, 204, 212), self.xp_s[0] / self.xp_s[1])
 
             _y += SURFACE_SIZE[1] * 0.14
 
@@ -558,5 +563,5 @@ class StatusMenu(Menu):
         _y = SURFACE_SIZE[1] * 0.5
 
         for ab in range(4):
-            draw_ability(display, (_x, _y), self.poke.get_ability(ab))
+            utils.draw_ability(display, (_x, _y), self.poke.get_ability(ab))
             _y += 40

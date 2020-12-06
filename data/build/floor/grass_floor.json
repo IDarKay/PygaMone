@@ -3,10 +3,19 @@
   "size":[1, 1],
   "display": [
     {
-      "image": "floor/grass_0"
+      "image": "build/tileset-pokemon_1",
+      "from": [16, 0],
+      "to": [32, 16]
     },
     {
-      "image": "floor/grass_1"
+      "image": "build/tileset-pokemon_1",
+      "from": [32, 0],
+      "to": [48, 16]
+    },
+    {
+      "image": "build/tileset-pokemon_1",
+      "from": [48, 0],
+      "to": [64, 16]
     }
   ]
 }

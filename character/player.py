@@ -1,34 +1,133 @@
-from utils import get_part_i
+from typing import Optional, List, Dict, Any, Tuple, NoReturn
 import game
-from hud.hud import *
+import hud.hud as hud
+import character.character as character
 import hud.menu as hud_menu
 import pygame
 import collision
+import pokemon.battle.battle as battle
+import pokemon.player_pokemon as player_pokemon
+import utils
+
+MAX_POKE_IN_BOX: int = 26
+NB_BOX: int = 10
+
+class PC(object):
+
+    def __init__(self, data: List[Dict[str, Any]]):
+
+        self.__box: List[List[Optional["player_pokemon.PCPlayerPokemon"]]] = [[None] * MAX_POKE_IN_BOX] * NB_BOX
+
+        for p in data:
+            po = player_pokemon.PCPlayerPokemon.from_json(p)
+            self.__box[po.box][po.case] = po
+
+    def serialisation(self):
+        v = []
+        for a in self.__box:
+            for u in a:
+                if u:
+                    v.append(u.serialisation())
+        return v
+
+    def get_poke(self, box: int, case: int) -> 'player_pokemon.PCPlayerPokemon':
+        return self.__box[box][case]
+
+    def add_first_case_empty(self, poke: 'player_pokemon.PlayerPokemon') -> bool:
+        for b in range(NB_BOX):
+            for c in range(MAX_POKE_IN_BOX):
+                if self.get_poke(b, c) is None:
+                    self.add_poke(poke, b, c)
+                    return True
+        return False
+
+    def add_poke(self, poke: 'player_pokemon.PlayerPokemon', box: int, case: int) -> bool:
+        if self.get_poke(box, case):
+            return False
+        self.__box[box][case] = player_pokemon.PCPlayerPokemon.from_none_pc(poke, box, case) if poke else None
+        return True
+
+    def remove(self, box: int, case: int) -> Optional['player_pokemon.PlayerPokemon']:
+        p = self.get_poke(box, case)
+        if p:
+            self.__box[box][case] = None
+            return p.to_none_pc()
+        return None
 
 
 class Player(character.Character):
+
+    # ["top", "left", "down", "right"]
+    I = [
+
+        (230, 375, 249, 401, False),
+        (264, 374, 283, 402, False),
+        (300, 374, 320, 402, False),
+        (232, 438, 252, 466, False),
+        (269, 440, 288, 468, False),
+        (301, 440, 321, 467, False),
+        (29, 543, 48, 570, False),
+        (65, 543, 84, 570, False),
+        (98, 543, 117, 570, False),
+
+        (125, 375, 144, 401, True),
+        (160, 373, 180, 401, True),
+        (195, 373, 215, 401, True),
+        (130, 440, 150, 468, True),
+        (166, 440, 185, 468, True),
+        (198, 440, 218, 468, True),
+        (169, 508, 190, 536, True),
+        (204, 508, 226, 536, True),
+        (238, 508, 259, 536, True),
+
+        (20, 375, 38, 401, False),
+        (55, 374, 74, 402, False),
+        (90, 374, 109, 402, False),
+        (22, 439, 41, 466, False),
+        (56, 441, 76, 469, False),
+        (92, 441, 112, 469, False),
+        (29, 508, 47, 536, False),
+        (63, 508, 81, 536, False),
+        (117, 508, 118, 536, False),
+
+        (125, 375, 144, 401, False),
+        (160, 373, 180, 401, False),
+        (195, 373, 215, 401, False),
+        (130, 440, 150, 468, False),
+        (166, 440, 185, 468, False),
+        (198, 440, 218, 468, False),
+        (169, 508, 190, 536, False),
+        (204, 508, 226, 536, False),
+        (238, 508, 259, 536, False),
+
+         ]
 
     def __init__(self, game_i: 'game.Game'):
         """
 
         :type game_i: game.Game
         """
-        super().__init__((100, 100), (34, 50))
+        super().__init__((100, 100), (36, 52))
+        IMAGE = pygame.image.load('assets/textures/character/main.png')
+        self.image: List[pygame.Surface] = [utils.get_part_i(IMAGE, cord[0:4], (36, 52), flip=(True, False) if cord[4] else (False, False)) for cord in Player.I]
 
-        self.image: List[pygame.Surface] = [get_part_i(character.NPC_IMAGE, cord, (34, 50)) for cord in [(0, 25, 17, 50), (17, 25, 34, 50), (0, 0, 17, 25), (17, 0, 34, 25)]]
         self.movement = [0, 0]
-        self.speed = 2
+        self.speed = 1
+        self.speed_on_running = 2
+        self.speed_cycling = 3
         self.direction = 2
         self.current_dialogue = None
         self.freeze_time = 0
         self.is_action_press = False
-        self.last_close_dialogue = current_milli_time()
+        self.last_close_dialogue = utils.current_milli_time()
         self.current_menu = None
         self.team = [player_pokemon.PlayerPokemon.from_json(p) for p in game_i.get_save_value("team", [])]
         self.normalize_team()
+        self.current_battle: Optional['battle.Battle'] = None
+        self.speed_status = [False, False]
+        self.is_cycling = False
 
-        # todo: change
-        self.pc = [player_pokemon.PlayerPokemon.from_json(p) for p in game_i.get_save_value("pc", [])]
+        self.pc: PC = PC(game_i.get_save_value("pc", []))
 
     def get_non_null_team_number(self) -> int:
         i = 0
@@ -44,16 +143,28 @@ class Player(character.Character):
             self.team = self.team[0:6]
             print("WARN to much pokemon in team deleting !")
 
-    def add_pokemon_in_pc(self, pokemon: 'player_pokemon.PlayerPokemon') -> NoReturn:
-        # todo: change
-        self.pc.append(pokemon)
-
-    def move_pokemon_to_pc(self, team_nb: int) -> NoReturn:
+    def move_pokemon_to_pc(self, team_nb: int) -> bool:
         if 0 <= team_nb < 6 and self.team[team_nb]:
-            self.add_pokemon_in_pc(self.team[team_nb])
-            # del to sort
-            del self.team[team_nb]
-            self.normalize_team()
+            if self.pc.add_first_case_empty(self.team[team_nb]):
+                # del to sort
+                del self.team[team_nb]
+                self.normalize_team()
+                return True
+            return False
+        else:
+            raise ValueError("invalid team nb")
+
+    def switch_pc_pokemon(self, team_nb: int, pc_box: int, pc_case):
+        if 0 <= team_nb < 6:
+            p = self.pc.remove(pc_box, pc_case)
+            self.pc.add_poke(self.team[team_nb], pc_box, pc_case)
+            if p is None:
+                del self.team[team_nb]
+                self.normalize_team()
+            else:
+                self.team[team_nb] = p
+        else:
+            raise ValueError("invalid team nb")
 
     def switch_pokemon(self, team_nb1: int, team_nb2: int):
         if 0 <= team_nb1 < 6 and 0 <= team_nb2 < 6:
@@ -65,10 +176,17 @@ class Player(character.Character):
             if t:
                 team.append(t.serialisation())
         data["team"] = team
-        data["pc"] = [u.serialisation() for u in self.pc]
+        data["pc"] = self.pc.serialisation()
 
     def have_open_menu(self) -> bool:
         return self.current_menu is not None
+
+    def start_battle(self, battle_: 'battle.Battle') -> bool:
+        if self.current_dialogue or self.current_menu or self.current_battle:
+            return False
+        self.freeze_time = -2
+        self.current_battle = battle_
+        return True
 
     def open_menu(self, menu: 'hud_menu.Menu') -> bool:
         # check if can open
@@ -84,7 +202,7 @@ class Player(character.Character):
 
     def open_dialogue(self, dialogue: 'Dialog', check_last_open: int = 0, over: bool = False) -> NoReturn:
 
-        if 0 < check_last_open and check_last_open > current_milli_time() - self.last_close_dialogue and not over:
+        if 0 < check_last_open and check_last_open > utils.current_milli_time() - self.last_close_dialogue and not over:
             return
 
         if self.current_dialogue and not over:
@@ -93,22 +211,10 @@ class Player(character.Character):
         self.freeze_time = -2
         self.current_dialogue = dialogue
 
-    def action_press(self) -> NoReturn:
-        self.is_action_press = True
-        if self.current_dialogue:
-            if self.current_dialogue.press_action():
-                self.close_dialogue()
-        if self.current_menu:
-            self.current_menu.on_key_action()
-
-    def escape_press(self) -> NoReturn:
-        if self.current_menu:
-            self.current_menu.on_key_escape()
-
     def close_dialogue(self) -> NoReturn:
-        self.last_close_dialogue = current_milli_time()
+        self.last_close_dialogue = utils.current_milli_time()
         self.current_dialogue = None
-        self.freeze_time = 2
+        self.freeze_time = 2 if self.current_dialogue is None and self.current_battle is None else -2
 
     def action_unpress(self) -> NoReturn:
         self.is_action_press = False
@@ -120,7 +226,23 @@ class Player(character.Character):
         return int(self.rect.x + (game.SURFACE_SIZE[0] / 2) + 8.5), int(self.rect.y + (game.SURFACE_SIZE[1] / 2) + 12.5)
 
     def get_image(self) -> pygame.Surface:
-        return self.image[self.direction]
+        if self.freeze_time == 0 and self.speed_status[0]:
+            if self.is_cycling:
+                return self.image[self.direction * 9 + ((self.get_half( utils.current_milli_time() % 600, 600)) + 5)]
+            elif self.speed_status[1]:
+                return self.image[self.direction * 9 + ((self.get_half( utils.current_milli_time() % 350, 350)) + 3)]
+            else:
+                return self.image[self.direction * 9 + (self.get_half( utils.current_milli_time() % 600, 600))]
+        else:
+            if self.is_cycling:
+                return self.image[self.direction * 9 + 7]
+            return self.image[self.direction * 9]
+
+    def get_half(self, n, a):
+        t = a // 2
+        # print(n , t, 0 if n < t else (1 if n < 2 * t else 2))
+        return 1 if n < t else 2
+        # return 0 if n < t else (1 if n < 2 * t else 2)
 
     def move(self, co: 'collision') -> NoReturn:
         """
@@ -129,8 +251,9 @@ class Player(character.Character):
         """
         move = self.update_direction()
         if move:
-            offset_y = (-1 if self.direction == 0 else 1 if self.direction == 2 else 0) * self.speed
-            offset_x = (-1 if self.direction == 1 else 1 if self.direction == 3 else 0) * self.speed
+            speed = self.speed_cycling if self.is_cycling else (self.speed_on_running if self.speed_status[1] else self.speed)
+            offset_y = (-1 if self.direction == 0 else 1 if self.direction == 2 else 0) * speed
+            offset_x = (-1 if self.direction == 1 else 1 if self.direction == 3 else 0) * speed
         else:
             offset_x, offset_y = 0, 0
         box = self.get_box()
@@ -154,8 +277,35 @@ class Player(character.Character):
         elif self.movement[0] < 0:
             self.direction = 1
         else:
+            self.speed_status = [False, self.speed_status[1]]
             return False
+        self.speed_status = [True, self.speed_status[1]]
         return True
+
+    def on_key_sprint(self):
+        self.speed_status[1] = not self.speed_status[1]
+
+    def cycling_press(self):
+        if game.game_instance.level.can_cycling:
+            self.is_cycling = not self.is_cycling
+        else:
+            self.open_dialogue(hud.Dialog("dialog.cant_bike", speed=20, speed_skip=True, need_morph_text=True, style=2))
+
+    def escape_press(self) -> NoReturn:
+        if self.current_menu:
+            self.current_menu.on_key_escape()
+        if self.current_battle:
+            self.current_battle.on_key_escape()
+
+    def action_press(self) -> NoReturn:
+        self.is_action_press = True
+        if self.current_dialogue:
+            if self.current_dialogue.press_action():
+                self.close_dialogue()
+        if self.current_menu:
+            self.current_menu.on_key_action()
+        if self.current_battle:
+            self.current_battle.on_key_action()
 
     def on_key_x(self, value: float, up: bool) -> NoReturn:
         if up:
@@ -164,6 +314,8 @@ class Player(character.Character):
             self.movement[0] += value
         if self.current_menu:
             self.current_menu.on_key_x(value, not up)
+        if self.current_battle and not up:
+            self.current_battle.on_key_x(value < 0)
 
     def on_key_y(self, value: float, up: bool) -> NoReturn:
         if up:
@@ -174,3 +326,5 @@ class Player(character.Character):
             self.current_menu.on_key_y(value, not up)
         if self.current_dialogue and not up:
             self.current_dialogue.pres_y(value < 0)
+        if self.current_battle and not up:
+            self.current_battle.on_key_y(value < 0)

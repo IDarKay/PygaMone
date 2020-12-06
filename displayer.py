@@ -12,37 +12,47 @@ class Displayer(object):
         self.__images_path: str = images_path
         self.__start: List[float] = start
 
-        if game.DISPLAYER_CACHE.have(path):
-            self.image: pygame.Surface = game.DISPLAYER_CACHE.get(path)
+        # if game.DISPLAYER_CACHE.have(path):
+        #     self.image: pygame.Surface = game.DISPLAYER_CACHE.get(path)
+        # else:
+        if game.IMAGE_CACHE.have(images_path):
+            self.image: pygame.Surface = game.IMAGE_CACHE.get(images_path)
         else:
-            if game.IMAGE_CACHE.have(images_path):
-                self.image: pygame.Surface = game.IMAGE_CACHE.get(images_path)
+            self.image: pygame.Surface = pygame.image.load("assets/textures/{}.png".format(images_path))
+            game.IMAGE_CACHE.put(images_path, self.image)
+
+        rescale = data["rescale"] if "rescale" in data else 2
+        if "from" in data:
+            d = data["from"]
+            if isinstance(d, list) and len(d) == 2:
+                plot_start = d
             else:
-                self.image: pygame.Surface = pygame.image.load("assets/textures/{}.png".format(images_path))
-                game.IMAGE_CACHE.put(images_path, self.image)
+                raise er.StructureParseError("In valid from ({}) in {} need be [int, int]".format(d, path))
 
-            rescale = data["rescale"] if "rescale" in data else 2
-            if "from" in data:
-                d = data["from"]
-                if isinstance(d, list) and len(d) == 2:
-                    plot_start = d
-                else:
-                    raise er.StructureParseError("In valid from ({}) in {} need be [int, int]".format(d, path))
+            if "to" not in data:
+                raise er.StructureParseError("No to in {} but there are from ned to [ini, int]".format(path))
+            d = data["to"]
+            if isinstance(d, list) and len(d) == 2:
+                plot_end = d
+            else:
+                raise er.StructureParseError("In valid to ({}) in {} need be [int, int]".format(d, path))
+            # self.image_size = (plot_end[0] - plot_start[0]) * rescale, (plot_end[1] - plot_start[1]) * rescale
 
-                if "to" not in data:
-                    raise er.StructureParseError("No to in {} but there are from ned to [ini, int]".format(path))
-                d = data["to"]
-                if isinstance(d, list) and len(d) == 2:
-                    plot_end = d
-                else:
-                    raise er.StructureParseError("In valid to ({}) in {} need be [int, int]".format(d, path))
-                s = pygame.Surface((plot_end[0] - plot_start[0], plot_end[1] - plot_start[1]), pygame.SRCALPHA)
-                s.blit(self.image, (0, 0), (pygame.Rect(plot_start[0], plot_start[1], plot_end[0], plot_end[1])))
-                self.image = s
-            if rescale > 1:
-                s = self.image.get_rect().size
-                self.image = pygame.transform.scale(self.image, (s[0] * rescale, s[1] * rescale))
-                game.IMAGE_CACHE.put(path, self.image)
+            s = pygame.Surface((plot_end[0] - plot_start[0], plot_end[1] - plot_start[1]), pygame.SRCALPHA)
+            s.blit(self.image, (0, 0), (pygame.Rect(plot_start[0], plot_start[1], plot_end[0], plot_end[1])))
+            self.image = s
+        # elif rescale == 1:
+        #     self.image_size = self.image.get_size()
+        if rescale != 1:
+            # if "from" not in data:
+            #     self.image_size = int(self.image.get_size()[0] * rescale), int(self.image.get_size()[0] * rescale)
+            s = self.image.get_rect().size
+            self.image = pygame.transform.scale(self.image, (s[0] * rescale, s[1] * rescale))
+            # game.IMAGE_CACHE.put(path, self.image)
+        self.image_size = self.image.get_size()
+
+
+
 
     def get_image(self) -> pygame.Surface:
         return self.image

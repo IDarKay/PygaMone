@@ -8,6 +8,8 @@ import hud.menu as _menu
 import time
 import pokemon.pokemon as pokemon
 import pokemon.ability as ability
+import hud.hud as hud
+import pokemon.abilitys_ as abilitys_
 import item.items as items
 import main
 
@@ -20,7 +22,7 @@ SURFACE_SIZE = (1060, 600)
 
 DIRECTION = ["top", "left", "down", "right"]
 
-game_instance: Optional['Game']  = None
+game_instance: Optional['Game'] = None
 
 FONT_16: pygame.font.Font = None
 FONT_20: pygame.font.Font = None
@@ -77,9 +79,9 @@ class Game(object):
         self.load_lang("en")
         self.load_poke_lang("en")
         items.load()
-        ability.load_ability()
+        abilitys_.load()
         pokemon.Pokemon.load_pokemons()
-        player.load_hud_item()
+        hud.load_hud_item()
         # ============
 
         global game_instance
@@ -173,6 +175,8 @@ class Game(object):
         self.level.layer_1.load_asset(self.layer_cache)
         self.level.load_asset(self.trigger_cache)
         self.player.set_pos((x, y))
+        if not self.level.can_cycling:
+            self.player.is_cycling = False
         self.save_data("last_level", name)
         self.save_data("last_level_coord", [x, y])
 
@@ -184,34 +188,36 @@ class Game(object):
         if self.player.have_open_menu():
             self.player.current_menu.render(self.display)
         else:
-            start = self.player.get_scroll_start()
-            global came_scroll
-            came_scroll = start
-            end = self.player.get_scroll_end()
-            self.level.floor.render(start[0], start[1], end[0], end[1], self.floor_cache, self.display, self.collision,
-                                    [])
-            # self.player.render(self.display)
-            self.level.layer_1.render(start[0], start[1], end[0], end[1], self.layer_cache, self.display,
-                                      self.collision, [(self.player.get_render_y(), self.player.render)])
+            if self.player.current_battle is None or self.player.current_battle.need_render():
+                start = self.player.get_scroll_start()
+                global came_scroll
+                came_scroll = start
+                end = self.player.get_scroll_end()
+                self.level.floor.render(start[0], start[1], end[0], end[1], self.floor_cache, self.display, self.collision,
+                                      [])
+                # self.player.tick(self.display)
+                self.level.layer_1.render(start[0], start[1], end[0], end[1], self.layer_cache, self.display,
+                                        self.collision, [(self.player.get_render_y(), self.player.render)])
 
-            self.level.npc_render(self.display, self.collision)
-            self.level.load_trigger(start[0], start[1], end[0], end[1], self.trigger_cache, self.collision)
+                self.level.npc_render(self.display, self.collision)
+                self.level.load_trigger(start[0], start[1], end[0], end[1], self.trigger_cache, self.collision)
 
-            if self.debug:
-                self.render_collision()
+                if self.debug:
+                    self.render_collision()
 
-            self.render_hud(self.display)
+                if self.debug:
+                    p_pos = self.player.get_pos()
+                    surf = FONT_16.render("x: {:+.4f}, y: {:+.4f}".format(p_pos[0], p_pos[1]), True, (255, 255, 255))
 
-            if self.debug:
-                p_pos = self.player.get_pos()
-                surf = FONT_16.render("x: {:+.4f}, y: {:+.4f}".format(p_pos[0], p_pos[1]), True, (255, 255, 255))
+                    # back_ground = pygame.Surface(surf.get_rect().size)
+                    # back_ground.fill((0, 0, 0))
+                    # back_ground.set_alpha(200)
+                    # self.display.blit(back_ground, (0, 0))
+                    self.display.blit(surf, (0, 0))
+            if self.player.current_battle:
+                self.player.current_battle.tick(self.display)
 
-                # back_ground = pygame.Surface(surf.get_rect().size)
-                # back_ground.fill((0, 0, 0))
-                # back_ground.set_alpha(200)
-                # self.display.blit(back_ground, (0, 0))
-                self.display.blit(surf, (0, 0))
-
+        self.render_hud(self.display)
         self.screen.blit(pygame.transform.scale(self.display, main.SCREEN_SIZE), (0, 0))
         pygame.display.update()
 
@@ -256,6 +262,10 @@ class Game(object):
                     self.player.on_key_x(1, event.type == pygame.KEYUP)
                 if event.key == pygame.K_a:
                     self.player.on_key_x(-1, event.type == pygame.KEYUP)
+                if event.key == pygame.K_x and event.type == pygame.KEYDOWN:
+                    self.player.on_key_sprint()
+                if event.key == pygame.K_z and event.type == pygame.KEYDOWN:
+                    self.player.cycling_press()
                 if event.key == pygame.K_F3 and event.type == pygame.KEYDOWN:
                     self.debug = not self.debug
                 if event.key == pygame.K_F4 and event.type == pygame.KEYDOWN:
@@ -267,7 +277,7 @@ class Game(object):
                         self.player.open_menu(_menu.MainMenu(self.player))
                 if event.key == pygame.K_F5 and event.type == pygame.KEYDOWN and self.player.freeze_time == 0:
                     x, y = self.player.get_pos()
-                    path = self.level.__path
+                    path = self.level.path
                     self.unload_level()
                     self.load_level(path, x, y)
                 if event.key == pygame.K_SPACE:

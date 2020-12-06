@@ -1,6 +1,7 @@
 from typing import Dict
 import pygame
 import game
+import pokemon.pokemon as pokemon
 
 IMAGES: pygame.Surface = pygame.image.load("assets/textures/hud/type.png")
 
@@ -16,13 +17,21 @@ class Type(object):
     def get_name(self) -> str:
         return game.get_game_instance().get_message("type.{}".format(self.name.lower()))
 
-    def get_attack_edit(self, poke) -> float:
+    def get_attack_edit(self, poke: 'pokemon.Pokemon') -> float:
         v = 1
-        for __type in poke.types:
-            if __type in self.edit:
-                v *= self.edit[__type]
+        print(self.name)
+        for t in poke.types:
+            print(t.name)
+        for t in poke.types:
+            if t.name in self.edit:
+                v *= self.edit[t.name]
         return v
 
+    def __hash__(self):
+        return self.name.__hash__()
+
+    def __eq__(self, other):
+        return isinstance(other, Type) and self.name == other.name
 
 N_NORMAL = "NORMAL"
 N_POISON = "POISON"

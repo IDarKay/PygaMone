@@ -1,8 +1,9 @@
-from typing import NoReturn, Callable, Iterable
-import character.character as character
-from utils import *
+from typing import NoReturn, Callable, Iterable, Any, List
+import utils
+import pygame
+import game
 
-DIALOGUE_MAX_CHAR_LINES: int = 0
+# DIALOGUE_MAX_CHAR_LINES: int = 40
 LEFT_X: int = 0
 
 load: bool = False
@@ -15,26 +16,47 @@ SELECT_MID: pygame.Surface = None
 
 
 def load_hud_item():
-    global load, DIALOGUE_BOX, RIGHT_ARROW, DOWN_ARROW, SELECT_TOP, SELECT_DOWN, SELECT_MID, DIALOGUE_MAX_CHAR_LINES
-    global LEFT_X
+    global load, DIALOGUE_BOX, RIGHT_ARROW, DOWN_ARROW, SELECT_TOP, SELECT_DOWN, SELECT_MID
     if not load:
         load = True
         HUD: pygame.Surface = pygame.image.load("assets/textures/hud/HUD.png")
-        DIALOGUE_BOX = get_part_i(HUD, (0, 25, 280, 78), (game.SURFACE_SIZE[0] * 0.9, game.SURFACE_SIZE[1] * 0.2))
-        RIGHT_ARROW = get_part_i(HUD, (0, 0, 6, 10), (12, 20))
-        DOWN_ARROW = get_part_i(HUD, (6, 0, 16, 6), (20, 12))
-        SELECT_TOP = get_part_i(HUD, (0, 10, 74, 15), (game.SURFACE_SIZE[0] * 0.2, game.SURFACE_SIZE[1] * 0.05))
-        SELECT_DOWN = get_part_i(HUD, (0, 19, 74, 25), (game.SURFACE_SIZE[0] * 0.2, game.SURFACE_SIZE[1] * 0.05))
-        SELECT_MID = get_part_i(HUD, (74, 10, 149, 25), (game.SURFACE_SIZE[0] * 0.2, game.SURFACE_SIZE[1] * 0.08))
-        DIALOGUE_MAX_CHAR_LINES = int(game.SURFACE_SIZE[0] * 0.85) // game.FONT_SIZE_16[0]
-        LEFT_X = int(game.SURFACE_SIZE[0] * 0.15)
+        DIALOGUE_BOX = utils.get_part_i(HUD, (0, 25, 280, 78), (game.SURFACE_SIZE[0] * 0.9, game.SURFACE_SIZE[1] * 0.2))
+        RIGHT_ARROW = utils.get_part_i(HUD, (0, 0, 6, 10), (12, 20))
+        DOWN_ARROW = utils.get_part_i(HUD, (6, 0, 16, 6), (20, 12))
+        SELECT_TOP = utils.get_part_i(HUD, (0, 10, 74, 15), (game.SURFACE_SIZE[0] * 0.2, game.SURFACE_SIZE[1] * 0.05))
+        SELECT_DOWN = utils.get_part_i(HUD, (0, 19, 74, 25), (game.SURFACE_SIZE[0] * 0.2, game.SURFACE_SIZE[1] * 0.05))
+        SELECT_MID = utils.get_part_i(HUD, (74, 10, 149, 25), (game.SURFACE_SIZE[0] * 0.2, game.SURFACE_SIZE[1] * 0.08))
+        # DIALOGUE_MAX_CHAR_LINES = int(game.SURFACE_SIZE[0] * 0.85) // game.FONT_SIZE_16[0]
         del HUD
 
 
 class Dialog(object):
 
+    x = 1060
+    y = 600
+
+    poly_6 = (
+        (int(x * 0.2), int(y * 0.85)),
+        (int(x * 0.25), int(y * 0.85)),
+        (int(x * 0.2), int(y * 0.98))
+    )
+
+    poly_7 = (
+        (int(x * 0.25), int(y * 0.85)),
+        (int(x * 0.8), int(y * 0.85)),
+        (int(x * 0.75), int(y * 0.98)),
+        (int(x * 0.2), int(y * 0.98))
+    )
+
+    poly_8 = (
+        (int(x * 0.8), int(y * 0.85)),
+        (int(x * 0.8), int(y * 0.98)),
+        (int(x * 0.750), int(y * 0.98))
+    )
+
+
     def __init__(self, text: Any, speed: int = 50, speed_skip: bool = False, timed: int = 0,
-                 need_morph_text: bool = False, none_skip: bool = False):
+                 need_morph_text: bool = False, none_skip: bool = False, style: int = 1, text_var=[]):
         """
 
         text => sting list with each lines or sting lang key with need_morph_text=True
@@ -50,8 +72,8 @@ class Dialog(object):
         if timed != 0 and len(text) > 2:
             raise ValueError("Can't create Dialogue with timed !=0 and len(text) > 2")
         if need_morph_text:
-            t = game.game_instance.get_message(text)
-            self._text: List[str] = Dialog.split(t)
+            t = game.game_instance.get_message(text).format(*text_var)
+            self._text: List[str] = Dialog.split(t, 70 if style == 1 else 50)
 
         else:
             self._text: List[str] = text
@@ -64,13 +86,30 @@ class Dialog(object):
         self._need_enter: bool = False
         self._mono_line: int = len(self._text) == 1
         self._display_arrow: int = timed == 0 and not none_skip
-        self._open_time: int = current_milli_time()
+        self._open_time: int = utils.current_milli_time()
         self._is_end_line: bool = False
         self.none_skip: bool = none_skip
+        self._style = style
 
     def render(self, display: pygame.Surface) -> NoReturn:
-        display.blit(DIALOGUE_BOX, (int(game.SURFACE_SIZE[0] * 0.05), game.SURFACE_SIZE[1] * 0.75))
-        t = current_milli_time()
+
+        if self._style == 1:
+            display.blit(DIALOGUE_BOX, (int(game.SURFACE_SIZE[0] * 0.05), game.SURFACE_SIZE[1] * 0.75))
+            color = (0, 0, 0)
+            arrow_pos = (game.SURFACE_SIZE[0] * 0.88, game.SURFACE_SIZE[1] * 0.88)
+            text_x = Dialog.x * 0.15
+            text_y = Dialog.y * 0.78
+            max_char = 70
+        else:
+            pygame.draw.polygon(display, (40, 35, 32), Dialog.poly_6)
+            pygame.draw.polygon(display, (50, 50, 50), Dialog.poly_7)
+            pygame.draw.polygon(display, (40, 35, 32), Dialog.poly_8)
+            color = (255, 255, 255)
+            arrow_pos = (game.SURFACE_SIZE[0] * 0.73, game.SURFACE_SIZE[1] * 0.95)
+            text_x = Dialog.x * 0.25
+            text_y = Dialog.y * 0.87
+            # text_y =
+        t = utils.current_milli_time()
 
         if 0 < self._timed < (t - self._start_render_line):
             game.game_instance.player.close_dialogue()
@@ -89,21 +128,21 @@ class Dialog(object):
             else:
                 nb_char = len(self._text[self._current_line])
                 if self._display_arrow:
-                    display.blit(DOWN_ARROW, (game.SURFACE_SIZE[0] * 0.88, game.SURFACE_SIZE[1] * 0.88))
+                    display.blit(DOWN_ARROW, arrow_pos)
                 self._need_enter = True
                 self._is_end_line = True
 
         if self._show_line == 1:
-            l = game.FONT_24.render(self._text[self._current_line - 1], True, (0, 0, 0))
-            display.blit(l, (LEFT_X, int(game.SURFACE_SIZE[1] * 0.78)))
+            l = game.FONT_24.render(self._text[self._current_line - 1], True, color)
+            display.blit(l, (text_x, text_y))
 
         l = self._text[self._current_line]
-        current = game.FONT_24.render(l[0: nb_char], True, (0, 0, 0))
-        display.blit(current, (LEFT_X, int(game.SURFACE_SIZE[1] * 0.78) + ((game.SURFACE_SIZE[1] * 0.2 / 3) * self._show_line)))
+        current = game.FONT_24.render(l[0: nb_char], True, color)
+        display.blit(current, (text_x, text_y + ((game.SURFACE_SIZE[1] * 0.2 / 3) * self._show_line)))
 
     def press_action(self) -> NoReturn:
 
-        if not self.none_skip and (self._need_enter or self._speed_skip or (self._timed > 0 and current_milli_time() - self._open_time > self._open_time)):
+        if not self.none_skip and (self._need_enter or self._speed_skip or (self._timed > 0 and utils.current_milli_time() - self._open_time > self._open_time)):
             self._need_enter = False
             if self._mono_line or (self._current_line == (len(self._text) - 1)):
                 if self._speed and not self._is_end_line:
@@ -115,20 +154,20 @@ class Dialog(object):
             if self._show_line == 0 and not self._mono_line:
                 self._show_line = 1
             self._current_line += 1
-            self._start_render_line = current_milli_time()
+            self._start_render_line = utils.current_milli_time()
         return False
 
     def pres_y(self, up: bool) -> NoReturn:
         pass
 
     @staticmethod
-    def split(text: str) -> List[str]:
+    def split(text: str, max_char: int) -> List[str]:
         split_text = text.split()
         split_line = []
         line = ""
 
         for i in split_text:
-            if (len(line) + len(i)) > DIALOGUE_MAX_CHAR_LINES > len(i) or i == '[l]':
+            if (len(line) + len(i)) > max_char > len(i) or i == '[l]':
                 split_line.append(line)
                 line = ""
             if i != '[l]':
