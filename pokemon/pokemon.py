@@ -1,12 +1,12 @@
 import game_error as err
 from typing import Dict, List, Optional, Callable, Any, Set
 import json
-import displayer
 import game
 import pokemon.pokemon_type as pok_t
 import utils
+import os
 
-NB_POKEMON: int = 3
+NB_POKEMON: int = 6
 POKEMONS: List[Optional['Pokemon']] = [None for i in range(NB_POKEMON + 1)]
 
 CURVE: Dict[str, Callable[[int], float]] = {
@@ -28,6 +28,7 @@ SP_DEFENSE: str = "sp_defense"
 STATS: List[str] = [HEAL, ATTACK, DEFENSE, SPEED, SP_ATTACK, SP_DEFENSE]
 
 
+
 class Pokemon(object):
 
     def __init__(self, id_: int, data: Dict):
@@ -39,10 +40,13 @@ class Pokemon(object):
         self.xp_points: int = utils.get_args(data, "xp_point", id_, type_check=int)
         self.color: str = utils.get_args(data, "color", id_, type_check=str)
         self.evolution: List[Dict[str, Any]] = utils.get_args(data, "evolution", id_, default=[])
-        self.display: displayer.Displayer = displayer.parse(utils.get_args(data, "display", id_),
-                                                            "pokemon/" + to_3_digit(id_))
-        self.back_display: displayer.Displayer = displayer.parse(utils.get_args(data, "back_display", id_),
-                                                                 "pokemon/" + to_3_digit(id_))
+        self.female_rate: float = utils.get_args(data, "female_rate", id_)
+
+        # self.display: displayer.Displayer = displayer.parse(utils.get_args(data, "display", id_),
+        #                                                     "pokemon/" + to_3_digit(id_))
+        # self.back_display: displayer.Displayer = displayer.parse(utils.get_args(data, "back_display", id_),
+        #                                                          "pokemon/" + to_3_digit(id_))
+        self.have_female_image = os.path.isfile(f'assets/textures/pokemon/female/{self.id_}.png')
         self.curve_name: str = utils.get_args(data, "curve", id_, type_check=str)
         self.curve: Callable[[int], float] = CURVE[self.curve_name]
         self.base_stats: Dict[str, int] = utils.get_args(data, "base_stats", id_)

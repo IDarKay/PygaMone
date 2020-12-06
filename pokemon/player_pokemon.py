@@ -7,6 +7,8 @@ import item.items as items
 import item.item as item
 import item.pokeball as poke_item
 import random
+import displayer
+import pygame
 
 
 class PokemonAbility(object):
@@ -54,23 +56,50 @@ COMBAT_STATUS = [C_S_CRITICAL, C_S_BURN]
 class PlayerPokemon(object):
 
     def __init__(self, _id: int, xp: int, ivs: Dict[str, int], heal: int,
-                 ability: List[PokemonAbility], poke_ball: 'item.Item'):
+                 ability: List[PokemonAbility], poke_ball: 'item.Item', shiny: bool, female: bool, /):
         self.id_ = _id
         self.xp = xp
         self.poke = pokemon.get_pokemon(self.id_)
         self.lvl = self.get_lvl()
         self.ivs = ivs
         self.heal = heal
+        self.shiny = shiny
+        self.female = female
+
+        self.front_image = f'assets/textures/pokemon/{("shiny/" if shiny else "")}{("female/" if female and self.poke.have_female_image else "")}{(self.id_)}.png'
+        self.back_image = f'assets/textures/pokemon/back/{("shiny/" if shiny else "")}{("female/" if female and self.poke.have_female_image else "")}{(self.id_)}.png'
+        self.front_image_y = self.get_first_color(self.front_image)
+        self.back_image_y = self.get_first_color(self.back_image)
+
         self.stats = {}
         self.combat_stats = {}
         self.calculate_stats()
         self.ability: List[PokemonAbility] = ability
 
         self.poke_ball: 'poke_item.Pokeball' = poke_ball
+        self.use = False
 
         # heal check
         if self.heal == -1 or self.heal > self.get_max_heal():
             self.heal = self.get_max_heal()
+
+    def set_use(self, value: bool):
+        self.use = value
+
+    def get_first_color(self, path):
+        poke = displayer.get_poke(path)
+
+        for y in range(poke.get_size()[1] - 1, -1, -1):
+            for x in range(0, poke.get_size()[1]):
+                if poke.get_at((x, y)) != (0, 0, 0, 255):
+                    return y
+        return 0
+
+    def get_front_image(self, scale=1) -> pygame.Surface:
+        return displayer.get_poke(self.front_image, scale)
+
+    def get_back_image(self, scale=1) -> pygame.Surface:
+        return displayer.get_poke(self.back_image, scale)
 
     def reset_combat_stats(self):
         self.combat_stats.clear()
@@ -103,7 +132,6 @@ class PlayerPokemon(object):
         modifier = Ta * (1.5 if crit else 1) * rdm * STAB * burn
         power = ab.power
         level = ((2 * self.lvl) / 5) + 2
-        print("level", level)
         back = []
         for tr in targets:
             a = self.stats[pokemon.ATTACK] if ab.category == p_ability.PHYSICAL else self.stats[pokemon.SP_ATTACK]
@@ -117,7 +145,6 @@ class PlayerPokemon(object):
             type_edit = ab.type.get_attack_edit(tr.poke)
             val = ((level * power * (a/d)) / 50) + 2
             md = modifier * type_edit
-            print("val", val, "md", md)
             back.append((int(val * md), type_edit))
 
         return back, crit
@@ -168,7 +195,9 @@ class PlayerPokemon(object):
             "ivs": ivs_to_int(self.ivs),
             "heal": self.heal,
             "ability": [a.serialisation() for a in self.ability],
-            "pokeball": self.poke_ball.identifier
+            "pokeball": self.poke_ball.identifier,
+            "shiny": self.shiny,
+            "female": self.female
         }
 
     @staticmethod
@@ -176,11 +205,14 @@ class PlayerPokemon(object):
         poke = pokemon.get_pokemon(_id)
         xp = poke.get_xp(lvl)
         ivs = random_ivs()
+        # shiny = random.randint(0, 9191) == 0
+        shiny = random.random() <= 0.0001220703125
+        female = random.random() <= poke.female_rate
         ability = poke.get_4_last_ability(lvl)
         _ability = []
         for i in range(min(len(ability), 4)):
             _ability.append(PokemonAbility.new_ability(ability[i]))
-        return PlayerPokemon(_id, xp, ivs, -1, _ability, poke_ball)
+        return PlayerPokemon(_id, xp, ivs, -1, _ability, poke_ball, shiny, female)
         pass
 
     @staticmethod
@@ -188,7 +220,9 @@ class PlayerPokemon(object):
         return PlayerPokemon(data["_id"], data["xp"],
                              ivs_from_int(data["ivs"]), data["heal"],
                              [PokemonAbility.deserialisation(a) for a in data["ability"]],
-                             items.ITEMS[data["pokeball"]]
+                             items.ITEMS[data["pokeball"]],
+                             data["shiny"],
+                             data["female"]
                              )
 
 

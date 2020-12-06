@@ -10,5 +10,17 @@
   "3": {
     "name": "florizarre",
     "pokedex": "Sa plante donne une grosse fleur quand elle absorbe les rayons du soleil. Il est toujours à la recherche des endroits les plus ensoleillés."
+  },
+  "4": {
+    "name": "Salamèche",
+    "pokedex": "Depuis sa naissance, une petite flamme brûle au bout de sa queue. Si cette flamme s'éteint, la vie de ce Pokémon s'éteindra elle aussi."
+  },
+  "5": {
+    "name": "Reptincel",
+    "pokedex": "S'il s'excite pendant un combat, il crache de grandes flammes, brûlant tout ce qui se trouve aux alentours."
+  },
+  "6": {
+    "name": "Dracaufeu",
+    "pokedex": "Ses ailes lui permettent de voler à plus de 1 400 m d'altitude. Ce Pokémon crache du feu à des températures très élevées."
   }
 }

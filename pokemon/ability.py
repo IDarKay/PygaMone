@@ -6,13 +6,14 @@ import game
 import pygame
 import pygame_gif
 from pokemon.battle.battle import RenderAbilityCallback
+import sound_manager
 
 PHYSICAL = "PHYSICAL"
 SPECIAL = "SPECIAL"
 STATUS = "STATUS"
 
 CATEGORYS: List[str] = [PHYSICAL, SPECIAL, STATUS]
-
+ABILITY_SOUND_FOLDER = 'assets/sound/ability/'
 
 class AbstractAbility(object):
 
@@ -37,6 +38,7 @@ class AbstractAbility(object):
         self.target = self.get_args("target")
         self.render_during = 0
         self.load = False
+        self.need_sound = False
         del self.__data
 
     def get_name(self) -> NoReturn:
@@ -62,12 +64,16 @@ class AbstractAbility(object):
     def load_assets(self) -> bool:
         if not self.load:
             self.load = True
+            if self.need_sound:
+                self.sound = pygame.mixer.Sound(ABILITY_SOUND_FOLDER + self.id_ + ".mp3")
             return True
         return False
 
     def unload_assets(self) -> bool:
         if self.load:
             self.load = False
+            if self.need_sound:
+                del self.sound
             return False
         return True
 
@@ -115,6 +121,7 @@ class EmberAbility(AbstractAbility):
                          target=[[True, True, False],
                                 [False, True, False]])
         self.render_during = 2000
+        self.need_sound = True
 
     def load_assets(self) -> bool:
         if super().load_assets():
@@ -134,8 +141,9 @@ class EmberAbility(AbstractAbility):
                launcher: Tuple[int, int], ps_t: int, first_time: bool) -> NoReturn:
         if first_time:
             self.g_i = self.gif.display(target[0])
+            sound_manager.start_in_first_empty_taunt(self.sound)
         for t in target:
-            self.g_i.render(display, (t[0] - 40, t[1] - 100))
+            self.g_i.render(display, (t[0] - 40, t[1] - 120))
 
 
 load: bool = False

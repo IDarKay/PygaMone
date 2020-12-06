@@ -7,6 +7,11 @@ class Sound(object):
         self.path = path
         self.sound: Optional[pygame.mixer.Sound]= None
 
+    def get(self):
+        if self.sound is None:
+            self.load()
+        return self.sound
+
     def load(self):
         if not self.sound:
             self.sound = pygame.mixer.Sound(self.path)

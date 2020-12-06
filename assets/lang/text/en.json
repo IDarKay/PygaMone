@@ -11,6 +11,13 @@
   "battle.super_effective": "It's very effective!",
   "battle.not_effective": "It's not very effective!",
   "battle.no_effect": "It has no effect!",
+  "battle.wild_spawn": "Wild {0} appeared!",
+  "battle.launch_pokemon.self": "GO! {0}!",
+  "battle.launch_pokemon.bot": "{0} sent out {1}!",
+  "battle.call_back_pokemon.self": "{0}, good! Come back!",
+  "battle.call_back_pokemon.bot": "{0} take back {1}!",
+  "battle.no_life": "Foe {0} had its energy drained!",
+  "battle.fainted": "Foe {0} fainted!",
 
   "yes": "yes",
   "no": "no",

@@ -313,8 +313,8 @@ class TeamMenu(Menu):
                 break
             heal = poke.heal, poke.get_max_heal()
             self.progress.append(heal)
-            self.display_small.append(pygame.transform.scale(poke.poke.display.get_image(), (int(poke.poke.display.image_size[0] * 0.3), int(poke.poke.display.image_size[0] * 0.3))))
-            self.display_large.append(pygame.transform.scale(poke.poke.display.get_image(), (poke.poke.display.image_size[0] * 4, poke.poke.display.image_size[1] * 4)))
+            self.display_small.append(poke.get_front_image(0.5))
+            self.display_large.append(poke.get_front_image(4))
             self.text.append([
                 game.FONT_16.render("{}/{}".format(heal[0], heal[1]), True, (0, 0, 0)),
                 game.FONT_16.render("{}/{}".format(heal[0], heal[1]), True, (255, 255, 255)),
@@ -373,7 +373,7 @@ class TeamMenu(Menu):
                           (SURFACE_SIZE[1] * 0.28, 5),
                           (52, 56, 61), (45, 181, 4), xp[0] / xp[1])
 
-        display.blit(self.display_small[i], (_x - 15, _y + 6 - poke_y))
+        display.blit(self.display_small[i], (_x - 20, _y + 4 - poke_y))
 
         # display heal
         display.blit(text[start], (_x + _x2, _y + SURFACE_SIZE[0] * 0.028))
@@ -485,7 +485,7 @@ class StatusMenu(Menu):
     def get_data(self):
         poke = self.player.team[self.poke_n]
         self.poke = poke
-        self.display_large = pygame.transform.scale(poke.poke.display.get_image(), (512, 512))
+        self.display_large = poke.get_front_image(4)
         self.name = game.FONT_20.render(poke.get_name(True), True, (255, 255, 255))
         self.name2 = game.FONT_20.render(poke.get_name(True), True, (0, 0, 0))
         self.lvl = game.FONT_20.render("N.{}".format(poke.lvl), True, (255, 255, 255))

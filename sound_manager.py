@@ -14,6 +14,7 @@ TAUNT: List[pygame.mixer.Channel] = []
 def init() -> NoReturn:
     global MUSIC_CHANNEL, AMBIENT_CHANNEL, TAUNT_CHANNEL, TAUNT_CHANNEL2, TAUNT_CHANNEL3, TAUNT
     MUSIC_CHANNEL = pygame.mixer.Channel(0)
+    MUSIC_CHANNEL.set_volume(0.5)
     AMBIENT_CHANNEL = pygame.mixer.Channel(1)
     TAUNT_CHANNEL = pygame.mixer.Channel(2)
     TAUNT_CHANNEL2 = pygame.mixer.Channel(3)

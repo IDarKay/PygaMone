@@ -12,6 +12,8 @@ import hud.hud as hud
 import pokemon.abilitys_ as abilitys_
 import item.items as items
 import main
+import sys
+import pokemon.battle.wild_start as wild_start
 
 screen = None
 
@@ -44,8 +46,18 @@ class Cache(object):
     def put(self, key, value):
         self.cache[key] = value
 
+    def put_return(self, key, value):
+        self.cache[key] = value
+        return value
+
     def have(self, key):
         return key in self.cache
+
+    def get_or_null(self, key):
+        try:
+            return self.cache[key]
+        except KeyError:
+            return None
 
     def get(self, key):
         if key in self.cache:
@@ -56,6 +68,7 @@ class Cache(object):
 
 IMAGE_CACHE = Cache()
 DISPLAYER_CACHE = Cache()
+POKE_CACHE = Cache()
 
 
 class Game(object):
@@ -104,7 +117,7 @@ class Game(object):
         self.ignore_collision = False
 
         running = True
-
+        self.direct_battle: list[bool, bool] = ["--direct_battle" in sys.argv, True]
         while running:
             running = self.tick()
             self.clock.tick(60)
@@ -248,6 +261,11 @@ class Game(object):
             self.player.move(self.collision)
         elif self.player.freeze_time > 0:
             self.player.freeze_time -= 1
+
+        if self.direct_battle[0] and self.direct_battle[1] and len(self.level.wild_pokemon) > 0:
+            self.direct_battle[1] = False
+            wild_start.start_wild("TALL_GRASS", self.player)
+
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:

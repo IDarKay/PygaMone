@@ -6,6 +6,7 @@ import game
 DEFAULT_START = [0, 0]
 
 
+
 class Displayer(object):
 
     def __init__(self, images_path: str, start: List[float], data: Dict[str, Any], path: str):
@@ -68,6 +69,16 @@ class Displayer(object):
         #     display.blit(self.image, coord, self.plot)
         # else:
         display.blit(self.image, coord)
+
+
+def get_poke(path: str, /, rescale: float = 1.0) -> pygame.Surface:
+    key_path = path + f"r_{rescale}"
+    if (value := game.POKE_CACHE.get_or_null(key_path)) is None:
+        i = pygame.image.load(path)
+        if rescale != 1:
+           i = pygame.transform.scale(i, (int(i.get_size()[0] * rescale), int(i.get_size()[1] * rescale)))
+        return game.POKE_CACHE.put_return(key_path, i)
+    return value
 
 
 def parse(data: Dict[str, Any], path: str) -> Displayer:

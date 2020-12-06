@@ -4,16 +4,7 @@
   "color": "GREEN",
   "curve": "MEDIUM_SLOW",
   "catch_rate": 45,
-  "display": {
-    "image": "pokemon/1_G",
-    "from": [14, 14],
-    "to": [48, 48]
-  },
-  "back_display": {
-    "image": "pokemon/1_2_G_back",
-    "from": [31, 33],
-    "to": [63, 63]
-  },
+  "female_rate": 0.125,
   "evolution": [
     {
       "lvl": 16,

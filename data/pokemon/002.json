@@ -5,16 +5,7 @@
   "parent": 1,
   "curve": "MEDIUM_SLOW",
   "catch_rate": 45,
-  "display": {
-    "image": "pokemon/1_G",
-    "from": [74, 12],
-    "to": [117, 54]
-  },
-  "back_display": {
-    "image": "pokemon/1_2_G_back",
-    "from": [115, 27],
-    "to": [172, 72]
-  },
+  "female_rate": 0.125,
   "base_stats": {
     "hp": 60,
     "attack": 62,

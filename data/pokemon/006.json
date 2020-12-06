@@ -1,0 +1,17 @@
+{
+  "type": ["FIRE", "FLYING"],
+  "xp_point": 209,
+  "color": "RED",
+  "curve": "MEDIUM_SLOW",
+  "catch_rate": 45,
+  "female_rate": 0.125,
+  "parent": 4,
+  "base_stats": {
+    "hp": 78,
+    "attack": 84,
+    "defense": 78,
+    "sp_attack": 109,
+    "sp_defense": 85,
+    "speed": 100
+  }
+}

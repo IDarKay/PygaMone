@@ -9,4 +9,4 @@ class BackGround(object):
         self.enemy_base_coord = enemy_base_coord
 
 
-FOREST: BackGround = BackGround('assets/textures/battle/bg/forest.png', [(0, 420)], [(670, 240)])
+FOREST: BackGround = BackGround('assets/textures/battle/bg/forest.png', [(0, 420), (300, 420)], [(670, 240), (378, 240)])

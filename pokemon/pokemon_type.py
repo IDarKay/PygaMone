@@ -19,9 +19,6 @@ class Type(object):
 
     def get_attack_edit(self, poke: 'pokemon.Pokemon') -> float:
         v = 1
-        print(self.name)
-        for t in poke.types:
-            print(t.name)
         for t in poke.types:
             if t.name in self.edit:
                 v *= self.edit[t.name]

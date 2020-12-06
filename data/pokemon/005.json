@@ -1,0 +1,18 @@
+{
+  "type": ["FIRE"],
+  "xp_point": 142,
+  "color": "RED",
+  "curve": "MEDIUM_SLOW",
+  "catch_rate": 45,
+  "female_rate": 0.125,
+  "parent": 4,
+  "base_stats": {
+    "hp": 58,
+    "attack": 64,
+    "defense": 58,
+    "sp_attack": 80,
+    "sp_defense": 65,
+    "speed": 80
+  }
+}
+

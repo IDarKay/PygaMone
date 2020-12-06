@@ -17,7 +17,7 @@ class StartMenu(object):
 
         self.__bg = pygame.transform.scale(pygame.image.load('assets/textures/hud/main_screen.png'), main.SCREEN_SIZE)
         self.__font = pygame.font.Font("assets/font/MyFont-Regular.otf", 24)
-        self.__text = self.__font.render('Press button to play !', True, (0, 0, 0))
+        self.__text = self.__font.render('Press a button to play !', True, (0, 0, 0))
         self.__text_size = self.__text.get_rect().size
         self.__clock = pygame.time.Clock()
         while self.__tick():

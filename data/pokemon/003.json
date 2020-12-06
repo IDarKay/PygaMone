@@ -1,20 +1,11 @@
 {
   "type": ["GRASS", "POISON"],
-  "xp_point": 141,
+  "xp_point": 236,
   "color": "GREEN",
   "parent": 2,
   "curve": "MEDIUM_SLOW",
   "catch_rate": 45,
-  "display": {
-    "image": "pokemon/1_G",
-    "from": [131, 6],
-    "to": [190, 60]
-  },
-  "back_display": {
-    "image": "pokemon/1_2_G_back",
-    "from": [198, 17],
-    "to": [279, 80]
-  },
+  "female_rate": 0.125,
   "base_stats": {
     "hp": 80,
     "attack": 82,
