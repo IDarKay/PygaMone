@@ -121,36 +121,6 @@ class PlayerPokemon(object):
             return self.ability[slot]
         return None
 
-    def get_damage(self, targets: List['PlayerPokemon'], ab: 'p_ability.AbstractAbility') -> Tuple[List[Tuple[int, int]], bool]:
-        nb_target = len(targets)
-        critical_T = self.stats[pokemon.SPEED] * (8 if self.combat_stats[C_S_CRITICAL] >= 1 and ab.high_critical else 4 if ab.high_critical else 2 if self.combat_stats[C_S_CRITICAL] else 0.5)
-        crit = randint(0, 255) <= critical_T
-        Ta = (0.75 if nb_target > 1 else 1)
-        STAB = (1.5 if ab.type in self.poke.types else 1)
-        rdm = (randint(85, 100) / 100)
-        burn = (0.5 if self.combat_stats[C_S_BURN] >= 1 else 1)
-        modifier = Ta * (1.5 if crit else 1) * rdm * STAB * burn
-        power = ab.power
-        level = ((2 * self.lvl) / 5) + 2
-        back = []
-        for tr in targets:
-            a = self.stats[pokemon.ATTACK] if ab.category == p_ability.PHYSICAL else self.stats[pokemon.SP_ATTACK]
-
-            # escape divide by 0
-            d = max(1, tr.stats[pokemon.DEFENSE] if ab.category == p_ability.PHYSICAL else tr.stats[pokemon.SP_DEFENSE])
-
-            # todo: weather
-            # todo: badge
-            # todo other
-            type_edit = ab.type.get_attack_edit(tr.poke)
-            val = ((level * power * (a/d)) / 50) + 2
-            md = modifier * type_edit
-            back.append((int(val * md), type_edit))
-
-        return back, crit
-
-
-
     def get_max_heal(self) -> int:
         return self.stats[pokemon.HEAL]
 

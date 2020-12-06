@@ -1,16 +1,31 @@
 from typing import List, Dict, NoReturn, Any, Tuple
 import utils
 import pokemon.pokemon_type as p_type
+import pokemon.player_pokemon as p_poke
+import pokemon.pokemon as pokemon
 import game_error as err
 import game
 import pygame
 import pygame_gif
 from pokemon.battle.battle import RenderAbilityCallback
 import sound_manager
+import random
 
 PHYSICAL = "PHYSICAL"
 SPECIAL = "SPECIAL"
 STATUS = "STATUS"
+
+TARGET_ALLY = 0
+TARGET_ENEMY = 1
+TARGET_BOTH = 2
+
+RANGE_MONO = 0
+RANGE_TWO = 1
+RANGE_THREE = 3
+
+RECOIL_DAMAGE = 0
+RECOIL_SELF = 1
+NO_RECOIL = 2
 
 CATEGORYS: List[str] = [PHYSICAL, SPECIAL, STATUS]
 ABILITY_SOUND_FOLDER = 'assets/sound/ability/'
@@ -35,11 +50,63 @@ class AbstractAbility(object):
         self.mirror_move = self.get_args("mirror_move", default=False, type_check=bool)
         self.king_rock = self.get_args("king_rock", default=False, type_check=bool)
         self.high_critical = self.get_args("high_critical", default=False, type_check=bool)
-        self.target = self.get_args("target")
+        # self.target = self.get_args("target")
+        self.target = self.get_args("target", default=TARGET_ENEMY, type_check=int)
+        self.range = self.get_args("range", default=RANGE_MONO, type_check=int)
+        self.recoil_type = self.get_args("recoil_type", default=NO_RECOIL, type_check=int)
+        self.recoil = self.get_args("recoil", default=0, type_check=int)
         self.render_during = 0
         self.load = False
         self.need_sound = False
         del self.__data
+
+    def get_target(self, case: int, nb_enemy: int, nb_ally: int, enemy: bool) -> list[list[bool, bool, bool], list[bool, bool, bool]]:
+        table = [[False] * 3] * 2
+        nb = nb_enemy if enemy else nb_ally
+        ln = [False] * 3
+        if self.range == RANGE_THREE:
+            ln = [True] * 3
+        elif self.range == RANGE_TWO:
+            ln = [True, True] if nb != 3 else [True, True, False] if case == 0 else [False, True, True]
+        else:
+            ln[case] = True
+        table[0 if enemy else 1] = ln
+        return table
+
+    def get_damage(self, launcher: "p_poke.PlayerPokemon", targets: list['p_poke.PlayerPokemon']) -> tuple[List[Tuple[int, float]], bool, int]:
+        nb_target = len(targets)
+        critical_T = launcher.stats[pokemon.SPEED] *\
+                     (8 if launcher.combat_stats[p_poke.C_S_CRITICAL] >= 1 and self.high_critical else
+                      4 if self.high_critical else 2 if launcher.combat_stats[p_poke.C_S_CRITICAL] else 0.5)
+        crit = random.randint(0, 255) <= critical_T
+        Ta = (0.75 if nb_target > 1 else 1)
+        STAB = (1.5 if self.type in launcher.poke.types else 1)
+        rdm = (random.randint(85, 100) / 100)
+        burn = (0.5 if launcher.combat_stats[p_poke.C_S_BURN] >= 1 else 1)
+        modifier = Ta * (1.5 if crit else 1) * rdm * STAB * burn
+        power = self.power
+        level = ((2 * launcher.lvl) / 5) + 2
+        back = []
+        for tr in targets:
+            if tr:
+                a = launcher.stats[pokemon.ATTACK] if self.category == PHYSICAL else tr.stats[pokemon.SP_ATTACK]
+
+                # escape divide by 0
+                d = max(1, tr.stats[pokemon.DEFENSE] if self.category == PHYSICAL else tr.stats[pokemon.SP_DEFENSE])
+
+                # todo: weather
+                # todo: badge
+                # todo other
+                type_edit = self.type.get_attack_edit(tr.poke)
+                val = ((level * power * (a / d)) / 50) + 2
+                md = modifier * type_edit
+                back.append((int(val * md), type_edit))
+            else:
+                back.append((0, 0.0))
+
+        recoil = 0 if self.recoil == NO_RECOIL else (back[0] * self.recoil) if self.recoil == RECOIL_DAMAGE else self.recoil
+
+        return back, crit, recoil
 
     def get_name(self) -> NoReturn:
         return game.get_game_instance().get_message("ability." + self.id_)
@@ -99,8 +166,7 @@ class TackleAbility(AbstractAbility):
                          protect=True,
                          mirror_move=True,
                          king_rock=True,
-                         target=[[True, True, False],
-                                 [False, False, False]])
+                         target=TARGET_ENEMY)
 
         self.render_during = 2000
 
@@ -118,8 +184,8 @@ class EmberAbility(AbstractAbility):
                          protect=True,
                          magic_coat=True,
                          mirror_move=True,
-                         target=[[True, True, False],
-                                [False, True, False]])
+                         target=TARGET_ENEMY
+                         )
         self.render_during = 2000
         self.need_sound = True
 

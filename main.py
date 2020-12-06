@@ -12,7 +12,7 @@ if __name__ == '__main__':
 
     utils.force()
     pygame.init()
-    pygame.display.set_caption("Test Pokemon")
+    pygame.display.set_caption("Test Pokemon",)
     screen = pygame.display.set_mode(SCREEN_SIZE)
     no_start_gui: bool = "--non-start-gui" in sys.argv
     sound_manager.init()

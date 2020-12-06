@@ -23,17 +23,20 @@ def player_in_area(area_type: str) -> NoReturn:
 
 def start_wild(area_type: str, player: 'pl.Player'):
     p = game.game_instance.level.get_random_wild(area_type)
+    p2 = game.game_instance.level.get_random_wild(area_type)
+    p3 = game.game_instance.level.get_random_wild(area_type)
     if p is None:
         print("No pokemon in this level for type: ", area_type)
     b = battle.Battle(
         battle.BattleTeam(
             [
-                battle.BattlePlayer(False, [], (0,), disp=battle.BattlePlayerDisplay(False, "", []))
+                battle.BattlePlayer(False, [], (0, 1, 2), disp=battle.BattlePlayerDisplay(False, "", []))
              ], False),
         battle.BattleTeam(
             [
                 battle.BattlePlayer(True, [player_pokemon.PlayerPokemon.create_pokemon(p, 20)], (0,), wild=True),
-                battle.BattlePlayer(True, [player_pokemon.PlayerPokemon.create_pokemon(p, 20)], (1,), wild=True),
+                battle.BattlePlayer(True, [player_pokemon.PlayerPokemon.create_pokemon(p2, 20)], (1,), wild=True),
+                battle.BattlePlayer(True, [player_pokemon.PlayerPokemon.create_pokemon(p3, 20)], (2,), wild=True)
             ], True),
         True
     )

@@ -12,12 +12,13 @@ import pokemon.ability as ability
 import hud.hud as hud
 import sounds
 import sound_manager
+import random
 import copy
 
 SURFACE_SIZE = (1060, 600)
 
 # 130 / 40
-BASE_SIZE = (390, 120)
+BASE_SIZES = ((390, 120), (390, 120), (325, 100))
 GRASS_PLATE_BASE = (353, 80, 483, 120)
 
 
@@ -81,10 +82,10 @@ class WildAnimation(StartAnimation):
                 y += (game.SURFACE_SIZE[1] * 0.3 + 200) * min(1.0, (ps_t - 1000) / 1500)
                 # BASE
                 base_x = WildAnimation.START_POINT[0] + (
-                            battle_.bg.enemy_base_coord[0][0] - WildAnimation.START_POINT[0]) * \
+                            battle_.bg.enemy_base_coord[battle_.nb_enemy - 1][0][0] - WildAnimation.START_POINT[0]) * \
                          min(1.0, (ps_t - 1000) / 1000)
                 base_x_2 = WildAnimation.START_POINT[1] - (
-                            WildAnimation.START_POINT[1] - battle_.bg.ally_base_coord[0][0]) * \
+                            WildAnimation.START_POINT[1] - battle_.bg.ally_base_coord[battle_.nb_enemy - 1][0][0]) * \
                            min(1.0, (ps_t - 1000) / 1000)
                 battle_.draw_base(display, base_x, enemy=True)
                 battle_.draw_base(display, base_x_2, enemy=False)
@@ -118,18 +119,20 @@ class RenderAbilityCallback(object):
 class PlayAbility(object):
 
     def __init__(self, ab: 'ability.AbstractAbility', bat: 'Battle',
-                 launcher: Tuple[int, int], launcher_p: 'player_pokemon.PlayerPokemon', enmy: bool):
+                 launcher: Tuple[int, int], launcher_p: 'player_pokemon.PlayerPokemon', l_enemy: bool,
+                 enemy: bool, case: int):
 
         self.launcher_p: 'player_pokemon.PlayerPokemon' = launcher_p
         self.__ab: 'ability.AbstractAbility' = ab
-        self.__targets_p: List['player_pokemon'] = bat.get_target(ab, enmy)
-        self.__targets: List[Tuple[int, int]] = bat.get_target_pos(ab, enmy)
+        self.__targets_p: List['player_pokemon'] = bat.get_target(ab, l_enemy, enemy, case)
+        self.__targets: List[Tuple[int, int]] = bat.get_target_pos(ab, l_enemy, enemy, case)
         self.launcher: Tuple[int, int] = launcher
         self.__first_time: bool = True
         self.__start_time: int = 0
         # attack / crit
         self.__bool_matrix: List[bool] = [True] * 6
-        self.__d_status: Tuple[List[Tuple[int, int]], bool] = self.launcher_p.get_damage(self.__targets_p, self.__ab)
+        # todo call back
+        self.__d_status: Tuple[List[Tuple[int, float]], bool, int] = ab.get_damage(self.launcher_p, self.__targets_p)
         print("d_status", self.__d_status)
         self.__max_type_multi = max(self.__d_status[0], key=lambda k: k[1])[1]
         self.__damage_table = []
@@ -424,27 +427,28 @@ class Battle(object):
         self.__enemy_team = enemy
 
         self.sound: 'sounds.Sound' = sound
-
-        self.__ally: List[Optional['player_pokemon.PlayerPokemon']] = [None] * len(self.__ally_team.case)
-        self.__enemy: List[Optional['player_pokemon.PlayerPokemon']] = [None] * len(self.__enemy_team.case)
+        self.nb_ally = len(self.__ally_team.case)
+        self.nb_enemy = len(self.__enemy_team.case)
+        self.__ally: List[Optional['player_pokemon.PlayerPokemon']] = [None] * self.nb_ally
+        self.__enemy: List[Optional['player_pokemon.PlayerPokemon']] = [None] * self.nb_enemy
 
         self.nb_not_bot: Tuple[int] = self.__ally_team.get_none_bot().case_number
         self.selected_not_bot: int = min(self.nb_not_bot)
         self.player_queue = []
 
-        # if not (0 < len(self.__ally) < 4) or not (0 < len(self.__enemy) < 4):
-        #     raise ValueError("ally and enemy len need be in [1:3]")
+        self.base_size = BASE_SIZES[max(self.nb_ally, self.nb_enemy) - 1]
         self.wild = wild
         self.__start_time = utils.current_milli_time()
         self.poke_ball = pygame.transform.scale(items.POKE_BALL.image,
                                                 (game.SURFACE_SIZE[1] // 8, game.SURFACE_SIZE[1] // 8))
         self.start_sound: pygame.mixer.Sound = pygame.mixer.Sound('assets/sound/music/pokemon-start-battle.mp3')
         self.animation: StartAnimation = animation()
-        self.bool_matrix = [True] * 4
+        self.bool_matrix = [True] * 5
         self.base: Union[Tuple[int, int, int, int], pygame.Surface] = base
         self.bg: 'background.BackGround' = bg
         self.bg_image: Optional[pygame.Surface] = None
         self.selected_y = [0, 3]
+        self.selected_x = [0, 3]
         self.menu_action: List[Callable[[], NoReturn]] = [self.action_menu_action, None]
         self.status = 0
         self.turn_count = 0
@@ -452,6 +456,7 @@ class Battle(object):
         self.queue_play_ability: List[PlayAbility] = []
         self.current_animation: Optional[Animation] = None
         self.current_animation_callback: Optional[Callable[[], NoReturn]] = None
+        self.current_ab: Optional['player_pokemon.PokemonAbility'] = None
 
     def load_asset(self):
         self.sound.load()
@@ -460,7 +465,7 @@ class Battle(object):
         sounds.HIT_SUPER_EFFECTIVE.load()
         sounds.BLOCK.load()
         self.animation.load_asset()
-        self.base = utils.get_part_i(pygame.image.load('assets/textures/battle/base_2.png'), self.base, (390, 120))
+        self.base = utils.get_part_i(pygame.image.load('assets/textures/battle/base_2.png'), self.base, self.base_size)
         self.bg_image = pygame.transform.scale(pygame.image.load(self.bg.bg_path), game.SURFACE_SIZE)
         self.button_text = [game.game_instance.get_message(t) for t in ['attack', 'team', 'bag', 'run_away']]
         self.arrow = utils.get_part_i(menu.MENU_IMAGE, (0, 64, 22, 91), (33, 41))
@@ -493,28 +498,24 @@ class Battle(object):
 
     def draw_base(self, display: pygame.Surface, x, enemy: bool, i=0):
         if enemy:
-            display.blit(self.base, (x, self.bg.enemy_base_coord[i][1]))
+            display.blit(self.base, (x, self.bg.enemy_base_coord[self.nb_enemy - 1][i][1]))
         else:
-            display.blit(self.base, (x, self.bg.ally_base_coord[i][1]))
+            display.blit(self.base, (x, self.bg.ally_base_coord[self.nb_ally - 1][i][1]))
 
     def draw_bg(self, display: pygame.Surface):
         display.blit(self.bg_image, (0, 0))
 
-    poly_enemy_1 = ((860, 20), (960, 20), (940, 50), (840, 50))
-    poly_enemy_2 = ((960, 20), (1060, 20), (1060, 50), (940, 50))
-    poly_ally_1 = ((220, 530), (120, 530), (100, 580), (200, 580))
-    poly_ally_2 = ((120, 530), (0, 530), (0, 580), (100, 580))
-    INFO_enemy = 860, 300
-    INFO_ally = 20, 300
+    INFO_enemy = 830, 580, 330
+    INFO_ally = 60, 310, 560
 
     def get_poke_pose(self, enemy: bool, i: int, simple: bool = False) -> Tuple[int, int]:
-        c = self.bg.enemy_base_coord[i] if enemy else self.bg.ally_base_coord[i]
+        c = self.bg.enemy_base_coord[self.nb_enemy - 1][i] if enemy else self.bg.ally_base_coord[self.nb_ally - 1][i]
         poke = self.__enemy[i] if enemy else self.__ally[i]
         size = 192, 192
         if simple:
-            return c[0] + (BASE_SIZE[0]) // 2, int(c[1] + (BASE_SIZE[1] * 0.75))
-        return c[0] + (BASE_SIZE[0] // 2) - (size[0] // 2), int(
-            c[1] + (BASE_SIZE[1] * 0.75) - ((poke.front_image_y if enemy else poke.back_image_y) * 2))
+            return c[0] + (self.base_size[0]) // 2, int(c[1] + (self.base_size[1] * 0.75))
+        return c[0] + (self.base_size[0] // 2) - (size[0] // 2), int(
+            c[1] + (self.base_size[1] * 0.75) - ((poke.front_image_y if enemy else poke.back_image_y) * 2))
 
     GRADIENT = [(0, 229, 29), (25, 205, 27), (50, 181, 26), (75, 157, 25), (100, 133, 24), (125, 109, 23),
                 (150, 85, 22), (175, 61, 21), (200, 37, 20), (225, 14, 19)]
@@ -528,8 +529,8 @@ class Battle(object):
             poke = self.__enemy[i]
             x = Battle.INFO_enemy[i]
             display.blit(poke.get_front_image(2), p_c)
-            pygame.draw.polygon(display, (246, 250, 253), Battle.poly_enemy_1)
-            pygame.draw.polygon(display, (255, 255, 255), Battle.poly_enemy_2)
+            pygame.draw.polygon(display, (246, 250, 253), ((x, 20), (x + 100, 20), (x + 80, 50), (x - 20, 50)))
+            pygame.draw.polygon(display, (255, 255, 255), ((x + 100, 20), (x + 220, 20), (x + 200, 50), (x + 80, 50)))
 
             utils.draw_progress_bar(display, (x, 40), (170, 5), (100, 100, 100),
                                     self.bar_color(poke.heal, poke.get_max_heal()),
@@ -542,8 +543,8 @@ class Battle(object):
             poke = self.__ally[i]
             x = Battle.INFO_ally[i]
             display.blit(poke.get_back_image(2), p_c)
-            pygame.draw.polygon(display, (246, 250, 253), Battle.poly_ally_1)
-            pygame.draw.polygon(display, (255, 255, 255), Battle.poly_ally_2)
+            pygame.draw.polygon(display, (246, 250, 253), ((x + 210, 530), (x + 100, 530), (x + 70, 580), (x + 180, 580)))
+            pygame.draw.polygon(display, (255, 255, 255), ((x + 100, 530), (x - 20, 530), (x - 50, 580), (x + 70, 580)))
             utils.draw_progress_bar(display, (x, 551), (170, 5), (100, 100, 100),
                                     self.bar_color(poke.heal, poke.get_max_heal()),
                                     poke.heal / poke.get_max_heal())
@@ -576,6 +577,38 @@ class Battle(object):
                 display.blit(self.arrow, (x - 50, y + 2))
             y += 50
 
+
+    TARGET_POSE = ((440,), (290, 590), (180, 440, 700))
+
+    def draw_target_select(self, display: pygame.Surface):
+        pygame.draw.polygon(display, (206, 39, 86, 100), ((0, 150), (795, 150), (265, 450), (0, 450)))
+        pygame.draw.polygon(display, (172, 27, 64, 100), ((795, 150), (1060, 150), (1060, 450), (265, 450)))
+        nb_enemy = self.nb_enemy
+        nb_ally = self.nb_ally
+
+        tab = self.current_ab.ability.get_target(self.selected_x[0], nb_enemy, nb_ally, self.selected_y[0] == 0)
+        WHITE = (255, 255, 255)
+        BLACK = (0, 0, 0)
+        GRAY = (100, 100, 100)
+
+
+        for i in range(nb_enemy):
+            self.draw_target_pokemon(display, self.__enemy[self.selected_x[1] - 1 - i],
+                                     BLACK if tab[0][i] else WHITE,
+                                     (Battle.TARGET_POSE[nb_enemy - 1][i], 200),
+                                     WHITE if tab[0][i] else GRAY)
+        for i in range(nb_ally):
+            self.draw_target_pokemon(display, self.__ally[i],
+                                     BLACK if tab[1][i] else WHITE,
+                                     (Battle.TARGET_POSE[nb_enemy - 1][i], 325),
+                                     WHITE if tab[1][i] else GRAY)
+
+    def draw_target_pokemon(self, display: pygame.Surface, poke: 'player_pokemon.PlayerPokemon', color, pose, text_color):
+        utils.draw_rond_rectangle(display, pose[0], pose[1], 75, 180, color)
+        if poke:
+            display.blit(poke.get_front_image(0.8), (pose[0] - 25, pose[1] - 5))
+            display.blit(game.FONT_24.render(poke.get_name(True), True, text_color), (pose[0] + 30, pose[1]  + 15))
+
     TO_SHOW = []
 
     def next_to_show(self) -> NoReturn:
@@ -606,19 +639,22 @@ class Battle(object):
             self.animation.tick(display, self, ps_t)
             return False
 
+        if self.bool_matrix[3]:
+            self.bool_matrix[3] = False
+            self.setup_first_pokemon(self.__enemy_team, self.__enemy, True)
+            self.setup_first_pokemon(self.__ally_team, self.__ally, False)
+            self.next_to_show()
+
         if self.current_animation:
             if self.current_animation.tick(display):
                 self.current_animation = None
                 a, self.current_animation_callback = self.current_animation_callback, None
                 if a:
                     a()
-
-        if self.bool_matrix[3]:
-            self.bool_matrix[3] = False
-            sound_manager.MUSIC_CHANNEL.play(self.sound.sound, -1)
-            self.setup_first_pokemon(self.__enemy_team, self.__enemy, True)
-            self.setup_first_pokemon(self.__ally_team, self.__ally, False)
-            self.next_to_show()
+        else:
+            if self.bool_matrix[4]:
+                self.bool_matrix[4] = False
+                sound_manager.MUSIC_CHANNEL.play(self.sound.sound, -1)
 
         # todo: use this
         rac: Optional['RenderAbilityCallback'] = None
@@ -627,12 +663,12 @@ class Battle(object):
             rac = self.current_play_ability.get_rac()
 
         self.draw_bg(display)
-        for i in range(len(self.__enemy)):
-            self.draw_base(display, self.bg.enemy_base_coord[i][0], enemy=True, i=i)
+        for i in range(self.nb_enemy):
+            self.draw_base(display, self.bg.enemy_base_coord[self.nb_enemy - 1][i][0], enemy=True, i=i)
             if self.__enemy[i]:
                 self.draw_pokemon(display, True, i)
-        for i in range(len(self.__ally)):
-            self.draw_base(display, self.bg.ally_base_coord[i][0], enemy=False, i=i)
+        for i in range(self.nb_ally):
+            self.draw_base(display, self.bg.ally_base_coord[self.nb_ally - 1][i][0], enemy=False, i=i)
             if self.__ally[i]:
                 self.draw_pokemon(display, False, i)
 
@@ -664,6 +700,8 @@ class Battle(object):
                 self.draw_button(display)
             elif self.status == 1:
                 self.draw_ability(display, self.selected_not_bot)
+            elif self.status == 2:
+                self.draw_target_select(display)
 
         # end fight here
         return False
@@ -675,49 +713,75 @@ class Battle(object):
         al_end = self.__ally_team.is_all_dead()
         return en_end or al_end, en_end
 
+    def target_menu_escape(self):
+        self.selected_y = [0, 3]
+        self.selected_x = [0, -1]
+        self.menu_action = [self.ability_action, self.ability_escape]
+        self.status = 1
+
     def action_menu_action(self) -> NoReturn:
         if self.selected_y[0] == 0:
             self.selected_y = [0, 3]
+            self.selected_x = [0, -1]
             self.menu_action = [self.ability_action, self.ability_escape]
             self.status = 1
 
     def ability_action(self) -> NoReturn:
         ab = self.__ally[self.selected_not_bot].get_ability(self.selected_y[0])
         if ab and ab.pp > 0:
-
-            # don't show menu next turn
-            self.ability_escape()
-            ab.pp -= 1
-            p = PlayAbility(ab.ability, self, self.get_poke_pose(False, 0, simple=True), self.__ally[0], False)
-            self.player_queue.append(p)
-
-            if len(self.player_queue) == len(self.nb_not_bot):
-                all_pa: List[PlayAbility] = self.player_queue
-                for i in range(len(self.__enemy)):
-                    poke = self.__enemy[i]
-                    ab = poke.ge_rdm_ability()
-                    if ab:
-                        all_pa.append(PlayAbility(ab, self, self.get_poke_pose(True, i, simple=True), poke, True))
-                for i in range(1, len(self.__ally)):
-                    poke = self.__ally[i]
-                    ab = poke.ge_rdm_ability()
-                    if ab:
-                        all_pa.append(PlayAbility(ab, self, self.get_poke_pose(False, i, simple=True), poke, False))
-                sorted(all_pa, key=lambda v: v.launcher_p.stats[pokemon.pokemon.SPEED])
-
-                # reset heal  to max for display
-                for pa in all_pa:
-                    pa.fix_heal()
-
-                if len(all_pa) > 0:
-                    self.current_play_ability = all_pa[0]
-                    if len(all_pa) > 1:
-                        self.queue_play_ability = all_pa[1:]
-                self.player_queue.clear()
+            if ab.ability.target != ability.TARGET_BOTH and len(self.__ally if ab.ability.target == ability.TARGET_ALLY else self.__enemy) == 1:
+                self.do_attack(ab, ab.ability.target == ability.TARGET_ENEMY, 0)
             else:
-                self.selected_not_bot += 1
+                self.selected_y = [0, -1] if ab.ability.target == ability.TARGET_ENEMY else\
+                                    [1, -1] if ab.ability.target == ability.TARGET_ALLY else [0, 2]
+                self.selected_x = [0, max(self.nb_ally, self.nb_enemy)]
+                self.current_ab = ab
+                self.menu_action = [
+                    lambda : self.do_attack(self.current_ab, self.selected_y[0] == 0, self.selected_x[1] - 1 - self.selected_x[0]),
+                    self.target_menu_escape
+                ]
+                self.status = 2
         else:
             sound_manager.start_in_first_empty_taunt(sounds.BLOCK.get())
+
+    def do_attack(self, ab: 'player_pokemon.PokemonAbility', enemy: bool, case: int):
+
+        # don't show menu next turn
+        self.ability_escape()
+        ab.pp -= 1
+        p = PlayAbility(ab.ability, self, self.get_poke_pose(False, self.selected_not_bot, simple=True), self.__ally[self.selected_not_bot], False, enemy, case)
+        self.player_queue.append(p)
+
+        if len(self.player_queue) == len(self.nb_not_bot):
+            all_pa: List[PlayAbility] = self.player_queue
+            for i in range(self.nb_enemy):
+                poke = self.__enemy[i]
+                ab_ = poke.ge_rdm_ability()
+                enemy_ = random.randint(0, 1) == 1 if ab_.target == ability.TARGET_BOTH else ab_.target == ability.TARGET_ENEMY
+                case_ = random.randint(0, self.nb_ally - 1) if enemy_ else random.randint(0, self.nb_enemy - 1)
+                if ab_:
+                    all_pa.append(PlayAbility(ab_, self, self.get_poke_pose(True, i, simple=True), poke, True, enemy_, case_))
+            for i in range(self.nb_ally):
+                if self.__ally_team.case[i].bot:
+                    poke = self.__ally[i]
+                    ab_ = poke.ge_rdm_ability()
+                    enemy_ = random.randint(0, 1) == 1 if ab_.target == ability.TARGET_BOTH else ab_.target == ability.TARGET_ENEMY
+                    case_ = random.randint(0, self.nb_enemy - 1) if enemy_ else random.randint(0, self.nb_ally - 1)
+                    if ab_:
+                        all_pa.append(PlayAbility(ab_, self, self.get_poke_pose(False, i, simple=True), poke, False, enemy_, case_))
+            sorted(all_pa, key=lambda v: v.launcher_p.stats[pokemon.pokemon.SPEED])
+
+            # reset heal  to max for display
+            for pa in all_pa:
+                pa.fix_heal()
+
+            if len(all_pa) > 0:
+                self.current_play_ability = all_pa[0]
+                if len(all_pa) > 1:
+                    self.queue_play_ability = all_pa[1:]
+            self.player_queue.clear()
+        else:
+            self.selected_not_bot += 1
 
     def launch_pokemon(self, case: int, team_n: int, enemy: bool,
                        callback: Callable[[], NoReturn]) -> NoReturn:
@@ -741,6 +805,7 @@ class Battle(object):
 
     def ability_escape(self) -> NoReturn:
         self.selected_y = [0, 3]
+        self.selected_x = [0, -1]
         self.menu_action = [self.action_menu_action, None]
         self.status = 0
 
@@ -753,9 +818,18 @@ class Battle(object):
             self.menu_action[0]()
 
     def on_key_x(self, left: bool) -> NoReturn:
-        pass
+        if self.selected_x[1] == -1:
+            return
+        if left:
+            if self.selected_x[0] > 0:
+                self.selected_x[0] -= 1
+        else:
+            if self.selected_x[0] < self.selected_x[1]:
+                self.selected_x[0] += 1
 
     def on_key_y(self, up: bool) -> NoReturn:
+        if self.selected_y[1] == -1:
+            return
         if up:
             if self.selected_y[0] > 0:
                 self.selected_y[0] -= 1
@@ -763,22 +837,24 @@ class Battle(object):
             if self.selected_y[0] < self.selected_y[1]:
                 self.selected_y[0] += 1
 
-    def get_target_pos(self, ab: 'ability.AbstractAbility', enemy: bool) -> List[Tuple[int, int]]:
+    def get_target_pos(self, ab: 'ability.AbstractAbility', l_enemy: bool, enemy: bool, case: int) -> List[Tuple[int, int]]:
+        tar = ab.get_target(case, self.nb_enemy, self.nb_ally , enemy)
         back = []
-        for i in range(len(self.__ally if enemy else self.__enemy)):
-            if ab.target[0][i]:
-                back.append(self.get_poke_pose(not enemy, i, simple=True))
-        for i in range(len(self.__enemy if enemy else self.__ally)):
-            if ab.target[1][i]:
-                back.append(self.get_poke_pose(enemy, i, simple=True))
+        for i in range(self.nb_ally if l_enemy else self.nb_enemy):
+            if tar[0][i]:
+                back.append(self.get_poke_pose(not l_enemy, i, simple=True))
+        for i in range(self.nb_enemy if l_enemy else self.nb_ally):
+            if tar[1][i]:
+                back.append(self.get_poke_pose(l_enemy, i, simple=True))
         return back
 
-    def get_target(self, ab: 'ability.AbstractAbility', enemy: bool) -> List['player_pokemon']:
+    def get_target(self, ab: 'ability.AbstractAbility', l_enemy: bool, enemy: bool, case: int) -> List['player_pokemon']:
+        tar = ab.get_target(case, self.nb_enemy, self.nb_ally , enemy)
         back = []
-        for i in range(len(self.__ally if enemy else self.__enemy)):
-            if ab.target[0][i]:
-                back.append((self.__ally if enemy else self.__enemy)[i])
-        for i in range(len(self.__enemy if enemy else self.__ally)):
-            if ab.target[1][i]:
-                back.append((self.__enemy if enemy else self.__ally)[i])
+        for i in range(self.nb_ally if l_enemy else self.nb_enemy):
+            if tar[0][i]:
+                back.append((self.__ally if l_enemy else self.__enemy)[i])
+        for i in range(self.nb_enemy if l_enemy else self.nb_ally):
+            if tar[1][i]:
+                back.append((self.__enemy if l_enemy else self.__ally)[i])
         return back

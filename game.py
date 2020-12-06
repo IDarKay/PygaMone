@@ -100,7 +100,7 @@ class Game(object):
         global game_instance
         game_instance = self
 
-        self.display: 'pygame.Surface' = pygame.Surface(SURFACE_SIZE)
+        self.display: 'pygame.Surface' = pygame.Surface(SURFACE_SIZE, pygame.HWSURFACE | pygame.SRCALPHA)
         self.player: 'player.Player' = player.Player(self)
 
         self.floor_cache = Cache()
