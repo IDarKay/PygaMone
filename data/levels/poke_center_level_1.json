@@ -1,6 +1,8 @@
 {
   "seed": "457456157845975",
   "name": "poke_center_level_1",
+  "is_poke_center": true,
+  "poke_heal_coord": [7.9375, 1.4062],
   "floor": {
     "key": {
       "D": {

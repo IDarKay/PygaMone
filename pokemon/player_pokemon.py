@@ -6,9 +6,12 @@ import pokemon.abilitys_ as abilitys_
 import item.items as items
 import item.item as item
 import item.pokeball as poke_item
+import pokemon.status.pokemon_status as pokemon_status
+import pokemon.status.pokemon_stats_modifier as psm
 import random
 import displayer
 import pygame
+
 
 
 class PokemonAbility(object):
@@ -53,10 +56,12 @@ C_S_BURN = "BURN"
 
 COMBAT_STATUS = [C_S_CRITICAL, C_S_BURN]
 
+
+
 class PlayerPokemon(object):
 
     def __init__(self, _id: int, xp: int, ivs: Dict[str, int], heal: int,
-                 ability: List[PokemonAbility], poke_ball: 'item.Item', shiny: bool, female: bool, /):
+                 ability: List[PokemonAbility], poke_ball: 'item.Item', shiny: bool, female: bool, status: list[str], /):
         self.id_ = _id
         self.xp = xp
         self.poke = pokemon.get_pokemon(self.id_)
@@ -72,16 +77,25 @@ class PlayerPokemon(object):
         self.back_image_y = self.get_first_color(self.back_image)
 
         self.stats = {}
-        self.combat_stats = {}
+        #combat_stats
+        self.combat_status: 'pokemon_status.PokeStatus' = pokemon_status.PokeStatus(self, status)
+        self.pokemon_stats_modifier: 'psm.PokeStatsModifier' = psm.PokeStatsModifier(self)
         self.calculate_stats()
         self.ability: List[PokemonAbility] = ability
 
         self.poke_ball: 'poke_item.Pokeball' = poke_ball
         self.use = False
+        self.ram_data = {}
 
         # heal check
         if self.heal == -1 or self.heal > self.get_max_heal():
             self.heal = self.get_max_heal()
+
+    def get_stats(self, name: str, with_edit: bool = True):
+        v = self.stats[name] if name in self.stats else 0
+        if with_edit:
+            v += self.pokemon_stats_modifier.get(name)
+        return v
 
     def set_use(self, value: bool):
         self.use = value
@@ -101,10 +115,10 @@ class PlayerPokemon(object):
     def get_back_image(self, scale=1) -> pygame.Surface:
         return displayer.get_poke(self.back_image, scale)
 
-    def reset_combat_stats(self):
-        self.combat_stats.clear()
-        for c_s in COMBAT_STATUS:
-            self.combat_stats[c_s] = 0
+    def reset_combat_status(self):
+        self.ram_data = {}
+        self.pokemon_stats_modifier.reset()
+        self.combat_status.reset()
 
     def ge_rdm_ability(self) -> Optional['p_ability.AbstractAbility']:
         le = len(self.ability)
@@ -122,7 +136,7 @@ class PlayerPokemon(object):
         return None
 
     def get_max_heal(self) -> int:
-        return self.stats[pokemon.HEAL]
+        return self.get_stats(pokemon.HEAL, False)
 
     def calculate_stats(self) -> NoReturn:
         for st in pokemon.STATS:
@@ -167,7 +181,8 @@ class PlayerPokemon(object):
             "ability": [a.serialisation() for a in self.ability],
             "pokeball": self.poke_ball.identifier,
             "shiny": self.shiny,
-            "female": self.female
+            "female": self.female,
+            "status": self.combat_status.get_save()
         }
 
     @staticmethod
@@ -182,7 +197,7 @@ class PlayerPokemon(object):
         _ability = []
         for i in range(min(len(ability), 4)):
             _ability.append(PokemonAbility.new_ability(ability[i]))
-        return PlayerPokemon(_id, xp, ivs, -1, _ability, poke_ball, shiny, female)
+        return PlayerPokemon(_id, xp, ivs, -1, _ability, poke_ball, shiny, female, [])
         pass
 
     @staticmethod
@@ -192,7 +207,8 @@ class PlayerPokemon(object):
                              [PokemonAbility.deserialisation(a) for a in data["ability"]],
                              items.ITEMS[data["pokeball"]],
                              data["shiny"],
-                             data["female"]
+                             data["female"],
+                             data["status"]
                              )
 
 

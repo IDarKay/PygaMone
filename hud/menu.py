@@ -431,7 +431,6 @@ class TeamMenu(Menu):
                 pass
             elif self.action_selected == 4:
                 self.action_selected = -1
-        pass
 
 
 class StatusMenu(Menu):

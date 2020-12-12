@@ -1,5 +1,5 @@
 from typing import Dict, Any, Tuple, NoReturn, Callable, Optional
-from utils import min_max, get_part_i
+import utils
 import character as char
 import character.player as char_p
 import pygame
@@ -24,7 +24,7 @@ class NPC(char.character.Character):
     def get_triggers_box(self):
         raise RuntimeError("get_triggers ne to be redefine")
 
-    def get_relative_trigger(self, box_size: Tuple[int, int],
+    def get_relative_trigger(self, box_size: tuple[int, int],
                              relative: Tuple[int, int]) -> 'collision.NPCTriggerCollisionBox':
         npc_box = self.get_box()
 
@@ -74,13 +74,13 @@ class JoyNPC(NPC):
 
     def __init__(self, data: Dict[str, Any]):
         super().__init__(data, (38, 50))
-        self.__facing = min_max(0, NPC.get_args(data, "facing", 0, int), 3)
-        heal_facing = min_max(0, NPC.get_args(data, "heal_facing", 0, int), 3)
+        self.__facing = utils.min_max(0, NPC.get_args(data, "facing", 0, int), 3)
+        heal_facing = utils.min_max(0, NPC.get_args(data, "heal_facing", 0, int), 3)
         self.__heal_machine = NPC.get_args(data, "heal_machine", type_check=list)
         self.__heal_machine = self.__heal_machine[0] * game.CASE_SIZE, self.__heal_machine[1] * game.CASE_SIZE
 
-        self.facing_image = get_part_i(char.character.NPC_IMAGE, JoyNPC.IMAGE_LOC[self.__facing], (38, 50))
-        self.__heal_facing_image = get_part_i(char.character.NPC_IMAGE, JoyNPC.IMAGE_LOC[heal_facing], (38, 50))
+        self.facing_image = utils.get_part_i(char.character.NPC_IMAGE, JoyNPC.IMAGE_LOC[self.__facing], (38, 50))
+        self.__heal_facing_image = utils.get_part_i(char.character.NPC_IMAGE, JoyNPC.IMAGE_LOC[heal_facing], (38, 50))
         # 0 nothing, 1 talk
         self.__status = 0
         self.__action: Optional[int] = None

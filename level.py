@@ -128,6 +128,12 @@ class Level(object):
                 _id = np["id"]
                 self.npc.append(npc.load(_id, np))
 
+        self.is_poke_center = ("is_poke_center" in data and data["is_poke_center"])
+        if self.is_poke_center:
+            self.poke_center_heal_coord = data["poke_heal_coord"]
+
+
+
         self.wild_pokemon: Dict[str, List[List[int]]] = data["wild_pokemon"] if "wild_pokemon" in data else {}
         self.wild_pokemon_rdm: Dict[str, List[List[int]]] = {}
         self.wild_pokemon_rdm_max: Dict[str, int] = {}

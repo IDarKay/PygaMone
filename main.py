@@ -4,6 +4,7 @@ import game
 import start_menu
 import sys
 import utils
+import locale
 
 SCREEN_SIZE = (1600, 900)
 
@@ -11,6 +12,7 @@ SCREEN_SIZE = (1600, 900)
 if __name__ == '__main__':
 
     utils.force()
+    locale.setlocale(locale.LC_ALL, '')
     pygame.init()
     pygame.display.set_caption("Test Pokemon",)
     screen = pygame.display.set_mode(SCREEN_SIZE)

@@ -27,6 +27,12 @@ SP_DEFENSE: str = "sp_defense"
 
 STATS: List[str] = [HEAL, ATTACK, DEFENSE, SPEED, SP_ATTACK, SP_DEFENSE]
 
+TRANSLATE_STATS = {}
+
+
+def init_translate(g: 'game.Game'):
+    for s in STATS:
+        TRANSLATE_STATS[s] = g.get_message("stats." + s)
 
 
 class Pokemon(object):
@@ -36,7 +42,7 @@ class Pokemon(object):
         self.parent: int = utils.get_args(data, "parent", id_, default=0, type_check=int)
         if not (0 <= self.parent <= NB_POKEMON) or self.parent == id_:
             raise err.PokemonParseError("Pokemon ({}) have invalid parent !".format(id_))
-        self.types: List['pok_t'] = [pok_t.TYPES[t] for t in utils.get_args(data, "type", id_)]
+        self.types: List['pok_t.Type'] = [pok_t.TYPES[t] for t in utils.get_args(data, "type", id_)]
         self.xp_points: int = utils.get_args(data, "xp_point", id_, type_check=int)
         self.color: str = utils.get_args(data, "color", id_, type_check=str)
         self.evolution: List[Dict[str, Any]] = utils.get_args(data, "evolution", id_, default=[])

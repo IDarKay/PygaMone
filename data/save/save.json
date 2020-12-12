@@ -1,1 +1,118 @@
-{"last_level": "poke_center_level_1", "last_level_coord": [8.03, 6.1], "last_save": 1607265492, "time_played": 405527, "team": [{"_id": 6, "xp": 4000, "ivs": 44468, "heal": 58, "ability": [{"_id": "tackle", "pp": 35, "max_pp": 35}, {"_id": "ember", "pp": 25, "max_pp": 25}], "pokeball": "item.pokeball.master_ball", "shiny": true, "female": false}, {"_id": 2, "xp": 45000, "ivs": 44468, "heal": 95, "ability": [{"_id": "tackle", "pp": 35, "max_pp": 35}, {"_id": "ember", "pp": 25, "max_pp": 25}], "pokeball": "item.pokeball.great_ball", "shiny": true, "female": true}, {"_id": 3, "xp": 75000, "ivs": 44468, "heal": 126, "ability": [{"_id": "tackle", "pp": 35, "max_pp": 35}], "pokeball": "item.pokeball.ultra_ball", "shiny": true, "female": true}, {"_id": 3, "xp": 75000, "ivs": 44468, "heal": 126, "ability": [{"_id": "tackle", "pp": 35, "max_pp": 35}, {"_id": "ember", "pp": 25, "max_pp": 25}], "pokeball": "item.pokeball.poke_ball", "shiny": false, "female": true}, {"_id": 3, "xp": 75000, "ivs": 44468, "heal": 126, "ability": [{"_id": "tackle", "pp": 35, "max_pp": 35}], "pokeball": "item.pokeball.master_ball", "shiny": false, "female": false}], "pc": []}
+{
+  "last_level": "poke_center_level_1",
+  "last_level_coord": [
+    8.03,
+    6.1
+  ],
+  "last_poke_center_level": "poke_center_level_1",
+  "last_poke_center_level_coord": [
+    7.9375,
+    1.4062
+  ],
+  "money": 352,
+  "last_save": 1607790100,
+  "time_played": 930135,
+  "team": [
+    {
+      "_id": 6,
+      "xp": 30000,
+      "ivs": 44468,
+      "heal": 127,
+      "status": ["burn"],
+      "ability": [
+        {
+          "_id": "tackle",
+          "pp": 35,
+          "max_pp": 35
+        },
+        {
+          "_id": "ember",
+          "pp": 25,
+          "max_pp": 25
+        }
+      ],
+      "pokeball": "item.pokeball.master_ball",
+      "shiny": true,
+      "female": false
+    },
+    {
+      "_id": 2,
+      "xp": 45000,
+      "ivs": 44468,
+      "heal": 95,
+      "status": [],
+      "ability": [
+        {
+          "_id": "tackle",
+          "pp": 35,
+          "max_pp": 35
+        },
+        {
+          "_id": "ember",
+          "pp": 25,
+          "max_pp": 25
+        }
+      ],
+      "pokeball": "item.pokeball.great_ball",
+      "shiny": true,
+      "female": true
+    },
+    {
+      "_id": 3,
+      "xp": 75000,
+      "ivs": 44468,
+      "heal": 126,
+      "status": [],
+      "ability": [
+        {
+          "_id": "tackle",
+          "pp": 35,
+          "max_pp": 35
+        }
+      ],
+      "pokeball": "item.pokeball.ultra_ball",
+      "shiny": true,
+      "female": true
+    },
+    {
+      "_id": 3,
+      "xp": 75000,
+      "ivs": 44468,
+      "heal": 126,
+      "status": [],
+      "ability": [
+        {
+          "_id": "tackle",
+          "pp": 35,
+          "max_pp": 35
+        },
+        {
+          "_id": "ember",
+          "pp": 25,
+          "max_pp": 25
+        }
+      ],
+      "pokeball": "item.pokeball.poke_ball",
+      "shiny": false,
+      "female": true
+    },
+    {
+      "_id": 3,
+      "xp": 75000,
+      "ivs": 44468,
+      "heal": 126,
+      "status": [],
+      "ability": [
+        {
+          "_id": "tackle",
+          "pp": 35,
+          "max_pp": 35
+        }
+      ],
+      "pokeball": "item.pokeball.master_ball",
+      "shiny": false,
+      "female": false
+    }
+  ],
+  "pc": []
+}

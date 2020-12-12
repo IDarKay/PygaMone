@@ -8,6 +8,7 @@ import collision
 import pokemon.battle.battle as battle
 import pokemon.player_pokemon as player_pokemon
 import utils
+import option
 
 MAX_POKE_IN_BOX: int = 26
 NB_BOX: int = 10
@@ -53,6 +54,22 @@ class PC(object):
             self.__box[box][case] = None
             return p.to_none_pc()
         return None
+
+
+class SpeedGetter(object):
+
+    def __init__(self, time_millis: int):
+        self.prevTimeMillis = time_millis
+        self.lastFrameDuration = 0
+        self.delta = 0
+
+    def get_delta(self, time_millis: int, speed: float) -> int:
+        self.lastFrameDuration = (time_millis - self.prevTimeMillis) / speed
+        self.prevTimeMillis = time_millis
+        self.delta += self.lastFrameDuration
+        i = int(self.delta)
+        self.delta -= float(i)
+        return i
 
 
 class Player(character.Character):
@@ -112,9 +129,10 @@ class Player(character.Character):
         self.image: List[pygame.Surface] = [utils.get_part_i(IMAGE, cord[0:4], (36, 52), flip=(True, False) if cord[4] else (False, False)) for cord in Player.I]
 
         self.movement = [0, 0]
-        self.speed = 1
-        self.speed_on_running = 2
-        self.speed_cycling = 3
+        self.speed = 10
+        self.speed_on_running = 6
+        self.speed_cycling = 4
+        self.speed_getter = SpeedGetter(utils.current_milli_time())
         self.direction = 2
         self.current_dialogue = None
         self.freeze_time = 0
@@ -206,7 +224,7 @@ class Player(character.Character):
             return
 
         if self.current_dialogue and not over:
-            raise RuntimeError("try open dialog while other is open")
+            return
 
         self.freeze_time = -2
         self.current_dialogue = dialogue
@@ -250,8 +268,11 @@ class Player(character.Character):
         :type co: collision.Collision
         """
         move = self.update_direction()
+        speed = self.speed_cycling if self.is_cycling else (
+            self.speed_on_running if self.speed_status[1] else self.speed)
+        speed = self.speed_getter.get_delta(utils.current_milli_time(), speed)
+        speed = min(10, speed)
         if move:
-            speed = self.speed_cycling if self.is_cycling else (self.speed_on_running if self.speed_status[1] else self.speed)
             offset_y = (-1 if self.direction == 0 else 1 if self.direction == 2 else 0) * speed
             offset_x = (-1 if self.direction == 1 else 1 if self.direction == 3 else 0) * speed
         else:
@@ -282,8 +303,11 @@ class Player(character.Character):
         self.speed_status = [True, self.speed_status[1]]
         return True
 
-    def on_key_sprint(self):
-        self.speed_status[1] = not self.speed_status[1]
+    def on_key_sprint(self, joy: bool, down: bool):
+        if option.HOLD_SPRINT or joy:
+            self.speed_status[1] = down
+        elif down:
+            self.speed_status[1] = not self.speed_status[1]
 
     def cycling_press(self):
         if game.game_instance.level.can_cycling:
@@ -294,7 +318,7 @@ class Player(character.Character):
     def escape_press(self) -> NoReturn:
         if self.current_menu:
             self.current_menu.on_key_escape()
-        if self.current_battle:
+        elif self.current_battle:
             self.current_battle.on_key_escape()
 
     def action_press(self) -> NoReturn:
@@ -304,21 +328,27 @@ class Player(character.Character):
                 self.close_dialogue()
         if self.current_menu:
             self.current_menu.on_key_action()
-        if self.current_battle:
+        elif self.current_battle:
             self.current_battle.on_key_action()
 
-    def on_key_x(self, value: float, up: bool) -> NoReturn:
-        if up:
+    def on_key_x(self, value: float, up: bool, joy: bool = False) -> NoReturn:
+        if joy:
+            up = value == 0
+            self.movement[0] = Player.joy_round(value)
+        elif up:
             self.movement[0] -= value
         else:
             self.movement[0] += value
         if self.current_menu:
             self.current_menu.on_key_x(value, not up)
-        if self.current_battle and not up:
+        elif self.current_battle and not up:
             self.current_battle.on_key_x(value < 0)
 
-    def on_key_y(self, value: float, up: bool) -> NoReturn:
-        if up:
+    def on_key_y(self, value: float, up: bool, joy: bool = False) -> NoReturn:
+        if joy:
+            up = value == 0
+            self.movement[1] = Player.joy_round(value)
+        elif up:
             self.movement[1] -= value
         else:
             self.movement[1] += value
@@ -326,5 +356,13 @@ class Player(character.Character):
             self.current_menu.on_key_y(value, not up)
         if self.current_dialogue and not up:
             self.current_dialogue.pres_y(value < 0)
-        if self.current_battle and not up:
+        elif self.current_battle and not up:
             self.current_battle.on_key_y(value < 0)
+
+    def get_badge_amount(self) -> int:
+        # todo: change
+        return 0
+
+    @staticmethod
+    def joy_round(v: float) -> float:
+        return 0 if v == 0 else -1 if v < 0 else 1

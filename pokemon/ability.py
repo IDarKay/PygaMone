@@ -7,9 +7,11 @@ import game_error as err
 import game
 import pygame
 import pygame_gif
-from pokemon.battle.battle import RenderAbilityCallback
+import pokemon.battle.battle as battle_
 import sound_manager
 import random
+import pokemon.status.status as status
+import pokemon.status.pokemon_status as pokemon_status
 
 PHYSICAL = "PHYSICAL"
 SPECIAL = "SPECIAL"
@@ -73,26 +75,26 @@ class AbstractAbility(object):
         table[0 if enemy else 1] = ln
         return table
 
-    def get_damage(self, launcher: "p_poke.PlayerPokemon", targets: list['p_poke.PlayerPokemon']) -> tuple[List[Tuple[int, float]], bool, int]:
+    def get_damage(self, launcher: "p_poke.PlayerPokemon", targets: list['p_poke.PlayerPokemon']) -> tuple[list[tuple[int, float]], bool, int]:
         nb_target = len(targets)
-        critical_T = launcher.stats[pokemon.SPEED] *\
-                     (8 if launcher.combat_stats[p_poke.C_S_CRITICAL] >= 1 and self.high_critical else
-                      4 if self.high_critical else 2 if launcher.combat_stats[p_poke.C_S_CRITICAL] else 0.5)
+        critical_T = launcher.get_stats(pokemon.SPEED) *\
+                     (8 if launcher.get_stats(p_poke.C_S_CRITICAL) >= 1 and self.high_critical else
+                      4 if self.high_critical else 2 if launcher.get_stats(p_poke.C_S_CRITICAL) >= 1 else 0.5)
         crit = random.randint(0, 255) <= critical_T
         Ta = (0.75 if nb_target > 1 else 1)
         STAB = (1.5 if self.type in launcher.poke.types else 1)
         rdm = (random.randint(85, 100) / 100)
-        burn = (0.5 if launcher.combat_stats[p_poke.C_S_BURN] >= 1 else 1)
+        burn = (0.5 if launcher.combat_status.have_status(status.BURN) and self.category == PHYSICAL else 1)
         modifier = Ta * (1.5 if crit else 1) * rdm * STAB * burn
         power = self.power
         level = ((2 * launcher.lvl) / 5) + 2
         back = []
         for tr in targets:
             if tr:
-                a = launcher.stats[pokemon.ATTACK] if self.category == PHYSICAL else tr.stats[pokemon.SP_ATTACK]
+                a = launcher.get_stats(pokemon.ATTACK) if self.category == PHYSICAL else tr.get_stats(pokemon.SP_ATTACK)
 
                 # escape divide by 0
-                d = max(1, tr.stats[pokemon.DEFENSE] if self.category == PHYSICAL else tr.stats[pokemon.SP_DEFENSE])
+                d = max(1, tr.get_stats(pokemon.DEFENSE) if self.category == PHYSICAL else tr.get_stats(pokemon.SP_DEFENSE))
 
                 # todo: weather
                 # todo: badge
@@ -107,6 +109,12 @@ class AbstractAbility(object):
         recoil = 0 if self.recoil == NO_RECOIL else (back[0] * self.recoil) if self.recoil == RECOIL_DAMAGE else self.recoil
 
         return back, crit, recoil
+
+    def get_status_edit(self, launcher: "p_poke.PlayerPokemon", targets: list['p_poke.PlayerPokemon']) -> tuple[
+        Tuple[Dict[str, int], List['pokemon_status.Status']],
+        List[Tuple[Dict[str, int], List['pokemon_status.Status']]]
+    ]:
+        return ({}, []), [({}, [])] * len(targets)
 
     def get_name(self) -> NoReturn:
         return game.get_game_instance().get_message("ability." + self.id_)
@@ -144,12 +152,12 @@ class AbstractAbility(object):
             return False
         return True
 
-    def get_rac(self, target: List[Tuple[int, int]],
-               launcher: Tuple[int, int], ps_t: int, first_time: bool) -> RenderAbilityCallback:
-        return RenderAbilityCallback()
+    def get_rac(self, target: List[Tuple[int, int, int]],
+               launcher: Tuple[int, int, int], ps_t: int, first_time: bool) -> 'battle_.RenderAbilityCallback':
+        return battle_.RenderAbilityCallback()
 
-    def render(self, display: pygame.display, target: List[Tuple[int, int]],
-               launcher: Tuple[int, int], ps_t: int, first_time: bool) -> NoReturn:
+    def render(self, display: pygame.display, target: List[Tuple[int, int, int]],
+               launcher: Tuple[int, int, int], ps_t: int, first_time: bool) -> NoReturn:
         pass
 
 
@@ -184,7 +192,9 @@ class EmberAbility(AbstractAbility):
                          protect=True,
                          magic_coat=True,
                          mirror_move=True,
-                         target=TARGET_ENEMY
+                         target=TARGET_ENEMY,
+                         recoil_type=RECOIL_SELF,
+                         recoil=10
                          )
         self.render_during = 2000
         self.need_sound = True
@@ -195,6 +205,14 @@ class EmberAbility(AbstractAbility):
             return True
         return False
 
+    def get_rac(self, target: List[Tuple[int, int, int]],
+               launcher: Tuple[int, int, int], ps_t: int, first_time: bool) -> 'battle_.RenderAbilityCallback':
+        if ps_t < 1800:
+            v = ps_t % 180
+            v = -6 if v < 60 else 0 if v < 120 else 6
+            target_m = [(t[2], v, 0) for t in target]
+            return battle_.RenderAbilityCallback(move_target=target_m)
+        return battle_.RenderAbilityCallback()
 
     def unload_assets(self) -> bool:
         if super().load_assets():
@@ -203,8 +221,15 @@ class EmberAbility(AbstractAbility):
             return True
         return False
 
-    def render(self, display: pygame.display, target: List[Tuple[int, int]],
-               launcher: Tuple[int, int], ps_t: int, first_time: bool) -> NoReturn:
+    def get_status_edit(self, launcher: "p_poke.PlayerPokemon", targets: list['p_poke.PlayerPokemon']) -> tuple[
+        Tuple[Dict[str, int], List['pokemon_status.Status']],
+        List[Tuple[Dict[str, int], List['pokemon_status.Status']]]
+    ]:
+        return ({}, []), [({"speed": 2}, [status.BURN] if random.random() < 1 else []) for i in range(len(targets))]
+
+
+    def render(self, display: pygame.display, target: List[Tuple[int, int, int]],
+               launcher: Tuple[int, int, int], ps_t: int, first_time: bool) -> NoReturn:
         if first_time:
             self.g_i = self.gif.display(target[0])
             sound_manager.start_in_first_empty_taunt(self.sound)

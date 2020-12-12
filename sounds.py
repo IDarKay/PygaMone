@@ -1,9 +1,12 @@
 from typing import Optional
 import pygame
 
+__all__ : list['Sound'] = []
+
 class Sound(object):
 
     def __init__(self, path: str):
+        __all__.append(self)
         self.path = path
         self.sound: Optional[pygame.mixer.Sound]= None
 
@@ -17,6 +20,7 @@ class Sound(object):
             self.sound = pygame.mixer.Sound(self.path)
 
     def un_load(self):
+        del self.sound
         self.sound = None
 
     def __str__(self):
@@ -32,3 +36,15 @@ SAVE = Sound('assets/sound/save.mp3')
 HIT_NORMAL_DAMAGE = Sound('assets/sound/battle/NormalDamage.mp3')
 HIT_NOT_VERY_EFFECTIVE = Sound('assets/sound/battle/NotVeryEffective.mp3')
 HIT_SUPER_EFFECTIVE = Sound('assets/sound/battle/SuperEffective.mp3')
+
+# __all__ = [
+#     BATTLE_DPP_TRAINER,
+#     LEVEL_UP,
+#     HEAL,
+#     PLINK,
+#     BLOCK,
+#     SAVE,
+#     HIT_NORMAL_DAMAGE,
+#     HIT_NOT_VERY_EFFECTIVE,
+#     HIT_SUPER_EFFECTIVE
+# ]

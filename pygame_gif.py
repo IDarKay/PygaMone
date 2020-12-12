@@ -24,14 +24,14 @@ class GifInstance(object):
         self.__images: List[pygame.Surface] = images
         self.__len = len(images)
         self.__coord = coord
-        self.__spped = speed
+        self.__speed = speed
         self.__ticking = speed * self.__len
         self.__start_time = utils.current_milli_time()
 
     def render(self, display: pygame.Surface, coord=None) -> NoReturn:
         ps_t = utils.current_milli_time() - self.__start_time
-        im = self.__images[(ps_t % self.__ticking) // self.__spped]
-        display.blit(im, self.__coord if self.__coord is None else coord)
+        im = self.__images[(ps_t % self.__ticking) // self.__speed]
+        display.blit(im, self.__coord if coord is None else coord)
 
 
 class PygameGif(object):

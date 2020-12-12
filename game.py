@@ -14,6 +14,9 @@ import item.items as items
 import main
 import sys
 import pokemon.battle.wild_start as wild_start
+import utils
+import option
+import pokemon.status.status as status_
 
 screen = None
 
@@ -26,9 +29,11 @@ DIRECTION = ["top", "left", "down", "right"]
 
 game_instance: Optional['Game'] = None
 
+FONT_12: pygame.font.Font = None
 FONT_16: pygame.font.Font = None
 FONT_20: pygame.font.Font = None
 FONT_24: pygame.font.Font = None
+FONT_SIZE_12 = (0, 0)
 FONT_SIZE_16 = (0, 0)
 FONT_SIZE_20 = (0, 0)
 FONT_SIZE_24 = (0, 0)
@@ -66,6 +71,23 @@ class Cache(object):
             raise KeyError("No value load for key {}".format(key))
 
 
+class RenderTickCounter(object):
+
+    def __init__(self, tps: float, time_millis: int):
+        self.tick_time = 1000.0 / tps
+        self.prevTimeMillis = time_millis
+        self.lastFrameDuration = 0
+        self.tickDelta = 0
+
+    def begin_render_tick(self, time_millis: int) -> int:
+        self.lastFrameDuration = (time_millis - self.prevTimeMillis) / self.tick_time
+        self.prevTimeMillis = time_millis
+        self.tickDelta += self.lastFrameDuration
+        i = int(self.tickDelta)
+        self.tickDelta -= float(i)
+        return i
+
+
 IMAGE_CACHE = Cache()
 DISPLAYER_CACHE = Cache()
 POKE_CACHE = Cache()
@@ -77,13 +99,15 @@ class Game(object):
         self.screen = screen_s
 
         # asset load
-        global FONT_16, FONT_SIZE_16, FONT_20, FONT_SIZE_20, FONT_24, FONT_SIZE_24
+        global FONT_12, FONT_SIZE_12, FONT_16, FONT_SIZE_16, FONT_20, FONT_SIZE_20, FONT_24, FONT_SIZE_24
+        FONT_12 = pygame.font.Font("assets/font/MyFont-Regular.otf", 12)
         FONT_16 = pygame.font.Font("assets/font/MyFont-Regular.otf", 16)
         FONT_20 = pygame.font.Font("assets/font/MyFont-Regular.otf", 20)
         FONT_24 = pygame.font.Font("assets/font/MyFont-Regular.otf", 24)
+        FONT_SIZE_12 = FONT_12.size('X')
         FONT_SIZE_16 = FONT_16.size('X')
-        FONT_SIZE_20 = FONT_16.size('X')
-        FONT_SIZE_24 = FONT_16.size('X')
+        FONT_SIZE_20 = FONT_20.size('X')
+        FONT_SIZE_24 = FONT_24.size('X')
         self.lang = {}
         self.poke_lang = {}
         self.save_name = ""
@@ -92,11 +116,15 @@ class Game(object):
         self.load_lang("en")
         self.load_poke_lang("en")
         items.load()
+        status_.load()
         abilitys_.load()
         pokemon.Pokemon.load_pokemons()
         hud.load_hud_item()
+        pygame.joystick.init()
+        self.joysticks = [pygame.joystick.Joystick(x) for x in range(pygame.joystick.get_count())]
+        pokemon.init_translate(self)
         # ============
-
+        self.__render_tick_counter = RenderTickCounter(20.00, 0)
         global game_instance
         game_instance = self
 
@@ -115,12 +143,13 @@ class Game(object):
         self.collision = collision.Collision()
         self.debug = False
         self.ignore_collision = False
-
+        self.time_matrix = [1] * 10
         running = True
         self.direct_battle: list[bool, bool] = ["--direct_battle" in sys.argv, True]
         while running:
             running = self.tick()
             self.clock.tick(60)
+        print("end")
 
     def load_lang(self, lang):
         with open("assets/lang/text/{}.json".format(lang), 'r', encoding='utf-8') as file:
@@ -160,6 +189,19 @@ class Game(object):
         elif key in self._save:
             del self._save[key]
 
+    def get_money(self) -> int:
+        return self.get_save_value("money", 0)
+
+    def set_money(self, amount) -> int:
+        self.save_data("money", amount)
+        return amount
+
+    def add_money(self, amount) -> int:
+        return self.set_money(self.get_money() + amount)
+
+    def remove_money(self, amount) -> int:
+        return self.set_money(max(self.get_money() + amount, 0))
+
     def get_message(self, key: str) -> str:
         if key in self.lang:
             return self.lang[key]
@@ -192,6 +234,9 @@ class Game(object):
             self.player.is_cycling = False
         self.save_data("last_level", name)
         self.save_data("last_level_coord", [x, y])
+        if self.level.is_poke_center:
+            self.save_data("last_poke_center_level", name)
+            self.save_data("last_poke_center_level_coord", self.level.poke_center_heal_coord)
 
     def render(self):
 
@@ -221,14 +266,25 @@ class Game(object):
                 if self.debug:
                     p_pos = self.player.get_pos()
                     surf = FONT_16.render("x: {:+.4f}, y: {:+.4f}".format(p_pos[0], p_pos[1]), True, (255, 255, 255))
+                    surf2 = FONT_16.render(f"Last Render during {self.time_matrix[1]}ms", True, (255, 255, 255))
+                    surf3 = FONT_16.render(f"move TPS {(1000 / max(1, self.time_matrix[3])):+4.2f}", True, (255, 255, 255))
+                    surf4 = FONT_16.render(f"FPS: {(self.clock.get_fps()):+.1f} ", True, (255, 255, 255))
+                    self.display.blit(surf, (0, 0))
+                    self.display.blit(surf2, (0, 20))
+                    self.display.blit(surf3, (0, 40))
+                    self.display.blit(surf4, (0, 60))
 
                     # back_ground = pygame.Surface(surf.get_rect().size)
                     # back_ground.fill((0, 0, 0))
                     # back_ground.set_alpha(200)
                     # self.display.blit(back_ground, (0, 0))
-                    self.display.blit(surf, (0, 0))
+
             if self.player.current_battle:
-                self.player.current_battle.tick(self.display)
+                back = self.player.current_battle.tick(self.display)
+                if not isinstance(back, bool):
+                    self.player.current_battle.unload_assets()
+                    self.player.current_battle = None
+                    back()
 
         self.render_hud(self.display)
         self.screen.blit(pygame.transform.scale(self.display, main.SCREEN_SIZE), (0, 0))
@@ -248,6 +304,7 @@ class Game(object):
         self.player.get_box().debug_render(self.display)
 
     def tick(self):
+
         if self.player.freeze_time == -1:
             self.collision.clear()
             self.display.fill((0, 0, 0))
@@ -255,12 +312,18 @@ class Game(object):
             pygame.display.update()
             return True
 
+        self.time_matrix[0] = utils.current_milli_time()
         self.render()
+        self.time_matrix[1] = utils.current_milli_time() - self.time_matrix[0]
 
+        # k = self.__render_tick_counter.begin_render_tick(utils.current_milli_time())
+        # for i in range(min(10, k)):
         if self.player.freeze_time == 0:
+            self.time_matrix[2], self.time_matrix[3] = utils.current_milli_time(), utils.current_milli_time() - self.time_matrix[2]
             self.player.move(self.collision)
         elif self.player.freeze_time > 0:
             self.player.freeze_time -= 1
+            self.player.speed_getter.get_delta(utils.current_milli_time(), 20)
 
         if self.direct_battle[0] and self.direct_battle[1] and len(self.level.wild_pokemon) > 0:
             self.direct_battle[1] = False
@@ -271,41 +334,69 @@ class Game(object):
             if event.type == pygame.QUIT:
                 pygame.quit()
                 return False
-            if event.type == pygame.KEYDOWN or event.type == pygame.KEYUP:
-                if event.key == pygame.K_w:
-                    self.player.on_key_y(-1, event.type == pygame.KEYUP)
-                if event.key == pygame.K_s:
-                    self.player.on_key_y(1, event.type == pygame.KEYUP)
-                if event.key == pygame.K_d:
-                    self.player.on_key_x(1, event.type == pygame.KEYUP)
-                if event.key == pygame.K_a:
-                    self.player.on_key_x(-1, event.type == pygame.KEYUP)
-                if event.key == pygame.K_x and event.type == pygame.KEYDOWN:
-                    self.player.on_key_sprint()
-                if event.key == pygame.K_z and event.type == pygame.KEYDOWN:
+
+            if event.type == pygame.KEYUP or event.type == pygame.JOYBUTTONUP:
+                k = event.key if event.type == pygame.KEYUP else event.button
+                if k in option.KEY_FORWARDS:
+                    self.player.on_key_y(-1, True)
+                elif k in option.KEY_BACK:
+                    self.player.on_key_y(1, True)
+                elif k in option.KEY_RIGHT:
+                    self.player.on_key_x(1, True)
+                elif k in option.KEY_LEFT:
+                    self.player.on_key_x(-1, True)
+                elif k in option.KEY_ACTION:
+                    self.player.action_unpress()
+                elif k in option.KEY_SPRINT:
+                    self.player.on_key_sprint(False, event.type == pygame.JOYBUTTONUP)
+
+            elif event.type == pygame.KEYDOWN or event.type == pygame.JOYBUTTONDOWN:
+                k = event.key if event.type == pygame.KEYDOWN else event.button
+                if k in option.KEY_FORWARDS:
+                    self.player.on_key_y(-1, False)
+                elif k in option.KEY_BACK:
+                    self.player.on_key_y(1, False)
+                elif k in option.KEY_RIGHT:
+                    self.player.on_key_x(1, False)
+                elif k in option.KEY_LEFT:
+                    self.player.on_key_x(-1, False)
+
+                elif k in option.KEY_SPRINT:
+                    self.player.on_key_sprint(False, event.type == pygame.JOYBUTTONDOWN)
+                elif k in option.KEY_BIKE:
                     self.player.cycling_press()
-                if event.key == pygame.K_F3 and event.type == pygame.KEYDOWN:
-                    self.debug = not self.debug
-                if event.key == pygame.K_F4 and event.type == pygame.KEYDOWN:
-                    self.ignore_collision = not self.ignore_collision
-                if event.key == pygame.K_e and event.type == pygame.KEYDOWN:
+
+                elif k in option.KEY_ACTION:
+                    self.player.action_press()
+                elif k in option.KEY_QUITE:
+                    self.player.escape_press()
+                elif k in option.KEY_MENU:
                     if self.player.current_menu:
                         self.player.close_menu()
                     else:
                         self.player.open_menu(_menu.MainMenu(self.player))
-                if event.key == pygame.K_F5 and event.type == pygame.KEYDOWN and self.player.freeze_time == 0:
+
+                # debug
+                elif k == pygame.K_F3:
+                    self.debug = not self.debug
+                elif k == pygame.K_F4:
+                    self.ignore_collision = not self.ignore_collision
+                elif k == pygame.K_F5 and self.player.freeze_time == 0:
                     x, y = self.player.get_pos()
                     path = self.level.path
                     self.unload_level()
                     self.load_level(path, x, y)
-                if event.key == pygame.K_SPACE:
-                    if event.type == pygame.KEYDOWN:
-                        self.player.action_press()
-                    elif event.type == pygame.KEYUP:
-                        self.player.action_unpress()
-                if event.key == pygame.K_ESCAPE:
-                    if event.type == pygame.KEYDOWN:
-                        self.player.escape_press()
+
+            # elif event.type == pygame.JOYAXISMOTION:
+            #     print("1", event.instance_id, event.axis, event.value)
+            # elif event.type == pygame.JOYBALLMOTION:
+            #     print("2", event.instance_id, event.ball, event.rel)
+            elif event.type == pygame.JOYHATMOTION:
+                v = event.value
+                self.player.on_key_x(v[0], True, True)
+                self.player.on_key_y(-v[1], True, True)
+
+
         return True
 
 
