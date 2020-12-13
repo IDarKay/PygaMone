@@ -1,4 +1,4 @@
-from typing import Dict, List, Any, Tuple, Optional
+from typing import Dict, List, Any, Tuple, Optional, Union
 import time
 import pygame
 import game_error as err
@@ -120,6 +120,7 @@ def hexa_color_to_rgb(hexa: str) -> Tuple[int, int, int]:
         hexa = hexa[1:]
     return int('0x' + hexa[0:2], 16), int('0x' + hexa[2:4], 16), int('0x' + hexa[4:6], 16)
 
+
 def get_part_i(image: pygame.Surface, coord: Tuple[float, float, float, float],
                transform: Tuple[int, int] = (0, 0), flip: Tuple[bool, bool] = (False, False)) -> pygame.Surface:
     s = pygame.Surface((coord[2] - coord[0], coord[3] - coord[1]), pygame.SRCALPHA)
@@ -135,3 +136,20 @@ def get_part_i(image: pygame.Surface, coord: Tuple[float, float, float, float],
     if flip != (False, False):
         s = pygame.transform.flip(s, flip[0], flip[1])
     return s
+
+
+def color_image(surface: pygame.Surface, color: Union[tuple[int, int, int], tuple[int, int, int, int]]) -> pygame.Surface:
+    alpha = (100 if len(color) == 3 else color[3]) / 255
+    size = surface.get_size()
+    for x in range(size[0]):
+        for y in range(size[1]):
+            px = surface.get_at((x, y))
+            if px != (0, 0, 0, 255):
+                al = (1 - alpha)
+                f_px = (
+                    int(color[0] * alpha + px[0] * al),
+                    int(color[1] * alpha + px[1] * al),
+                    int(color[2] * alpha + px[2] * al)
+                )
+                surface.set_at((x, y), f_px)
+    return surface

@@ -19,6 +19,9 @@
   "battle.no_life": "Foe {} had its energy drained!",
   "battle.fainted": "Foe {} fainted!",
   "battle.recoil": "{} take dame in recoil!",
+  "battle.miss_attack": "{0} miss his attack",
+  "battle.run_away.fail": "You missed the leak",
+  "battle.run_away.success": "You run away",
 
   "battle.end.no_pokemon": "You have no more Pokémon that can fight!",
   "battle.end.lose_money.wild": "You panicked and dropped $ {0:n}...",
@@ -29,9 +32,11 @@
   "status.burn.ally.apply": "Ally {0} was burned!",
   "status.burn.ally.damage": "Ally {0} was hurt by it's burn!",
   "status.burn.ally.end": "Ally {0} wasn't burn anymore",
+  "status.burn.ally.cancel": "Ally {0} is burn and can't attack",
   "status.burn.enemy.apply": "Foe's {0} was burned!",
   "status.burn.enemy.damage": "Foe's  {0} was hurt by it's burn!",
   "status.burn.enemy.end": "Foe's {0} wasn't burn anymore",
+  "status.burn.enemy.cancel": "Foe's {0} is burn and can't attack",
   "status.burn.image": "BURNED",
 
   "stats.too_high": "{0}'s {1} won't go any higher!",

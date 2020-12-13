@@ -26,6 +26,9 @@ class Status(object):
     def get_end_text(self, ally: bool) -> Optional[str]:
         return None
 
+    def get_cancel_text(self, ally: bool) -> Optional[str]:
+        return None
+
     def get_animation(self, si: 'StatusInstance', pos: tuple[int, int]) -> Optional['battle.Animation']:
         return None
 
@@ -70,6 +73,9 @@ class BurnStatus(Status):
 
     def get_end_text(self, ally: bool) -> Optional[str]:
         return f"status.burn.{'ally' if ally else 'enemy'}.end"
+
+    def get_cancel_text(self, ally: bool) -> Optional[str]:
+        return f"status.burn.{'ally' if ally else 'enemy'}.cancel"
 
     def attack(self, si: 'StatusInstance', turn: int, ab: 'ability.AbstractAbility') -> tuple[bool, bool, int]:
         return False, False, 0

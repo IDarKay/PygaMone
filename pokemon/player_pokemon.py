@@ -1,4 +1,4 @@
-from typing import Dict, List, Tuple, Any, Optional, NoReturn
+from typing import Dict, List, Tuple, Any, Optional, NoReturn, Union
 from random import randint
 import pokemon.pokemon as pokemon
 import pokemon.ability as p_ability
@@ -11,6 +11,7 @@ import pokemon.status.pokemon_stats_modifier as psm
 import random
 import displayer
 import pygame
+import utils
 
 
 
@@ -50,12 +51,11 @@ class PokemonAbility(object):
             data["max_pp"]
         )
 
-# todo: change
+
 C_S_CRITICAL = "C_S_CRITICAL"
-C_S_BURN = "BURN"
+C_S_ACCURACY = "C_S_ACCURACY"
 
-COMBAT_STATUS = [C_S_CRITICAL, C_S_BURN]
-
+NOT_CLASSIC = [C_S_CRITICAL, C_S_ACCURACY]
 
 
 class PlayerPokemon(object):
@@ -92,9 +92,12 @@ class PlayerPokemon(object):
             self.heal = self.get_max_heal()
 
     def get_stats(self, name: str, with_edit: bool = True):
-        v = self.stats[name] if name in self.stats else 0
+        v = self.stats[name] if name in self.stats else 1
         if with_edit:
-            v += self.pokemon_stats_modifier.get(name)
+            b = 3 if v in NOT_CLASSIC else 2
+            l = self.pokemon_stats_modifier.get(name)
+            v *= (b if l <= 0 else (b + l)) // (b if l >= 0 else (b + abs(l)))
+            print("stats debug", name, b,  l, v)
         return v
 
     def set_use(self, value: bool):
@@ -111,6 +114,22 @@ class PlayerPokemon(object):
 
     def get_front_image(self, scale=1) -> pygame.Surface:
         return displayer.get_poke(self.front_image, scale)
+
+    def get_front_image_colored(self, color: Union[tuple[int, int, int], tuple[int, int, int, int]], scale=1) -> pygame.Surface:
+        surface = displayer.get_poke(self.front_image, 1).copy()
+        utils.color_image(surface, color)
+        size = surface.get_size()
+        if scale != 1:
+            surface = pygame.transform.scale(surface, (int(size[0] * scale), int(size[1] * scale)))
+        return surface
+
+    def get_back_image_colored(self, color: Union[tuple[int, int, int], tuple[int, int, int, int]], scale=1) -> pygame.Surface:
+        surface = displayer.get_poke(self.back_image, 1).copy()
+        utils.color_image(surface, color)
+        size = surface.get_size()
+        if scale != 1:
+            surface = pygame.transform.scale(surface, (int(size[0] * scale), int(size[1] * scale)))
+        return surface
 
     def get_back_image(self, scale=1) -> pygame.Surface:
         return displayer.get_poke(self.back_image, scale)

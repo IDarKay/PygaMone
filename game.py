@@ -146,8 +146,7 @@ class Game(object):
         self.time_matrix = [1] * 10
         running = True
         self.direct_battle: list[bool, bool] = ["--direct_battle" in sys.argv, True]
-        while running:
-            running = self.tick()
+        while self.tick():
             self.clock.tick(60)
         print("end")
 
@@ -263,16 +262,7 @@ class Game(object):
                 if self.debug:
                     self.render_collision()
 
-                if self.debug:
-                    p_pos = self.player.get_pos()
-                    surf = FONT_16.render("x: {:+.4f}, y: {:+.4f}".format(p_pos[0], p_pos[1]), True, (255, 255, 255))
-                    surf2 = FONT_16.render(f"Last Render during {self.time_matrix[1]}ms", True, (255, 255, 255))
-                    surf3 = FONT_16.render(f"move TPS {(1000 / max(1, self.time_matrix[3])):+4.2f}", True, (255, 255, 255))
-                    surf4 = FONT_16.render(f"FPS: {(self.clock.get_fps()):+.1f} ", True, (255, 255, 255))
-                    self.display.blit(surf, (0, 0))
-                    self.display.blit(surf2, (0, 20))
-                    self.display.blit(surf3, (0, 40))
-                    self.display.blit(surf4, (0, 60))
+
 
                     # back_ground = pygame.Surface(surf.get_rect().size)
                     # back_ground.fill((0, 0, 0))
@@ -281,10 +271,23 @@ class Game(object):
 
             if self.player.current_battle:
                 back = self.player.current_battle.tick(self.display)
-                if not isinstance(back, bool):
+                if not isinstance(back, bool) or back:
                     self.player.current_battle.unload_assets()
                     self.player.current_battle = None
-                    back()
+                    self.player.freeze_time = 2
+                    if not isinstance(back, bool) and back is not None:
+                        back()
+
+        if self.debug:
+            p_pos = self.player.get_pos()
+            surf = FONT_16.render("x: {:+.4f}, y: {:+.4f}".format(p_pos[0], p_pos[1]), True, (255, 255, 255))
+            surf2 = FONT_16.render(f"Last Render during {self.time_matrix[1]}ms", True, (255, 255, 255))
+            surf3 = FONT_16.render(f"move TPS {(1000 / max(1, self.time_matrix[3])):+4.2f}", True, (255, 255, 255))
+            surf4 = FONT_16.render(f"FPS: {(self.clock.get_fps()):+.1f} ", True, (255, 255, 255))
+            self.display.blit(surf, (0, 0))
+            self.display.blit(surf2, (0, 20))
+            self.display.blit(surf3, (0, 40))
+            self.display.blit(surf4, (0, 60))
 
         self.render_hud(self.display)
         self.screen.blit(pygame.transform.scale(self.display, main.SCREEN_SIZE), (0, 0))
@@ -348,7 +351,7 @@ class Game(object):
                 elif k in option.KEY_ACTION:
                     self.player.action_unpress()
                 elif k in option.KEY_SPRINT:
-                    self.player.on_key_sprint(False, event.type == pygame.JOYBUTTONUP)
+                    self.player.on_key_sprint(event.type == pygame.JOYBUTTONUP, False)
 
             elif event.type == pygame.KEYDOWN or event.type == pygame.JOYBUTTONDOWN:
                 k = event.key if event.type == pygame.KEYDOWN else event.button
@@ -362,7 +365,7 @@ class Game(object):
                     self.player.on_key_x(-1, False)
 
                 elif k in option.KEY_SPRINT:
-                    self.player.on_key_sprint(False, event.type == pygame.JOYBUTTONDOWN)
+                    self.player.on_key_sprint(event.type == pygame.JOYBUTTONDOWN, True)
                 elif k in option.KEY_BIKE:
                     self.player.cycling_press()
 

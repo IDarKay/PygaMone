@@ -19,8 +19,11 @@ class BurnAnimation(battle.Animation):
         if self.no_init:
             self.no_init = False
             self.start = utils.current_milli_time()
-        if utils.current_milli_time() - self.start < 1500:
+        pst = utils.current_milli_time() - self.start
+        if pst < 1500:
             for g in self.g_i:
                 g.render(display)
+            return False
+        if pst < 2000:
             return False
         return True
