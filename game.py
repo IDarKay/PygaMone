@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, NoReturn
 import pygame
 import level
 import collision
@@ -39,6 +39,10 @@ FONT_SIZE_20 = (0, 0)
 FONT_SIZE_24 = (0, 0)
 
 came_scroll = (0, 0)
+
+POKEDEX_NEVER_SEEN = 0
+POKEDEX_SEEN = 1
+POKEDEX_CATCH = 2
 
 class Cache(object):
 
@@ -164,6 +168,7 @@ class Game(object):
         self.save_name = save
         if self.get_save_value("last_save", 0) == 0:
             self.save_data("last_save", int(time.time()))
+        self.pokedex = self.get_save_value("pokedex", {})
 
     def save(self):
         save = self.get_save_value("last_save", 0)
@@ -172,6 +177,7 @@ class Game(object):
         self.save_data("time_played", tp + ct - save)
         self.save_data("last_save", ct)
         self.player.save(self._save)
+        self.save_data("pokedex", self.pokedex)
         with open("data/save/{}.json".format(self.save_name), 'w', encoding='utf-8') as file:
             # copy to escape current modification
             json.dump(self._save.copy(), file)
@@ -402,6 +408,20 @@ class Game(object):
 
         return True
 
+    def get_pokedex_status(self, id_: int) -> int:
+        s_id = str(id_)
+        return self.pokedex[s_id] if s_id in self.pokedex else POKEDEX_NEVER_SEEN
+
+    def set_pokedex_view(self, id_: int) -> NoReturn:
+        if id_ < 1:
+            return
+        if self.get_pokedex_status(id_) == POKEDEX_NEVER_SEEN:
+            self.pokedex[str(id_)] = POKEDEX_SEEN
+
+    def set_pokedex_catch(self, id_: int) -> NoReturn:
+        if id_ < 1:
+            return
+        self.pokedex[str(id_)] = POKEDEX_SEEN
 
 def get_game_instance():
     """

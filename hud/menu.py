@@ -1,5 +1,5 @@
-from typing import NoReturn
-import character.player as char_play
+
+from hud.menu_calass import Menu
 from datetime import datetime
 import pygame
 import game
@@ -7,31 +7,10 @@ import utils
 import time
 import sounds
 import sound_manager
+import hud.pokedex as menu_pokedex
 
 MENU_IMAGE = pygame.image.load("assets/textures/hud/menu.png")
 SURFACE_SIZE = (1060, 600)
-
-
-class Menu(object):
-
-    def __init__(self, player: 'char_play.Player'):
-        self.player = player
-
-    def on_key_x(self, value: float, press: bool) -> NoReturn:
-        pass
-
-    def on_key_y(self, value: float, press: bool) -> NoReturn:
-        pass
-
-    def on_key_action(self) -> NoReturn:
-        pass
-
-    def on_key_escape(self) -> NoReturn:
-        pass
-
-    def render(self, display: pygame.Surface):
-        pass
-
 
 x = SURFACE_SIZE[0]
 y = SURFACE_SIZE[1] - 10
@@ -159,6 +138,8 @@ class MainMenu(Menu):
             self.player.open_menu(SaveMenu(self.player))
         elif self.selected == 1:
             self.player.open_menu(TeamMenu(self.player))
+        elif self.selected == 0:
+            self.player.open_menu(menu_pokedex.PokeDex(self.player))
 
 
 x = SURFACE_SIZE[0]
