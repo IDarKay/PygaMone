@@ -1,0 +1,21 @@
+{
+  "type": ["NORMAL"],
+  "xp_point": 0,
+  "color": "",
+  "curve": "MEDIUM_SLOW",
+  "catch_rate": 0,
+  "female_rate": 0,
+  "evolution": [],
+  "ability": { },
+  "size": 0,
+  "weight": 0,
+  "base_stats": {
+    "hp": 1,
+    "attack": 1,
+    "defense": 1,
+    "sp_attack": 1,
+    "sp_defense": 1,
+    "speed": 1
+  }
+}
+

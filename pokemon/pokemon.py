@@ -6,7 +6,7 @@ import pokemon.pokemon_type as pok_t
 import utils
 import os
 
-NB_POKEMON: int = 6
+NB_POKEMON: int = 9
 POKEMONS: List[Optional['Pokemon']] = [None for i in range(NB_POKEMON + 1)]
 
 CURVE: Dict[str, Callable[[int], float]] = {
@@ -40,7 +40,7 @@ class Pokemon(object):
     def __init__(self, id_: int, data: Dict):
         self.id_: int = id_
         self.parent: int = utils.get_args(data, "parent", id_, default=0, type_check=int)
-        if not (0 <= self.parent <= NB_POKEMON) or self.parent == id_:
+        if not (0 <= self.parent <= NB_POKEMON) or (self.parent == id_ and id_ != 0):
             raise err.PokemonParseError("Pokemon ({}) have invalid parent !".format(id_))
         self.types: List['pok_t.Type'] = [pok_t.TYPES[t] for t in utils.get_args(data, "type", id_)]
         self.xp_points: int = utils.get_args(data, "xp_point", id_, type_check=int)
@@ -58,6 +58,8 @@ class Pokemon(object):
         self.base_stats: Dict[str, int] = utils.get_args(data, "base_stats", id_)
         self.ability: Dict[str, int] = utils.get_args(data, "ability", id_, default={})
         self.catch_rate: float = utils.get_args(data, "catch_rate", id_)
+        self.size = utils.get_args(data, "size", id_, default=0)
+        self.weight = utils.get_args(data, "weight", id_, default=0)
 
     def get_all_possible_ability(self, lvl: int) -> List[str]:
         back = []
@@ -111,6 +113,9 @@ class Pokemon(object):
             name = name[0].capitalize() + name[1:]
         return name
 
+    def get_pokedex(self) -> str:
+        return game.get_game_instance().get_poke_message(str(self.id_))["pokedex"]
+
     def get_evolution(self) -> List[Dict[str, int]]:
         if self.parent != 0:
             return self.evolution + get_pokemon(self.parent).get_evolution()
@@ -125,7 +130,7 @@ class Pokemon(object):
     @staticmethod
     def load_pokemons():
         global POKEMONS
-        for i in range(1, NB_POKEMON + 1):
+        for i in range(0, NB_POKEMON + 1):
             with open("data/pokemon/{}.json".format(to_3_digit(i)), "r", encoding='utf-8') as file:
                 data = json.load(file)
                 POKEMONS[i] = Pokemon(i, data)

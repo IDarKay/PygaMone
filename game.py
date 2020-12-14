@@ -17,6 +17,7 @@ import pokemon.battle.wild_start as wild_start
 import utils
 import option
 import pokemon.status.status as status_
+import sounds
 
 screen = None
 
@@ -43,6 +44,10 @@ came_scroll = (0, 0)
 POKEDEX_NEVER_SEEN = 0
 POKEDEX_SEEN = 1
 POKEDEX_CATCH = 2
+
+INPUT_TYPE_KEYBOARD = 0
+INPUT_TYPE_GAMEPAD = 1
+
 
 class Cache(object):
 
@@ -95,6 +100,7 @@ class RenderTickCounter(object):
 IMAGE_CACHE = Cache()
 DISPLAYER_CACHE = Cache()
 POKE_CACHE = Cache()
+POKE_SOUND_CACHE = Cache()
 
 
 class Game(object):
@@ -119,6 +125,7 @@ class Game(object):
         self.load_save("save")
         self.load_lang("en")
         self.load_poke_lang("en")
+        sounds.load_poke_sound()
         items.load()
         status_.load()
         abilitys_.load()
@@ -150,6 +157,7 @@ class Game(object):
         self.time_matrix = [1] * 10
         running = True
         self.direct_battle: list[bool, bool] = ["--direct_battle" in sys.argv, True]
+        self.last_input_type = INPUT_TYPE_KEYBOARD
         while self.tick():
             self.clock.tick(60)
         print("end")
@@ -168,7 +176,7 @@ class Game(object):
         self.save_name = save
         if self.get_save_value("last_save", 0) == 0:
             self.save_data("last_save", int(time.time()))
-        self.pokedex = self.get_save_value("pokedex", {})
+        self.pokedex: dict[str, int] = self.get_save_value("pokedex", {})
 
     def save(self):
         save = self.get_save_value("last_save", 0)
@@ -213,7 +221,7 @@ class Game(object):
         else:
             return key
 
-    def get_poke_message(self, key: str) -> str:
+    def get_poke_message(self, key: str) -> dict[str, str]:
         if key in self.poke_lang:
             return self.poke_lang[key]
         else:
@@ -242,6 +250,7 @@ class Game(object):
         if self.level.is_poke_center:
             self.save_data("last_poke_center_level", name)
             self.save_data("last_poke_center_level_coord", self.level.poke_center_heal_coord)
+        self.level.load_sound()
 
     def render(self):
 
@@ -283,6 +292,7 @@ class Game(object):
                     self.player.freeze_time = 2
                     if not isinstance(back, bool) and back is not None:
                         back()
+                    self.level.load_sound()
 
         if self.debug:
             p_pos = self.player.get_pos()
@@ -338,14 +348,18 @@ class Game(object):
             self.direct_battle[1] = False
             wild_start.start_wild("TALL_GRASS", self.player)
 
-
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 return False
 
             if event.type == pygame.KEYUP or event.type == pygame.JOYBUTTONUP:
-                k = event.key if event.type == pygame.KEYUP else event.button
+                if event.type == pygame.KEYUP:
+                    k = event.key
+                    self.last_input_type = INPUT_TYPE_KEYBOARD
+                else:
+                    k = event.button
+                    self.last_input_type = INPUT_TYPE_GAMEPAD
                 if k in option.KEY_FORWARDS:
                     self.player.on_key_y(-1, True)
                 elif k in option.KEY_BACK:
@@ -408,20 +422,31 @@ class Game(object):
 
         return True
 
-    def get_pokedex_status(self, id_: int) -> int:
+    def get_pokedex_e(self, id_: int) -> int:
         s_id = str(id_)
         return self.pokedex[s_id] if s_id in self.pokedex else POKEDEX_NEVER_SEEN
 
-    def set_pokedex_view(self, id_: int) -> NoReturn:
+    def get_pokedex_status(self, id_: int) -> int:
+        return self.get_pokedex_e(id_) & 0b11
+
+    def get_nb_view(self, id_: int) -> int:
+        return self.get_pokedex_e(id_) >> 2
+
+    def add_pokedex_view(self, id_: int) -> NoReturn:
         if id_ < 1:
             return
-        if self.get_pokedex_status(id_) == POKEDEX_NEVER_SEEN:
-            self.pokedex[str(id_)] = POKEDEX_SEEN
+        e = self.get_pokedex_e(id_)
+        if e & 0b11 == POKEDEX_NEVER_SEEN:
+            e &= ~0b11 | POKEDEX_SEEN
+        c = e >> 2
+        e &= 0b11
+        e |= (c + 1) << 2
+        self.pokedex[str(id_)] = e
 
     def set_pokedex_catch(self, id_: int) -> NoReturn:
         if id_ < 1:
             return
-        self.pokedex[str(id_)] = POKEDEX_SEEN
+        self.pokedex[str(id_)] = self.get_pokedex_e(id_) & ~0b11 | POKEDEX_SEEN
 
 def get_game_instance():
     """

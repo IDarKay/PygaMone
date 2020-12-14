@@ -6,6 +6,8 @@
   "catch_rate": 45,
   "female_rate": 0.125,
   "parent": 4,
+  "size": 1.1,
+  "weight": 19,
   "base_stats": {
     "hp": 58,
     "attack": 64,

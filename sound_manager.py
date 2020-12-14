@@ -1,6 +1,6 @@
-from typing import NoReturn, Optional, List
+from typing import NoReturn, Optional, List, Union
 import pygame
-
+import sounds
 
 MUSIC_CHANNEL: Optional[pygame.mixer.Channel] = None
 AMBIENT_CHANNEL: Optional[pygame.mixer.Channel] = None
@@ -29,7 +29,7 @@ def first_empty_taunt() -> Optional[pygame.mixer.Channel]:
     return None
 
 
-def start_in_first_empty_taunt(sound: pygame.mixer.Sound):
+def start_in_first_empty_taunt(sound: Union[pygame.mixer.Sound, 'sounds.Sound']):
     i = first_empty_taunt()
     if i:
-        i.play(sound)
+        i.play(sound if isinstance(sound, pygame.mixer.Sound) else sound.get())

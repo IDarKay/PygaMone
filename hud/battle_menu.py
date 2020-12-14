@@ -5,8 +5,7 @@ import pygame
 import sound_manager
 import sounds
 from character.player import Player
-from hud.menu import Menu, MENU_IMAGE
-from hud.menu import MENU_IMAGE
+from hud.menu import Menu
 import game
 import utils
 import pokemon.player_pokemon as player_pokemon
@@ -23,7 +22,8 @@ class ChangePokemonMenu(Menu):
         self.selected = 0
         self.action_selected = -1
 
-        self.arrow = utils.get_part_i(MENU_IMAGE, (0, 64, 22, 91), (33, 41))
+        # self.arrow = utils.get_part_i(MENU_IMAGE, (0, 64, 22, 91), (33, 41))
+        self.arrow = utils.ARROW
         self.open_time = utils.current_milli_time()
         self.text_2 = [(game.FONT_20.render(game.get_game_instance().get_message(t), True, (0, 0, 0)),
                         game.FONT_20.render(game.get_game_instance().get_message(t), True, (255, 255, 255)))

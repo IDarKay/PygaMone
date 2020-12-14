@@ -22,5 +22,17 @@
   "6": {
     "name": "Dracaufeu",
     "pokedex": "Ses ailes lui permettent de voler à plus de 1 400 m d'altitude. Ce Pokémon crache du feu à des températures très élevées."
+  },
+  "7": {
+    "name": "Carapuce",
+    "pokedex": "S'il se sent menacé, il rétracte ses pattes dans sa carapace pour se protéger et crache de l'eau."
+  },
+  "8": {
+    "name": "Carabaffe",
+    "pokedex": "Il se sert habilement de sa queue et de ses oreilles touffues pour garder son équilibre sous l'eau."
+  },
+  "9": {
+    "name": "Tortank",
+    "pokedex": "Les canons sur sa carapace tirent des jets d'eau capables de percer même de l'acier trempé."
   }
 }

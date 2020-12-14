@@ -1,0 +1,31 @@
+{
+  "type": ["WATER"],
+  "xp_point": 66,
+  "color": "BLUE",
+  "curve": "MEDIUM_SLOW",
+  "catch_rate": 45,
+  "female_rate": 0.125,
+  "size": 0.5,
+  "weight": 9,
+  "evolution": [
+    {
+      "lvl": 16,
+      "pokemon": 8
+    },
+    {
+      "lvl": 36,
+      "pokemon": 9
+    }
+  ],
+  "ability": {
+    "ember": 1
+  },
+  "base_stats": {
+    "hp": 44,
+    "attack": 48,
+    "defense": 65,
+    "sp_attack": 50,
+    "sp_defense": 64,
+    "speed": 43
+  }
+}

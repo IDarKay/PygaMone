@@ -64,17 +64,13 @@ class Displayer(object):
 
     def display(self, display: pygame.Surface, x: int, y: int) -> NoReturn:
         coord = int(x + self.__start[0] * game.CASE_SIZE), int(y + self.__start[1] * game.CASE_SIZE)
-        # if self.need_plot:
-        #     print(self.plot)
-        #     display.blit(self.image, coord, self.plot)
-        # else:
         display.blit(self.image, coord)
 
 
 def get_poke(path: str, /, rescale: float = 1.0) -> pygame.Surface:
     key_path = path + f"r_{rescale}"
     if (value := game.POKE_CACHE.get_or_null(key_path)) is None:
-        i = pygame.image.load(path)
+        i = pygame.image.load(path).convert_alpha()
         if rescale != 1:
            i = pygame.transform.scale(i, (int(i.get_size()[0] * rescale), int(i.get_size()[1] * rescale)))
         return game.POKE_CACHE.put_return(key_path, i)

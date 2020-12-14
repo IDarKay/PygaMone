@@ -17,6 +17,9 @@ class Menu(object):
     def on_key_action(self) -> NoReturn:
         pass
 
+    def on_key_bike(self) -> NoReturn:
+        pass
+
     def on_key_escape(self) -> NoReturn:
         pass
 

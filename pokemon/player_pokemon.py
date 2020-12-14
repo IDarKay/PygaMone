@@ -108,7 +108,7 @@ class PlayerPokemon(object):
 
         for y in range(poke.get_size()[1] - 1, -1, -1):
             for x in range(0, poke.get_size()[1]):
-                if poke.get_at((x, y)) != (0, 0, 0, 255):
+                if poke.get_at((x, y))[3] != 0:
                     return y
         return 0
 
@@ -257,9 +257,7 @@ class PCPlayerPokemon(PlayerPokemon):
         return PCPlayerPokemon(data["_id"], data["xp"],
                              ivs_from_int(data["ivs"]), data["heal"],
                              [PokemonAbility.deserialisation(a) for a in data["ability"]],
-                             items.ITEMS[data["pokeball"]],
-                             data["box"],
-                             data["case"]
+                             items.ITEMS[data["pokeball"]]
                              )
 
 # IVS =

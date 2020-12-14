@@ -224,7 +224,6 @@ class StatusDamageAnimation(Animation):
     def tick(self, display: pygame.Surface) -> bool:
         if not self.init:
             self.init = True
-            self.poke.combat_status.remove(self.status)
             self.start = utils.current_milli_time()
             if self.amount > 0:
                 self.d_s = self.poke.heal, max(0, self.poke.heal - self.amount)
@@ -875,7 +874,8 @@ class Battle(object):
         self.base = utils.get_part_i(pygame.image.load('assets/textures/battle/base_2.png'), self.base, self.base_size)
         self.bg_image = pygame.transform.scale(pygame.image.load(self.bg.bg_path), game.SURFACE_SIZE)
         self.button_text = [game.game_instance.get_message(t) for t in ['attack', 'team', 'bag', 'run_away']]
-        self.arrow = utils.get_part_i(menu.MENU_IMAGE, (0, 64, 22, 91), (33, 41))
+        # self.arrow = utils.get_part_i(menu.MENU_IMAGE, (0, 64, 22, 91), (33, 41))
+        self.arrow = utils.ARROW
         for m in self.__ally_team.members + self.__enemy_team.members:
             for p in m.get_pks():
                 if p:
@@ -892,6 +892,7 @@ class Battle(object):
         sounds.HIT_NOT_VERY_EFFECTIVE.un_load()
         sounds.HIT_SUPER_EFFECTIVE.un_load()
         game.POKE_CACHE.clear()
+        sounds.unload_poke_sound()
         for m in self.__ally_team.members + self.__enemy_team.members:
             for p in m.get_pks():
                 if p:

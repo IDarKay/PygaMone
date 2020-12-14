@@ -310,7 +310,13 @@ class Player(character.Character):
             self.speed_status[1] = not self.speed_status[1]
 
     def cycling_press(self):
-        if game.game_instance.level.can_cycling:
+        if self.current_dialogue:
+            pass
+        if self.current_menu:
+            self.current_menu.on_key_bike()
+        elif self.current_battle:
+            pass
+        elif game.game_instance.level.can_cycling:
             self.is_cycling = not self.is_cycling
         else:
             self.open_dialogue(hud.Dialog("dialog.cant_bike", speed=20, speed_skip=True, need_morph_text=True, style=2))

@@ -5,6 +5,8 @@
   "curve": "MEDIUM_SLOW",
   "catch_rate": 45,
   "female_rate": 0.125,
+  "size": 0.7,
+  "weight": 6.9,
   "evolution": [
     {
       "lvl": 16,

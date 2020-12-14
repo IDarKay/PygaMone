@@ -9,6 +9,7 @@ import random
 import triggers
 import collision as col
 import character.npc as npc
+import sound_manager
 
 EMPTY = "EMPTY"
 FLOOR = "floor"
@@ -106,6 +107,9 @@ class Level(object):
 
         self.name: str = data["name"] if "name" in data else "undefined"
 
+        s = data["sound"] if "sound" in data else None
+        self.sound = pygame.mixer.Sound(f'assets/sound/{s}') if s else None
+
         if self.layer_1.size != self.floor.size:
             raise er.LevelParseError("Floor and layer haven't same size !! in {}".format(path))
 
@@ -184,6 +188,12 @@ class Level(object):
                                                              loc[1] * game.CASE_SIZE - y_start,
                                                              loc[2] * game.CASE_SIZE - x_start,
                                                              loc[3] * game.CASE_SIZE - y_start, trigger))
+
+    def load_sound(self) -> NoReturn:
+        if self.sound:
+            sound_manager.MUSIC_CHANNEL.play(self.sound, -1)
+        else:
+            sound_manager.MUSIC_CHANNEL.stop()
 
     def load_asset(self, cache: 'game.Cache') -> NoReturn:
         """

@@ -1,3 +1,6 @@
 /__pycache__
 /.idea
 /venv
+*/desktop.ini
+*/*desktop.ini
+*desktop.ini

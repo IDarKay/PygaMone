@@ -35,7 +35,3 @@ I'm totally open to any gameplay suggestion !
   [![Numpy](https://img.shields.io/badge/Numpy-pip_install_numpy==1.19.0-green)](https://numpy.org/)
   
   [![Pillow](https://img.shields.io/badge/Pillow-pip_install_pillow-green)](https://pillow.readthedocs.io/en/stable/)
-
-- **Pygame:** pip install pygame
-- **Numpy:** pip install numpy==1.19.0
-- **Pillow:** pip install pillow

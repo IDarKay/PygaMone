@@ -1,4 +1,4 @@
-
+from typing import NoReturn
 from hud.menu_calass import Menu
 from datetime import datetime
 import pygame
@@ -8,12 +8,12 @@ import time
 import sounds
 import sound_manager
 import hud.pokedex as menu_pokedex
+import option
 
-MENU_IMAGE = pygame.image.load("assets/textures/hud/menu.png")
 SURFACE_SIZE = (1060, 600)
 
 x = SURFACE_SIZE[0]
-y = SURFACE_SIZE[1] - 10
+y = SURFACE_SIZE[1] - 30
 poly_1 = (
     (0, 0),
     (int(x * 0.1), 0),
@@ -50,25 +50,25 @@ centre_circle = (
     (int(x * 0.5), int(y * 0.6)),
     (int(x * 0.7), int(y * 0.6))
 )
-
-poly_6 = (
-    (int(x * 0.2), int(y * 0.85)),
-    (int(x * 0.25), int(y * 0.85)),
-    (int(x * 0.2), int(y * 0.98))
-)
-
-poly_7 = (
-    (int(x * 0.25), int(y * 0.85)),
-    (int(x * 0.8), int(y * 0.85)),
-    (int(x * 0.75), int(y * 0.98)),
-    (int(x * 0.2), int(y * 0.98))
-)
-
-poly_8 = (
-    (int(x * 0.8), int(y * 0.85)),
-    (int(x * 0.8), int(y * 0.98)),
-    (int(x * 0.750), int(y * 0.98))
-)
+#
+# poly_6 = (
+#     (int(x * 0.2), int(y * 0.85)),
+#     (int(x * 0.25), int(y * 0.85)),
+#     (int(x * 0.2), int(y * 0.98))
+# )
+#
+# poly_7 = (
+#     (int(x * 0.25), int(y * 0.85)),
+#     (int(x * 0.8), int(y * 0.85)),
+#     (int(x * 0.75), int(y * 0.98)),
+#     (int(x * 0.2), int(y * 0.98))
+# )
+#
+# poly_8 = (
+#     (int(x * 0.8), int(y * 0.85)),
+#     (int(x * 0.8), int(y * 0.98)),
+#     (int(x * 0.750), int(y * 0.98))
+# )
 
 
 class MainMenu(Menu):
@@ -83,11 +83,17 @@ class MainMenu(Menu):
             (128, 0, 195, 64),
             (192, 0, 256, 64)
         )
-        self.image = [utils.get_part_i(MENU_IMAGE, c) for c in coord]
-        self.arrow = utils.get_part_i(MENU_IMAGE, (0, 64, 22, 91))
+        self.image = [utils.get_part_i(utils.MENU_IMAGE, c) for c in coord]
+        # self.arrow = utils.get_part_i(MENU_IMAGE, (0, 64, 22, 91))
+        self.arrow = utils.ARROW
         self.selected = 0
         self.text = [game.get_game_instance().get_message(t).upper() for t in
                      ["pokedex", "pokemon", "bag", "map", "save", "options"]]
+        self.keys = {
+            game.get_game_instance().get_message("back"): option.KEY_QUITE,
+            game.get_game_instance().get_message("save"): option.KEY_BIKE,
+            game.get_game_instance().get_message("select"): option.KEY_ACTION
+        }
 
     def render(self, display):
         pygame.draw.polygon(display, (239, 226, 235), poly_1)
@@ -95,12 +101,15 @@ class MainMenu(Menu):
         pygame.draw.polygon(display, (241, 65, 78), poly_3)
         pygame.draw.polygon(display, (206, 51, 65), poly_4)
         pygame.draw.polygon(display, (239, 226, 235), poly_5)
-        pygame.draw.polygon(display, (40, 35, 32), poly_6)
-        pygame.draw.polygon(display, (50, 50, 50), poly_7)
-        pygame.draw.polygon(display, (40, 35, 32), poly_8)
 
-        info = game.FONT_16.render("todo: information here and back to line", True, (255, 255, 255))
-        display.blit(info, (int(SURFACE_SIZE[0] * 0.25), int(SURFACE_SIZE[1] * 0.85)))
+        # pygame.draw.polygon(display, (40, 35, 32), poly_6)
+        # pygame.draw.polygon(display, (50, 50, 50), poly_7)
+        # pygame.draw.polygon(display, (40, 35, 32), poly_8)
+
+        utils.draw_button_info(display, **self.keys)
+
+        # info = game.FONT_16.render("todo: information here and back to line", True, (255, 255, 255))
+        # display.blit(info, (int(SURFACE_SIZE[0] * 0.25), int(SURFACE_SIZE[1] * 0.85)))
 
         for i in range(len(centre_circle)):
             c = centre_circle[i]
@@ -130,10 +139,16 @@ class MainMenu(Menu):
             if self.selected + 3 <= 5:
                 self.selected += 3
 
+    def on_key_bike(self) -> NoReturn:
+        sound_manager.start_in_first_empty_taunt(pygame.mixer.Sound(sounds.SAVE.path))
+        game.get_game_instance().save()
+        self.player.close_menu()
+
     def on_key_escape(self):
         self.player.close_menu()
 
     def on_key_action(self):
+        sound_manager.start_in_first_empty_taunt(sounds.PLINK)
         if self.selected == 4:
             self.player.open_menu(SaveMenu(self.player))
         elif self.selected == 1:
@@ -165,7 +180,8 @@ class SaveMenu(Menu):
     def __init__(self, player):
         super().__init__(player)
         self.selected = 0
-        self.arrow = utils.get_part_i(MENU_IMAGE, (0, 64, 22, 91), (12, 14))
+        # self.arrow = utils.get_part_i(MENU_IMAGE, (0, 64, 22, 91), (12, 14))
+        self.arrow = utils.ARROW
         self.text = [game.get_game_instance().get_message(t) for t in ["save_game", "back"]]
         self.text_2 = [
             game.FONT_16.render(game.get_game_instance().get_message(t) + " :", True, (0, 0, 0)) for t in
@@ -278,8 +294,13 @@ class TeamMenu(Menu):
         self.selected = 0
         self.action_selected = -1
         self.move = -1
-
-        self.arrow = utils.get_part_i(MENU_IMAGE, (0, 64, 22, 91), (33, 41))
+        self.keys = {
+            game.get_game_instance().get_message("back"): option.KEY_QUITE,
+            game.get_game_instance().get_message("move_pokemon"): option.KEY_BIKE,
+            game.get_game_instance().get_message("select"): option.KEY_ACTION
+        }
+        # self.arrow = utils.get_part_i(MENU_IMAGE, (0, 64, 22, 91), (33, 41))
+        self.arrow = utils.ARROW
         self.open_time = utils.current_milli_time()
         self.progress = []
         self.display_small = []
@@ -310,7 +331,7 @@ class TeamMenu(Menu):
         display.fill((255, 255, 255))
         pygame.draw.polygon(display, (241, 65, 78), TeamMenu.t_poly_1)
         pygame.draw.polygon(display, (206, 51, 65), TeamMenu.t_poly_2)
-
+        pygame.draw.rect(display, (0, 0, 0), (0, 570, 1060, 30))
         g_x = SURFACE_SIZE[0] * 0.1
         g_y = SURFACE_SIZE[1] * 0.1
 
@@ -328,12 +349,12 @@ class TeamMenu(Menu):
 
         for i in range(len(self.progress)):
 
-            if self.move != i or self.move == self.selected:
+            if self.move != i:
                 self.draw_pokemon(display, i, g_x, g_y, poke_y)
             g_y += SURFACE_SIZE[1] * 0.15
 
         # draw move
-        if self.move != -1 and self.move != self.selected:
+        if self.move != -1:
             self.draw_pokemon(display, self.move, g_x + SURFACE_SIZE[0] * 0.04, self.selected * SURFACE_SIZE[1] * 0.15 + SURFACE_SIZE[1] * 0.05, poke_y)
 
         # action hud
@@ -341,6 +362,8 @@ class TeamMenu(Menu):
             _y = SURFACE_SIZE[1] * 0.13 + SURFACE_SIZE[1] * 0.15 * self.selected
             _x = SURFACE_SIZE[0] * 0.31
             utils.draw_select_box(display, _x, _y, self.text_2, self.action_selected, 100)
+
+        utils.draw_button_info(display, **self.keys)
 
     def draw_pokemon(self, display: pygame.Surface, i: int, _x: float, _y: float, poke_y: int):
         color, start = ((0, 0, 0), 1) if self.selected == i else ((255, 255, 255), 0)
@@ -375,6 +398,17 @@ class TeamMenu(Menu):
         else:
             self.player.open_menu(MainMenu(self.player))
 
+    def on_key_bike(self) -> NoReturn:
+        if self.move != -1:
+            if self.selected == self.move:
+                self.move = -1
+            else:
+                self.player.switch_pokemon(self.move, self.selected)
+                # reopen to actualise data
+                self.player.open_menu(TeamMenu(self.player))
+        else:
+            self.move, self.action_selected = self.selected, -1
+
     def on_key_y(self, value, press):
         if value < 0 and press:
             if self.action_selected != -1:
@@ -398,8 +432,11 @@ class TeamMenu(Menu):
                 # reopen to actualise data
                 self.player.open_menu(TeamMenu(self.player))
         elif self.action_selected == -1:
+            sound_manager.start_in_first_empty_taunt(sounds.PLINK)
             self.action_selected = 0
         else:
+            if self.action_selected != 4:
+                sound_manager.start_in_first_empty_taunt(sounds.PLINK)
             if self.action_selected == 0:
                 self.player.open_menu(StatusMenu(self.player, self.selected))
             elif self.action_selected == 1:
@@ -470,7 +507,9 @@ class StatusMenu(Menu):
         self.name2 = game.FONT_20.render(poke.get_name(True), True, (0, 0, 0))
         self.lvl = game.FONT_20.render("N.{}".format(poke.lvl), True, (255, 255, 255))
         self.xp = game.FONT_20.render("{:,}".format(poke.xp).replace(',', ' '), True, (0, 0, 0))
+        self.xp_need = game.FONT_20.render("{:,}".format((s := poke.current_xp_status())[1] - s[0]).replace(',', ' '), True, (0, 0, 0))
         self.xp_size = self.xp.get_rect().size[0]
+        self.xp_need_size = self.xp_need.get_rect().size[0]
         self.xp_s = poke.current_xp_status()
         self.need_xp = game.FONT_20.render("{:,}".format(self.xp_s[1] - self.xp_s[0]).replace(',', ' '), True, (0, 0, 0))
         self._type = [game.FONT_16.render(_type.get_name(), True, (255, 255, 255)) for _type in poke.poke.types]
@@ -534,7 +573,7 @@ class StatusMenu(Menu):
                     _x_ += SURFACE_SIZE[0] * 0.11
             else:
                 display.blit(self.xp, (_x_, _y + SURFACE_SIZE[1] * 0.015))
-                display.blit(self.xp, (SURFACE_SIZE[0] * 0.46 - self.xp_size, _y + SURFACE_SIZE[1] * 0.078))
+                display.blit(self.xp_need, (SURFACE_SIZE[0] * 0.46 - self.xp_need_size, _y + SURFACE_SIZE[1] * 0.078))
                 utils.draw_progress_bar(display, (_x_, _y + SURFACE_SIZE[1] * 0.11), (SURFACE_SIZE[0] * 0.19, 4), (101, 100, 98), (96, 204, 212), self.xp_s[0] / self.xp_s[1])
 
             _y += SURFACE_SIZE[1] * 0.14
