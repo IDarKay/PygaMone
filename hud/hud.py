@@ -1,4 +1,4 @@
-from typing import NoReturn, Callable, Iterable, Any, List
+from typing import NoReturn, Callable, Iterable, Any, List, Optional
 import utils
 import pygame
 import game
@@ -54,9 +54,9 @@ class Dialog(object):
         (int(x * 0.750), int(y * 0.98))
     )
 
-
     def __init__(self, text: Any, speed: int = 50, speed_skip: bool = False, timed: int = 0,
-                 need_morph_text: bool = False, none_skip: bool = False, style: int = 1, text_var=[]):
+                 need_morph_text: bool = False, none_skip: bool = False, style: int = 1, text_var=[],
+                 callback: Optional[Callable[[], Optional[bool]]] = None):
         """
 
         text => sting list with each lines or sting lang key with need_morph_text=True
@@ -90,6 +90,7 @@ class Dialog(object):
         self._is_end_line: bool = False
         self.none_skip: bool = none_skip
         self._style = style
+        self.__callback: Optional[Callable[[], Optional[bool]]] = callback
 
     def render(self, display: pygame.Surface) -> NoReturn:
 
@@ -140,7 +141,7 @@ class Dialog(object):
         current = game.FONT_24.render(l[0: nb_char], True, color)
         display.blit(current, (text_x, text_y + ((game.SURFACE_SIZE[1] * 0.2 / 3) * self._show_line)))
 
-    def press_action(self) -> NoReturn:
+    def press_action(self) -> bool:
 
         if not self.none_skip and (self._need_enter or self._speed_skip or (self._timed > 0 and utils.current_milli_time() - self._open_time > self._open_time)):
             self._need_enter = False
@@ -149,7 +150,7 @@ class Dialog(object):
                     self._is_end_line = True
                     return False
                 else:
-                    return True
+                    return not self.__callback() if self.__callback else True
             self._is_end_line = False
             if self._show_line == 0 and not self._mono_line:
                 self._show_line = 1
@@ -179,7 +180,7 @@ class Dialog(object):
 
 class QuestionDialog(Dialog):
 
-    def __init__(self, text: Any, callback: Callable[[str, int], NoReturn], ask: Iterable[str], speed: int = 50,
+    def __init__(self, text: Any, callback: Callable[[str, int], NoReturn], ask: List[str], speed: int = 50,
                  speed_skip: bool = False, timed: int = 0, need_morph_text: bool = False):
         """
         ask => dic [Show:value]
@@ -226,7 +227,7 @@ class QuestionDialog(Dialog):
             else:
                 self.__select = min(self.__select + 1, len(self.__ask) - 1)
 
-    def press_action(self) -> NoReturn:
+    def press_action(self) -> bool:
         if self._current_line == len(self._text) - 1 and self._need_enter:
             return not self.__callback(self.__ask[self.__select], self.__select)
         else:

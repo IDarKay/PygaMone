@@ -16,6 +16,7 @@ import sound_manager
 import random
 import character.npc as NPC_
 from hud.battle_menu import ChangePokemonMenu
+import pokemon.battle.xp_battle_animation as xp_battle_animation
 
 SURFACE_SIZE = (1060, 600)
 
@@ -162,10 +163,9 @@ class Animation(object):
 
     def __lt__(self, other):
         if isinstance(other, Animation):
-            return ( not self.is_priority() and other.is_priority()) or self.get_compare_value() < other.get_compare_value()
+            return (not self.is_priority() and other.is_priority()) or self.get_compare_value() < other.get_compare_value()
         else:
             raise ValueError("other need be animation")
-
 
 class SimpleDialogue(Animation):
 
@@ -1090,6 +1090,8 @@ class Battle(object):
             self.bool_matrix[3] = False
             self.setup_first_pokemon(self.__enemy_team, self.__enemy, True)
             self.setup_first_pokemon(self.__ally_team, self.__ally, False)
+
+            self.TO_SHOW.append(lambda : self.start_new_animation(xp_battle_animation.XpAnimation(self, [])))
             self.next_to_show()
 
 
