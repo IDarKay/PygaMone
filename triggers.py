@@ -69,7 +69,7 @@ class ShowTextTrigger(Trigger):
                 not game.game_instance.player.current_dialogue):
             game.game_instance.player.open_dialogue(hud.QuestionDialog(
                 hud.Dialog.split(game.game_instance.get_message("test")),
-                self.callback, ["oui", "non", "jsp"], speed_skip=True), check_last_open=1000)
+                self.callback, ["oui", "non", "jsp"], speed_skip=True), over=False, check_last_open=1000)
 
     def callback(self, value: str, index: int) -> NoReturn:
         print(value, index)

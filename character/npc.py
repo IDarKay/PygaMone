@@ -105,7 +105,7 @@ class JoyNPC(NPC):
             no = game.game_instance.get_message("no")
             dialog = hud.QuestionDialog("dialog.poke_center", self.talk_callback, (yes, no), speed_skip=True,
                                         need_morph_text=True)
-            player.open_dialogue(dialog, 1000)
+            player.open_dialogue(dialog, 1000, over=False)
 
     def talk_callback(self, value, index) -> NoReturn:
         player = game.game_instance.player

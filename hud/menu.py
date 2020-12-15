@@ -50,26 +50,6 @@ centre_circle = (
     (int(x * 0.5), int(y * 0.6)),
     (int(x * 0.7), int(y * 0.6))
 )
-#
-# poly_6 = (
-#     (int(x * 0.2), int(y * 0.85)),
-#     (int(x * 0.25), int(y * 0.85)),
-#     (int(x * 0.2), int(y * 0.98))
-# )
-#
-# poly_7 = (
-#     (int(x * 0.25), int(y * 0.85)),
-#     (int(x * 0.8), int(y * 0.85)),
-#     (int(x * 0.75), int(y * 0.98)),
-#     (int(x * 0.2), int(y * 0.98))
-# )
-#
-# poly_8 = (
-#     (int(x * 0.8), int(y * 0.85)),
-#     (int(x * 0.8), int(y * 0.98)),
-#     (int(x * 0.750), int(y * 0.98))
-# )
-
 
 class MainMenu(Menu):
 
@@ -145,6 +125,9 @@ class MainMenu(Menu):
         self.player.close_menu()
 
     def on_key_escape(self):
+        self.player.close_menu()
+
+    def on_key_menu(self) -> NoReturn:
         self.player.close_menu()
 
     def on_key_action(self):

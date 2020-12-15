@@ -12,7 +12,7 @@ import random
 import displayer
 import pygame
 import utils
-
+import uuid
 
 
 class PokemonAbility(object):
@@ -37,7 +37,7 @@ class PokemonAbility(object):
         :rtype: PokemonAbility
         """
         ab = abilitys_.ABILITYS[_id]
-        return PokemonAbility(_id, ab.pp, ab.max_pp)
+        return PokemonAbility(_id, ab.pp, ab.pp)
 
     @staticmethod
     def deserialisation(data: Dict[str, Any]) -> 'PokemonAbility':
@@ -61,7 +61,8 @@ NOT_CLASSIC = [C_S_CRITICAL, C_S_ACCURACY]
 class PlayerPokemon(object):
 
     def __init__(self, _id: int, xp: int, ivs: Dict[str, int], heal: int,
-                 ability: List[PokemonAbility], poke_ball: 'item.Item', shiny: bool, female: bool, status: list[str], /):
+                 ability: List[PokemonAbility], poke_ball: 'item.Item', shiny: bool, female: bool, status: list[str],
+                 uuid_: Optional[uuid.UUID]):
         self.id_ = _id
         self.xp = xp
         self.poke = pokemon.get_pokemon(self.id_)
@@ -70,6 +71,7 @@ class PlayerPokemon(object):
         self.heal = heal
         self.shiny = shiny
         self.female = female
+        self.uuid = uuid_ if uuid_ else uuid.uuid4()
 
         self.front_image = f'assets/textures/pokemon/{("shiny/" if shiny else "")}{("female/" if female and self.poke.have_female_image else "")}{(self.id_)}.png'
         self.back_image = f'assets/textures/pokemon/back/{("shiny/" if shiny else "")}{("female/" if female and self.poke.have_female_image else "")}{(self.id_)}.png'
@@ -171,10 +173,13 @@ class PlayerPokemon(object):
         else:
             return 0, 0
 
-    def add_attack(self, slot: int, ability_name: str) -> NoReturn:
+    def add_ability(self, slot: int, ability_name: str) -> NoReturn:
         if slot < 0 or slot > 4:
             raise ValueError("Slot need be in [0:4]")
-        self.ability[slot] = PokemonAbility.new_ability(ability_name)
+        if len(self.ability) >= 4:
+            self.ability[slot] = PokemonAbility.new_ability(ability_name)
+        else:
+            self.ability.append(PokemonAbility.new_ability(ability_name))
 
     def get_name(self, upper_first=False) -> str:
         return self.poke.get_name(upper_first)
@@ -186,10 +191,16 @@ class PlayerPokemon(object):
             return False, 100, 100
         self.xp += amount
         n = self.get_lvl()
-        if self.lvl != n:
+        if (old := self.lvl) != n:
             self.lvl = n
-            return True, n, self.lvl
+            self.calculate_stats()
+            return True, old, self.lvl
         return False, n, n
+
+    def __eq__(self, other):
+        if isinstance(other, PlayerPokemon):
+            return self.uuid == other.uuid
+        return NotImplemented
 
     def serialisation(self) -> Dict[str, Any]:
         return {
@@ -201,7 +212,8 @@ class PlayerPokemon(object):
             "pokeball": self.poke_ball.identifier,
             "shiny": self.shiny,
             "female": self.female,
-            "status": self.combat_status.get_save()
+            "status": self.combat_status.get_save(),
+            "uuid": str(self.uuid)
         }
 
     @staticmethod
@@ -216,7 +228,7 @@ class PlayerPokemon(object):
         _ability = []
         for i in range(min(len(ability), 4)):
             _ability.append(PokemonAbility.new_ability(ability[i]))
-        return PlayerPokemon(_id, xp, ivs, -1, _ability, poke_ball, shiny, female, [])
+        return PlayerPokemon(_id, xp, ivs, -1, _ability, poke_ball, shiny, female, [], None)
         pass
 
     @staticmethod
@@ -227,7 +239,8 @@ class PlayerPokemon(object):
                              items.ITEMS[data["pokeball"]],
                              data["shiny"],
                              data["female"],
-                             data["status"]
+                             data["status"],
+                             uuid.UUID(data["uuid"]) if "uuid" in data else uuid.uuid4()
                              )
 
 

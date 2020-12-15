@@ -1,4 +1,4 @@
-from typing import Dict, List, Any, Tuple, Optional, Union, TypeVar
+from typing import Dict, List, Any, Tuple, Optional, Union, TypeVar, Callable, NoReturn
 import time
 import pygame
 import game_error as err
@@ -7,6 +7,8 @@ import pokemon.pokemon_type as pokemon_type
 import pokemon.player_pokemon as player_pokemon
 import main
 import numpy as np
+
+color_t = Union[tuple[int, int, int], tuple[int, int, int, int], str]
 
 
 def force():
@@ -52,7 +54,9 @@ def time_to_string(t: int) -> str:
 def draw_select_box(display: pygame.Surface, _x: float, _y: float,
                     text: List[Tuple[pygame.Surface, pygame.Surface]],
                     selected: int, width: int = 100,
-                    over_color=(0, 0, 0), bg_color=(255, 255, 255), bg_border=(100, 100, 100)):
+                    over_color: color_t = (0, 0, 0),
+                    bg_color: color_t = (255, 255, 255),
+                    bg_border: color_t = (100, 100, 100)):
 
     _h = 20 + 28 * len(text)
 
@@ -69,7 +73,7 @@ def draw_select_box(display: pygame.Surface, _x: float, _y: float,
 
 
 def draw_rond_rectangle(display: pygame.Surface, _x: float, _y: float,
-                        height: float, width: float, color: Tuple[int, int, int]):
+                        height: float, width: float, color: color_t):
     height *= 0.5
     pygame.draw.circle(display, color, (_x, _y + height), height)
     pygame.draw.circle(display, color, (_x + width, _y + height), height)
@@ -79,7 +83,7 @@ def draw_rond_rectangle(display: pygame.Surface, _x: float, _y: float,
 # R = TypeVar('R', pygame.Rect, pygame.RectType, tuple[int, int, int, int])
 
 def draw_split_rectangle(display: pygame.Surface, rect: tuple[int, int, int, int], split_up: float, split_down: float,
-                              color: Union[tuple[int, int, int], str], color_2: Union[tuple[int, int, int], str]):
+                              color: color_t, color_2: color_t):
     pygame.draw.rect(display, color, rect)
     poly = (
         (rect[0] + rect[2] * split_up, rect[1]),
@@ -91,7 +95,7 @@ def draw_split_rectangle(display: pygame.Surface, rect: tuple[int, int, int, int
 
 
 def draw_split_rond_rectangle(display: pygame.Surface, rect: tuple[int, int, int, int], split_up: float, split_down: float,
-                              color: Union[tuple[int, int, int], str], color_2: Union[tuple[int, int, int], str]):
+                              color: color_t, color_2: color_t):
     height = rect[3] * 0.5
     pygame.draw.circle(display, color, (rect[0], rect[1] + height), height)
     pygame.draw.circle(display, color_2, (rect[0] + rect[2], rect[1] + height), height)
@@ -120,41 +124,43 @@ def draw_type(display: pygame.Surface, _x: float, _y: float, _type: 'pokemon_typ
     display.blit(game.FONT_16.render(_type.get_name().upper(), True, (255, 255, 255)), (_x + 26, _y + 1))
 
 
-def draw_ability(display: pygame.Surface, coord: Tuple[float, float], p_ability: 'player_pokemon.PokemonAbility'):
-    draw_split_rond_rectangle(display, (coord[0], coord[1], main.SCREEN_SIZE[0] * 0.2, 34), 0.85, 0.8, (255, 255, 255), (70, 68, 69))
-    # draw_rond_rectangle(display, coord[0] + main.SCREEN_SIZE[0] * 0.18, coord[1], 34, 40, (70, 68, 69))
-    display.blit(game.FONT_20.render(p_ability.ability.get_name() if p_ability else "-------------", True, (0, 0, 0)),
+def draw_ability(display: pygame.Surface, coord: Tuple[int, int], p_ability: 'player_pokemon.PokemonAbility',
+                 color_1: color_t = (255, 255, 255), color_2: color_t = (70, 68, 69),
+                 text_color_1: color_t = (0, 0, 0), text_color_2: color_t = (255, 255, 255)):
+    draw_split_rond_rectangle(display, (coord[0], coord[1], 320, 34), 0.85, 0.8, color_1, color_2)
+    display.blit(game.FONT_20.render(p_ability.ability.get_name() if p_ability else "-------------", True, text_color_1),
                  (coord[0] + 5, coord[1] + 6))
     if p_ability:
-        draw_type(display, coord[0] + main.SCREEN_SIZE[0] * 0.10, coord[1] + 8,  p_ability.ability.type)
+        draw_type(display, coord[0] + 160, coord[1] + 8,  p_ability.ability.type)
 
     pp = "{}/{}".format(p_ability.pp, p_ability.max_pp) if p_ability else "--/--"
     move = game.FONT_SIZE_20[0] * (1.8 if not p_ability else (2.5 if p_ability.pp > 9 else 1.5))
-    display.blit(game.FONT_20.render(pp, True, (255, 255, 255)),
-                 (coord[0] + main.SCREEN_SIZE[0] * 0.19 - move, coord[1] + 6))
+    display.blit(game.FONT_20.render(pp, True, text_color_2),
+                 (coord[0] + 304 - move, coord[1] + 6))
     pass
 
 
-def draw_ability_2(display: pygame.Surface, coord: Tuple[float, float],
+def draw_ability_2(display: pygame.Surface, coord: Tuple[int, int],
                    p_ability: 'player_pokemon.PokemonAbility', border: bool = False):
     type_color = p_ability.ability.type.image.get_at((0, 0)) if p_ability else (255, 255, 255)
     if border:
         draw_rond_rectangle(display, coord[0] - 3, coord[1] - 3, 46, 226, (0, 0, 0))
-    draw_rond_rectangle(display, coord[0], coord[1], 40, 220, type_color)
-    draw_rond_rectangle(display, coord[0] + 180, coord[1], 40, 40, (0, 0, 0))
+    draw_split_rond_rectangle(display, (coord[0], coord[1],  220, 40), 0.77, 0.69, type_color, (0, 0, 0))
+    # draw_rond_rectangle(display, coord[0] + 180, coord[1], 40, 40, (0, 0, 0))
     if p_ability:
         display.blit(pygame.transform.scale(p_ability.ability.type.image, (44, 32)), (coord[0] - 10, coord[1] + 4), pygame.Rect(0, 0, 32, 32))
 
-    display.blit(game.FONT_20.render(p_ability.ability.get_name() if p_ability else "-------------", True, (0, 0, 0)),
-                 (coord[0] + 23, coord[1] + 8))
+    display.blit(tx := game.FONT_20.render(p_ability.ability.get_name() if p_ability else "-------------", True, (0, 0, 0)),
+                 (coord[0] + 23, coord[1] + 20 - tx.get_size()[1] // 2))
     pp = "{}/{}".format(p_ability.pp, p_ability.max_pp) if p_ability else "--/--"
-    move = game.FONT_SIZE_24[0] * (1.8 if not p_ability else (2.5 if p_ability.pp > 9 else 1.5))
-    display.blit(game.FONT_24.render(pp, True, (255, 255, 255) if p_ability is None or p_ability.pp > 0 else (166, 26, 2)),
-                 (coord[0] + 193 - move, coord[1] + 6))
+
+    display.blit(tx := game.FONT_24.render(pp, True, (255, 255, 255) if p_ability is None or p_ability.pp > 0 else (166, 26, 2)),
+                 (coord[0] + 193 - tx.get_size()[0] // 2, coord[1] + 20 - tx.get_size()[1] // 2))
+
 
 
 def draw_progress_bar(display: pygame.Surface, coord: Tuple[float, float], size: Tuple[float, float],
-                      bg_color: Tuple[int, int, int], color: Tuple[int, int, int], progress: float):
+                      bg_color: color_t, color: color_t, progress: float):
 
     pygame.draw.rect(display, bg_color, pygame.Rect(coord[0], coord[1], size[0], size[1]))
     pygame.draw.rect(display, color, pygame.Rect(coord[0], coord[1], size[0] * progress, size[1]))
@@ -179,7 +185,9 @@ def change_image_color(surface: pygame.Surface, color: tuple[int, int, int]) -> 
     return surface
 
 
-def color_image(surface: pygame.Surface, color: Union[tuple[int, int, int], tuple[int, int, int, int]]) -> pygame.Surface:
+def color_image(surface: pygame.Surface, color: color_t) -> pygame.Surface:
+    if isinstance(color, str):
+        color = hexa_color_to_rgb(color)
     alpha = (100 if len(color) == 3 else color[3]) / 255
     size = surface.get_size()
     for x in range(size[0]):
@@ -259,7 +267,7 @@ def remove_holes(surface, background=(0, 0, 0)):
     return pygame.surfarray.make_surface(array)
 
 
-def draw_arrow(display: pygame.Surface, up: bool, x, y, color, size=1):
+def draw_arrow(display: pygame.Surface, up: bool, x: int, y: int, color: color_t, size=1):
     l = 10 * size
     h = 5 * size
     x -= l // 2
@@ -301,3 +309,56 @@ def draw_button_info(surface: pygame.Surface, **keys):
             pygame.draw.circle(surface, (255, 255, 255), (x, c_y), h // 2 - 2)
             surface.blit(key, (x - size[0] // 2, c_y - size[1] // 2))
             x -= h // 2 + 2
+
+
+def draw_table(display: pygame.Surface, /, y: int, x: int, h: int, c: int, l: int, half: int, size: int,
+               left_getter: Callable[[int], str], right_getter: Callable[[int, int, int], Optional[str]],
+               color_1: color_t = "#dcdcdc", color_2: color_t = "#ffffff",
+               split_color_1: Optional[color_t] = "#d2d2d2", split_color_2: Optional[color_t] = "#f3f3f3",
+               text_color_1: color_t = (0, 0, 0), text_color_2: color_t = (0, 0, 0),
+               font: Optional[pygame.font.Font] = None
+               ) -> int:
+    """
+    draw a table
+    @param display: the surface where draw
+    @param y: the Y start pf the table
+    @param x: the start x
+    @param h: the height of each case
+    @param c: the height of the split
+    @param l: the length of the table
+    @param size: number of row of the table
+    @param half: where cut the table in 2
+    @param left_getter: text getter for the left collum parm: i : the row number
+    @param right_getter: text getter for the right collum parm: i : the row number, x = current x, y = current y
+            return the sting to draw or None for nothing
+    @param color_1: the color of the left side
+    @param color_2: the color of the right side
+    @param split_color_1: the color of the left side of the split None to don"t draw
+    @param split_color_2: the color of the right side of the split None to don"t draw
+    @param text_color_1: the color of the left text
+    @param text_color_2:  the color of the right text
+    @param font: use font to draw text
+
+    @return: Nothing
+    """
+    if font is None:
+        font = game.FONT_24
+    for i in range(size):
+        pygame.draw.rect(display, color_1, (x, y, half, h))
+        pygame.draw.rect(display, color_2, (x + half, y, l - half, h))
+        left_back = left_getter(i)
+        if left_back:
+            display.blit(r_t := font.render(left_back, True, text_color_1),
+                         (x + (half - r_t.get_size()[0]) // 2, y + (h - r_t.get_size()[1]) // 2))
+        right_back = right_getter(i, x + half + 10, y)
+        if right_back:
+            display.blit(r_t := font.render(right_back, True, text_color_2),
+                         (x + half + 10, y + (h - r_t.get_size()[1]) // 2))
+        y += h
+        if i != 6:
+            if split_color_1:
+                pygame.draw.rect(display, split_color_1, (x, y, half, c))
+            if split_color_2:
+                pygame.draw.rect(display, split_color_2, (x + half, y, l - half, c))
+            y += c
+    return y

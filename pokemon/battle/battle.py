@@ -1,5 +1,5 @@
 from typing import List, Tuple, NoReturn, Callable, Optional, Union
-from abc import abstractmethod
+from pokemon.battle.animation import Animation
 import pokemon.player_pokemon as player_pokemon
 import pokemon.pokemon
 import utils
@@ -55,6 +55,7 @@ class WildAnimation(StartAnimation):
 
     def get_during(self) -> Tuple[int, int]:
         return 2000, 4100
+        # return 100, 100
 
     def tick(self, display: pygame.Surface, battle_: 'Battle', ps_t: int) -> NoReturn:
         if battle_.bool_matrix[0]:
@@ -142,30 +143,6 @@ class RenderAbilityCallback(object):
                     return mv
         return v, 0, 0
 
-
-class Animation(object):
-
-    @abstractmethod
-    def tick(self, display: pygame.Surface) -> bool:
-        pass
-
-    def is_priority(self) -> bool:
-        return False
-
-    def get_compare_value(self) -> int:
-        return 0
-
-    def __gt__(self, other):
-        if isinstance(other, Animation):
-            return (self.is_priority() and not other.is_priority()) or self.get_compare_value() > other.get_compare_value()
-        else:
-            raise ValueError("other need be animation")
-
-    def __lt__(self, other):
-        if isinstance(other, Animation):
-            return (not self.is_priority() and other.is_priority()) or self.get_compare_value() < other.get_compare_value()
-        else:
-            raise ValueError("other need be animation")
 
 class SimpleDialogue(Animation):
 
@@ -828,6 +805,7 @@ class Battle(object):
         self.nb_enemy = len(self.__enemy_team.case)
         self.__ally: List[Optional['player_pokemon.PlayerPokemon']] = [None] * self.nb_ally
         self.__enemy: List[Optional['player_pokemon.PlayerPokemon']] = [None] * self.nb_enemy
+        self.__xp_per_case: List[set[int]] = [set()] * self.nb_enemy
 
         self.nb_not_bot: Tuple[int] = self.__ally_team.get_none_bot().case_number
         self.selected_not_bot: int = min(self.nb_not_bot)
@@ -857,6 +835,30 @@ class Battle(object):
         self.rac: Optional['RenderAbilityCallback'] = None
         self.run_away_c = 0
         self.need_run_away = False
+        self.evolution_table = [False] * 6
+
+    def appear_pokemon(self, enemy: bool, case: int):
+        if enemy:
+            new_set = set()
+            for c_n in self.__ally_team.get_none_bot().case_number:
+                if (team_n := self.get_poke_n_from_case(False, c_n)) is not None:
+                    new_set.add(team_n)
+            self.__xp_per_case[case] = new_set
+        elif case in self.__ally_team.get_none_bot().case_number:
+            team_n = self.get_poke_n_from_case(False, case)
+            if team_n is not None:
+                for xp_case in self.__xp_per_case:
+                    xp_case.add(team_n)
+
+    def get_poke_n_from_case(self, enemy: bool, case: int) -> Optional[int]:
+        team = self.__enemy_team if enemy else self.__ally_team
+        poke = (self.__enemy if enemy else self.__ally)[case]
+        if poke is None: return None
+        pks = team.case[case].get_pks()
+        for i in range(len(pks)):
+            if pks[i] and pks[i] == poke:
+                return i
+        return None
 
     def get_team(self, enemy) -> List[Optional['player_pokemon.PlayerPokemon']]:
         return self.__enemy if enemy else self.__ally
@@ -998,7 +1000,6 @@ class Battle(object):
                     utils.draw_rond_rectangle(display, x + 110, 566, 12, 50, current[1])
                     display.blit(game.FONT_12.render(current[0], True, (255, 255, 255)), (x + 110, 567))
 
-
     def draw_button(self, display: pygame.Surface) -> NoReturn:
         y = 350
         if not self.wild:
@@ -1020,7 +1021,6 @@ class Battle(object):
             if self.selected_y[0] == i:
                 display.blit(self.arrow, (x - 50, y + 2))
             y += 50
-
 
     TARGET_POSE = ((440,), (290, 590), (180, 440, 700))
 
@@ -1079,22 +1079,19 @@ class Battle(object):
     def tick(self, display: pygame.Surface) -> Union[bool, Callable[[], NoReturn]]:
         ps_t = utils.current_milli_time() - self.__start_time
 
+        if self.bool_matrix[1] and ps_t >= self.animation.get_during()[0]:
+            self.bool_matrix[1] = False
+            self.load_asset()
         if ps_t < self.animation.get_during()[1]:
-            if self.bool_matrix[1] and ps_t > self.animation.get_during()[0]:
-                self.bool_matrix[1] = False
-                self.load_asset()
             self.animation.tick(display, self, ps_t)
             return False
+
 
         if self.bool_matrix[3]:
             self.bool_matrix[3] = False
             self.setup_first_pokemon(self.__enemy_team, self.__enemy, True)
             self.setup_first_pokemon(self.__ally_team, self.__ally, False)
-
-            self.TO_SHOW.append(lambda : self.start_new_animation(xp_battle_animation.XpAnimation(self, [])))
             self.next_to_show()
-
-
 
         self.draw_bg(display)
         for i in range(self.nb_enemy):
@@ -1132,20 +1129,22 @@ class Battle(object):
                 else:
                     self.current_play_ability = None
                     self.turn_count += 1
+                    self.check_death()
                     for ally in [True, False]:
                         pks = self.__ally if ally else self.__enemy
                         for ap_i in range(len(pks)):
                             ap = pks[ap_i]
-                            for it in ap.combat_status.it:
-                                back = it.status.turn(it, self.turn_count)
-                                if back[0]:
-                                    data = {"anim": StatusRemoveAnimation(it.status, ap, True)}
-                                    Battle.TO_SHOW.append([self.start_new_animation, data])
-                                else:
-                                    data = {"anim": StatusDamageAnimation(it, int(back[1]),
-                                                                          self.get_poke_pose(not ally, ap_i, True)[0:2],
-                                                                          True)}
-                                    Battle.TO_SHOW.append([self.start_new_animation, data])
+                            if ap:
+                                for it in ap.combat_status.it:
+                                    back = it.status.turn(it, self.turn_count)
+                                    if back[0]:
+                                        data = {"anim": StatusRemoveAnimation(it.status, ap, True)}
+                                        Battle.TO_SHOW.append([self.start_new_animation, data])
+                                    else:
+                                        data = {"anim": StatusDamageAnimation(it, int(back[1]),
+                                                                              self.get_poke_pose(not ally, ap_i, True)[0:2],
+                                                                              True)}
+                                        Battle.TO_SHOW.append([self.start_new_animation, data])
                     self.next_to_show()
             return False
 
@@ -1158,8 +1157,7 @@ class Battle(object):
                     return False
                 else:
                     return self.finish_callback
-            else:
-                self.check_death()
+
 
         if self.current_play_ability is None and game.game_instance.player.current_dialogue is None:
             if self.status == 0:
@@ -1214,7 +1212,9 @@ class Battle(object):
             return over_load
 
     def check_death(self) -> NoReturn:
-        to_show = len(self.TO_SHOW) == 0
+        print("call", self.__enemy)
+        start = len(self.TO_SHOW)
+        enemy_dead: list[tuple['player_pokemon.PlayerPokemon', int]] = []
         for e in [True, False]:
             for i in range(0, self.nb_enemy if e else self.nb_ally):
                 p = (self.__enemy if e else self.__ally)[i]
@@ -1222,6 +1222,8 @@ class Battle(object):
                     if p.heal <= 0:
                         t = self.__enemy_team if e else self.__ally_team
                         m = t.case[i]
+                        if e:
+                            enemy_dead.append((p, i))
                         first = m.get_first_valid_n()
                         (self.__enemy if e else self.__ally)[i] = None
                         if first is not None:
@@ -1229,12 +1231,35 @@ class Battle(object):
                                 n = first
                                 m.get_pks()[n].use = True
                                 data = {"case": i, "team_n": n, "enemy": e}
+                                print("add")
                                 self.TO_SHOW.append([self.launch_pokemon, data])
                             else:
                                 self.TO_SHOW.append([self.start_new_animation, {"anim": DeathPokemonChoiceAnimation(self, i)}])
-        if to_show and len(self.TO_SHOW) != 0:
-            self.next_to_show()
+        if len(enemy_dead) > 0:
+            print(enemy_dead)
+            all_xps = [0] * 6
+            for enemy in enemy_dead:
 
+                for i in range(6):
+                    all_xps[i] += self.get_xp_amount(i, *enemy)
+                print(all_xps, max(all_xps), self.__xp_per_case)
+            if max(all_xps) > 0:
+                self.TO_SHOW.insert(start, lambda: self.start_new_animation(xp_battle_animation.XpAnimation(self, all_xps)))
+
+        # if to_show and len(self.TO_SHOW) != 0:
+        #     self.next_to_show()
+
+    def get_xp_amount(self, team_n: int, enemy_poke: 'player_pokemon.PlayerPokemon', enemy_case) -> int:
+        if team_n in self.__xp_per_case[enemy_case]:
+            ally_pokemon = game.game_instance.player.team[team_n]
+            if ally_pokemon and enemy_poke:
+                a = 1 if self.wild else 1.5
+                b = enemy_poke.poke.xp_points
+                L = enemy_poke.lvl
+                Lp = ally_pokemon.lvl
+                s = sum(game.game_instance.player.team[t_n].heal > 0 for t_n in self.__xp_per_case[enemy_case])
+                return int(((a * b * L) / (5 * s)) * (((2 * L + 10) ** 2.5) / ((L + Lp + 10) ** 2.5) + 1))
+        return 0
 
 
     def check_end(self) -> Tuple[bool, bool]:
@@ -1367,6 +1392,7 @@ class Battle(object):
         poke = member.get_pks()[team_n]
         poke.set_use(True)
         storage[case] = poke
+        self.appear_pokemon(enemy, case)
         self.current_animation = LaunchPokemonAnimation(member, case, team_n, enemy)
         self.current_animation_callback = callback if callback else self.next_to_show
 
@@ -1390,7 +1416,7 @@ class Battle(object):
             self.menu_action[1]()
 
     def on_key_action(self) -> NoReturn:
-        if self.menu_action[0]:
+        if (not self.current_animation or not self.current_animation.on_key_action()) and self.menu_action[0]:
             self.menu_action[0]()
 
     def on_key_x(self, left: bool) -> NoReturn:

@@ -18,6 +18,7 @@ import utils
 import option
 import pokemon.status.status as status_
 import sounds
+import hud.forget_ability_menu as forget_ability_menu
 
 screen = None
 
@@ -118,13 +119,17 @@ class Game(object):
         FONT_SIZE_16 = FONT_16.size('X')
         FONT_SIZE_20 = FONT_20.size('X')
         FONT_SIZE_24 = FONT_24.size('X')
+        self.lang_ios = "en"
         self.lang = {}
         self.poke_lang = {}
+        self.ability_lang = {}
         self.save_name = ""
         self._save = {}
         self.load_save("save")
-        self.load_lang("en")
-        self.load_poke_lang("en")
+        # todo: lang selector
+        self.load_lang(self.lang_ios)
+        self.load_poke_lang(self.lang_ios)
+        self.load_ability_lang(self.lang_ios)
         sounds.load_poke_sound()
         items.load()
         status_.load()
@@ -169,6 +174,10 @@ class Game(object):
     def load_poke_lang(self, lang):
         with open("assets/lang/pokemon/{}.json".format(lang), 'r', encoding='utf-8') as file:
             self.poke_lang = json.load(file)
+
+    def load_ability_lang(self, lang: str):
+        with open("assets/lang/ability/{}.json".format(lang), 'r', encoding='utf-8') as file:
+            self.ability_lang = json.load(file)
 
     def load_save(self, save):
         with open("data/save/{}.json".format(save), 'r', encoding='utf-8') as file:
@@ -225,7 +234,13 @@ class Game(object):
         if key in self.poke_lang:
             return self.poke_lang[key]
         else:
-            return key
+            return {}
+
+    def get_ability_message(self, key: str) -> dict[str, str]:
+        if key in self.ability_lang:
+            return self.ability_lang[key]
+        else:
+            return {}
 
     def unload_level(self):
         self.player.freeze_time = -1
@@ -394,10 +409,7 @@ class Game(object):
                 elif k in option.KEY_QUITE:
                     self.player.escape_press()
                 elif k in option.KEY_MENU:
-                    if self.player.current_menu:
-                        self.player.close_menu()
-                    else:
-                        self.player.open_menu(_menu.MainMenu(self.player))
+                    self.player.menu_press()
 
                 # debug
                 elif k == pygame.K_F3:

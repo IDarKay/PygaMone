@@ -3,6 +3,7 @@ import game
 import hud.hud as hud
 import character.character as character
 import hud.menu as hud_menu
+import hud.menu_calass as menu_calass
 import pygame
 import collision
 import pokemon.battle.battle as battle
@@ -138,7 +139,7 @@ class Player(character.Character):
         self.freeze_time = 0
         self.is_action_press = False
         self.last_close_dialogue = utils.current_milli_time()
-        self.current_menu = None
+        self.current_menu: Optional['menu_calass.Menu'] = None
         self.team = [player_pokemon.PlayerPokemon.from_json(p) for p in game_i.get_save_value("team", [])]
         self.normalize_team()
         self.current_battle: Optional['battle.Battle'] = None
@@ -148,6 +149,8 @@ class Player(character.Character):
         self.pc: PC = PC(game_i.get_save_value("pc", []))
 
     def get_non_null_team_number(self) -> int:
+        if len(self.team) >= 6:
+            return 6
         i = 0
         while self.team[i]:
             i += 1
@@ -218,7 +221,7 @@ class Player(character.Character):
         self.freeze_time = 2
         self.current_menu = None
 
-    def open_dialogue(self, dialogue: 'Dialog', check_last_open: int = 0, over: bool = False) -> NoReturn:
+    def open_dialogue(self, dialogue: 'Dialog', check_last_open: int = 0, over: bool = True) -> NoReturn:
 
         if 0 < check_last_open and check_last_open > utils.current_milli_time() - self.last_close_dialogue and not over:
             return
@@ -319,7 +322,7 @@ class Player(character.Character):
         elif game.game_instance.level.can_cycling:
             self.is_cycling = not self.is_cycling
         else:
-            self.open_dialogue(hud.Dialog("dialog.cant_bike", speed=20, speed_skip=True, need_morph_text=True, style=2))
+            self.open_dialogue(hud.Dialog("dialog.cant_bike", speed=20, speed_skip=True, need_morph_text=True, style=2), over=False)
 
     def escape_press(self) -> NoReturn:
         if self.current_menu:
@@ -372,3 +375,13 @@ class Player(character.Character):
     @staticmethod
     def joy_round(v: float) -> float:
         return 0 if v == 0 else -1 if v < 0 else 1
+
+    def menu_press(self):
+        if self.current_dialogue:
+            pass
+        if self.current_menu:
+            self.current_menu.on_key_menu()
+        elif self.current_battle:
+            pass
+        elif not self.current_menu:
+            self.open_menu(hud_menu.MainMenu(self))

@@ -1,0 +1,10 @@
+{
+  "ember": {
+    "name": "Ember",
+    "description": "The target is attacked with small flames. This may also leave the target with a burn."
+  },
+  "tackle": {
+    "name": "Tackle",
+    "description": "A physical attack in which the user charges and slams into the target with its whole body."
+  }
+}

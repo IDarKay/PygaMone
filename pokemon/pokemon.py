@@ -64,7 +64,7 @@ class Pokemon(object):
     def get_all_possible_ability(self, lvl: int) -> List[str]:
         back = []
         for key, value in self.ability.items():
-            if value >= lvl:
+            if value <= lvl:
                 back.append(key)
         if self.parent != 0:
             return back + get_pokemon(self.parent).get_all_possible_ability(lvl)
@@ -78,7 +78,7 @@ class Pokemon(object):
         raise ValueError("{} not in ability".format(e))
 
     def get_4_last_ability(self, lvl: int) -> List[str]:
-        l = self.get_possible_ability_at_lvl(lvl)
+        l = self.get_all_possible_ability(lvl)
         sorted(l, key=self.get_ability_lvl, reverse=True)
         if len(l) > 4:
             l = l[0:4]
@@ -88,7 +88,7 @@ class Pokemon(object):
     def get_possible_ability_at_lvl(self, lvl: int) -> List[str]:
         back = []
         for key, value in self.ability.items():
-            if value <= lvl:
+            if value == lvl:
                 back.append(key)
         if self.parent != 0:
             return back + get_pokemon(self.parent).get_possible_ability_at_lvl(lvl)
@@ -101,7 +101,7 @@ class Pokemon(object):
         if self.curve_name:
             lvl = 0
             values = CURVE_VALUE[self.curve_name]
-            while xp > values[lvl]:
+            while xp >= values[lvl]:
                 lvl += 1
             return lvl - 1
         else:

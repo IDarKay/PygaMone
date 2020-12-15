@@ -34,7 +34,7 @@ def start_wild(area_type: str, player: 'pl.Player'):
              ], False),
         battle.BattleTeam(
             [
-                battle.BattlePlayer(True, [player_pokemon.PlayerPokemon.create_pokemon(p, 50)], (0,), wild=True)
+                battle.BattlePlayer(True, [player_pokemon.PlayerPokemon.create_pokemon(p, 5), player_pokemon.PlayerPokemon.create_pokemon(p, 5)], (0,), wild=True)
                 # battle.BattlePlayer(True, [player_pokemon.PlayerPokemon.create_pokemon(p2, 20)], (1,), wild=True),
                 # battle.BattlePlayer(True, [player_pokemon.PlayerPokemon.create_pokemon(p3, 20)], (2,), wild=True)
             ], True),

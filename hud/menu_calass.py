@@ -23,6 +23,9 @@ class Menu(object):
     def on_key_escape(self) -> NoReturn:
         pass
 
+    def on_key_menu(self) -> NoReturn:
+        pass
+
     @abstractmethod
     def render(self, display: pygame.Surface):
         pass

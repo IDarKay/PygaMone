@@ -18,7 +18,8 @@
     }
   ],
   "ability": {
-    "ember": 1
+    "ember": 1,
+    "tackle": 34
   },
   "base_stats": {
     "hp": 39,

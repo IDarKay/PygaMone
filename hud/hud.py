@@ -2,6 +2,8 @@ from typing import NoReturn, Callable, Iterable, Any, List, Optional
 import utils
 import pygame
 import game
+import sounds
+import sound_manager
 
 # DIALOGUE_MAX_CHAR_LINES: int = 40
 LEFT_X: int = 0
@@ -180,13 +182,14 @@ class Dialog(object):
 
 class QuestionDialog(Dialog):
 
-    def __init__(self, text: Any, callback: Callable[[str, int], NoReturn], ask: List[str], speed: int = 50,
-                 speed_skip: bool = False, timed: int = 0, need_morph_text: bool = False):
+    def __init__(self, text: Any, callback: Callable[[str, int], NoReturn], ask:  List[str], speed: int = 50,
+                 speed_skip: bool = False, need_morph_text: bool = False, style: int = 1, text_var=[]):
         """
         ask => dic [Show:value]
         :type ask: dict[str:object]
         """
-        super().__init__(text, speed, speed_skip, timed, need_morph_text)
+        super().__init__(text, speed=speed, speed_skip=speed_skip, timed=0, need_morph_text=need_morph_text,
+                         style=style, text_var=text_var)
         if len(ask) < 2:
             raise ValueError("len of ask need be > 2")
 
@@ -224,8 +227,10 @@ class QuestionDialog(Dialog):
         if self._current_line == len(self._text) - 1 and self._need_enter:
             if up:
                 self.__select = self.__select = max(self.__select - 1, 0)
+                sound_manager.start_in_first_empty_taunt(sounds.PLINK_2)
             else:
                 self.__select = min(self.__select + 1, len(self.__ask) - 1)
+                sound_manager.start_in_first_empty_taunt(sounds.PLINK_2)
 
     def press_action(self) -> bool:
         if self._current_line == len(self._text) - 1 and self._need_enter:

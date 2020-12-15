@@ -201,26 +201,26 @@ class PokeDexInfo(Menu):
         tx2 = (None, f'{poke.size} m', f'{poke.weight} Kg', str(game.get_game_instance().get_nb_view(self.selected + 1)))
         for i in range(4):
             pygame.draw.rect(display, "#dbdbd9", (x, y, l // 2, h))
-            pygame.draw.rect(display, "#ffffff", (x + l // 2, y, l // 2, h,))
+            pygame.draw.rect(display, "#ffffff", (x + l // 2, y, l // 2, h))
             display.blit(sur := game.FONT_24.render(game.get_game_instance().get_message(tx[i]), True, (0, 0, 0)),
                          utils.get_center(sur, (x, y, l // 2, h)))
             if i != 0:
                 display.blit(sur := game.FONT_24.render(tx2[i], True, (0, 0, 0)),
                              utils.get_center(sur, (x + l // 2 + 5, y, l // 2, h), center_x=False))
             else:
-                # _type = [game.FONT_16.render(_type.get_name(), True, (255, 255, 255)) for _type in poke.types]
                 _x_ = x + l // 2 + 10
                 for ii in range(len(poke.types)):
                     utils.draw_type(display, _x_, y + h // 2 - 8, poke.types[ii])
                     _x_ += 106
             y += h
             if i != 3:
-                pygame.draw.rect(display, "#f2f2f2", (x, y, l, s))
+                pygame.draw.rect(display, "#d2d2d2", (x, y, l // 2, s))
+                pygame.draw.rect(display, "#f3f3f3", (x + l // 2, y, l // 2, h))
             y += s
         pygame.draw.rect(display, "#ffffff", (x, y, l, h * 3))
         x += 5
         y += 10
-        for p_l in hud.Dialog.split(poke.get_pokedex(), 40):
+        for p_l in hud.Dialog.split(poke.get_pokedex(), 45):
             display.blit(game.FONT_24.render(p_l, True, (0, 0, 0)), (x, y))
             y += game.FONT_SIZE_24[1] + 5
 
@@ -228,6 +228,7 @@ class PokeDexInfo(Menu):
         try:
             s = sounds.POKE_SOUND[self.selected + 1]
             if s:
+                # use specific channel to escape sound flood
                 sound_manager.TAUNT_CHANNEL3.play(s.get())
         except IndexError:
             pass

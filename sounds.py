@@ -32,9 +32,12 @@ BATTLE_DPP_TRAINER = Sound('assets/sound/music/battle_DPP_trainer.mp3')
 LEVEL_UP = Sound('assets/sound/level_up.mp3')
 HEAL = Sound('assets/sound/heal.mp3')
 PLINK = Sound('assets/sound/plink.mp3')
+
 # todo: get file
 PLINK_2 = Sound('assets/sound/plink.mp3')
 BACK = Sound('assets/sound/plink.mp3')
+LVL_UP = Sound('assets/sound/plink.mp3')
+EVOLUTION = Sound('assets/sound/plink.mp3')
 
 BLOCK = Sound('assets/sound/block.mp3')
 SAVE = Sound('assets/sound/save.mp3')

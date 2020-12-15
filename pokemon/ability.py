@@ -64,6 +64,9 @@ class AbstractAbility(object):
         self.need_sound = False
         del self.__data
 
+    def get_category_name(self) -> str:
+        return game.get_game_instance().get_message(f'ability.categories.{self.category}')
+
     def get_target(self, case: int, nb_enemy: int, nb_ally: int, enemy: bool) -> list[list[bool, bool, bool], list[bool, bool, bool]]:
         table = [[False] * 3] * 2
         nb = nb_enemy if enemy else nb_ally
@@ -124,7 +127,10 @@ class AbstractAbility(object):
         return ({}, []), [({}, [])] * len(targets)
 
     def get_name(self) -> NoReturn:
-        return game.get_game_instance().get_message("ability." + self.id_)
+        return game.get_game_instance().get_ability_message(self.id_)['name']
+
+    def get_description(self) -> NoReturn:
+        return game.get_game_instance().get_ability_message(self.id_)['description']
 
     def get_args(self, key: str, default=None, type_check=None) -> Any:
         return self.get_args_2(self.__data, key, self.id_, default, type_check, _type="ability")
