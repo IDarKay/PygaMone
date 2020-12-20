@@ -158,7 +158,6 @@ def draw_ability_2(display: pygame.Surface, coord: Tuple[int, int],
                  (coord[0] + 193 - tx.get_size()[0] // 2, coord[1] + 20 - tx.get_size()[1] // 2))
 
 
-
 def draw_progress_bar(display: pygame.Surface, coord: Tuple[float, float], size: Tuple[float, float],
                       bg_color: color_t, color: color_t, progress: float):
 
@@ -168,6 +167,7 @@ def draw_progress_bar(display: pygame.Surface, coord: Tuple[float, float], size:
 
 def min_max(min_v: int, value: int, max_v: int) -> int:
     return min_v if value < min_v else max_v if value > max_v else value
+
 
 def hexa_color_to_rgb(hexa: str) -> Tuple[int, int, int]:
     if hexa[0] == '#':

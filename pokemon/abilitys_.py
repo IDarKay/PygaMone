@@ -15,10 +15,11 @@ def register(it: T) -> T:
     return it
 
 
-EMBER: 'abilitys.EmberAbility'
-TACKLE: 'abilitys.TackleAbility'
+# EMBER: 'abilitys.EmberAbility' =
+# TACKLE: 'abilitys.TackleAbility' =
 
 
 def load() -> NoReturn:
-    EMBER: 'abilitys.EmberAbility' = register(abilitys.EmberAbility())
-    TACKLE: 'abilitys.TackleAbility' = register(abilitys.TackleAbility())
+    register(abilitys.EmberAbility())
+    register(abilitys.TackleAbility())
+    register(abilitys.AcidAbility())

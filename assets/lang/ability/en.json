@@ -6,5 +6,9 @@
   "tackle": {
     "name": "Tackle",
     "description": "A physical attack in which the user charges and slams into the target with its whole body."
+  },
+  "acid": {
+    "name": "Acid",
+    "description": "The opposing Pokémon are attacked with a spray of harsh acid. This may also lower their Sp. Def stats."
   }
 }

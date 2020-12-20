@@ -62,7 +62,7 @@ class Layers(object):
         to_render = {}
 
         for a in to_add:
-            r_y = a[0] // game.CASE_SIZE - y_start
+            r_y = a[0]
             if r_y not in to_render:
                 to_render[r_y] = [[False, a[1]]]
             else:
@@ -75,7 +75,7 @@ class Layers(object):
                 key = self.keys[self.get_case(x, y)]
                 if key:
                     struct = self.level.struct[key]
-                    r_y = y - y_start_mod
+                    r_y = y * game.CASE_SIZE - 2
                     if r_y not in to_render:
                         to_render[r_y] = [[True, struct, x, y]]
                     else:

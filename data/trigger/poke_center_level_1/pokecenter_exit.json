@@ -3,8 +3,8 @@
   "collision_side": {
     "*": {
       "lvl_name": "level_1",
-      "player_x": 2,
-      "player_y": 4
+      "player_x": 12,
+      "player_y": 18
     }
   }
 }

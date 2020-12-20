@@ -167,7 +167,7 @@ class PlayerPokemon(object):
 
     def calculate_stats(self) -> NoReturn:
         for st in pokemon.STATS:
-            self.stats[st] = calculate_stats(self.lvl, self.poke.base_stats[st], self.ivs[st], st == pokemon.STATS[0])
+            self.stats[st] = calculate_stats(self.lvl, self.poke.base_stats[st], self.ivs[st], st == pokemon.HEAL)
 
     def get_lvl(self) -> int:
         return self.poke.get_lvl(self.xp)
@@ -284,11 +284,10 @@ class PCPlayerPokemon(PlayerPokemon):
 #                     ATTA/DEF/SPEED/SPECIAL
 
 
-
 def calculate_stats(level: int, base: int, iv: int, is_hp: bool) -> int:
-    n = ((((base + iv) * 2) * level) / 100) + 10
+    n = (((2 * base + iv) * level) / 100) + 5
     if is_hp:
-        n += level
+        n += level + 5
     return int(n)
 
 

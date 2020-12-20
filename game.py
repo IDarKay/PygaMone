@@ -278,7 +278,7 @@ class Game(object):
                                       [])
                 # self.player.tick(self.display)
                 self.level.layer_1.render(start[0], start[1], end[0], end[1], self.display,
-                                        self.collision, [(self.player.get_render_y(), self.player.render)])
+                                        self.collision, [(self.player.rect.y + self.player.size[0], self.player.render)])
 
                 self.level.npc_render(self.display, self.collision)
                 self.level.load_trigger(start[0], start[1], end[0], end[1], self.trigger_cache, self.collision)

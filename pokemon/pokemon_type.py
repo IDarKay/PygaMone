@@ -30,6 +30,7 @@ class Type(object):
     def __eq__(self, other):
         return isinstance(other, Type) and self.name == other.name
 
+
 N_NORMAL = "NORMAL"
 N_POISON = "POISON"
 N_PSYCHIC = "PSYCHIC"
