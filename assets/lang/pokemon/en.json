@@ -1,38 +1,47 @@
 {
   "1": {
     "name": "bulbizarre",
+    "japan": "フシギダネ Fushigidane",
     "pokedex": "Il y a une graine sur son dos depuis sa naissance. elle grossit un peu chaque jour."
   },
   "2": {
     "name": "herbizarre",
+    "japan": "フシギソウ Fushigisou",
     "pokedex": "Son bulbe dorsal est devenu si gros qu'il ne peut plus se tenir sur ses pattes postérieures."
   },
   "3": {
     "name": "florizarre",
+    "japan": "フシギバナ Fushigibana",
     "pokedex": "Sa plante donne une grosse fleur quand elle absorbe les rayons du soleil. Il est toujours à la recherche des endroits les plus ensoleillés."
   },
   "4": {
     "name": "Salamèche",
+    "japan": "ヒトカゲ Hitokage",
     "pokedex": "Depuis sa naissance, une petite flamme brûle au bout de sa queue. Si cette flamme s'éteint, la vie de ce Pokémon s'éteindra elle aussi."
   },
   "5": {
     "name": "Reptincel",
+    "japan": "リザード Lizardo",
     "pokedex": "S'il s'excite pendant un combat, il crache de grandes flammes, brûlant tout ce qui se trouve aux alentours."
   },
   "6": {
     "name": "Dracaufeu",
+    "japan": "リザードン Lizardon",
     "pokedex": "Ses ailes lui permettent de voler à plus de 1 400 m d'altitude. Ce Pokémon crache du feu à des températures très élevées."
   },
   "7": {
     "name": "Carapuce",
+    "japan": "ゼニガメ Zenigame",
     "pokedex": "S'il se sent menacé, il rétracte ses pattes dans sa carapace pour se protéger et crache de l'eau."
   },
   "8": {
     "name": "Carabaffe",
+    "japan": "カメール Kameil",
     "pokedex": "Il se sert habilement de sa queue et de ses oreilles touffues pour garder son équilibre sous l'eau."
   },
   "9": {
     "name": "Tortank",
+    "japan": "カメックス Kamex",
     "pokedex": "Les canons sur sa carapace tirent des jets d'eau capables de percer même de l'acier trempé."
   }
 }

@@ -145,7 +145,7 @@ def draw_ability_2(display: pygame.Surface, coord: Tuple[int, int],
     type_color = p_ability.ability.type.image.get_at((0, 0)) if p_ability else (255, 255, 255)
     if border:
         draw_rond_rectangle(display, coord[0] - 3, coord[1] - 3, 46, 226, (0, 0, 0))
-    draw_split_rond_rectangle(display, (coord[0], coord[1],  220, 40), 0.77, 0.69, type_color, (0, 0, 0))
+    draw_split_rond_rectangle(display, (coord[0], coord[1],  220, 40), 0.75, 0.67, type_color, (0, 0, 0))
     # draw_rond_rectangle(display, coord[0] + 180, coord[1], 40, 40, (0, 0, 0))
     if p_ability:
         display.blit(pygame.transform.scale(p_ability.ability.type.image, (44, 32)), (coord[0] - 10, coord[1] + 4), pygame.Rect(0, 0, 32, 32))
@@ -154,7 +154,7 @@ def draw_ability_2(display: pygame.Surface, coord: Tuple[int, int],
                  (coord[0] + 23, coord[1] + 20 - tx.get_size()[1] // 2))
     pp = "{}/{}".format(p_ability.pp, p_ability.max_pp) if p_ability else "--/--"
 
-    display.blit(tx := game.FONT_24.render(pp, True, (255, 255, 255) if p_ability is None or p_ability.pp > 0 else (166, 26, 2)),
+    display.blit(tx := game.FONT_20.render(pp, True, (255, 255, 255) if p_ability is None or p_ability.pp > 0 else (166, 26, 2)),
                  (coord[0] + 193 - tx.get_size()[0] // 2, coord[1] + 20 - tx.get_size()[1] // 2))
 
 

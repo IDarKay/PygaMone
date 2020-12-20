@@ -148,6 +148,15 @@ class Player(character.Character):
 
         self.pc: PC = PC(game_i.get_save_value("pc", []))
 
+    def heal_team(self):
+        for poke in self.team:
+            if poke:
+                poke.heal = poke.get_max_heal()
+                for ab in poke.ability:
+                    if ab:
+                        ab.pp = ab.max_pp
+                poke.combat_status.it.clear()
+
     def get_non_null_team_number(self) -> int:
         if len(self.team) >= 6:
             return 6

@@ -16,7 +16,6 @@ class Structure(object):
 
     def __init__(self, name: str, data: Dict[str, Any]):
         self.name: str = name
-        self.size: int = data["size"] if data["size"] else DEFAULT_SIZE
         if not data["display"]:
             raise er.StructureParseError("No display for {}".format(name))
 
@@ -38,7 +37,7 @@ class Structure(object):
 
         if len(self.display) == 1:
             return self.display[0]
-        v = int(random[x][y] * len(self.display))
+        v = int(random[y][x] * len(self.display))
         return self.display[v]
 
     def render(self, screen: pygame.Surface, x: int, y: int, cx: int, cy: int,
@@ -54,25 +53,9 @@ class Structure(object):
                 self.collision_side
             ))
 
-    def is_one_case(self) -> bool:
-        return self.size == [1, 1]
-
     def __del__(self):
         # safe delete
         self.display.clear()
-
-
-class BuildStructure(Structure):
-    def __init__(self, name: str, data: Dict[str, Any]):
-
-        super().__init__(name, data)
-
-
-class FloorStructure(Structure):
-    
-    def __init__(self, name: str, data: Dict[str, Any]):
-        super().__init__(name, data)
-
 
 def parse(path: str):
 
@@ -83,9 +66,4 @@ def parse(path: str):
         raise er.StructureParseError("No data in {}".format(path))
 
     # same for the moment
-    if data["type"] == FLOOR:
-        return FloorStructure(path, data)
-    elif data["type"] == BUILD:
-        return BuildStructure(path, data)
-    else:
-        raise er.StructureParseError("No type in {}".format(path))
+    return Structure(path, data)

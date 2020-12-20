@@ -8,6 +8,12 @@
   "parent": 7,
   "size": 1,
   "weight": 22.5,
+    "evolution": [
+    {
+      "lvl": 36,
+      "pokemon": 9
+    }
+  ],
   "base_stats": {
     "hp": 59,
     "attack": 63,

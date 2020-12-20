@@ -93,6 +93,12 @@ class PlayerPokemon(object):
         if self.heal == -1 or self.heal > self.get_max_heal():
             self.heal = self.get_max_heal()
 
+    def can_evolve(self) -> Optional[int]:
+        li = self.poke.get_evolution_under(self.lvl)
+        if len(li) > 0:
+            return li[0]
+        return None
+
     def get_stats(self, name: str, with_edit: bool = True):
         v = self.stats[name] if name in self.stats else 1
         if with_edit:

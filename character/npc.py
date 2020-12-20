@@ -116,12 +116,7 @@ class JoyNPC(NPC):
             self.__action = utils.current_milli_time()
             self.__player.open_dialogue(hud.Dialog("dialog.poke_center_yes", need_morph_text=True, none_skip=True),
                                         over=True)
-            for poke in self.__player.team:
-                if poke:
-                    poke.heal = poke.get_max_heal()
-                    for ab in poke.ability:
-                        if ab:
-                            ab.pp = ab.max_pp
+            self.__player.heal_team()
         return True
 
     def get_where_pose(self, i: int) -> Tuple[int, int]:

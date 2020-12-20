@@ -686,13 +686,32 @@ class DeathPokemonAnimation(Animation):
 
 class DeathPokemonChoiceAnimation(Animation):
 
-    def __init__(self, battle: 'Battle', case: int):
+    def __init__(self, battle: 'Battle', case: int, ask_before: bool = False):
         self.battle = battle
         self.case = case
+        self.ask_before = ask_before
+        self.on_ask = False
 
     def tick(self, display: pygame.Surface) -> bool:
-        game.game_instance.player.open_menu(ChangePokemonMenu(game.game_instance.player, self.choice_call_back))
-        return True
+        if self.ask_before == 0:
+            game.game_instance.player.open_menu(ChangePokemonMenu(game.game_instance.player, self.choice_call_back))
+            return True
+        elif self.ask_before == -1:
+            return True
+        elif not self.on_ask:
+            self.on_ask = True
+            ask = [
+                game.game_instance.get_message("yes"),
+                game.game_instance.get_message("no")
+            ]
+
+            def callback(x, i):
+                self.ask_before = -i
+            game.game_instance.player.open_dialogue(
+                hud.QuestionDialog("battle.ask_switch_pokemon", callback, ask, speed=25, need_morph_text=True, style=2)
+            )
+
+        return False
 
     def choice_call_back(self, done: bool, n: int) -> NoReturn:
         game.game_instance.player.close_menu()
@@ -835,7 +854,7 @@ class Battle(object):
         self.rac: Optional['RenderAbilityCallback'] = None
         self.run_away_c = 0
         self.need_run_away = False
-        self.evolution_table = [False] * 6
+        self.evolution_table = [None] * 6
 
     def appear_pokemon(self, enemy: bool, case: int):
         if enemy:
@@ -958,15 +977,16 @@ class Battle(object):
                                         self.bar_color(poke.heal, poke.get_max_heal()),
                                         poke.heal / poke.get_max_heal())
                 lvl = game.FONT_20.render("N.{}".format(poke.lvl), True, (0, 0, 0))
-                display.blit(lvl, (x + 170 - lvl.get_rect().size[0], 21))
-                n = poke.get_name()
-                display.blit(game.FONT_16.render(n[0].upper() + n[1:len(n)], True, (0, 0, 0)), (x, 25))
+                display.blit(lvl, (x + 170 - lvl.get_rect().size[0], 20))
+                n = poke.get_name(True)
+                display.blit(game.FONT_16.render(n, True, (0, 0, 0)), (x, 23))
 
                 im = poke.combat_status.get_all_image()
                 if len(im) > 0:
                     current = im[min(utils.current_milli_time() % (len(im) * 2000) // 2000, len(im) - 1)]
                     utils.draw_rond_rectangle(display, x + 110, 46, 12, 50, current[1])
-                    display.blit(game.FONT_12.render(current[0], True, (255, 255, 255)), (x + 110, 47))
+                    display.blit(tx := game.FONT_12.render(current[0], True, (255, 255, 255)),
+                                 (x + 135 - tx.get_size()[0] // 2, 52 - tx.get_size()[1] // 2))
 
         else:
             poke = self.__ally[i]
@@ -991,14 +1011,15 @@ class Battle(object):
                 lvl = game.FONT_20.render("N.{}".format(poke.lvl), True, (0, 0, 0))
                 display.blit(lvl, (x + 170 - lvl.get_rect().size[0], 531))
                 n = poke.get_name()
-                display.blit(game.FONT_16.render(n[0].upper() + n[1:len(n)], True, (0, 0, 0)), (x, 537))
-                display.blit(game.FONT_20.render("{}/{}".format(poke.heal, poke.get_max_heal()), True, (0, 0, 0)), (x, 559))
+                display.blit(game.FONT_16.render(n, True, (0, 0, 0)), (x, 535))
+                display.blit(game.FONT_20.render("{}/{}".format(poke.heal, poke.get_max_heal()), True, (0, 0, 0)), (x, 558))
 
                 im = poke.combat_status.get_all_image()
                 if len(im) > 0:
                     current = im[min(utils.current_milli_time() % (len(im) * 2000) // 2000, len(im) - 1)]
                     utils.draw_rond_rectangle(display, x + 110, 566, 12, 50, current[1])
-                    display.blit(game.FONT_12.render(current[0], True, (255, 255, 255)), (x + 110, 567))
+                    display.blit(tx := game.FONT_12.render(current[0], True, (255, 255, 255)),
+                                 (x + 135 - tx.get_size()[0] // 2, 572 - tx.get_size()[1] // 2))
 
     def draw_button(self, display: pygame.Surface) -> NoReturn:
         y = 350
@@ -1007,7 +1028,7 @@ class Battle(object):
         for i in range(4 if self.wild else 3):
             color = ((0, 0, 0), (255, 255, 255)) if i == self.selected_y[0] else ((255, 255, 255), (0, 0, 0))
             utils.draw_rond_rectangle(display, 800, y, 50, 200, color[0])
-            display.blit(game.FONT_24.render(self.button_text[i], True, color[1]), (810, y + 15))
+            display.blit(tx := game.FONT_24.render(self.button_text[i], True, color[1]), (810, y + 25 - tx.get_size()[1] // 2))
 
             if i == self.selected_y[0]:
                 display.blit(self.arrow, (750, y + 2))
@@ -1212,8 +1233,8 @@ class Battle(object):
             return over_load
 
     def check_death(self) -> NoReturn:
-        print("call", self.__enemy)
         start = len(self.TO_SHOW)
+        ask_switch = 0
         enemy_dead: list[tuple['player_pokemon.PlayerPokemon', int]] = []
         for e in [True, False]:
             for i in range(0, self.nb_enemy if e else self.nb_ally):
@@ -1228,13 +1249,18 @@ class Battle(object):
                         (self.__enemy if e else self.__ally)[i] = None
                         if first is not None:
                             if m.bot:
+                                if ask_switch == 0:
+                                    ask_switch = 1
                                 n = first
                                 m.get_pks()[n].use = True
                                 data = {"case": i, "team_n": n, "enemy": e}
                                 print("add")
                                 self.TO_SHOW.append([self.launch_pokemon, data])
                             else:
+                                ask_switch = -1
                                 self.TO_SHOW.append([self.start_new_animation, {"anim": DeathPokemonChoiceAnimation(self, i)}])
+        if ask_switch == 1 and self.nb_ally == 1:
+            self.TO_SHOW.insert(start, [self.start_new_animation, {"anim": DeathPokemonChoiceAnimation(self, 0, True)}])
         if len(enemy_dead) > 0:
             print(enemy_dead)
             all_xps = [0] * 6

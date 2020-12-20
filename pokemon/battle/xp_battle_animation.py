@@ -1,5 +1,5 @@
 from typing import NoReturn, Optional
-from abc import abstractmethod
+from abc import abstractmethod, ABC
 from pokemon.battle.animation import Animation
 import pokemon.battle.battle as battle
 import utils
@@ -13,21 +13,14 @@ import pokemon.abilitys_ as abilitys_
 import sound_manager
 import sounds
 
-class XpA(Animation):
+
+class XpA(Animation, ABC):
 
     def __init__(self, bat: 'battle.Battle'):
         self._bat = bat
         self._init = False
         self.action = False
         self._start = 0
-
-    @abstractmethod
-    def tick(self, display: pygame.Surface) -> bool:
-        pass
-
-    @abstractmethod
-    def on_key_action(self) -> bool:
-        pass
 
 
 class XpAnimation(XpA):
@@ -156,6 +149,7 @@ class PokemonWonAttackAnimation(XpA):
                     for lvl in range(poke.lvl - el[0] + 1, poke.lvl + 1):
                         for e in poke.poke.get_possible_ability_at_lvl(lvl):
                             c_l.append(e)
+                    self._bat.evolution_table[i] = poke.can_evolve()
                     self.__attack_edit.append(c_l if len(c_l) > 0 else None)
                 else:
                     self.__attack_edit.append(None)

@@ -111,10 +111,11 @@ class Game(object):
 
         # asset load
         global FONT_12, FONT_SIZE_12, FONT_16, FONT_SIZE_16, FONT_20, FONT_SIZE_20, FONT_24, FONT_SIZE_24
-        FONT_12 = pygame.font.Font("assets/font/MyFont-Regular.otf", 12)
-        FONT_16 = pygame.font.Font("assets/font/MyFont-Regular.otf", 16)
-        FONT_20 = pygame.font.Font("assets/font/MyFont-Regular.otf", 20)
-        FONT_24 = pygame.font.Font("assets/font/MyFont-Regular.otf", 24)
+        FONT_12 = pygame.font.Font("assets/font/Togalite-Regular.otf", 12)
+        FONT_16 = pygame.font.Font("assets/font/Togalite-Medium.otf", 16)
+        FONT_20 = pygame.font.Font("assets/font/Togalite-Medium.otf", 20)
+        FONT_24 = pygame.font.Font("assets/font/Togalite-Medium.otf", 24)
+        # FONT_24 = pygame.font.Font("assets/font/MyFont-Regular.otf", 24)
         FONT_SIZE_12 = FONT_12.size('X')
         FONT_SIZE_16 = FONT_16.size('X')
         FONT_SIZE_20 = FONT_20.size('X')
@@ -147,8 +148,6 @@ class Game(object):
         self.display: 'pygame.Surface' = pygame.Surface(SURFACE_SIZE, pygame.HWSURFACE | pygame.SRCALPHA)
         self.player: 'player.Player' = player.Player(self)
 
-        self.floor_cache = Cache()
-        self.layer_cache = Cache()
         self.trigger_cache = Cache()
 
         self.level = None
@@ -244,8 +243,6 @@ class Game(object):
 
     def unload_level(self):
         self.player.freeze_time = -1
-        self.layer_cache.clear()
-        self.floor_cache.clear()
         self.trigger_cache.clear()
         global IMAGE_CACHE
         IMAGE_CACHE.clear()
@@ -254,8 +251,8 @@ class Game(object):
     def load_level(self, name, x, y):
         self.player.freeze_time = 10
         self.level = level.Level(name)
-        self.level.floor.load_asset(self.floor_cache)
-        self.level.layer_1.load_asset(self.layer_cache)
+        self.level.floor.load_asset()
+        self.level.layer_1.load_asset()
         self.level.load_asset(self.trigger_cache)
         self.player.set_pos((x, y))
         if not self.level.can_cycling:
@@ -280,10 +277,10 @@ class Game(object):
                 global came_scroll
                 came_scroll = start
                 end = self.player.get_scroll_end()
-                self.level.floor.render(start[0], start[1], end[0], end[1], self.floor_cache, self.display, self.collision,
+                self.level.floor.render(start[0], start[1], end[0], end[1], self.display, self.collision,
                                       [])
                 # self.player.tick(self.display)
-                self.level.layer_1.render(start[0], start[1], end[0], end[1], self.layer_cache, self.display,
+                self.level.layer_1.render(start[0], start[1], end[0], end[1], self.display,
                                         self.collision, [(self.player.get_render_y(), self.player.render)])
 
                 self.level.npc_render(self.display, self.collision)
@@ -459,6 +456,9 @@ class Game(object):
         if id_ < 1:
             return
         self.pokedex[str(id_)] = self.get_pokedex_e(id_) & ~0b11 | POKEDEX_SEEN
+
+    def get_pokedex_catch_status_values(self):
+        return [(x & 0b11) for x in self.pokedex.values()]
 
 def get_game_instance():
     """

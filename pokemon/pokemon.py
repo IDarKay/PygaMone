@@ -113,12 +113,16 @@ class Pokemon(object):
             name = name[0].capitalize() + name[1:]
         return name
 
+    def get_japan_name(self) -> str:
+        try:
+            return game.get_game_instance().get_poke_message(str(self.id_))["japan"]
+        except KeyError:
+            return ""
+
     def get_pokedex(self) -> str:
         return game.get_game_instance().get_poke_message(str(self.id_))["pokedex"]
 
     def get_evolution(self) -> List[Dict[str, int]]:
-        if self.parent != 0:
-            return self.evolution + get_pokemon(self.parent).get_evolution()
         return self.evolution
 
     def get_evolution_at(self, lvl: int) -> int:
@@ -126,6 +130,13 @@ class Pokemon(object):
             if ev["lvl"] == lvl:
                 return ev["pokemon"]
         return 0
+
+    def get_evolution_under(self, lvl: int) -> list[int]:
+        li = []
+        for ev in self.get_evolution():
+            if ev["lvl"] <= lvl:
+                li.append(ev["pokemon"])
+        return li
 
     @staticmethod
     def load_pokemons():

@@ -8,6 +8,12 @@
   "female_rate": 0.125,
   "size": 1,
   "weight": 13,
+    "evolution": [
+    {
+      "lvl": 32,
+      "pokemon": 3
+    }
+  ],
   "base_stats": {
     "hp": 60,
     "attack": 62,

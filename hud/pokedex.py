@@ -28,8 +28,8 @@ class PokeDex(Menu):
         self.selected = selected
 
         self.arrow = utils.ARROW
-        self.nb_caught = sum(map(game.POKEDEX_CATCH.__eq__, game.get_game_instance().pokedex.values()))
-        self.nb_saw = sum(map(game.POKEDEX_SEEN.__eq__, game.get_game_instance().pokedex.values()))
+        self.nb_caught = sum(map(game.POKEDEX_CATCH.__eq__, game.get_game_instance().get_pokedex_catch_status_values()))
+        self.nb_saw = sum(map(game.POKEDEX_SEEN.__eq__, game.get_game_instance().get_pokedex_catch_status_values()))
         self.black_pokeball = utils.change_image_color(utils.GRAY_POKEBALL.copy(), (0, 0, 0))
         self.white_pokeball = utils.change_image_color(utils.GRAY_POKEBALL.copy(), (255, 255, 255))
         self.light_orange_point = utils.change_image_color(utils.POINT_POKEBALL.copy(), (199, 90, 57))
@@ -137,6 +137,7 @@ class PokeDex(Menu):
         b = min(b, end)
         return a, b + 1
 
+
 class PokeDexInfo(Menu):
 
     def __init__(self, player, selected):
@@ -183,8 +184,8 @@ class PokeDexInfo(Menu):
         x = 480
         display.blit(im, (x, y + 30 - delta_y))
         status = game.get_game_instance().get_pokedex_status(self.selected + 1)
-        display.blit(game.FONT_24.render(f"N° {pokemon.to_3_digit(self.selected + 1)}", True, (255, 255, 255)), (x + 50, y + 12))
-        display.blit(game.FONT_24.render(poke.get_name(True) if poke.id_ != 0 else "???", True, (255, 255, 255)), (689, y + 12))
+        display.blit(game.FONT_24.render(f"N° {pokemon.to_3_digit(self.selected + 1)}", True, (255, 255, 255)), (x + 50, y + 10))
+        display.blit(game.FONT_24.render(poke.get_name(True) if poke.id_ != 0 else "???", True, (255, 255, 255)), (689, y + 10))
         if status != game.POKEDEX_NEVER_SEEN:
             display.blit(
                 self.white_pokeball if status == game.POKEDEX_CATCH else utils.POINT_POKEBALL,
@@ -196,6 +197,8 @@ class PokeDexInfo(Menu):
         h = 40
         s = 3
         pygame.draw.rect(display, "#dbdbd9", (x, y, l, h,))
+        display.blit(tx := game.FONT_24.render(poke.get_japan_name(), True, (0, 0, 0)),
+                     (x + (l - tx.get_size()[0]) // 2, y + (h - tx.get_size()[1]) // 2))
         y += h + s
         tx = ("type", "size", "weight", "view")
         tx2 = (None, f'{poke.size} m', f'{poke.weight} Kg', str(game.get_game_instance().get_nb_view(self.selected + 1)))
@@ -220,9 +223,9 @@ class PokeDexInfo(Menu):
         pygame.draw.rect(display, "#ffffff", (x, y, l, h * 3))
         x += 5
         y += 10
-        for p_l in hud.Dialog.split(poke.get_pokedex(), 45):
-            display.blit(game.FONT_24.render(p_l, True, (0, 0, 0)), (x, y))
-            y += game.FONT_SIZE_24[1] + 5
+        for p_l in hud.Dialog.split(poke.get_pokedex(), 40):
+            display.blit(game.FONT_20.render(p_l, True, (0, 0, 0)), (x, y))
+            y += game.FONT_SIZE_20[1] + 5
 
     def play_sound(self):
         try:

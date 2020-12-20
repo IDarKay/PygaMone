@@ -23,6 +23,7 @@
   "battle.run_away.fail": "You missed the leak",
   "battle.run_away.success": "You run away",
   "battle.new_pokemon_send": "A new foe's pokemon will be send would you like change pokemone?",
+  "battle.ask_switch_pokemon": "Would you like switch of pokemon?",
 
   "battle.end.no_pokemon": "You have no more Pokémon that can fight!",
   "battle.end.lose_money.wild": "You panicked and dropped $ {0:n}...",

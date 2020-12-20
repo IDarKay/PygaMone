@@ -6,7 +6,6 @@ import game
 DEFAULT_START = [0, 0]
 
 
-
 class Displayer(object):
 
     def __init__(self, images_path: str, start: List[float], data: Dict[str, Any], path: str):
@@ -51,9 +50,6 @@ class Displayer(object):
             self.image = pygame.transform.scale(self.image, (s[0] * rescale, s[1] * rescale))
             # game.IMAGE_CACHE.put(path, self.image)
         self.image_size = self.image.get_size()
-
-
-
 
     def get_image(self) -> pygame.Surface:
         return self.image

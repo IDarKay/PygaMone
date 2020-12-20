@@ -1,4 +1,4 @@
-from typing import NoReturn, Any, List, Dict, Callable, Tuple, Optional
+from typing import NoReturn, List, Dict, Callable, Tuple, Optional
 import structure
 import game_error as er
 import json
@@ -16,36 +16,42 @@ FLOOR = "floor"
 LAYER_1 = "layer_1"
 
 
-class Key(object):
-
-    def __init__(self, key: str, data: Dict[str, Any]):
-        self.key = key
-        self.ref = structure.parse(data["ref"])
-        if not self.ref:
-            raise er.LevelParseError("No ref for a layer with key {}".format(key))
+# class Key(object):
+#
+#     def __init__(self, key: str, data: Dict[str, Any]):
+#         self.key = key
+#         self.ref = data["ref"] if "ref" in data else None
+#         if not self.ref:
+#             raise er.LevelParseError("No ref for a layer with key {}".format(key))
 
 
 class Layers(object):
 
-    def __init__(self, type_: str, data):
+    def __init__(self, level: 'Level', type_: str, data):
+        self.level = level
         self.type = type_
         self.key = data["key"]
-        self.pattern: List[List[str]] = [[c for c in l] for l in data["pattern"]]
+        self.pattern: List[List[int]] = [[c for c in l] for l in data["pattern"]]
         self.size = len(self.pattern), len(self.pattern[0])
         self.__random_tab: List[List[float]] = [[random.random() for i in range(self.size[1])] for y in range(self.size[0])]
+        self.keys = {}
 
-    def load_asset(self, cache: 'game.Cache') -> NoReturn:
+    def load_asset(self) -> NoReturn:
         for key, value in self.key.items():
-            if value["ref"] == EMPTY:
-                cache.put(key, None)
+            if value == EMPTY:
+                self.keys[int(key)] = None
             else:
-                cache.put(key, Key(key, value))
+                # k = Key(key, value)
+                self.keys[int(key)] = value
+        for value in self.keys.values():
+            if value and value not in self.level.struct:
+                self.level.struct[value] = structure.parse(value)
 
-    def get_case(self, x: int, y: int) -> str:
+    def get_case(self, x: int, y: int) -> int:
         return self.pattern[y][x]
 
-    def render(self, x_start: float, y_start: float, x_end: float, y_end: float,
-               cache: 'game.Cache', display: pygame.Surface, collision: 'col.Collision',
+    def render(self, x_start: float, y_start: float, x_end: float, y_end: float
+               , display: pygame.Surface, collision: 'col.Collision',
                to_add: List[Tuple[int, Callable[[pygame.Surface], NoReturn]]]):
 
         x_start_mod: int = (x_start // game.CASE_SIZE) - 5
@@ -66,13 +72,14 @@ class Layers(object):
             for y in range(y_start_mod, y_end_mod):
                 if x < 0 or x >= self.size[1] or y < 0 or y >= self.size[0]:
                     continue
-                key = cache.get(self.get_case(x, y))
+                key = self.keys[self.get_case(x, y)]
                 if key:
+                    struct = self.level.struct[key]
                     r_y = y - y_start_mod
                     if r_y not in to_render:
-                        to_render[r_y] = [[True, key.ref, x, y]]
+                        to_render[r_y] = [[True, struct, x, y]]
                     else:
-                        to_render[r_y].append([True, key.ref, x, y])
+                        to_render[r_y].append([True, struct, x, y])
 
         od = collections.OrderedDict(sorted(to_render.items()))
         for v in od.values():
@@ -98,12 +105,12 @@ class Level(object):
         f = data[FLOOR]
         if not f:
             raise er.LevelParseError("No floor in {}".format(path))
-        self.floor: Layers = Layers(FLOOR, f)
+        self.floor: Layers = Layers(self, FLOOR, f)
 
         l = data[LAYER_1]
         if not l:
             raise er.LevelParseError("No layer_1 in {}".format(path))
-        self.layer_1: Layers = Layers(LAYER_1, l)
+        self.layer_1: Layers = Layers(self, LAYER_1, l)
 
         self.name: str = data["name"] if "name" in data else "undefined"
 
@@ -136,33 +143,40 @@ class Level(object):
         if self.is_poke_center:
             self.poke_center_heal_coord = data["poke_heal_coord"]
 
-
+        # wild : {
+        #   TALL_GRASS: [poke, proba, min_lvl, max_lvl]
+        # }
 
         self.wild_pokemon: Dict[str, List[List[int]]] = data["wild_pokemon"] if "wild_pokemon" in data else {}
         self.wild_pokemon_rdm: Dict[str, List[List[int]]] = {}
         self.wild_pokemon_rdm_max: Dict[str, int] = {}
         self.can_cycling: bool = data["can_cycling"] if "can_cycling" in data else False
 
+        self.struct = {}
+
         for key, p_t in self.wild_pokemon.items():
             li = []
             c = 0
             for p in p_t:
-                li.append([c, c + p[1] , p[0]])
+                li.append([c, c + p[1], p[0], p[2], p[3]])
                 c += p[1]
             self.wild_pokemon_rdm[key] = li
             self.wild_pokemon_rdm_max[key] = c
 
-    def get_random_wild(self, type_: str) -> Optional[int]:
+    def get_random_wild(self, type_: str) -> Optional[tuple[int, int]]:
         if type_ in self.wild_pokemon_rdm:
             rdm_li = self.wild_pokemon_rdm[type_]
             rdm_max = self.wild_pokemon_rdm_max[type_]
             r = random.random() * rdm_max
             for p_li in rdm_li:
                 if p_li[0] <= r <= p_li[1]:
-                    return p_li[2]
+                    return p_li[2], random.randint(p_li[3], p_li[4])
             return None
         else:
             return None
+
+    def __del__(self):
+        self.struct.clear()
 
     def get_translate_name(self) -> str:
         return game.get_game_instance().get_message("levels.{}".format(self.name))
@@ -202,3 +216,4 @@ class Level(object):
         for tr in self.trigger:
             if not cache.have(tr[0]):
                 cache.put(tr[0], triggers.load(tr[0]))
+

@@ -174,7 +174,7 @@ class SaveMenu(Menu):
         self.time_play = game.FONT_16.render(utils.time_to_string(game.get_game_instance().get_save_value("time_played", 0)),
                                              True, (0, 0, 0))
         # todo: pokedex n
-        self.pokedex = game.FONT_16.render("0", True, (0, 0, 0))
+        self.pokedex = game.FONT_16.render(str(sum(map(game.POKEDEX_CATCH.__eq__, game.get_game_instance().get_pokedex_catch_status_values()))), True, (0, 0, 0))
         self.last_save = game.FONT_16.render(
             str(datetime.fromtimestamp(game.get_game_instance().get_save_value("last_save", 0))
                 .strftime('%d/%m/%y  %H:%M')), True, (255, 255, 255))
@@ -350,13 +350,12 @@ class TeamMenu(Menu):
 
     def draw_pokemon(self, display: pygame.Surface, i: int, _x: float, _y: float, poke_y: int):
         color, start = ((0, 0, 0), 1) if self.selected == i else ((255, 255, 255), 0)
-        utils.draw_rond_rectangle(display, _x, _y, SURFACE_SIZE[1] * 0.08, SURFACE_SIZE[0] * 0.2, color)
+        utils.draw_rond_rectangle(display, _x, _y, 49, 212, color)
         xp = self.progress[i]
         _x2 = SURFACE_SIZE[1] * 0.04
         text = self.text[i]
-
         utils.draw_progress_bar(display,
-                          (_x + _x2, _y + SURFACE_SIZE[0] * 0.02),
+                          (_x + _x2, _y + 21),
                           (SURFACE_SIZE[1] * 0.28, 5),
                           (52, 56, 61), (45, 181, 4), xp[0] / xp[1])
 
@@ -365,11 +364,20 @@ class TeamMenu(Menu):
         # display heal
         display.blit(text[start], (_x + _x2, _y + SURFACE_SIZE[0] * 0.028))
         # display lvl
-        display.blit(text[start + 2], (_x + _x2 + SURFACE_SIZE[1] * 0.25, _y + SURFACE_SIZE[0] * 0.025))
+        display.blit(text[start + 2], (_x + _x2 + SURFACE_SIZE[1] * 0.24, _y + SURFACE_SIZE[0] * 0.024))
         # display name
         display.blit(text[start + 4], (_x + _x2, _y + 2))
         # display pokeball
         display.blit(self.poke_ball[i], (_x + _x2 + SURFACE_SIZE[1] * 0.3, _y + 5))
+        # display status
+        poke = self.player.team[i]
+        if poke:
+            im = poke.combat_status.get_all_image()
+            if len(im) > 0:
+                current = im[min(utils.current_milli_time() % (len(im) * 2000) // 2000, len(im) - 1)]
+                utils.draw_rond_rectangle(display, _x + 105, _y + 31, 12, 50, current[1])
+                display.blit(tx := game.FONT_12.render(current[0], True, (255, 255, 255)),
+                             (_x + 130 - tx.get_size()[0] // 2, _y + 37 - tx.get_size()[1] // 2))
 
         if self.selected == i:
             display.blit(self.arrow, (_x - 50, _y + 2))
