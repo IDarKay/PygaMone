@@ -2,7 +2,7 @@ from abc import abstractmethod
 from typing import Optional, NoReturn
 import pokemon.player_pokemon as player_pokemon
 import pokemon.battle.battle as battle
-import pokemon.ability as ability
+import pokemon.abilitys as ability
 import pokemon.status.status_animations as animation
 import pokemon.status.status as status_
 import game

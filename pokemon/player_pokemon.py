@@ -1,7 +1,7 @@
 from typing import Dict, List, Tuple, Any, Optional, NoReturn, Union
 from random import randint
 import pokemon.pokemon as pokemon
-import pokemon.ability as p_ability
+import pokemon.abilitys as p_ability
 import pokemon.abilitys_ as abilitys_
 import item.items as items
 import item.item as item

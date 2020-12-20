@@ -4,10 +4,8 @@ import level
 import collision
 import character.player as player
 import json
-import hud.menu as _menu
 import time
 import pokemon.pokemon as pokemon
-import pokemon.ability as ability
 import hud.hud as hud
 import pokemon.abilitys_ as abilitys_
 import item.items as items
@@ -18,7 +16,6 @@ import utils
 import option
 import pokemon.status.status as status_
 import sounds
-import hud.forget_ability_menu as forget_ability_menu
 
 screen = None
 

@@ -18,6 +18,7 @@ except ImportError:
 TOKEN = 0
 LOAD_GIF: Dict[int, 'GifInstance'] = {}
 
+
 class GifInstance(object):
 
     def __init__(self, images: List[pygame.Surface], coord: Tuple[int, int], speed):
@@ -36,7 +37,7 @@ class GifInstance(object):
 
 class PygameGif(object):
 
-    def __init__(self, file: str):
+    def __init__(self, file: object) -> object:
         images = readGif(file, False)
         self.__py_images = []
 

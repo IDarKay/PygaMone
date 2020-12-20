@@ -1,6 +1,6 @@
 <div aligne="center">
 <h3>
-PyGamod
+PyGamon
 </h3>
 <h5>
 by IDarKay

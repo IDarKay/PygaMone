@@ -8,7 +8,7 @@ import game
 import item.items as items
 import pokemon.battle.background as background
 import hud.menu as menu
-import pokemon.ability as ability
+import pokemon.abilitys as ability
 # import pokemon.status.pokemon_status as pokemon_status
 import hud.hud as hud
 import sounds

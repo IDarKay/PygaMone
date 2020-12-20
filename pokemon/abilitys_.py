@@ -1,7 +1,7 @@
 from typing import TypeVar, Dict, NoReturn
-import pokemon.ability as ability
+import pokemon.abilitys as abilitys
 
-ABILITYS: Dict[str, 'ability.AbstractAbility'] = {}
+ABILITYS: Dict[str, 'abilitys.AbstractAbility'] = {}
 
 T = TypeVar('T', )
 
@@ -15,10 +15,10 @@ def register(it: T) -> T:
     return it
 
 
-EMBER: 'ability.EmberAbility'
-TACKLE: 'ability.TackleAbility'
+EMBER: 'abilitys.EmberAbility'
+TACKLE: 'abilitys.TackleAbility'
 
 
 def load() -> NoReturn:
-    EMBER: 'ability.EmberAbility' = register(ability.EmberAbility())
-    TACKLE: 'ability.TackleAbility' = register(ability.TackleAbility())
+    EMBER: 'abilitys.EmberAbility' = register(abilitys.EmberAbility())
+    TACKLE: 'abilitys.TackleAbility' = register(abilitys.TackleAbility())

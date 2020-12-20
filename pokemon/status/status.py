@@ -19,4 +19,5 @@ BURN: 'pst.BurnStatus' = register(pst.BurnStatus("burn"))
 
 
 def load() -> NoReturn:
+    # BURN: 'pst.BurnStatus'
     print(STATUS)
