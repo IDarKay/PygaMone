@@ -1,0 +1,20 @@
+{
+    "collision": [0, 0, 0, 0],
+    "collision_side": {},
+    "display": [
+      {
+        "image": "tilt/ground_tilt_1",
+        "start": [0, 0],
+        "rescale": 2,
+        "from": [64, 16],
+        "to": [80, 32]
+      },
+      {
+        "image": "tilt/ground_tilt_1",
+        "start": [0, 0],
+        "rescale": 2,
+        "from": [80, 16],
+        "to": [96, 32]
+      }
+    ]
+  }

@@ -1,0 +1,1 @@
+{"collision": [0.0, 0.0, 1.0, 1.0], "collision_side": {"*": {"id": "WILD_POKEMON", "type": "TALL_GRASS"}}, "display": [{"image": "tilt/ground_tilt_1", "start": [0, 0], "rescale": 2, "from": [96, 0], "to": [112, 16]}]}
