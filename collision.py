@@ -131,78 +131,58 @@ NORMAL_VECTOR_2: 'Vector' = Vector(1, 0)
 
 class SquaredCollisionBox(CollisionBox):
 
-    def __init__(self, x1: float, y1: float, x2: float, y2: float, event=None):
+    def __init__(self, x1: float, y1: float, x2: float, y2: float, event=None, debug_color=(0, 0, 200),
+                 debug_custom_bpx=None):
         super().__init__()
+        self.debug_custom_bpx = debug_custom_bpx
+        self.debug_color = debug_color
         self.event = event
         self.x1, self.x2 = (x1, x2) if x1 < x2 else (x2, x1)
         self.y1, self.y2 = (y1, y2) if y1 < y2 else (y2, y1)
+        self.box = [self.x1, self.y1, self.x2, self.y2]
         self.center = (self.x1 + self.x2) / 2, (self.y1 + self.y2) / 2
 
     def debug_render(self, display: pygame.Surface) -> NoReturn:
-        s = pygame.Surface((self.x2 - self.x1, self.y2 - self.y1))
-        s.set_alpha(128)
-        s.fill((0, 0, 200))
-        display.blit(s, (self.x1, self.y1))
+        if self.debug_custom_bpx:
+            s = pygame.Surface((self.debug_custom_bpx[2] - self.debug_custom_bpx[0],
+                                self.debug_custom_bpx[3] - self.debug_custom_bpx[1]))
+            s.set_alpha(128)
+            s.fill(self.debug_color)
+            display.blit(s, (self.debug_custom_bpx[0], self.debug_custom_bpx[1]))
+        else:
+            s = pygame.Surface((self.x2 - self.x1, self.y2 - self.y1))
+            s.set_alpha(128)
+            s.fill(self.debug_color)
+            display.blit(s, (self.x1, self.y1))
 
-    def is_going_on(self, box: 'SquaredCollisionBox', offset_x: float, offset_y: float) -> Union[
-        Tuple[float, float, bool], bool]:
+    def is_going_on(self, box: 'SquaredCollisionBox', offset_x: float, offset_y: float) ->\
+            Union[Tuple[float, float, bool], bool]:
 
-        # (box.x1, box.y1)(box.x2, box.y1),
-        for side in [((box.x2 + box.x1) / 2, box.y2)]:
-            tx = side[0] + offset_x
-            ty = side[1] + offset_y
-            if self.x1 <= tx <= self.x2 and self.y1 <= ty <= self.y2:
-                x_edit = (side[0] - box.x1)
-                y_edit = (side[1] - box.y1)
+        old_box, box = box, box + (5, 40, -5, 0)
 
-                # vec = Vector(self.center[0] - side[0], self.center[1] - side[1])
-                # angle = vec.get_angle(NORMAL_VECTOR)
-                # if angle >= QUARTER_PI * 3:
-                #     # print("down")
-                #     x = (((self.y2 - side[1]) * (self.center[0] - side[0])) / (self.center[1] - self.y2)) + side[0] - x_edit
-                #     y = self.y2 - y_edit
-                #     return self.apply_event("down", x, y)
-                # elif angle <= QUARTER_PI:
-                #     # print("up")
-                #     x = (((self.y1 - side[1]) * (self.center[0] - side[0])) / (self.center[1] - self.y1)) + side[0] - x_edit
-                #     y = self.y1 - y_edit
-                #     return self.apply_event("up", x, y)
-                # else:
-                #     vec = Vector(self.center[0] - side[0], self.center[1] - side[1])
-                #     angle = vec.get_angle(NORMAL_VECTOR_2)
-                #     if angle <= QUARTER_PI:
-                #         x = self.x1 - x_edit
-                #         y = (((self.x1 - side[0]) * (self.center[1] - side[1])) / (self.center[0] - self.x1)) + side[1] - y_edit
-                #         return self.apply_event("left", x, y)
-                #     elif angle >= QUARTER_PI * 3:
-                #         x = self.x2 - x_edit
-                #         y = (((self.x2 - side[0]) * (self.center[1] - side[1])) / (self.center[0] - self.x2)) + side[1] - y_edit
-                #         return self.apply_event("right", x, y)
-                if offset_y == offset_x == 0:
-                    x = box.x1 + offset_x
-                    y = box.y1 + offset_y
-                    return self.apply_event("inside", x, y)
-                elif offset_x > 0:
-                    x = self.x1 - x_edit - 1
-                    # y = (((self.x1 - side[0]) * (self.center[1] - side[1])) / (self.center[0] - self.x1)) + side[1] - y_edit
-                    y = box.y1 + offset_y
-                    return self.apply_event("left", x, y)
-                elif offset_x < 0:
-                    x = self.x2 - x_edit + 1
-                    # y = (((self.x2 - side[0]) * (self.center[1] - side[1])) / (self.center[0] - self.x2)) + side[1] - y_edit
-                    y = box.y1 + offset_y
-                    return self.apply_event("right", x, y)
-                elif offset_y > 0:
-                    # x = (((self.y1 - side[1]) * (self.center[0] - side[0])) / (self.center[1] - self.y1)) + side[0] - x_edit
-                    x = box.x1 + offset_x
-                    y = self.y1 - y_edit - 1
-                    return self.apply_event("up", x, y)
-                elif offset_y < 0:
-                    # x = (((self.y2 - side[1]) * (self.center[0] - side[0])) / (self.center[1] - self.y2)) + side[0] - x_edit
-                    x = box.x1 + offset_x
-                    y = self.y2 - y_edit + 1
-                    return self.apply_event("down", x, y)
+        n_box = box + (offset_x, offset_y)
 
+        if self in n_box or n_box in self:
+            if offset_y == offset_x == 0:
+                x = old_box.x1 + offset_x
+                y = old_box.y1 + offset_y
+                return self.apply_event("inside", x, y)
+            elif offset_x > 0:
+                x = self.x1 - old_box[2] + old_box[0] + 4
+                y = old_box.y1
+                return self.apply_event("left", x, y)
+            elif offset_x < 0:
+                x = self.x2 - 4
+                y = old_box.y1
+                return self.apply_event("right", x, y)
+            elif offset_y > 0:
+                x = old_box.x1
+                y = self.y1 - old_box[3] + old_box[1] - 1
+                return self.apply_event("up", x, y)
+            elif offset_y < 0:
+                x = old_box.x1
+                y = self.y2 - 39
+                return self.apply_event("down", x, y)
         return False
 
     def apply_event(self, face, x, y) -> Tuple[float, float, bool]:
@@ -218,6 +198,33 @@ class SquaredCollisionBox(CollisionBox):
             return b[0], b[1], (x, y) != b
         return x, y, True
 
+    def __add__(self, other):
+        if isinstance(other, tuple):
+            if len(other) == 2:
+                return SquaredCollisionBox(int(self.x1 + other[0]), int(self.y1 + other[1]),
+                                           int(self.x2 + other[0]), int(self.y2 + other[1]), self.event)
+            if len(other) == 4:
+                return SquaredCollisionBox(int(self.x1 + other[0]), int(self.y1 + other[1]),
+                                           int(self.x2 + other[2]), int(self.y2 + other[3]), self.event)
+        return NotImplemented
+
+    def __getitem__(self, item):
+        if isinstance(item, int):
+            if 0 <= item < 4:
+                return self.box[item]
+            else:
+                raise IndexError("index must be in [0:4[")
+        return NotImplemented
+
+    def __contains__(self, other):
+        if isinstance(other, SquaredCollisionBox):
+            if other.y1 > self.y2 or other.y2 < self.y1 or other.x2 < self.x1 or other.x1 > self.x2:
+                return False
+            return True
+        return NotImplemented
+
+    def __str__(self):
+        return f'x1 {self.x1}, y1 {self.y1}, x2 {self.x2}, y2 {self.y2}, event {self.event}'
 
 class NPCTriggerCollisionBox(SquaredCollisionBox):
 
@@ -285,3 +292,5 @@ class Collision(object):
 
     def clear(self) -> NoReturn:
         self.list.clear()
+
+

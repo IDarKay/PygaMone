@@ -300,6 +300,11 @@ class Player(character.Character):
             self.rect.x += offset_x
             self.rect.y += offset_y
 
+    # def get_box(self) -> NoReturn:
+    #     s_coord = self.get_render_coord(game.came_scroll)
+    #     return game.collision.SquaredCollisionBox(s_coord[0], s_coord[1] + 40, s_coord[0] + self.size[0],
+    #                                               s_coord[1] + self.size[1])
+
     def update_direction(self) -> bool:
         if self.movement[1] < 0:
             self.direction = 0

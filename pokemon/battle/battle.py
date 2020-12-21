@@ -86,10 +86,10 @@ class WildAnimation(StartAnimation):
                 y += (game.SURFACE_SIZE[1] * 0.3 + 200) * min(1.0, (ps_t - 1000) / 1500)
                 # BASE
                 base_x = WildAnimation.START_POINT[0] + (
-                            battle_.bg.enemy_base_coord[battle_.nb_enemy - 1][0][0] - WildAnimation.START_POINT[0]) * \
+                        battle_.bg.enemy_base_coord[battle_.nb_enemy - 1][0][0] - WildAnimation.START_POINT[0]) * \
                          min(1.0, (ps_t - 1000) / 1000)
                 base_x_2 = WildAnimation.START_POINT[1] - (
-                            WildAnimation.START_POINT[1] - battle_.bg.ally_base_coord[battle_.nb_enemy - 1][0][0]) * \
+                        WildAnimation.START_POINT[1] - battle_.bg.ally_base_coord[battle_.nb_enemy - 1][0][0]) * \
                            min(1.0, (ps_t - 1000) / 1000)
                 battle_.draw_base(display, base_x, enemy=True)
                 battle_.draw_base(display, base_x_2, enemy=False)
@@ -119,11 +119,12 @@ class RenderAbilityCallback(object):
         self.color_editor_target = color_editor_target
         self.color_editor_launcher = color_editor_launcher
 
-    def get_all(self, enemy: bool, case)\
+    def get_all(self, enemy: bool, case) \
             -> tuple[tuple[int, int, int], Union[tuple[int, int, int, int], tuple[int, int, int, int, int]]]:
         return self.get_move(enemy, case), self.get_color(enemy, case)
 
-    def get_color(self, enemy: bool, case) -> Optional[Union[tuple[int, int, int, int], tuple[int, int, int, int, int]]]:
+    def get_color(self, enemy: bool, case) -> Optional[
+        Union[tuple[int, int, int, int], tuple[int, int, int, int, int]]]:
         v = parse_enemy_case(enemy, case)
         if self.color_editor_launcher and self.color_editor_launcher[0] == v:
             return self.color_editor_launcher
@@ -149,7 +150,7 @@ class SimpleDialogue(Animation):
     def __init__(self, msg: str, text_var: list[object] = [], during: int = 1500):
         self.during = during
         self.dialog = hud.Dialog(msg, need_morph_text=True, speed=20, none_skip=True, style=2,
-                   text_var=text_var)
+                                 text_var=text_var)
         self.init = False
 
     def tick(self, display: pygame.Surface) -> bool:
@@ -178,7 +179,8 @@ class StatusRemoveAnimation(Animation):
             self.poke.combat_status.remove(self.status)
             self.start = utils.current_milli_time()
             print("open")
-            d = hud.Dialog(self.status.get_end_text(self.ally), need_morph_text=True, speed=20, none_skip=True, style=2, text_var=[self.poke.get_name(True)])
+            d = hud.Dialog(self.status.get_end_text(self.ally), need_morph_text=True, speed=20, none_skip=True, style=2,
+                           text_var=[self.poke.get_name(True)])
             game.game_instance.player.open_dialogue(d)
             return False
         if utils.current_milli_time() - self.start >= 1500:
@@ -204,7 +206,8 @@ class StatusDamageAnimation(Animation):
             self.start = utils.current_milli_time()
             if self.amount > 0:
                 self.d_s = self.poke.heal, max(0, self.poke.heal - self.amount)
-                d = hud.Dialog(self.status.get_damage_text(self.ally), need_morph_text=True, speed=20, none_skip=True, style=2, text_var=[self.poke.get_name(True)])
+                d = hud.Dialog(self.status.get_damage_text(self.ally), need_morph_text=True, speed=20, none_skip=True,
+                               style=2, text_var=[self.poke.get_name(True)])
                 sound_manager.start_in_first_empty_taunt(sounds.HIT_NORMAL_DAMAGE.get())
             else:
                 d = hud.Dialog(self.status.get_cancel_text(self.ally), need_morph_text=True, speed=20, none_skip=True,
@@ -218,7 +221,8 @@ class StatusDamageAnimation(Animation):
                 self.poke.heal = self.d_s[1]
             return True
         if self.amount > 0:
-            c = self.d_s[0] - int(((self.d_s[0] - self.d_s[1]) * min(1.0, utils.current_milli_time() - self.start / 1000)))
+            c = self.d_s[0] - int(
+                ((self.d_s[0] - self.d_s[1]) * min(1.0, utils.current_milli_time() - self.start / 1000)))
             self.poke.heal = c
         return False
 
@@ -349,8 +353,8 @@ class PlayAbility(Animation):
                     self.__bool_matrix[5] = False
                     if self.__max_type_multi != 0:
                         s = sounds.HIT_NOT_VERY_EFFECTIVE if (
-                                    self.__max_type_multi < 1) else sounds.HIT_NORMAL_DAMAGE if (
-                                    self.__max_type_multi == 1) else sounds.HIT_SUPER_EFFECTIVE
+                                self.__max_type_multi < 1) else sounds.HIT_NORMAL_DAMAGE if (
+                                self.__max_type_multi == 1) else sounds.HIT_SUPER_EFFECTIVE
                         sound_manager.start_in_first_empty_taunt(s.sound)
                 for i in range(len(self.__targets_p)):
                     poke = self.__targets_p[i]
@@ -388,7 +392,8 @@ class PlayAbility(Animation):
                         self.__bool_matrix[6] = False
                         sound_manager.start_in_first_empty_taunt(sounds.HIT_NORMAL_DAMAGE.get())
                         self.__recoil_d = self.launcher_p.heal, max(0, self.launcher_p.heal - self.__d_status[2])
-                        d = hud.Dialog("battle.recoil", need_morph_text=True, speed=20, none_skip=True, style=2, text_var=[self.launcher_p.get_name(True)])
+                        d = hud.Dialog("battle.recoil", need_morph_text=True, speed=20, none_skip=True, style=2,
+                                       text_var=[self.launcher_p.get_name(True)])
                         game.game_instance.player.open_dialogue(d, over=True)
                     if ps_t > -1000:
                         for i in range(len(self.__targets_p)):
@@ -401,7 +406,6 @@ class PlayAbility(Animation):
                     self.__bool_matrix[7] = False
                     self.launcher_p.heal = self.__recoil_d[1]
 
-
             launcher = self.__effect_status_fix[0]
             enemy = self.__effect_status_fix[1]
             if len(launcher) > 0 or len(enemy) > 0:
@@ -413,7 +417,8 @@ class PlayAbility(Animation):
                         self.status_date.append(True)
                         add, si = self.launcher_p.combat_status.try_add(launcher[n], self.bat.turn_count)
                         if add:
-                            d = hud.Dialog(si.status.get_apply_text(self.__enemy), need_morph_text=True, speed=20, none_skip=True, style=2,
+                            d = hud.Dialog(si.status.get_apply_text(self.__enemy), need_morph_text=True, speed=20,
+                                           none_skip=True, style=2,
                                            text_var=[self.launcher_p.get_name(True)])
                             game.game_instance.player.open_dialogue(d, over=True)
                     return False
@@ -425,7 +430,8 @@ class PlayAbility(Animation):
                         poke = self.__targets_p[enemy[n][1]]
                         add, si = poke.combat_status.try_add(enemy[n][0], self.bat.turn_count)
                         if add:
-                            d = hud.Dialog(si.status.get_apply_text(not self.__enemy), need_morph_text=True, speed=20, none_skip=True, style=2,
+                            d = hud.Dialog(si.status.get_apply_text(not self.__enemy), need_morph_text=True, speed=20,
+                                           none_skip=True, style=2,
                                            text_var=[poke.get_name(True)])
                             game.game_instance.player.open_dialogue(d, over=True)
                     return False
@@ -462,7 +468,6 @@ class PlayAbility(Animation):
                         game.game_instance.player.open_dialogue(d, over=True)
                     return False
                 ps_t -= time_e
-
 
             # check death
             a = [False, len(self.bat.TO_SHOW) == 0]
@@ -605,7 +610,8 @@ class BattleTeam(object):
 
 class PokemonSwitch(Animation):
 
-    def __init__(self, battle: 'Battle', team: BattleTeam, case: int, poke: 'player_pokemon.PlayerPokemon', enemy: bool, team_n: int):
+    def __init__(self, battle: 'Battle', team: BattleTeam, case: int, poke: 'player_pokemon.PlayerPokemon', enemy: bool,
+                 team_n: int):
         self.poke = poke
         self.enemy = enemy
         self.team_n = team_n
@@ -620,11 +626,11 @@ class PokemonSwitch(Animation):
     def tick(self, display: pygame.Surface) -> bool:
         if not self.init:
             self.init = True
-            data = {"case":  self.case, "poke":  self.battle.get_team(self.enemy)[self.case], "enemy": self.enemy,
-                    "callback":  self.battle.next_to_show}
+            data = {"case": self.case, "poke": self.battle.get_team(self.enemy)[self.case], "enemy": self.enemy,
+                    "callback": self.battle.next_to_show}
             Battle.TO_SHOW.append([self.battle.callback_pokemon, data])
-            data2 = {"case":  self.case, "team_n": self.team_n, "enemy": self.enemy,
-                     "callback":  self.battle.next_to_show}
+            data2 = {"case": self.case, "team_n": self.team_n, "enemy": self.enemy,
+                     "callback": self.battle.next_to_show}
             Battle.TO_SHOW.append([self.battle.launch_pokemon, data2])
             self.battle.next_to_show()
             return False
@@ -647,7 +653,8 @@ class RunAway(Animation):
             self.battle.next_to_show()
             self.battle.need_run_away = True
         else:
-            Battle.TO_SHOW.append(lambda: self.battle.start_new_animation(SimpleDialogue("battle.run_away.fail", during=2000)))
+            Battle.TO_SHOW.append(
+                lambda: self.battle.start_new_animation(SimpleDialogue("battle.run_away.fail", during=2000)))
             self.battle.next_to_show()
         return True
 
@@ -707,6 +714,7 @@ class DeathPokemonChoiceAnimation(Animation):
 
             def callback(x, i):
                 self.ask_before = -i
+
             game.game_instance.player.open_dialogue(
                 hud.QuestionDialog("battle.ask_switch_pokemon", callback, ask, speed=25, need_morph_text=True, style=2)
             )
@@ -758,6 +766,7 @@ class CallBackPokemonAnimation(Animation):
 
     def is_priority(self) -> bool:
         return False
+
 
 class LaunchPokemonAnimation(Animation):
 
@@ -947,7 +956,7 @@ class Battle(object):
         if simple:
             return c[0] + (self.base_size[0]) // 2, int(c[1] + (self.base_size[1] * 0.75)), parse_enemy_case(enemy, i)
         return c[0] + (self.base_size[0] // 2) - (size[0] // 2), int(
-            c[1] + (self.base_size[1] * 0.75) - ((poke.front_image_y if enemy else poke.back_image_y) * 2)),\
+            c[1] + (self.base_size[1] * 0.75) - ((poke.front_image_y if enemy else poke.back_image_y) * 2)), \
                parse_enemy_case(enemy, i)
 
     GRADIENT = [(0, 229, 29), (25, 205, 27), (50, 181, 26), (75, 157, 25), (100, 133, 24), (125, 109, 23),
@@ -971,7 +980,8 @@ class Battle(object):
                 else:
                     display.blit(poke.get_front_image(2), p_c)
                 pygame.draw.polygon(display, (246, 250, 253), ((x, 20), (x + 100, 20), (x + 80, 60), (x - 20, 60)))
-                pygame.draw.polygon(display, (255, 255, 255), ((x + 100, 20), (x + 220, 20), (x + 200, 60), (x + 80, 60)))
+                pygame.draw.polygon(display, (255, 255, 255),
+                                    ((x + 100, 20), (x + 220, 20), (x + 200, 60), (x + 80, 60)))
 
                 utils.draw_progress_bar(display, (x, 40), (170, 5), (100, 100, 100),
                                         self.bar_color(poke.heal, poke.get_max_heal()),
@@ -1000,8 +1010,10 @@ class Battle(object):
                         display.blit(poke.get_back_image(2), (p_c[0] + m[1], p_c[1] + m[2]))
                 else:
                     display.blit(poke.get_back_image(2), p_c)
-                pygame.draw.polygon(display, (246, 250, 253), ((x + 210, 530), (x + 100, 530), (x + 70, 580), (x + 180, 580)))
-                pygame.draw.polygon(display, (255, 255, 255), ((x + 100, 530), (x - 20, 530), (x - 50, 580), (x + 70, 580)))
+                pygame.draw.polygon(display, (246, 250, 253),
+                                    ((x + 210, 530), (x + 100, 530), (x + 70, 580), (x + 180, 580)))
+                pygame.draw.polygon(display, (255, 255, 255),
+                                    ((x + 100, 530), (x - 20, 530), (x - 50, 580), (x + 70, 580)))
                 utils.draw_progress_bar(display, (x, 551), (170, 5), (100, 100, 100),
                                         self.bar_color(poke.heal, poke.get_max_heal()),
                                         poke.heal / poke.get_max_heal())
@@ -1012,7 +1024,8 @@ class Battle(object):
                 display.blit(lvl, (x + 170 - lvl.get_rect().size[0], 531))
                 n = poke.get_name()
                 display.blit(game.FONT_16.render(n, True, (0, 0, 0)), (x, 535))
-                display.blit(game.FONT_20.render("{}/{}".format(poke.heal, poke.get_max_heal()), True, (0, 0, 0)), (x, 558))
+                display.blit(game.FONT_20.render("{}/{}".format(poke.heal, poke.get_max_heal()), True, (0, 0, 0)),
+                             (x, 558))
 
                 im = poke.combat_status.get_all_image()
                 if len(im) > 0:
@@ -1028,7 +1041,8 @@ class Battle(object):
         for i in range(4 if self.wild else 3):
             color = ((0, 0, 0), (255, 255, 255)) if i == self.selected_y[0] else ((255, 255, 255), (0, 0, 0))
             utils.draw_rond_rectangle(display, 800, y, 50, 200, color[0])
-            display.blit(tx := game.FONT_24.render(self.button_text[i], True, color[1]), (810, y + 25 - tx.get_size()[1] // 2))
+            display.blit(tx := game.FONT_24.render(self.button_text[i], True, color[1]),
+                         (810, y + 25 - tx.get_size()[1] // 2))
 
             if i == self.selected_y[0]:
                 display.blit(self.arrow, (750, y + 2))
@@ -1056,7 +1070,6 @@ class Battle(object):
         BLACK = (0, 0, 0)
         GRAY = (100, 100, 100)
 
-
         for i in range(nb_enemy):
             self.draw_target_pokemon(display, self.__enemy[self.selected_x[1] - 1 - i],
                                      BLACK if tab[0][i] else WHITE,
@@ -1068,25 +1081,27 @@ class Battle(object):
                                      (Battle.TARGET_POSE[nb_enemy - 1][i], 325),
                                      WHITE if tab[1][i] else GRAY)
 
-    def draw_target_pokemon(self, display: pygame.Surface, poke: 'player_pokemon.PlayerPokemon', color, pose, text_color):
+    def draw_target_pokemon(self, display: pygame.Surface, poke: 'player_pokemon.PlayerPokemon', color, pose,
+                            text_color):
         utils.draw_rond_rectangle(display, pose[0], pose[1], 75, 180, color)
         if poke:
             display.blit(poke.get_front_image(0.8), (pose[0] - 25, pose[1] - 5))
-            display.blit(game.FONT_24.render(poke.get_name(True), True, text_color), (pose[0] + 30, pose[1]  + 15))
+            display.blit(game.FONT_24.render(poke.get_name(True), True, text_color), (pose[0] + 30, pose[1] + 15))
 
     TO_SHOW = []
 
     def next_to_show(self) -> NoReturn:
         if len(Battle.TO_SHOW) > 0:
-            self.selected_y = [0, 0]
-            self.menu_action = [None, None]
-            self.status = -1
-            a = Battle.TO_SHOW[0]
-            del Battle.TO_SHOW[0]
-            if isinstance(a, List) or isinstance(a, tuple):
-                a[0](**a[1])
-            else:
-                a()
+            if self.current_animation is None:
+                self.selected_y = [0, 0]
+                self.menu_action = [None, None]
+                self.status = -1
+                a = Battle.TO_SHOW[0]
+                del Battle.TO_SHOW[0]
+                if isinstance(a, List) or isinstance(a, tuple):
+                    a[0](**a[1])
+                else:
+                    a()
         else:
             self.ability_escape()
 
@@ -1106,7 +1121,6 @@ class Battle(object):
         if ps_t < self.animation.get_during()[1]:
             self.animation.tick(display, self, ps_t)
             return False
-
 
         if self.bool_matrix[3]:
             self.bool_matrix[3] = False
@@ -1137,7 +1151,7 @@ class Battle(object):
                 sound_manager.MUSIC_CHANNEL.play(self.sound.sound, -1)
 
         if self.need_run_away:
-            return lambda : sound_manager.MUSIC_CHANNEL.stop()
+            return lambda: sound_manager.MUSIC_CHANNEL.stop()
 
         if self.current_play_ability:
             if self.current_play_ability.tick(display):
@@ -1163,7 +1177,8 @@ class Battle(object):
                                         Battle.TO_SHOW.append([self.start_new_animation, data])
                                     else:
                                         data = {"anim": StatusDamageAnimation(it, int(back[1]),
-                                                                              self.get_poke_pose(not ally, ap_i, True)[0:2],
+                                                                              self.get_poke_pose(not ally, ap_i, True)[
+                                                                              0:2],
                                                                               True)}
                                         Battle.TO_SHOW.append([self.start_new_animation, data])
                     self.next_to_show()
@@ -1178,7 +1193,6 @@ class Battle(object):
                     return False
                 else:
                     return self.finish_callback
-
 
         if self.current_play_ability is None and game.game_instance.player.current_dialogue is None:
             if self.status == 0:
@@ -1202,10 +1216,10 @@ class Battle(object):
             Battle.TO_SHOW.append(lambda: self.start_new_animation(SimpleDialogue("battle.end.no_pokemon")))
             lost_money = min(
                 game.game_instance.get_money(),
-                    max(
-                        game.game_instance.player.team,
-                        key=lambda p: p.lvl if p else 0).lvl *
-                            Battle.BASE_PAYOUT[min(len(Battle.BASE_PAYOUT) - 1, game.game_instance.player.get_badge_amount())])
+                max(
+                    game.game_instance.player.team,
+                    key=lambda p: p.lvl if p else 0).lvl *
+                Battle.BASE_PAYOUT[min(len(Battle.BASE_PAYOUT) - 1, game.game_instance.player.get_badge_amount())])
             game.game_instance.set_money(lost_money)
             if self.wild:
                 Battle.TO_SHOW.append(lambda: self.start_new_animation(
@@ -1258,7 +1272,8 @@ class Battle(object):
                                 self.TO_SHOW.append([self.launch_pokemon, data])
                             else:
                                 ask_switch = -1
-                                self.TO_SHOW.append([self.start_new_animation, {"anim": DeathPokemonChoiceAnimation(self, i)}])
+                                self.TO_SHOW.append(
+                                    [self.start_new_animation, {"anim": DeathPokemonChoiceAnimation(self, i)}])
         if ask_switch == 1 and self.nb_ally == 1:
             self.TO_SHOW.insert(start, [self.start_new_animation, {"anim": DeathPokemonChoiceAnimation(self, 0, True)}])
         if len(enemy_dead) > 0:
@@ -1270,7 +1285,8 @@ class Battle(object):
                     all_xps[i] += self.get_xp_amount(i, *enemy)
                 print(all_xps, max(all_xps), self.__xp_per_case)
             if max(all_xps) > 0:
-                self.TO_SHOW.insert(start, lambda: self.start_new_animation(xp_battle_animation.XpAnimation(self, all_xps)))
+                self.TO_SHOW.insert(start,
+                                    lambda: self.start_new_animation(xp_battle_animation.XpAnimation(self, all_xps)))
 
         # if to_show and len(self.TO_SHOW) != 0:
         #     self.next_to_show()
@@ -1286,7 +1302,6 @@ class Battle(object):
                 s = sum(game.game_instance.player.team[t_n].heal > 0 for t_n in self.__xp_per_case[enemy_case])
                 return int(((a * b * L) / (5 * s)) * (((2 * L + 10) ** 2.5) / ((L + Lp + 10) ** 2.5) + 1))
         return 0
-
 
     def check_end(self) -> Tuple[bool, bool]:
         en_end = self.__enemy_team.is_all_dead()
@@ -1329,22 +1344,25 @@ class Battle(object):
     def poke_choice_callback(self, action: bool, value: int) -> NoReturn:
         game.game_instance.player.close_menu()
         if action:
-            an = PokemonSwitch(self, self.__ally_team, self.selected_not_bot, self.__ally[self.selected_not_bot], False, value)
+            an = PokemonSwitch(self, self.__ally_team, self.selected_not_bot, self.__ally[self.selected_not_bot], False,
+                               value)
             self.do_ability_turn(an)
 
     def ability_action(self) -> NoReturn:
         ab = self.__ally[self.selected_not_bot].get_ability(self.selected_y[0])
         if ab and ab.pp > 0:
             self.run_away_c = 0
-            if ab.ability.target != ability.TARGET_BOTH and len(self.__ally if ab.ability.target == ability.TARGET_ALLY else self.__enemy) == 1:
+            if ab.ability.target != ability.TARGET_BOTH and len(
+                    self.__ally if ab.ability.target == ability.TARGET_ALLY else self.__enemy) == 1:
                 self.do_attack(ab, ab.ability.target == ability.TARGET_ENEMY, 0)
             else:
-                self.selected_y = [0, -1] if ab.ability.target == ability.TARGET_ENEMY else\
-                                    [1, -1] if ab.ability.target == ability.TARGET_ALLY else [0, 2]
+                self.selected_y = [0, -1] if ab.ability.target == ability.TARGET_ENEMY else \
+                    [1, -1] if ab.ability.target == ability.TARGET_ALLY else [0, 2]
                 self.selected_x = [0, max(self.nb_ally, self.nb_enemy)]
                 self.current_ab = ab
                 self.menu_action = [
-                    lambda : self.do_attack(self.current_ab, self.selected_y[0] == 0, self.selected_x[1] - 1 - self.selected_x[0]),
+                    lambda: self.do_attack(self.current_ab, self.selected_y[0] == 0,
+                                           self.selected_x[1] - 1 - self.selected_x[0]),
                     self.target_menu_escape
                 ]
                 self.status = 2
@@ -1356,7 +1374,8 @@ class Battle(object):
         # don't show menu next turn
         self.ability_escape()
         ab.pp -= 1
-        p = PlayAbility(ab.ability, self, self.get_poke_pose(False, self.selected_not_bot, simple=True), self.__ally[self.selected_not_bot], False, enemy, case)
+        p = PlayAbility(ab.ability, self, self.get_poke_pose(False, self.selected_not_bot, simple=True),
+                        self.__ally[self.selected_not_bot], False, enemy, case)
         self.do_ability_turn(p)
 
     def do_ability_turn(self, an: 'Animation'):
@@ -1465,8 +1484,9 @@ class Battle(object):
             if self.selected_y[0] < self.selected_y[1]:
                 self.selected_y[0] += 1
 
-    def get_target_pos(self, ab: 'ability.AbstractAbility', l_enemy: bool, enemy: bool, case: int) -> List[Tuple[int, int, int]]:
-        tar = ab.get_target(case, self.nb_enemy, self.nb_ally , enemy)
+    def get_target_pos(self, ab: 'ability.AbstractAbility', l_enemy: bool, enemy: bool, case: int) -> List[
+        Tuple[int, int, int]]:
+        tar = ab.get_target(case, self.nb_enemy, self.nb_ally, enemy)
         back = []
         for i in range(self.nb_ally if l_enemy else self.nb_enemy):
             if tar[0][i]:
@@ -1476,8 +1496,9 @@ class Battle(object):
                 back.append(self.get_poke_pose(l_enemy, i, simple=True))
         return back
 
-    def get_target(self, ab: 'ability.AbstractAbility', l_enemy: bool, enemy: bool, case: int) -> List['player_pokemon']:
-        tar = ab.get_target(case, self.nb_enemy, self.nb_ally , enemy)
+    def get_target(self, ab: 'ability.AbstractAbility', l_enemy: bool, enemy: bool, case: int) -> List[
+        'player_pokemon']:
+        tar = ab.get_target(case, self.nb_enemy, self.nb_ally, enemy)
         back = []
         for i in range(self.nb_ally if l_enemy else self.nb_enemy):
             if tar[0][i]:
@@ -1494,6 +1515,7 @@ def parse_enemy_case(enemy: bool, case: int) -> int:
 
 def unparse_enemy_case(value: int) -> tuple[bool, int]:
     return value >> 2 == 1, value & 0b11
+
 
 # def sub_sor(ab_list: List['Animation'], i):
 
