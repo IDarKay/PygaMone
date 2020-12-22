@@ -1,4 +1,28 @@
 {
+  "acid": {
+    "name": "Acid",
+    "description": "The opposing Pokémon are attacked with a spray of harsh acid. This may also lower their Sp. Def stats."
+  },
+  "absorb": {
+    "name": "Absorb",
+    "description": "A nutrient-draining attack. The user's HP is restored by half the damage taken by the target."
+  },
+  "acid_armor": {
+    "name": "Acid Armor",
+    "description": "The user alters its cellular structure to liquefy itself, sharply raising its Defense stat."
+  },
+  "agility": {
+    "name": "Agility",
+    "description": "The user relaxes and lightens its body to move faster. This sharply raises the Speed stat. "
+  },
+  "amnesia": {
+    "name": "Amnesia",
+    "description": "The user temporarily empties its mind to forget its concerns. This sharply raises the user's Sp. Def stat."
+  },
+  "aurora_beam": {
+    "name": "Aurora Beam",
+    "description": "The target is hit with a rainbow-colored beam. This may also lower the target's Attack stat. "
+  },
   "ember": {
     "name": "Ember",
     "description": "The target is attacked with small flames. This may also leave the target with a burn."
@@ -6,9 +30,5 @@
   "tackle": {
     "name": "Tackle",
     "description": "A physical attack in which the user charges and slams into the target with its whole body."
-  },
-  "acid": {
-    "name": "Acid",
-    "description": "The opposing Pokémon are attacked with a spray of harsh acid. This may also lower their Sp. Def stats."
   }
 }

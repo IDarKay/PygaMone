@@ -1,5 +1,4 @@
-from typing import NoReturn
-
+from typing import NoReturn, Union
 import pokemon.abilitys as abilitys
 import sound_manager
 import pokemon.battle.battle as battle_
@@ -12,12 +11,14 @@ import pygame
 
 class AcidAbility(abilitys.AbstractAbility):
 
+    ball: Union[pygame.Surface]
+
     def __init__(self):
         super().__init__(id_='acid',
                          type="POISON",
                          category="SPECIAL",
                          pp=30,
-                         max_pp=38,
+                         max_pp=48,
                          power=40,
                          accuracy=100,
                          protect=True,
@@ -38,7 +39,20 @@ class AcidAbility(abilitys.AbstractAbility):
             return battle_.RenderAbilityCallback(color_editor_target=target_c, move_target=target_m)
         return battle_.RenderAbilityCallback()
 
-    def render(self, display: pygame.display, target: list[type[int, int, int]],
+    def load_assets(self) -> bool:
+        if super().load_assets():
+            self.ball = pygame.image.load('assets/textures/ability/purple_ball.png')
+            print(self.ball.get_size())
+            return True
+        return False
+
+    def unload_assets(self) -> bool:
+        if super().load_assets():
+            del self.ball
+            return True
+        return False
+
+    def render(self, display: pygame.Surface, target: list[type[int, int, int]],
                launcher: tuple[int, int, int], ps_t: int, first_time: bool) -> NoReturn:
 
         if first_time:
@@ -55,7 +69,8 @@ class AcidAbility(abilitys.AbstractAbility):
             if 1000 + i > ps_t > i:
                 x = ((ps_t - i) / 1000) * max_delta_x + x1
                 y = a * x + b
-                pygame.draw.circle(display, (209, 44, 168), (x, y), 10)
+                display.blit(self.ball, (x - 16, y - 16))
+                # pygame.draw.circle(display, (209, 44, 168), (x, y), 10)
 
     def get_status_edit(self, launcher: "p_poke.PlayerPokemon", targets: list['p_poke.PlayerPokemon']) -> tuple[
         tuple[dict[str, int], list['pokemon_status.Status']],

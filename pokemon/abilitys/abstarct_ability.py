@@ -1,4 +1,4 @@
-from typing import NoReturn, Any
+from typing import NoReturn, Any, Optional
 
 import pygame
 
@@ -16,9 +16,10 @@ PHYSICAL = "PHYSICAL"
 SPECIAL = "SPECIAL"
 STATUS = "STATUS"
 
-TARGET_ALLY = 0
+TARGET_SELF = 0
 TARGET_ENEMY = 1
 TARGET_BOTH = 2
+TARGET_ALLY = 3
 
 RANGE_MONO = 0
 RANGE_TWO = 1
@@ -59,6 +60,10 @@ class AbstractAbility(object):
         self.render_during = 0
         self.load = False
         self.need_sound = False
+
+        self.last_damage = []
+        self.last_launcher: Optional['p_poke.PlayerPokemon'] = None
+
         del self.__data
 
     def get_category_name(self) -> str:
@@ -81,6 +86,12 @@ class AbstractAbility(object):
     # noinspection PyPep8Naming
     def get_damage(self, launcher: "p_poke.PlayerPokemon", targets: list['p_poke.PlayerPokemon']) ->\
             tuple[list[tuple[int, float]], bool, int]:
+        self.last_launcher = launcher
+        if self.category == STATUS:
+            self.last_damage = [0] * len(targets)
+            print([(0, 1)] * len(targets), False, 0)
+            return [(0, 1)] * len(targets), False, 0
+        self.last_damage = []
         nb_target = len(targets)
         critical_t = launcher.get_stats(pokemon.SPEED) * \
                      (8 if launcher.get_stats(p_poke.C_S_CRITICAL) > 1 and self.high_critical else
@@ -108,8 +119,10 @@ class AbstractAbility(object):
                 type_edit = self.type.get_attack_edit(tr.poke)
                 val = ((level * power * (a / d)) / 50) + 2
                 md = modifier * type_edit
+                self.last_damage.append(int(val * md))
                 back.append((int(val * md), type_edit))
             else:
+                self.last_damage.append(0)
                 back.append((0, 0.0))
 
         recoil = (back[0][0] * self.recoil) if self.recoil == RECOIL_DAMAGE else self.recoil

@@ -23,3 +23,8 @@ def load() -> NoReturn:
     register(abilitys.EmberAbility())
     register(abilitys.TackleAbility())
     register(abilitys.AcidAbility())
+    register(abilitys.AbsorbAbility())
+    register(abilitys.AcidArmorAbility())
+    register(abilitys.AgilityAbility())
+    register(abilitys.AmnesiaAbility())
+    register(abilitys.AuroraBeamAbility())

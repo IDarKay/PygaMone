@@ -114,12 +114,26 @@ class RenderAbilityCallback(object):
     def __init__(self, move_target: Optional[List[Tuple[int, int, int]]] = None,
                  move_launcher: Tuple[int, int, int] = None,
                  color_editor_target: List[Union[Tuple[int, int, int, int], Tuple[int, int, int, int, int]]] = None,
-                 color_editor_launcher: Union[Tuple[int, int, int, int], Tuple[int, int, int, int, int]] = None
+                 color_editor_launcher: Union[Tuple[int, int, int, int], Tuple[int, int, int, int, int]] = None,
+                 size_edit_launcher: tuple[int, float, float] = None,
+                 size_edit_target: List[tuple[int, float, float]] = None
                  ):
         self.move_target = move_target
         self.move_launcher = move_launcher
         self.color_editor_target = color_editor_target
         self.color_editor_launcher = color_editor_launcher
+        self.size_edit_launcher = size_edit_launcher
+        self.size_edit_target = size_edit_target
+
+    def get_resize(self, enemy: bool, case) -> Optional[tuple[int, float, float]]:
+        v = parse_enemy_case(enemy, case)
+        if self.size_edit_launcher and self.size_edit_launcher[0] == v:
+            return self.size_edit_launcher
+        if self.size_edit_target:
+            for mv in self.size_edit_target:
+                if mv[0] == v:
+                    return mv
+        return None
 
     def get_all(self, enemy: bool, case) \
             -> tuple[tuple[int, int, int], Union[tuple[int, int, int, int], tuple[int, int, int, int, int]]]:
@@ -350,7 +364,7 @@ class PlayAbility(Animation):
             # damage*
 
             ps_t -= (2000 + self.__ab.render_during)
-            if ps_t < 1000:
+            if ps_t < 1000 and self.__ab.category != ability.STATUS:
                 if self.__bool_matrix[5]:
                     self.__bool_matrix[5] = False
                     if self.__max_type_multi != 0:
@@ -951,14 +965,14 @@ class Battle(object):
     INFO_enemy = 830, 580, 330
     INFO_ally = 60, 310, 560
 
-    def get_poke_pose(self, enemy: bool, i: int, simple: bool = False) -> Tuple[int, int, int]:
+    def get_poke_pose(self, enemy: bool, i: int, simple: bool = False, size_edit=(1, 1)) -> Tuple[int, int, int]:
         c = self.bg.enemy_base_coord[self.nb_enemy - 1][i] if enemy else self.bg.ally_base_coord[self.nb_ally - 1][i]
         poke = self.__enemy[i] if enemy else self.__ally[i]
         size = 192, 192
         if simple:
             return c[0] + (self.base_size[0]) // 2, int(c[1] + (self.base_size[1] * 0.75)), parse_enemy_case(enemy, i)
-        return c[0] + (self.base_size[0] // 2) - (size[0] // 2), int(
-            c[1] + (self.base_size[1] * 0.75) - ((poke.front_image_y if enemy else poke.back_image_y) * 2)), \
+        return c[0] + (self.base_size[0] // 2) - ((size[0] * size_edit[0]) // 2), int(
+            c[1] + (self.base_size[1] * 0.75) - ((poke.front_image_y if enemy else poke.back_image_y) * 2 * size_edit[1])), \
                parse_enemy_case(enemy, i)
 
     GRADIENT = [(0, 229, 29), (25, 205, 27), (50, 181, 26), (75, 157, 25), (100, 133, 24), (125, 109, 23),
@@ -1006,10 +1020,18 @@ class Battle(object):
                 x = Battle.INFO_ally[i]
                 if rac:
                     m = rac.get_move(enemy, i)
+
                     if c := rac.get_color(enemy, i):
-                        display.blit(poke.get_back_image_colored(c[1:], 2), (p_c[0] + m[1], p_c[1] + m[2]))
+                        im = poke.get_back_image_colored(c[1:], 2)
                     else:
-                        display.blit(poke.get_back_image(2), (p_c[0] + m[1], p_c[1] + m[2]))
+                        im = poke.get_back_image(2)
+                    if rac.get_resize(enemy, i):
+                        size = rac.get_resize(enemy, i)
+                        im = pygame.transform.scale(im, (int(im.get_size()[0] * size[1]),
+                                                         int(im.get_size()[1] * size[2])))
+                        p_c = self.get_poke_pose(enemy, i, size_edit=size[1:3])[0: 2]
+
+                    display.blit(im, (p_c[0] + m[1], p_c[1] + m[2]))
                 else:
                     display.blit(poke.get_back_image(2), p_c)
                 pygame.draw.polygon(display, (246, 250, 253),
@@ -1066,7 +1088,6 @@ class Battle(object):
         pygame.draw.polygon(display, (172, 27, 64, 100), ((795, 150), (1060, 150), (1060, 450), (265, 450)))
         nb_enemy = self.nb_enemy
         nb_ally = self.nb_ally
-
         tab = self.current_ab.ability.get_target(self.selected_x[0], nb_enemy, nb_ally, self.selected_y[0] == 0)
         WHITE = (255, 255, 255)
         BLACK = (0, 0, 0)
@@ -1297,7 +1318,9 @@ class Battle(object):
             for enemy in enemy_dead:
 
                 for i in range(6):
-                    all_xps[i] += self.get_xp_amount(i, *enemy)
+                    p = game.game_instance.player.team[i]
+                    if p and p.heal > 0:
+                        all_xps[i] += self.get_xp_amount(i, *enemy)
                 print(all_xps, max(all_xps), self.__xp_per_case)
             if max(all_xps) > 0:
                 self.TO_SHOW.insert(start,
@@ -1368,11 +1391,11 @@ class Battle(object):
         if ab and ab.pp > 0:
             self.run_away_c = 0
             if ab.ability.target != ability.TARGET_BOTH and len(
-                    self.__ally if ab.ability.target == ability.TARGET_ALLY else self.__enemy) == 1:
-                self.do_attack(ab, ab.ability.target == ability.TARGET_ENEMY, 0)
+                    self.__ally if ab.ability.target == ability.TARGET_ALLY else self.__enemy) == 1 or ab.ability.target == ability.TARGET_SELF:
+                self.do_attack(ab, ab.ability.target == ability.TARGET_ENEMY, self.selected_not_bot)
             else:
-                self.selected_y = [0, -1] if ab.ability.target == ability.TARGET_ENEMY else \
-                    [1, -1] if ab.ability.target == ability.TARGET_ALLY else [0, 2]
+                self.selected_y = [0, -1] if ab.ability.target == ability.TARGET_ALLY else \
+                    [1, -1] if ab.ability.target == ability.TARGET_SELF else [0, 2]
                 self.selected_x = [0, max(self.nb_ally, self.nb_enemy)]
                 self.current_ab = ab
                 self.menu_action = [
