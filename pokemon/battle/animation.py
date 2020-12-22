@@ -14,7 +14,7 @@ class Animation(object):
         return 0
 
     def on_key_action(self) -> bool:
-        return False
+        return True
 
     def __gt__(self, other):
         if isinstance(other, Animation):

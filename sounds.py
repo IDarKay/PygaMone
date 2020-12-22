@@ -37,7 +37,7 @@ PLINK = Sound('assets/sound/plink.mp3')
 PLINK_2 = Sound('assets/sound/plink.mp3')
 BACK = Sound('assets/sound/plink.mp3')
 LVL_UP = Sound('assets/sound/plink.mp3')
-EVOLUTION = Sound('assets/sound/plink.mp3')
+EVOLUTION = Sound('assets/sound/evolution.mp3')
 
 BLOCK = Sound('assets/sound/block.mp3')
 SAVE = Sound('assets/sound/save.mp3')

@@ -44,6 +44,9 @@
   "battle.xp.forget_menu.confirm_yes": "Do you want he forgets {0} to learn {1}?",
   "battle.xp.forget_menu.confirm_no": "Do you want to give up learning of {0}?",
 
+  "battle.evolution_ask": "Oh ! What is happening? {0} seems to want to evolve ! [l] Do you want it ?",
+  "battle.evolution": "{0} evolved to {1}!",
+
   "status.burn.ally.apply": "Ally {0} was burned!",
   "status.burn.ally.damage": "Ally {0} was hurt by it's burn!",
   "status.burn.ally.end": "Ally {0} wasn't burn anymore",

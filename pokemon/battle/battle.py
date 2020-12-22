@@ -1,4 +1,6 @@
 from typing import List, Tuple, NoReturn, Callable, Optional, Union
+
+from pokemon.battle import evolution_animaiton
 from pokemon.battle.animation import Animation
 import pokemon.player_pokemon as player_pokemon
 import pokemon.pokemon
@@ -852,7 +854,7 @@ class Battle(object):
         self.bg_image: Optional[pygame.Surface] = None
         self.selected_y = [0, 3]
         self.selected_x = [0, 3]
-        self.menu_action: List[Callable[[], NoReturn]] = [self.action_menu_action, None]
+        self.menu_action: List[Callable[[], NoReturn]] = [None, None]
         self.status = 0
         self.turn_count = 0
         self.current_play_ability: Optional[PlayAbility] = None
@@ -1100,8 +1102,10 @@ class Battle(object):
                 del Battle.TO_SHOW[0]
                 if isinstance(a, List) or isinstance(a, tuple):
                     a[0](**a[1])
-                else:
+                elif a:
                     a()
+                else:
+                    self.ability_escape()
         else:
             self.ability_escape()
 
@@ -1208,10 +1212,21 @@ class Battle(object):
 
     def end(self, victory: bool) -> Optional[Callable[[], NoReturn]]:
         if victory:
+            print(self.evolution_table)
+            for i in range(6):
+                if (new_id := self.evolution_table[i]) is not None:
+                    poke = game.game_instance.player.team[i]
+                    if poke and poke.heal > 0:
+                        Battle.TO_SHOW.append(self.start_new_animation(evolution_animaiton.EvolutionAnimation(self, poke, new_id)))
             if self.wild:
-                pass
+                def over_load():
+                    sound_manager.MUSIC_CHANNEL.stop()
+
+                self.next_to_show()
+                return over_load
             else:
-                pass
+                self.next_to_show()
+                return
         else:
             Battle.TO_SHOW.append(lambda: self.start_new_animation(SimpleDialogue("battle.end.no_pokemon")))
             lost_money = min(
@@ -1461,7 +1476,9 @@ class Battle(object):
             self.menu_action[1]()
 
     def on_key_action(self) -> NoReturn:
+        print(self.current_animation)
         if (not self.current_animation or not self.current_animation.on_key_action()) and self.menu_action[0]:
+            print(self.menu_action)
             self.menu_action[0]()
 
     def on_key_x(self, left: bool) -> NoReturn:

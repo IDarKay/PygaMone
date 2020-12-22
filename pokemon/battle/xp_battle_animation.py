@@ -206,7 +206,6 @@ class PokemonWonAttackAnimation(XpA):
                 self.action += 1
                 ask = game.game_instance.get_message("battle.xp.forget_ability.yes"), \
                          game.game_instance.get_message("battle.xp.forget_ability.no")
-                print("open")
                 game.game_instance.player.open_dialogue(
                     hud.QuestionDialog("battle.xp.forget_ability.text", self.question_callback,
                                        ask, need_morph_text=True, style=2,

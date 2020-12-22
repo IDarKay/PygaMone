@@ -1,5 +1,7 @@
 from typing import Dict, List, Tuple, Any, Optional, NoReturn, Union
 from random import randint
+
+import game
 import pokemon.pokemon as pokemon
 import pokemon.abilitys as p_ability
 import pokemon.abilitys_ as abilitys_
@@ -92,6 +94,14 @@ class PlayerPokemon(object):
         # heal check
         if self.heal == -1 or self.heal > self.get_max_heal():
             self.heal = self.get_max_heal()
+
+    def set_id(self, id_):
+        self.id_ = id_
+        self.poke = pokemon.get_pokemon(self.id_)
+        self.calculate_stats()
+        self.front_image = f'assets/textures/pokemon/{("shiny/" if self.shiny else "")}{("female/" if self.female and self.poke.have_female_image else "")}{(self.id_)}.png'
+        self.back_image = f'assets/textures/pokemon/back/{("shiny/" if self.shiny else "")}{("female/" if self.female and self.poke.have_female_image else "")}{(self.id_)}.png'
+        game.game_instance.set_pokedex_catch(id_)
 
     def can_evolve(self) -> Optional[int]:
         li = self.poke.get_evolution_under(self.lvl)

@@ -452,7 +452,7 @@ class Game(object):
     def set_pokedex_catch(self, id_: int) -> NoReturn:
         if id_ < 1:
             return
-        self.pokedex[str(id_)] = self.get_pokedex_e(id_) & ~0b11 | POKEDEX_SEEN
+        self.pokedex[str(id_)] = self.get_pokedex_e(id_) & ~0b11 | POKEDEX_CATCH
 
     def get_pokedex_catch_status_values(self):
         return [(x & 0b11) for x in self.pokedex.values()]
