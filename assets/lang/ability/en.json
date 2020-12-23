@@ -23,6 +23,22 @@
     "name": "Aurora Beam",
     "description": "The target is hit with a rainbow-colored beam. This may also lower the target's Attack stat. "
   },
+  "barrage": {
+    "name": "Barrage",
+    "description": "Round objects are hurled at the target to strike two to five times in a row."
+  },
+  "barrier": {
+    "name": "Barrier",
+    "description": "The user throws up a sturdy wall that sharply raises its Defense stat. "
+  },
+  "bide": {
+    "name": "Bide",
+    "description": "The user endures attacks for two turns, then strikes back to cause double the damage taken."
+  },
+  "bite": {
+    "name": "Bite",
+    "description": "The target is bitten with viciously sharp fangs. This may also make the target flinch."
+  },
   "ember": {
     "name": "Ember",
     "description": "The target is attacked with small flames. This may also leave the target with a burn."

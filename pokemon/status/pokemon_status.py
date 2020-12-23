@@ -6,6 +6,7 @@ import pokemon.abilitys as ability
 import pokemon.status.status_animations as animation
 import pokemon.status.status as status_
 import game
+from pokemon import pokemon_type
 
 
 class Status(object):
@@ -84,11 +85,37 @@ class BurnStatus(Status):
         return False, si.poke.get_max_heal() // 8
 
     def apply(self, si: 'StatusInstance', turn: int) -> NoReturn:
-        return True
-        # return pokemon_type.FIRE not in si.poke.poke.types
+        return pokemon_type.FIRE not in si.poke.poke.types
 
     def get_animation(self, si: 'StatusInstance', pos: tuple[int, int]) -> Optional['battle.Animation']:
         return animation.BurnAnimation(pos)
+
+
+class FlinchingStatus(Status):
+
+    def __init__(self, id_: str):
+        super().__init__(id_, False)
+
+    def get_apply_text(self, ally: bool) -> Optional[str]:
+        return f"status.flinch.apply"
+
+    def get_damage_text(self, ally: bool) -> Optional[str]:
+        return f"status.flinch.cancel"
+
+    def get_end_text(self, ally: bool) -> Optional[str]:
+        return f"status.flinch.cancel"
+
+    def get_cancel_text(self, ally: bool) -> Optional[str]:
+        return f"status.flinch.cancel"
+
+    def attack(self, si: 'StatusInstance', turn: int, ab: 'ability.AbstractAbility') -> tuple[bool, bool, int]:
+        return True, True, 0
+
+    def turn(self, si: 'StatusInstance', turn: int) -> tuple[bool, int]:
+        return False, 0
+
+    def apply(self, si: 'StatusInstance', turn: int) -> NoReturn:
+        return True
 
 
 class StatusInstance(object):

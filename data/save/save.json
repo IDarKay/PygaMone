@@ -1,8 +1,8 @@
 {
-  "last_level": "poke_center_level_1",
+  "last_level": "level_1",
   "last_level_coord": [
-    8.03,
-    6.1
+    12,
+    18
   ],
   "last_poke_center_level": "poke_center_level_1",
   "last_poke_center_level_coord": [
@@ -19,40 +19,42 @@
     "8": 1
   },
   "money": 352,
-  "last_save": 1608657435,
-  "time_played": 708040,
+  "last_save": 1608730074,
+  "time_played": 780679,
   "team": [
     {
       "_id": 3,
-      "xp": 47350,
+      "xp": 47569,
       "ivs": 44468,
-      "heal": 77,
+      "heal": 120,
       "ability": [
         {
-          "_id": "amnesia",
-          "pp": 31,
+          "_id": "barrage",
+          "pp": 34,
           "max_pp": 35
         },
         {
-          "_id": "absorb",
-          "pp": 34,
+          "_id": "bite",
+          "pp": 33,
           "max_pp": 34
         },
         {
-          "_id": "agility",
-          "pp": 19,
+          "_id": "barrier",
+          "pp": 24,
           "max_pp": 25
         },
         {
-          "_id": "aurora_beam",
-          "pp": 25,
+          "_id": "bide",
+          "pp": 24,
           "max_pp": 25
         }
       ],
       "pokeball": "item.pokeball.master_ball",
       "shiny": false,
       "female": false,
-      "status": [],
+      "status": [
+        "burn"
+      ],
       "uuid": "e187e749-b3b2-46a8-85e7-832331f44164"
     },
     {

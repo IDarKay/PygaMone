@@ -57,14 +57,25 @@ class AbstractAbility(object):
         self.range = self.get_args("range", default=RANGE_MONO, type_check=int)
         self.recoil_type = self.get_args("recoil_type", default=NO_RECOIL, type_check=int)
         self.recoil = self.get_args("recoil", default=0, type_check=int)
+        self.is_priority = self.get_args("is_priority", default=0, type_check=int)
         self.render_during = 0
         self.load = False
         self.need_sound = False
 
         self.last_damage = []
         self.last_launcher: Optional['p_poke.PlayerPokemon'] = None
+        self.last_nb_hit = 1
 
         del self.__data
+
+    def get_render_during(self):
+        return self.render_during
+
+    def get_nb_turn(self) -> int:
+        return 1
+
+    def get_nb_hit(self) -> int:
+        return 1
 
     def get_category_name(self) -> str:
         return game.get_game_instance().get_message(f'ability.categories.{self.category}')
@@ -89,19 +100,20 @@ class AbstractAbility(object):
         self.last_launcher = launcher
         if self.category == STATUS:
             self.last_damage = [0] * len(targets)
-            print([(0, 1)] * len(targets), False, 0)
             return [(0, 1)] * len(targets), False, 0
         self.last_damage = []
         nb_target = len(targets)
         critical_t = launcher.get_stats(pokemon.SPEED) * \
                      (8 if launcher.get_stats(p_poke.C_S_CRITICAL) > 1 and self.high_critical else
                       4 if self.high_critical else 2 if launcher.get_stats(p_poke.C_S_CRITICAL) > 1 else 0.5)
-        crit = random.randint(0, 255) <= critical_t
+        nb_hit = self.get_nb_hit()
+        self.last_nb_hit = nb_hit
+        crit = [random.randint(0, 255) <= critical_t for _ in range(nb_hit)]
         Ta = (0.75 if nb_target > 1 else 1)
         STAB = (1.5 if self.type in launcher.poke.types else 1)
         rdm = (random.randint(85, 100) / 100)
         burn = (0.5 if launcher.combat_status.have_status(status.BURN) and self.category == PHYSICAL else 1)
-        modifier = Ta * (1.5 if crit else 1) * rdm * STAB * burn
+        modifier = [Ta * (1.5 if crit[i] else 1) * rdm * STAB * burn for i in range(nb_hit)]
         power = self.power
         level = ((2 * launcher.lvl) / 5) + 2
         back = []
@@ -118,16 +130,19 @@ class AbstractAbility(object):
                 # todo other
                 type_edit = self.type.get_attack_edit(tr.poke)
                 val = ((level * power * (a / d)) / 50) + 2
-                md = modifier * type_edit
-                self.last_damage.append(int(val * md))
-                back.append((int(val * md), type_edit))
+                # md = modifier * type_edit
+
+                f_damage = int(sum(k * type_edit * val for k in modifier))
+
+                self.last_damage.append(f_damage)
+                back.append((f_damage, type_edit))
             else:
                 self.last_damage.append(0)
                 back.append((0, 0.0))
 
         recoil = (back[0][0] * self.recoil) if self.recoil == RECOIL_DAMAGE else self.recoil
         print("damage", back, crit, recoil)
-        return back, crit, recoil
+        return back, max(crit), recoil
 
     def is_fail(self, poke: 'p_poke.PlayerPokemon'):
         if self.accuracy == -1:
@@ -184,6 +199,6 @@ class AbstractAbility(object):
                 launcher: tuple[int, int, int], ps_t: int, first_time: bool) -> 'battle_.RenderAbilityCallback':
         return battle_.RenderAbilityCallback()
 
-    def render(self, display: pygame.display, target: list[tuple[int, int, int]],
+    def render(self, display: pygame.Surface, target: list[tuple[int, int, int]],
                launcher: tuple[int, int, int], ps_t: int, first_time: bool) -> NoReturn:
         pass

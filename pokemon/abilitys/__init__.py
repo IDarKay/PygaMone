@@ -7,3 +7,7 @@ from .acid_armor import AcidArmorAbility
 from .agility import AgilityAbility
 from .amnesia import AmnesiaAbility
 from .aurora_beam import AuroraBeamAbility
+from .barrage import BarrageAbility
+from .barrier import BarrierAbility
+from .bide import BideAbility
+from .bite import BiteAbility

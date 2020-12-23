@@ -29,7 +29,7 @@ class AcidAbility(abilitys.AbstractAbility):
         self.render_during = 2000
         self.need_sound = True
 
-    def get_rac(self, target: list[type[int, int, int]],
+    def get_rac(self, target: list[tuple[int, int, int]],
                 launcher: tuple[int, int, int], ps_t: int, first_time: bool) -> 'battle_.RenderAbilityCallback':
         if ps_t > 900:
             v = ps_t % 180
@@ -42,7 +42,6 @@ class AcidAbility(abilitys.AbstractAbility):
     def load_assets(self) -> bool:
         if super().load_assets():
             self.ball = pygame.image.load('assets/textures/ability/purple_ball.png')
-            print(self.ball.get_size())
             return True
         return False
 

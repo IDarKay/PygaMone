@@ -41,6 +41,12 @@ class TackleAbility(abilitys.AbstractAbility):
             e_move = [(t[2], v, 0) for t in target]
         return battle_.RenderAbilityCallback(move_launcher=l_move, move_target=e_move)
 
+    def unload_assets(self) -> bool:
+        if super().load_assets():
+            gif_manger.CONTACT.un_load()
+            return True
+        return False
+
     def render(self, display: pygame.display, target: list[tuple[int, int, int]],
                launcher: tuple[int, int, int], ps_t: int, first_time: bool) -> NoReturn:
         if first_time:
@@ -48,12 +54,9 @@ class TackleAbility(abilitys.AbstractAbility):
 
             self.g_i = []
             gif = gif_manger.CONTACT.get()
+            sound_manager.start_in_first_empty_taunt(self.sound)
             for t in target:
                 self.g_i.append(gif.display((t[0] - 24, t[1] - 60), speed=170))
-
-        if ps_t > 380 and self.__data[0]:
-            self.__data[0] = False
-            sound_manager.start_in_first_empty_taunt(self.sound)
 
         if 400 < ps_t < 1300:
             for g in self.g_i:

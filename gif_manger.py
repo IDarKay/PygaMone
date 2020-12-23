@@ -30,6 +30,7 @@ class Gif(object):
 EMBER = Gif('./assets/textures/ability/ember.gif')
 SMALL_EMBER = Gif('./assets/textures/ability/small_ember.gif')
 CONTACT = Gif('./assets/textures/ability/contact.gif')
+BIDE = Gif('./assets/textures/ability/bide.gif')
 
 
 def unload_all():

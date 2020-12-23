@@ -56,6 +56,8 @@
   "status.burn.enemy.end": "Foe's {0} wasn't burn anymore",
   "status.burn.enemy.cancel": "Foe's {0} is burn and can't attack",
   "status.burn.image": "BURNED",
+  "status.flinch.cancel": "{0}'s Inner Focus prevents flinching!",
+  "status.flinch.apply": "{0} is flinching!",
 
   "stats.too_high": "{0}'s {1} won't go any higher!",
   "stats.add.3": "{0}'s {1} rose drastically!",

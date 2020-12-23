@@ -7,8 +7,8 @@ class Animation(object):
     def tick(self, display: Surface) -> bool:
         pass
 
-    def is_priority(self) -> bool:
-        return False
+    def is_priority(self) -> int:
+        return 0
 
     def get_compare_value(self) -> int:
         return 0
@@ -18,12 +18,12 @@ class Animation(object):
 
     def __gt__(self, other):
         if isinstance(other, Animation):
-            return (self.is_priority() and not other.is_priority()) or self.get_compare_value() > other.get_compare_value()
+            return (self.is_priority() > other.is_priority()) or self.get_compare_value() > other.get_compare_value()
         else:
             raise ValueError("other need be animation")
 
     def __lt__(self, other):
         if isinstance(other, Animation):
-            return (not self.is_priority() and other.is_priority()) or self.get_compare_value() < other.get_compare_value()
+            return (self.is_priority() < other.is_priority()) or self.get_compare_value() < other.get_compare_value()
         else:
             raise ValueError("other need be animation")

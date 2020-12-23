@@ -16,6 +16,7 @@ def register(it: T) -> T:
 
 
 BURN: 'pst.BurnStatus' = register(pst.BurnStatus("burn"))
+FLINCH: 'pst.FlinchingStatus' = register(pst.FlinchingStatus("flinch"))
 
 
 def load() -> NoReturn:

@@ -194,13 +194,13 @@ class StatusRemoveAnimation(Animation):
             self.init = True
             self.poke.combat_status.remove(self.status)
             self.start = utils.current_milli_time()
-            print("open")
-            d = hud.Dialog(self.status.get_end_text(self.ally), need_morph_text=True, speed=20, none_skip=True, style=2,
-                           text_var=[self.poke.get_name(True)])
-            game.game_instance.player.open_dialogue(d)
+            text = self.status.get_end_text(self.ally)
+            if text:
+                d = hud.Dialog(text, need_morph_text=True, speed=20, none_skip=True, style=2,
+                               text_var=[self.poke.get_name(True)])
+                game.game_instance.player.open_dialogue(d)
             return False
         if utils.current_milli_time() - self.start >= 1500:
-            print("close")
             game.game_instance.player.close_dialogue()
             return True
         return False
@@ -220,18 +220,21 @@ class StatusDamageAnimation(Animation):
         if not self.init:
             self.init = True
             self.start = utils.current_milli_time()
-            if self.amount > 0:
-                self.d_s = self.poke.heal, max(0, self.poke.heal - self.amount)
-                d = hud.Dialog(self.status.get_damage_text(self.ally), need_morph_text=True, speed=20, none_skip=True,
-                               style=2, text_var=[self.poke.get_name(True)])
-                sound_manager.start_in_first_empty_taunt(sounds.HIT_NORMAL_DAMAGE.get())
-            else:
-                d = hud.Dialog(self.status.get_cancel_text(self.ally), need_morph_text=True, speed=20, none_skip=True,
-                               style=2, text_var=[self.poke.get_name(True)])
-            game.game_instance.player.open_dialogue(d)
+            text = self.status.get_damage_text(self.ally)
+            if text:
+                if self.amount > 0:
+                    self.d_s = self.poke.heal, max(0, self.poke.heal - self.amount)
+                    d = hud.Dialog(text, need_morph_text=True, speed=20, none_skip=True,
+                                   style=2, text_var=[self.poke.get_name(True)])
+                    sound_manager.start_in_first_empty_taunt(sounds.HIT_NORMAL_DAMAGE.get())
+                else:
+                    d = hud.Dialog(text, need_morph_text=True, speed=20, none_skip=True,
+                                   style=2, text_var=[self.poke.get_name(True)])
+                game.game_instance.player.open_dialogue(d)
 
             return False
-        if self.animation.tick(display):
+        if (not self.animation and utils.current_milli_time() - self.start > 1000) \
+                or (self.animation and self.animation.tick(display)):
             game.game_instance.player.close_dialogue()
             if self.amount > 0:
                 self.poke.heal = self.d_s[1]
@@ -267,6 +270,9 @@ class PlayAbility(Animation):
     def get_compare_value(self) -> int:
         return self.launcher_p.stats[pokemon.pokemon.SPEED]
 
+    def is_priority(self) -> int:
+        return self.__ab.is_priority
+
     def fix_heal(self):
         for i in range(len(self.__targets_p)):
             self.__targets_p[i].heal = self.__damage_table[i][0]
@@ -282,6 +288,8 @@ class PlayAbility(Animation):
         self.__d_status: Tuple[List[Tuple[int, float]], bool, int] = self.__ab.get_damage(self.launcher_p,
                                                                                           self.__targets_p)
         self.__max_type_multi = max(self.__d_status[0], key=lambda k: k[1])[1]
+        self.__max_damge = max(self.__d_status[0], key=lambda k: k[0])[0]
+        print(self.__max_damge)
         self.__damage_table = []
         for i in range(len(self.__targets_p)):
             poke = self.__targets_p[i]
@@ -325,13 +333,13 @@ class PlayAbility(Animation):
                 to_show = True
                 data = {"anim": StatusRemoveAnimation(it.status, self.launcher_p, not self.__enemy)}
                 Battle.TO_SHOW.append([self.bat.start_new_animation, data])
-            elif back[1]:
+            if back[1]:
+                self.cancel = True
                 to_show = True
                 data = {"anim": StatusDamageAnimation(it, int(back[2]),
                                                       self.launcher[0:2],
                                                       True)}
                 Battle.TO_SHOW.append([self.bat.start_new_animation, data])
-                self.cancel = True
         if to_show:
             self.bat.next_to_show()
 
@@ -342,7 +350,7 @@ class PlayAbility(Animation):
             self.init()
             # return for status edit
             return False
-
+        print(self.cancel)
         if self.cancel:
             return True
 
@@ -354,7 +362,7 @@ class PlayAbility(Animation):
                                text_var=[self.launcher_p.poke.get_name(True), self.__ab.get_name()])
                 game.game_instance.player.open_dialogue(d, over=True)
             return False
-        elif ps_t - 2000 <= self.__ab.render_during:
+        elif ps_t - 2000 <= self.__ab.get_render_during():
             self.bat.rac = self.__ab.get_rac(self.__targets, self.launcher, ps_t - 2000, self.__first_time)
             self.__ab.render(display, self.__targets, self.launcher, ps_t - 2000, self.__first_time)
             if self.__first_time:
@@ -363,11 +371,11 @@ class PlayAbility(Animation):
         else:
             # damage*
 
-            ps_t -= (2000 + self.__ab.render_during)
+            ps_t -= (2000 + self.__ab.get_render_during())
             if ps_t < 1000 and self.__ab.category != ability.STATUS:
                 if self.__bool_matrix[5]:
                     self.__bool_matrix[5] = False
-                    if self.__max_type_multi != 0:
+                    if self.__max_type_multi != 0 and self.__max_damge != 0:
                         s = sounds.HIT_NOT_VERY_EFFECTIVE if (
                                 self.__max_type_multi < 1) else sounds.HIT_NORMAL_DAMAGE if (
                                 self.__max_type_multi == 1) else sounds.HIT_SUPER_EFFECTIVE
@@ -433,10 +441,12 @@ class PlayAbility(Animation):
                         self.status_date.append(True)
                         add, si = self.launcher_p.combat_status.try_add(launcher[n], self.bat.turn_count)
                         if add:
-                            d = hud.Dialog(si.status.get_apply_text(self.__enemy), need_morph_text=True, speed=20,
-                                           none_skip=True, style=2,
-                                           text_var=[self.launcher_p.get_name(True)])
-                            game.game_instance.player.open_dialogue(d, over=True)
+                            text = si.status.get_apply_text(self.__enemy)
+                            if text:
+                                d = hud.Dialog(text, need_morph_text=True, speed=20,
+                                               none_skip=True, style=2,
+                                               text_var=[self.launcher_p.get_name(True)])
+                                game.game_instance.player.open_dialogue(d, over=True)
                     return False
                 ps_t -= time_l
                 if ps_t < time_e:
@@ -446,10 +456,12 @@ class PlayAbility(Animation):
                         poke = self.__targets_p[enemy[n][1]]
                         add, si = poke.combat_status.try_add(enemy[n][0], self.bat.turn_count)
                         if add:
-                            d = hud.Dialog(si.status.get_apply_text(not self.__enemy), need_morph_text=True, speed=20,
-                                           none_skip=True, style=2,
-                                           text_var=[poke.get_name(True)])
-                            game.game_instance.player.open_dialogue(d, over=True)
+                            text = si.status.get_apply_text(not self.__enemy)
+                            if text:
+                                d = hud.Dialog(text, need_morph_text=True, speed=20,
+                                               none_skip=True, style=2,
+                                               text_var=[poke.get_name(True)])
+                                game.game_instance.player.open_dialogue(d, over=True)
                     return False
                 ps_t -= time_e
 
@@ -636,8 +648,8 @@ class PokemonSwitch(Animation):
         self.team = team
         self.init = False
 
-    def is_priority(self) -> bool:
-        return True
+    def is_priority(self) -> int:
+        return 3
 
     def tick(self, display: pygame.Surface) -> bool:
         if not self.init:
@@ -659,8 +671,8 @@ class RunAway(Animation):
         self.success = success
         self.battle = battle
 
-    def is_priority(self) -> bool:
-        return True
+    def is_priority(self) -> int:
+        return 4
 
     def tick(self, display: pygame.Surface) -> bool:
         if self.success:
@@ -828,7 +840,7 @@ class LaunchPokemonAnimation(Animation):
             return False
 
     def is_priority(self) -> bool:
-        return True
+        return 2
 
 
 class Battle(object):
@@ -880,6 +892,7 @@ class Battle(object):
         self.run_away_c = 0
         self.need_run_away = False
         self.evolution_table = [None] * 6
+        self.multi_turn_ab: dict[str, tuple[ability.AbstractAbility, int, bool, int]] = {}
 
     def appear_pokemon(self, enemy: bool, case: int):
         if enemy:
@@ -1356,8 +1369,23 @@ class Battle(object):
         if self.selected_y[0] == 0:
             self.selected_y = [0, 3]
             self.selected_x = [0, -1]
-            self.menu_action = [self.ability_action, self.ability_escape]
-            self.status = 1
+
+            poke = self.__ally[self.selected_not_bot]
+            if poke.uuid in self.multi_turn_ab:
+                tuple_ = self.multi_turn_ab[poke.uuid]
+                ab_ = tuple_[0]
+                enemy_ = tuple_[2]
+                case_ = tuple_[3]
+                if tuple_[1] <= 1:
+                    del self.multi_turn_ab[poke.uuid]
+                else:
+                    self.multi_turn_ab[poke.uuid] = (ab_, tuple_[1] - 1, enemy_, case_)
+                p = PlayAbility(ab_, self, self.get_poke_pose(False, self.selected_not_bot, simple=True),
+                                self.__ally[self.selected_not_bot], False, enemy_, case_)
+                self.do_ability_turn(p)
+            else:
+                self.menu_action = [self.ability_action, self.ability_escape]
+                self.status = 1
         elif self.selected_y[0] == 1:
             game.game_instance.player.open_menu(ChangePokemonMenu(game.game_instance.player, self.poke_choice_callback))
         elif self.selected_y[0] == 3:
@@ -1412,6 +1440,9 @@ class Battle(object):
         # don't show menu next turn
         self.ability_escape()
         ab.pp -= 1
+        poke = self.__ally[self.selected_not_bot]
+        if (nb_turn := ab.ability.get_nb_turn()) > 1:
+            self.multi_turn_ab[poke.uuid] = (ab.ability, nb_turn - 1, enemy, case)
         p = PlayAbility(ab.ability, self, self.get_poke_pose(False, self.selected_not_bot, simple=True),
                         self.__ally[self.selected_not_bot], False, enemy, case)
         self.do_ability_turn(p)
@@ -1424,20 +1455,45 @@ class Battle(object):
             all_pa: List[PlayAbility] = self.player_queue
             for i in range(self.nb_enemy):
                 poke = self.__enemy[i]
-                ab_ = poke.ge_rdm_ability()
-                enemy_ = random.randint(0,
-                                        1) == 1 if ab_.target == ability.TARGET_BOTH else ab_.target == ability.TARGET_ENEMY
-                case_ = random.randint(0, self.nb_ally - 1) if enemy_ else random.randint(0, self.nb_enemy - 1)
+                if poke.uuid in self.multi_turn_ab:
+                    tuple_ = self.multi_turn_ab[poke.uuid]
+                    ab_ = tuple_[0]
+                    enemy_ = tuple_[2]
+                    case_ = tuple_[3]
+                    if tuple_[1] <= 1:
+                        del self.multi_turn_ab[poke.uuid]
+                    else:
+                        self.multi_turn_ab[poke.uuid] = (ab_, tuple_[1] - 1, enemy_, case_)
+                else:
+                    ab_ = poke.ge_rdm_ability()
+                    enemy_ = random.randint(0,
+                                            1) == 1 if ab_.target == ability.TARGET_BOTH else ab_.target == ability.TARGET_ENEMY
+                    case_ = random.randint(0, self.nb_ally - 1) if enemy_ else random.randint(0, self.nb_enemy - 1)
+                    if (nb_turn := ab_.get_nb_turn()) > 1:
+                        self.multi_turn_ab[poke.uuid] = (ab_, nb_turn - 1, enemy_, case_)
                 if ab_:
                     all_pa.append(
                         PlayAbility(ab_, self, self.get_poke_pose(True, i, simple=True), poke, True, enemy_, case_))
             for i in range(self.nb_ally):
                 if self.__ally_team.case[i].bot:
-                    poke = self.__ally[i]
-                    ab_ = poke.ge_rdm_ability()
-                    enemy_ = random.randint(0,
-                                            1) == 1 if ab_.target == ability.TARGET_BOTH else ab_.target == ability.TARGET_ENEMY
-                    case_ = random.randint(0, self.nb_enemy - 1) if enemy_ else random.randint(0, self.nb_ally - 1)
+
+                    if poke.uuid in self.multi_turn_ab:
+                        tuple_ = self.multi_turn_ab[poke.uuid]
+                        ab_ = tuple_[0]
+                        enemy_ = tuple_[2]
+                        case_ = tuple_[3]
+                        if tuple_[1] <= 1:
+                            del self.multi_turn_ab[poke.uuid]
+                        else:
+                            self.multi_turn_ab[poke.uuid] = (ab_, tuple_[1] - 1, enemy_, case_)
+                    else:
+                        poke = self.__ally[i]
+                        ab_ = poke.ge_rdm_ability()
+                        enemy_ = random.randint(0,
+                                                1) == 1 if ab_.target == ability.TARGET_BOTH else ab_.target == ability.TARGET_ENEMY
+                        case_ = random.randint(0, self.nb_enemy - 1) if enemy_ else random.randint(0, self.nb_ally - 1)
+                        if (nb_turn := ab_.get_nb_turn()) > 1:
+                            self.multi_turn_ab[poke.uuid] = (ab_, nb_turn - 1, enemy_, case_)
                     if ab_:
                         all_pa.append(
                             PlayAbility(ab_, self, self.get_poke_pose(False, i, simple=True), poke, False, enemy_,
