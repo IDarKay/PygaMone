@@ -72,7 +72,6 @@ class ShowTextTrigger(Trigger):
                 self.callback, ["oui", "non", "jsp"], speed_skip=True), over=False, check_last_open=1000)
 
     def callback(self, value: str, index: int) -> NoReturn:
-        print(value, index)
         return False
 
 

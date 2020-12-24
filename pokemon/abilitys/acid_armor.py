@@ -38,7 +38,6 @@ class AcidArmorAbility(abilitys.AbstractAbility):
 
     def get_rac(self, target: list[type[int, int, int]],
                 launcher: tuple[int, int, int], ps_t: int, first_time: bool) -> 'battle_.RenderAbilityCallback':
-        print((1 - (ps_t / 1800)) * 0.5)
         x = max((1 - (ps_t / 1800)) * 0.25, 0) + 0.75
         y = max((1 - (ps_t / 1800)) * 0.5, 0) + 0.5
         return battle_.RenderAbilityCallback(size_edit_launcher=(launcher[2], x, y))

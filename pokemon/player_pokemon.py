@@ -115,7 +115,6 @@ class PlayerPokemon(object):
             b = 3 if v in NOT_CLASSIC else 2
             l = self.pokemon_stats_modifier.get(name)
             v *= (b if l <= 0 else (b + l)) // (b if l >= 0 else (b + abs(l)))
-            print("stats debug", name, b,  l, v)
         return v
 
     def set_use(self, value: bool):

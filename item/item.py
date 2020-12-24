@@ -3,6 +3,13 @@ import pygame
 import game
 
 OBJECT: str = "OBJECT"
+HEAL: str = "HEAL"
+POKE_BALLS: str = "POKE_BALLS"
+BATTLE_ITEMS: str = "BATTLE_ITEMS"
+BERRIES: str = "BERRIES"
+CT: str = "CT"
+TREASURES: str = "TREASURES"
+RARE: str = "RARE"
 
 CATEGORY: List[str] = [OBJECT]
 

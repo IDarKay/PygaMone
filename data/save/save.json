@@ -29,6 +29,41 @@
       "heal": 120,
       "ability": [
         {
+          "_id": "absorb",
+          "pp": 34,
+          "max_pp": 35
+        },
+        {
+          "_id": "acid",
+          "pp": 33,
+          "max_pp": 34
+        },
+        {
+          "_id": "acid_armor",
+          "pp": 24,
+          "max_pp": 25
+        },
+        {
+          "_id": "agility",
+          "pp": 24,
+          "max_pp": 25
+        }
+      ],
+      "pokeball": "item.pokeball.master_ball",
+      "shiny": false,
+      "female": false,
+      "status": [
+        "burn"
+      ],
+      "uuid": "e187e749-b3b2-46a8-85e7-832331f44164"
+    },
+    {
+      "_id": 6,
+      "xp": 36000,
+      "ivs": 44468,
+      "heal": 99,
+      "ability": [
+        {
           "_id": "barrage",
           "pp": 34,
           "max_pp": 35
@@ -50,41 +85,6 @@
         }
       ],
       "pokeball": "item.pokeball.master_ball",
-      "shiny": false,
-      "female": false,
-      "status": [
-        "burn"
-      ],
-      "uuid": "e187e749-b3b2-46a8-85e7-832331f44164"
-    },
-    {
-      "_id": 6,
-      "xp": 36000,
-      "ivs": 44468,
-      "heal": 99,
-      "ability": [
-        {
-          "_id": "tackle",
-          "pp": 35,
-          "max_pp": 35
-        },
-        {
-          "_id": "ember",
-          "pp": 25,
-          "max_pp": 25
-        },
-        {
-          "_id": "ember",
-          "pp": 25,
-          "max_pp": 25
-        },
-        {
-          "_id": "tackle",
-          "pp": 25,
-          "max_pp": 25
-        }
-      ],
-      "pokeball": "item.pokeball.master_ball",
       "shiny": true,
       "female": false,
       "status": [],
@@ -97,7 +97,12 @@
       "heal": 127,
       "ability": [
         {
-          "_id": "tackle",
+          "_id": "amnesia",
+          "pp": 35,
+          "max_pp": 35
+        },
+        {
+          "_id": "aurora_beam",
           "pp": 35,
           "max_pp": 35
         }

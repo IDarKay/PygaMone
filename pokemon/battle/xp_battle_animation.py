@@ -157,9 +157,7 @@ class PokemonWonAttackAnimation(XpA):
         if 0 <= self.__poke_i < 6:
             self.__poke = pl.team[self.__poke_i]
             self.__c_ability = self.__attack_edit[self.__poke_i][self.attack_i]
-            print(len(self.__poke.ability))
             self.__type = 0 if len(self.__poke.ability) < 4 else 1
-            print("type", self.__type)
         self.__answer = None
         self.__menu_answer = None
         self.__old_ab = None
@@ -271,11 +269,9 @@ class PokemonWonAttackAnimation(XpA):
         self.__answer = index
 
     def on_key_action(self) -> bool:
-        print("before", self.action)
         if self.action != 2:
             sound_manager.start_in_first_empty_taunt(sounds.PLINK)
             self.action += 1
-            print("after", self.action)
         return True
 
 

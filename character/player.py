@@ -270,7 +270,6 @@ class Player(character.Character):
 
     def get_half(self, n, a):
         t = a // 2
-        # print(n , t, 0 if n < t else (1 if n < 2 * t else 2))
         return 1 if n < t else 2
         # return 0 if n < t else (1 if n < 2 * t else 2)
 

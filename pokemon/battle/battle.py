@@ -289,7 +289,6 @@ class PlayAbility(Animation):
                                                                                           self.__targets_p)
         self.__max_type_multi = max(self.__d_status[0], key=lambda k: k[1])[1]
         self.__max_damge = max(self.__d_status[0], key=lambda k: k[0])[0]
-        print(self.__max_damge)
         self.__damage_table = []
         for i in range(len(self.__targets_p)):
             poke = self.__targets_p[i]
@@ -350,7 +349,6 @@ class PlayAbility(Animation):
             self.init()
             # return for status edit
             return False
-        print(self.cancel)
         if self.cancel:
             return True
 
@@ -1246,7 +1244,6 @@ class Battle(object):
 
     def end(self, victory: bool) -> Optional[Callable[[], NoReturn]]:
         if victory:
-            print(self.evolution_table)
             for i in range(6):
                 if (new_id := self.evolution_table[i]) is not None:
                     poke = game.game_instance.player.team[i]
@@ -1317,7 +1314,6 @@ class Battle(object):
                                 n = first
                                 m.get_pks()[n].use = True
                                 data = {"case": i, "team_n": n, "enemy": e}
-                                print("add")
                                 self.TO_SHOW.append([self.launch_pokemon, data])
                             else:
                                 ask_switch = -1
@@ -1326,7 +1322,6 @@ class Battle(object):
         if ask_switch == 1 and self.nb_ally == 1:
             self.TO_SHOW.insert(start, [self.start_new_animation, {"anim": DeathPokemonChoiceAnimation(self, 0, True)}])
         if len(enemy_dead) > 0:
-            print(enemy_dead)
             all_xps = [0] * 6
             for enemy in enemy_dead:
 
@@ -1334,7 +1329,6 @@ class Battle(object):
                     p = game.game_instance.player.team[i]
                     if p and p.heal > 0:
                         all_xps[i] += self.get_xp_amount(i, *enemy)
-                print(all_xps, max(all_xps), self.__xp_per_case)
             if max(all_xps) > 0:
                 self.TO_SHOW.insert(start,
                                     lambda: self.start_new_animation(xp_battle_animation.XpAnimation(self, all_xps)))
@@ -1555,9 +1549,7 @@ class Battle(object):
             self.menu_action[1]()
 
     def on_key_action(self) -> NoReturn:
-        print(self.current_animation)
         if (not self.current_animation or not self.current_animation.on_key_action()) and self.menu_action[0]:
-            print(self.menu_action)
             self.menu_action[0]()
 
     def on_key_x(self, left: bool) -> NoReturn:

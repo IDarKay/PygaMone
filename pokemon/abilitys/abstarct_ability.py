@@ -141,7 +141,6 @@ class AbstractAbility(object):
                 back.append((0, 0.0))
 
         recoil = (back[0][0] * self.recoil) if self.recoil == RECOIL_DAMAGE else self.recoil
-        print("damage", back, crit, recoil)
         return back, max(crit), recoil
 
     def is_fail(self, poke: 'p_poke.PlayerPokemon'):

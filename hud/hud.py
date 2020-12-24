@@ -118,7 +118,6 @@ class Dialog(object):
             game.game_instance.player.close_dialogue()
             return
 
-        # print(self.current_line)
         if self._start_render_line == -1:
             self._start_render_line = t
         nb_char = (((t - self._start_render_line) // self._speed) + 1) if self._speed > 0 else (len(self._text[self._current_line]) + 1)

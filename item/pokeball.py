@@ -10,7 +10,7 @@ POKE_BALL_IMAGE: pygame.Surface = pygame.image.load("assets/textures/item/pokeba
 class Pokeball(item.Item):
 
     def __init__(self, _id: str, image: pygame.Surface, bonus: float):
-        super().__init__("item.pokeball." + _id, image, item.OBJECT)
+        super().__init__("item.pokeball." + _id, image, item.POKE_BALLS)
         self.small_image: pygame.Surface = pygame.transform.scale(image, (16, 16))
         self.__bonus: float = bonus
 
@@ -47,6 +47,7 @@ class MasterBall(Pokeball):
 
 def get_pokeball(*coord: int) -> pygame.Surface:
     return get_part_i(POKE_BALL_IMAGE, coord)
+
 
 def get_part_i(image: pygame.Surface, coord: Tuple[float, float, float, float],
                transform: Tuple[int, int] = (0, 0)) -> pygame.Surface:

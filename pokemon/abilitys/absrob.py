@@ -78,7 +78,6 @@ class AbsorbAbility(abilitys.AbstractAbility):
                     b = y1 - a * x1
                     size = self.green_stars[self.current_vars[0][i]]
                     x = x2 - ((ps_t - i_60) / SPEED) * max_delta_x - size[1] // 2
-                    # print((ps_t - i_60), x)
                     y = a * x + b - size[1] // 2
                     display.blit(size[0], (x, y))
         elif ps_t < 2000:
