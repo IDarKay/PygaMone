@@ -64,7 +64,7 @@ class PlayerPokemon(object):
 
     def __init__(self, _id: int, xp: int, ivs: Dict[str, int], heal: int,
                  ability: List[PokemonAbility], poke_ball: 'item.Item', shiny: bool, female: bool, status: list[str],
-                 uuid_: Optional[uuid.UUID]):
+                 uuid_: Optional[uuid.UUID], it: Optional[str]):
         self.id_ = _id
         self.xp = xp
         self.poke = pokemon.get_pokemon(self.id_)
@@ -74,6 +74,7 @@ class PlayerPokemon(object):
         self.shiny = shiny
         self.female = female
         self.uuid = uuid_ if uuid_ else uuid.uuid4()
+        self.item: Optional[item.Item] = items.ITEMS.get(it, None) if it is not None and it != "none" else None
 
         self.front_image = f'assets/textures/pokemon/{("shiny/" if shiny else "")}{("female/" if female and self.poke.have_female_image else "")}{(self.id_)}.png'
         self.back_image = f'assets/textures/pokemon/back/{("shiny/" if shiny else "")}{("female/" if female and self.poke.have_female_image else "")}{(self.id_)}.png'
@@ -94,6 +95,15 @@ class PlayerPokemon(object):
         # heal check
         if self.heal == -1 or self.heal > self.get_max_heal():
             self.heal = self.get_max_heal()
+
+    def set_item(self, it: 'item.Item'):
+        if self.item is not None:
+            game.game_instance.inv.add_items(self.item)
+        if it is None:
+            self.item = None
+            return
+        self.item = it
+        game.game_instance.inv.remove_items(it)
 
     def set_id(self, id_):
         self.id_ = id_
@@ -228,11 +238,14 @@ class PlayerPokemon(object):
             "shiny": self.shiny,
             "female": self.female,
             "status": self.combat_status.get_save(),
-            "uuid": str(self.uuid)
+            "uuid": str(self.uuid),
+            "item": self.item.identifier if self.item else "none"
         }
 
     @staticmethod
-    def create_pokemon(_id: int, lvl: int, poke_ball: 'item.Item' = items.POKE_BALL):
+    def create_pokemon(_id: int, lvl: int, poke_ball: 'item.Item' = None):
+        if poke_ball is None:
+            poke_ball = items.POKE_BALL
         poke = pokemon.get_pokemon(_id)
         xp = poke.get_xp(lvl)
         ivs = random_ivs()
@@ -243,7 +256,7 @@ class PlayerPokemon(object):
         _ability = []
         for i in range(min(len(ability), 4)):
             _ability.append(PokemonAbility.new_ability(ability[i]))
-        return PlayerPokemon(_id, xp, ivs, -1, _ability, poke_ball, shiny, female, [], None)
+        return PlayerPokemon(_id, xp, ivs, -1, _ability, poke_ball, shiny, female, [], None, None)
         pass
 
     @staticmethod
@@ -255,7 +268,8 @@ class PlayerPokemon(object):
                              data["shiny"],
                              data["female"],
                              data["status"],
-                             uuid.UUID(data["uuid"]) if "uuid" in data else uuid.uuid4()
+                             uuid.UUID(data["uuid"]) if "uuid" in data else uuid.uuid4(),
+                             data.get("item", None)
                              )
 
 

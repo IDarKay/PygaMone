@@ -50,10 +50,11 @@ class Layers(object):
     def get_case(self, x: int, y: int) -> int:
         return self.pattern[y][x]
 
-    def render(self, x_start: float, y_start: float, x_end: float, y_end: float
-               , display: pygame.Surface, collision: 'col.Collision',
+    def render(self, x_start: float, y_start: float, display: pygame.Surface, collision: 'col.Collision',
                to_add: List[Tuple[int, Callable[[pygame.Surface], NoReturn]]]):
 
+        x_end = x_start + game.SURFACE_SIZE[0]
+        y_end = y_start + game.SURFACE_SIZE[1]
         x_start_mod: int = (x_start // game.CASE_SIZE) - 5
         y_start_mod: int = (y_start // game.CASE_SIZE) - 5
         x_end_mod: int = (x_end // game.CASE_SIZE) + 8
@@ -95,7 +96,7 @@ class Level(object):
     def __init__(self, path: str):
         self.path = path
         with open("data/levels/{}.json".format(path), "r", encoding='utf-8') as file:
-            data = json.load(file)
+            data: dict = json.load(file)
 
         print("pre load lvl {}".format(path))
 
@@ -139,6 +140,17 @@ class Level(object):
                 _id = np["id"]
                 self.npc.append(npc.load(_id, np))
 
+        self.cam_lock = data.get("cam_lock", [0, 0, 0, 0])
+        if len(self.cam_lock) < 4:
+            self.cam_lock = [0, 0, 0, 0]
+        elif len(self.cam_lock) > 4:
+            self.cam_lock = self.cam_lock[0: 4]
+        if self.cam_lock == [0, 0, 0, 0]:
+            self.cam_lock = None
+        else:
+            for i in range(4):
+                self.cam_lock[i] = int(self.cam_lock[i] * game.CASE_SIZE)
+
         self.is_poke_center = ("is_poke_center" in data and data["is_poke_center"])
         if self.is_poke_center:
             self.poke_center_heal_coord = data["poke_heal_coord"]
@@ -162,6 +174,23 @@ class Level(object):
                 c += p[1]
             self.wild_pokemon_rdm[key] = li
             self.wild_pokemon_rdm_max[key] = c
+
+    def check_cam_scroll(self, *tab: int) -> list:
+        if len(tab) != 2:
+            raise ValueError("need 4 element in tab actual {}".format(tab))
+        tab = [*tab, tab[0] + game.SURFACE_SIZE[0], tab[1] + game.SURFACE_SIZE[1]]
+        if self.cam_lock is not None:
+            for i in range(2):
+                if tab[i] < self.cam_lock[i]:
+                    tab[i] = self.cam_lock[i]
+                    tab[i + 2] = self.cam_lock[i] + game.SURFACE_SIZE[i]
+            for i in range(2, 4):
+                if tab[i] > self.cam_lock[i]:
+                    if tab[i - 2] != self.cam_lock[i - 2]:
+                        tab[i] = self.cam_lock[i]
+                        tab[i - 2] = tab[i] - game.SURFACE_SIZE[i - 2]
+        return tab[0:2]
+
 
     def get_random_wild(self, type_: str) -> Optional[tuple[int, int]]:
         if type_ in self.wild_pokemon_rdm:
@@ -187,8 +216,9 @@ class Level(object):
             np.render(display)
             np.tick_render(display)
 
-    def load_trigger(self, x_start: float, y_start: float, x_end: float, y_end: float,
-                     cache: 'game.Cache', collision: 'col.Collision'):
+    def load_trigger(self, x_start: float, y_start: float, cache: 'game.Cache', collision: 'col.Collision'):
+        x_end = x_start + game.SURFACE_SIZE[0]
+        y_end = y_start + game.SURFACE_SIZE[1]
         x_start_mod = (x_start // game.CASE_SIZE) - 5
         y_start_mod = (y_start // game.CASE_SIZE) - 5
         x_end_mod = (x_end // game.CASE_SIZE) + 8

@@ -1,5 +1,7 @@
 from typing import Optional, NoReturn
 import pygame
+
+import inventory
 import level
 import collision
 import character.player as player
@@ -123,6 +125,7 @@ class Game(object):
         self.ability_lang = {}
         self.save_name = ""
         self._save = {}
+        self.inv: Optional['inventory.Inventory'] = None
         self.load_save("save")
         # todo: lang selector
         self.load_lang(self.lang_ios)
@@ -182,6 +185,7 @@ class Game(object):
         if self.get_save_value("last_save", 0) == 0:
             self.save_data("last_save", int(time.time()))
         self.pokedex: dict[str, int] = self.get_save_value("pokedex", {})
+        self.inv = inventory.Inventory(self.get_save_value("inventory", {}))
 
     def save(self):
         save = self.get_save_value("last_save", 0)
@@ -191,15 +195,13 @@ class Game(object):
         self.save_data("last_save", ct)
         self.player.save(self._save)
         self.save_data("pokedex", self.pokedex)
+        self.save_data("inventory", self.inv.get_data())
         with open("data/save/{}.json".format(self.save_name), 'w', encoding='utf-8') as file:
             # copy to escape current modification
             json.dump(self._save.copy(), file)
 
     def get_save_value(self, key, default):
-        if key in self._save:
-            return self._save[key]
-        else:
-            return default
+        return self._save.get(key, default)
 
     def save_data(self, key, value):
         if value:
@@ -271,17 +273,18 @@ class Game(object):
         else:
             if self.player.current_battle is None or self.player.current_battle.need_render():
                 start = self.player.get_scroll_start()
+                # end = self.player.get_scroll_end()
+                if self.level:
+                    start = self.level.check_cam_scroll(*start)
                 global came_scroll
                 came_scroll = start
-                end = self.player.get_scroll_end()
-                self.level.floor.render(start[0], start[1], end[0], end[1], self.display, self.collision,
-                                      [])
+                self.level.floor.render(start[0], start[1], self.display, self.collision, [])
                 # self.player.tick(self.display)
-                self.level.layer_1.render(start[0], start[1], end[0], end[1], self.display,
+                self.level.layer_1.render(start[0], start[1], self.display,
                                         self.collision, [(self.player.rect.y + self.player.size[0], self.player.render)])
 
                 self.level.npc_render(self.display, self.collision)
-                self.level.load_trigger(start[0], start[1], end[0], end[1], self.trigger_cache, self.collision)
+                self.level.load_trigger(start[0], start[1], self.trigger_cache, self.collision)
 
                 if self.debug:
                     self.render_collision()
@@ -415,6 +418,8 @@ class Game(object):
                     path = self.level.path
                     self.unload_level()
                     self.load_level(path, x, y)
+                elif k == pygame.K_F8:
+                    self.player.backhoe_loader_press()
 
             # elif event.type == pygame.JOYAXISMOTION:
             #     print("1", event.instance_id, event.axis, event.value)

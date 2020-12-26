@@ -14,6 +14,7 @@ import option
 MAX_POKE_IN_BOX: int = 26
 NB_BOX: int = 10
 
+
 class PC(object):
 
     def __init__(self, data: List[Dict[str, Any]]):
@@ -74,19 +75,21 @@ class SpeedGetter(object):
 
 
 class Player(character.Character):
-
     # ["top", "left", "down", "right"]
     I = [
 
-        (230, 375, 249, 401, False),
-        (264, 374, 283, 402, False),
-        (300, 374, 320, 402, False),
-        (232, 438, 252, 466, False),
-        (269, 440, 288, 468, False),
-        (301, 440, 321, 467, False),
-        (29, 543, 48, 570, False),
-        (65, 543, 84, 570, False),
-        (98, 543, 117, 570, False),
+        (230, 375, 249, 401, False),  # 0
+        (264, 374, 283, 402, False),  # 1
+        (300, 374, 320, 402, False),  # 2
+        (232, 438, 252, 466, False),  # 3
+        (269, 440, 288, 468, False),  # 4
+        (301, 440, 321, 467, False),  # 5
+        (29, 543, 48, 570, False),  # 6
+        (65, 543, 84, 570, False),  # 7
+        (98, 543, 117, 570, False),  # 8
+        (344, 519, 362, 546, False),  # 9
+        (380, 519, 398, 547, False),  # 10
+        (412, 519, 431, 547, False),  # 11
 
         (125, 375, 144, 401, True),
         (160, 373, 180, 401, True),
@@ -96,7 +99,10 @@ class Player(character.Character):
         (198, 440, 218, 468, True),
         (169, 508, 190, 536, True),
         (204, 508, 226, 536, True),
-        (238, 508, 259, 536, True),
+        (238, 508, 260, 536, True),
+        (443, 518, 470, 546, True),
+        (443, 518, 470, 546, True),
+        (470, 518, 498, 546, True),
 
         (20, 375, 38, 401, False),
         (55, 374, 74, 402, False),
@@ -106,7 +112,10 @@ class Player(character.Character):
         (92, 441, 112, 469, False),
         (29, 508, 47, 536, False),
         (63, 508, 81, 536, False),
-        (117, 508, 118, 536, False),
+        (101, 508, 118, 536, False),
+        (344, 551, 362, 578, False),
+        (377, 551, 395, 578, False),
+        (414, 550, 432, 578, False),
 
         (125, 375, 144, 401, False),
         (160, 373, 180, 401, False),
@@ -116,9 +125,12 @@ class Player(character.Character):
         (198, 440, 218, 468, False),
         (169, 508, 190, 536, False),
         (204, 508, 226, 536, False),
-        (238, 508, 259, 536, False),
+        (238, 508, 260, 536, False),
+        (443, 518, 470, 546, False),
+        (443, 518, 470, 546, False),
+        (470, 518, 498, 546, False)
 
-         ]
+    ]
 
     def __init__(self, game_i: 'game.Game'):
         """
@@ -127,7 +139,9 @@ class Player(character.Character):
         """
         super().__init__((100, 100), (36, 52))
         IMAGE = pygame.image.load('assets/textures/character/main.png')
-        self.image: List[pygame.Surface] = [utils.get_part_i(IMAGE, cord[0:4], (36, 52), flip=(True, False) if cord[4] else (False, False)) for cord in Player.I]
+        self.image: List[pygame.Surface] = [
+            utils.get_part_i(IMAGE, cord[0:4], (36, 52), flip=(True, False) if cord[4] else (False, False)) for cord in
+            Player.I]
 
         self.movement = [0, 0]
         self.speed = 10
@@ -145,6 +159,7 @@ class Player(character.Character):
         self.current_battle: Optional['battle.Battle'] = None
         self.speed_status = [False, False]
         self.is_cycling = False
+        self.is_backhoe_loader = False
 
         self.pc: PC = PC(game_i.get_save_value("pc", []))
 
@@ -250,23 +265,28 @@ class Player(character.Character):
         self.is_action_press = False
 
     def get_scroll_start(self) -> Tuple[int, int]:
-        return int(self.rect.x-(game.SURFACE_SIZE[0]/2) + 8.5), int(self.rect.y - (game.SURFACE_SIZE[1]/2) + 12.5)
+        return int(self.rect.x - (game.SURFACE_SIZE[0] / 2) + 8.5), int(self.rect.y - (game.SURFACE_SIZE[1] / 2) + 12.5)
 
-    def get_scroll_end(self) -> Tuple[int, int]:
-        return int(self.rect.x + (game.SURFACE_SIZE[0] / 2) + 8.5), int(self.rect.y + (game.SURFACE_SIZE[1] / 2) + 12.5)
+    # def get_scroll_end(self) -> Tuple[int, int]:
+    #     return int(self.rect.x + (game.SURFACE_SIZE[0] / 2) + 8.5), int(self.rect.y + (game.SURFACE_SIZE[1] / 2) + 12.5)
 
     def get_image(self) -> pygame.Surface:
         if self.freeze_time == 0 and self.speed_status[0]:
             if self.is_cycling:
-                return self.image[self.direction * 9 + ((self.get_half( utils.current_milli_time() % 600, 600)) + 5)]
+                if self.is_backhoe_loader:
+                    return self.image[
+                        self.direction * 12 + ((self.get_half(utils.current_milli_time() % 600, 600)) + 9)]
+                return self.image[self.direction * 12 + ((self.get_half(utils.current_milli_time() % 600, 600)) + 6)]
             elif self.speed_status[1]:
-                return self.image[self.direction * 9 + ((self.get_half( utils.current_milli_time() % 350, 350)) + 3)]
+                return self.image[self.direction * 12 + ((self.get_half(utils.current_milli_time() % 350, 350)) + 3)]
             else:
-                return self.image[self.direction * 9 + (self.get_half( utils.current_milli_time() % 600, 600))]
+                return self.image[self.direction * 12 + (self.get_half(utils.current_milli_time() % 600, 600))]
         else:
             if self.is_cycling:
-                return self.image[self.direction * 9 + 7]
-            return self.image[self.direction * 9]
+                if self.is_backhoe_loader:
+                    return self.image[self.direction * 12 + 9]
+                return self.image[self.direction * 12 + 6]
+            return self.image[self.direction * 12]
 
     def get_half(self, n, a):
         t = a // 2
@@ -335,7 +355,11 @@ class Player(character.Character):
         elif game.game_instance.level.can_cycling:
             self.is_cycling = not self.is_cycling
         else:
-            self.open_dialogue(hud.Dialog("dialog.cant_bike", speed=20, speed_skip=True, need_morph_text=True, style=2), over=False)
+            self.open_dialogue(hud.Dialog("dialog.cant_bike", speed=20, speed_skip=True, need_morph_text=True, style=2),
+                               over=False)
+
+    def backhoe_loader_press(self):
+        self.is_backhoe_loader = not self.is_backhoe_loader
 
     def escape_press(self) -> NoReturn:
         if self.current_menu:

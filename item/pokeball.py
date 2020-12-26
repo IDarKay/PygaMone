@@ -1,17 +1,17 @@
-from typing import Tuple
 import pygame
 import item.item as item
 import random
 import pokemon.player_pokemon as player_pokemon
+import hud.bag as bag
 
-POKE_BALL_IMAGE: pygame.Surface = pygame.image.load("assets/textures/item/pokeball.png")
+# POKE_BALL_IMAGE: pygame.Surface = pygame.image.load("assets/textures/item/pokeball.png")
 
 
 class Pokeball(item.Item):
 
-    def __init__(self, _id: str, image: pygame.Surface, bonus: float):
-        super().__init__("item.pokeball." + _id, image, item.POKE_BALLS)
-        self.small_image: pygame.Surface = pygame.transform.scale(image, (16, 16))
+    def __init__(self, _id: str, image_name: str, bonus: float):
+        super().__init__("item.pokeball." + _id, image_name, item.POKE_BALLS)
+        self.small_image: pygame.Surface = pygame.transform.scale(self.image, (16, 16))
         self.__bonus: float = bonus
 
     def try_catch(self, p_poke: 'player_pokemon.PlayerPokemon') -> int:
@@ -34,31 +34,15 @@ class Pokeball(item.Item):
             i += 1
         return i
 
+    def is_giveable(self, condition: int):
+        return condition == bag.CONDITION_NORMAL
+
 
 class MasterBall(Pokeball):
 
     def __init__(self):
-        super().__init__("master_ball", get_pokeball(188, 0, 238, 50), 1)
+        super().__init__("master_ball", 'master-ball', 1)
 
     def try_catch(self, p_poke) -> int:
         # master always catch
         return 4
-
-
-def get_pokeball(*coord: int) -> pygame.Surface:
-    return get_part_i(POKE_BALL_IMAGE, coord)
-
-
-def get_part_i(image: pygame.Surface, coord: Tuple[float, float, float, float],
-               transform: Tuple[int, int] = (0, 0)) -> pygame.Surface:
-    s = pygame.Surface((coord[2] - coord[0], coord[3] - coord[1]), pygame.SRCALPHA)
-    s.blit(image, (0, 0), pygame.Rect(coord))
-    if transform != (0, 0):
-        copy_transform = [transform[0], transform[1]]
-        if copy_transform[0] == -1:
-            copy_transform[0] = coord[2] - coord[0]
-        if copy_transform[1] == -1:
-            copy_transform[1] = coord[3] - coord[1]
-        transform = int(copy_transform[0]), int(copy_transform[1])
-        return pygame.transform.scale(s, transform)
-    return s

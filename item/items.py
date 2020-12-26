@@ -16,11 +16,15 @@ def register(it: T) -> T:
     return it
 
 
-POKE_BALL: 'pokeball.Pokeball' = register(pokeball.Pokeball("poke_ball", pokeball.get_pokeball(2, 0, 52, 50), 1))
-GREAT_BALL: 'pokeball.Pokeball' = register(pokeball.Pokeball("great_ball", pokeball.get_pokeball(64, 0, 114, 50), 1))
-ULTRA_BALL: 'pokeball.Pokeball' = register(pokeball.Pokeball("ultra_ball", pokeball.get_pokeball(126, 0, 176, 50), 1))
+POKE_BALL: 'pokeball.Pokeball' = register(pokeball.Pokeball("poke_ball", "poke-ball", 1))
+GREAT_BALL: 'pokeball.Pokeball' = register(pokeball.Pokeball("great_ball", "great-ball", 1))
+ULTRA_BALL: 'pokeball.Pokeball' = register(pokeball.Pokeball("ultra_ball", "ultra-ball", 1))
+ULTRA_BALL2: 'pokeball.Pokeball' = register(pokeball.Pokeball("ultra_ball2", "ultra-ball", 1))
+ULTRA_BALL3: 'pokeball.Pokeball' = register(pokeball.Pokeball("ultra_ball3", "ultra-ball", 1))
+ULTRA_BALL4: 'pokeball.Pokeball' = register(pokeball.Pokeball("ultra_ball4", "ultra-ball", 1))
+ULTRA_BALL5: 'pokeball.Pokeball' = register(pokeball.Pokeball("ultra_ball5", "ultra-ball", 1))
 MASTER_BALL: 'pokeball.Pokeball' = register(pokeball.MasterBall())
-del pokeball.POKE_BALL_IMAGE
+# del pokeball.POKE_BALL_IMAGE
 
 
 def load() -> NoReturn:

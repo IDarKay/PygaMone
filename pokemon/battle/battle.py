@@ -9,9 +9,7 @@ import pygame
 import game
 import item.items as items
 import pokemon.battle.background as background
-import hud.menu as menu
 import pokemon.abilitys as ability
-# import pokemon.status.pokemon_status as pokemon_status
 import hud.hud as hud
 import sounds
 import sound_manager
@@ -1549,7 +1547,8 @@ class Battle(object):
             self.menu_action[1]()
 
     def on_key_action(self) -> NoReturn:
-        if (not self.current_animation or not self.current_animation.on_key_action()) and self.menu_action[0]:
+        if (not self.current_animation or not self.current_animation.on_key_action())\
+                and self.menu_action[0] and not self.current_play_ability:
             self.menu_action[0]()
 
     def on_key_x(self, left: bool) -> NoReturn:

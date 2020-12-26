@@ -8,6 +8,7 @@ import time
 import sounds
 import sound_manager
 import hud.pokedex as menu_pokedex
+import hud.bag as bag
 import option
 
 SURFACE_SIZE = (1060, 600)
@@ -50,6 +51,7 @@ centre_circle = (
     (int(x * 0.5), int(y * 0.6)),
     (int(x * 0.7), int(y * 0.6))
 )
+
 
 class MainMenu(Menu):
 
@@ -132,12 +134,16 @@ class MainMenu(Menu):
 
     def on_key_action(self):
         sound_manager.start_in_first_empty_taunt(sounds.PLINK)
-        if self.selected == 4:
-            self.player.open_menu(SaveMenu(self.player))
+        if self.selected == 0:
+            self.player.open_menu(menu_pokedex.PokeDex(self.player))
         elif self.selected == 1:
             self.player.open_menu(TeamMenu(self.player))
-        elif self.selected == 0:
-            self.player.open_menu(menu_pokedex.PokeDex(self.player))
+        elif self.selected == 2:
+            self.player.open_menu(bag.Bag(self.player))
+        elif self.selected == 4:
+            self.player.open_menu(SaveMenu(self.player))
+
+
 
 
 x = SURFACE_SIZE[0]
@@ -303,8 +309,8 @@ class TeamMenu(Menu):
             self.text.append([
                 game.FONT_16.render("{}/{}".format(heal[0], heal[1]), True, (0, 0, 0)),
                 game.FONT_16.render("{}/{}".format(heal[0], heal[1]), True, (255, 255, 255)),
-                game.FONT_24.render("N.{}".format(poke.lvl), True, (0, 0, 0)),
-                game.FONT_24.render("N.{}".format(poke.lvl), True, (255, 255, 255)),
+                game.FONT_16.render("Lvl {}".format(poke.lvl), True, (0, 0, 0)),
+                game.FONT_16.render("Lvl {}".format(poke.lvl), True, (255, 255, 255)),
                 game.FONT_20.render(poke.get_name(True), True, (0, 0, 0)),
                 game.FONT_20.render(poke.get_name(True), True, (255, 255, 255)),
             ])
@@ -342,7 +348,7 @@ class TeamMenu(Menu):
 
         # action hud
         if self.action_selected != -1:
-            _y = SURFACE_SIZE[1] * 0.13 + SURFACE_SIZE[1] * 0.15 * self.selected
+            _y = (-35 if self.selected == 5 else 40) + SURFACE_SIZE[1] * 0.15 * self.selected
             _x = SURFACE_SIZE[0] * 0.31
             utils.draw_select_box(display, _x, _y, self.text_2, self.action_selected, 100)
 
@@ -356,7 +362,7 @@ class TeamMenu(Menu):
         text = self.text[i]
         utils.draw_progress_bar(display,
                           (_x + _x2, _y + 21),
-                          (SURFACE_SIZE[1] * 0.28, 5),
+                          (170, 5),
                           (52, 56, 61), (45, 181, 4), xp[0] / xp[1])
 
         display.blit(self.display_small[i], (_x - 20, _y + 4 - poke_y))
@@ -364,7 +370,7 @@ class TeamMenu(Menu):
         # display heal
         display.blit(text[start], (_x + _x2, _y + SURFACE_SIZE[0] * 0.028))
         # display lvl
-        display.blit(text[start + 2], (_x + _x2 + SURFACE_SIZE[1] * 0.24, _y + SURFACE_SIZE[0] * 0.024))
+        display.blit(text[start + 2], (_x + _x2 + 170 - text[start + 2].get_size()[0], _y + SURFACE_SIZE[0] * 0.028))
         # display name
         display.blit(text[start + 4], (_x + _x2, _y + 2))
         # display pokeball
@@ -375,9 +381,9 @@ class TeamMenu(Menu):
             im = poke.combat_status.get_all_image()
             if len(im) > 0:
                 current = im[min(utils.current_milli_time() % (len(im) * 2000) // 2000, len(im) - 1)]
-                utils.draw_rond_rectangle(display, _x + 105, _y + 31, 12, 50, current[1])
+                utils.draw_rond_rectangle(display, _x + 140, _y + 8, 12, 50, current[1])
                 display.blit(tx := game.FONT_12.render(current[0], True, (255, 255, 255)),
-                             (_x + 130 - tx.get_size()[0] // 2, _y + 37 - tx.get_size()[1] // 2))
+                             (_x + 165 - tx.get_size()[0] // 2, _y + 14 - tx.get_size()[1] // 2))
 
         if self.selected == i:
             display.blit(self.arrow, (_x - 50, _y + 2))
