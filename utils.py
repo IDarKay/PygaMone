@@ -10,9 +10,20 @@ import numpy as np
 
 color_t = Union[tuple[int, int, int], tuple[int, int, int, int], str]
 
+MENU_IMAGE = None
+ARROW = None
+RED_POKEBALL = None
+GRAY_POKEBALL = None
+POINT_POKEBALL = None
+
 
 def force():
-    pass
+    global MENU_IMAGE, ARROW, RED_POKEBALL, GRAY_POKEBALL, POINT_POKEBALL
+    MENU_IMAGE = pygame.image.load("assets/textures/hud/menu.png").convert_alpha()
+    ARROW = get_part_i(MENU_IMAGE, (0, 64, 22, 91))
+    RED_POKEBALL = get_part_i(MENU_IMAGE, (32, 91, 64, 123))
+    GRAY_POKEBALL = get_part_i(MENU_IMAGE, (0, 91, 32, 123))
+    POINT_POKEBALL = get_part_i(MENU_IMAGE, (64, 91, 96, 123))
 
 
 def get_part_i(image: pygame.Surface, coord: Tuple[float, float, float, float],
@@ -32,11 +43,40 @@ def get_part_i(image: pygame.Surface, coord: Tuple[float, float, float, float],
     return s
 
 
-MENU_IMAGE = pygame.image.load("assets/textures/hud/menu.png")
-ARROW = get_part_i(MENU_IMAGE, (0, 64, 22, 91))
-RED_POKEBALL = get_part_i(MENU_IMAGE, (32, 91, 64, 123))
-GRAY_POKEBALL = get_part_i(MENU_IMAGE, (0, 91, 32, 123))
-POINT_POKEBALL = get_part_i(MENU_IMAGE, (64, 91, 96, 123))
+def draw_pokemon(display: pygame.Surface, poke: 'player_pokemon.PlayerPokemon',
+                 coord: tuple[int, int], poke_y: int,
+                 color: color_t = (255, 255, 255),
+                 text_color: color_t = (0, 0, 0),
+                 need_arrow: bool = False
+                 ):
+    x, y = coord
+    draw_rond_rectangle(display, x, y, 49, 212, color)
+    if poke:
+        heal, max_heal = poke.heal, poke.get_max_heal()
+        draw_progress_bar(display, (x + 42, y + 21), (170, 5), (52, 56, 61), (45, 181, 4), heal / max_heal)
+        display.blit(poke.get_front_image(0.5), (x - 20, y + 4 - poke_y))
+        if poke.item:
+            display.blit(poke.item.image, (x + 5, y + 25))
+        display.blit(
+            game.FONT_16.render(f'{heal}/{max_heal}', True, text_color),
+            (x + 42, y + 30))
+        display.blit(
+            tx := game.FONT_16.render(f'Lvl {poke.lvl}', True, text_color),
+            (x + 212 - tx.get_size()[0], y + 30))
+        display.blit(
+            game.FONT_20.render(poke.get_name(True), True, text_color),
+            (x + 42, y + 2))
+        display.blit(pygame.transform.scale(poke.poke_ball.image, (16, 16)), (x + 212, y + 5))
+
+        im = poke.combat_status.get_all_image()
+        if len(im) > 0:
+            current = im[min(current_milli_time() % (len(im) * 2000) // 2000, len(im) - 1)]
+            draw_rond_rectangle(display, x + 150, y + 8, 12, 50, current[1])
+            display.blit(tx := game.FONT_12.render(current[0], True, (255, 255, 255)),
+                         (x + 175 - tx.get_size()[0] // 2, y + 14 - tx.get_size()[1] // 2))
+
+        if need_arrow:
+            display.blit(ARROW, (x - 50, y + 2))
 
 
 def current_milli_time() -> int:
@@ -57,6 +97,10 @@ def draw_select_box(display: pygame.Surface, _x: float, _y: float,
                     over_color: color_t = (0, 0, 0),
                     bg_color: color_t = (255, 255, 255),
                     bg_border: color_t = (100, 100, 100)):
+
+    max_width = max(text, key=lambda s: s[0].get_size()[0])[0].get_size()[0] + 20
+    if width < max_width:
+        width = max_width
 
     _h = 20 + 28 * len(text)
 

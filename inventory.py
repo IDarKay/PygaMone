@@ -8,8 +8,6 @@ class Inventory(object):
         self.__data: dict = data
         self.__categories_data: dict[str, dict[item_.Item, int]] = {}
         self.setup_data()
-        # print(self.__data)
-        # print(self.__categories_data)
 
     def get_category(self, category: str) -> dict[item_.Item, int]:
         return self.__categories_data.get(category, {})

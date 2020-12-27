@@ -2,6 +2,7 @@ from typing import List
 import pygame
 import game
 import pokemon.player_pokemon as player_pokemon
+from hud import bag
 
 OBJECT: str = "OBJECT"
 HEAL: str = "HEAL"
@@ -46,3 +47,19 @@ class Item(object):
         return self.identifier.__hash__()
 
 
+class GiveableItem(Item):
+
+    def __init__(self, identifier: str, image_name: str, category: str):
+        super().__init__(identifier, image_name, category)
+
+    def is_giveable(self, condition: int):
+        return condition == bag.CONDITION_NORMAL or condition == bag.CONDITION_GIVE
+
+
+class NormalUsableItem(Item):
+
+    def __init__(self, identifier: str, image_name: str, category: str):
+        super().__init__(identifier, image_name, category)
+
+    def is_usable(self, condition: int):
+        return condition != bag.CONDITION_GIVE

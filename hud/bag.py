@@ -19,6 +19,7 @@ SORT_AMOUNT_REVERSE = 3
 CONDITION_NORMAL = 0
 CONDITION_HEAL = 1
 CONDITION_BATTLE = 2
+CONDITION_GIVE = 3
 
 
 class Bag(Menu):
@@ -41,7 +42,7 @@ class Bag(Menu):
         self.sort = sort
 
         if len(white_list_category) > 0:
-            black_list_category = item.CATEGORY
+            black_list_category = item.CATEGORY.copy()
             for e in white_list_category:
                 black_list_category.remove(e)
         else:
@@ -65,7 +66,7 @@ class Bag(Menu):
                 if item.CATEGORY[i] not in black_list_category:
                     line.append(utils.get_part_i(utils.MENU_IMAGE, (i * 32, 128 + a * 32, i * 32 + 32, 160 + a * 32)))
             self.categories_surface.append(line)
-        self.categories = item.CATEGORY
+        self.categories = item.CATEGORY.copy()
         for i in black_list_category:
             self.categories.remove(i)
         self.items: list[tuple[item.Item, int]] = []
@@ -179,13 +180,13 @@ class Bag(Menu):
         if self.target is None:
             for i in range(self.player.get_non_null_team_number()):
                 if i != self.poke_select:
-                    Bag.draw_pokemon(display, self.player.team[i], (_x, _y), poke_y)
+                    utils.draw_pokemon(display, self.player.team[i], (_x, _y), poke_y)
                 else:
-                    Bag.draw_pokemon(display, self.player.team[i], (_x, _y), poke_y,
+                    utils.draw_pokemon(display, self.player.team[i], (_x, _y), poke_y,
                                      color=(0, 0, 0), text_color=(255, 255, 255), need_arrow=True)
                 _y += 80
         else:
-            Bag.draw_pokemon(display, self.target, (_x, _y), poke_y)
+            utils.draw_pokemon(display, self.target, (_x, _y), poke_y)
 
     def on_key_action(self) -> NoReturn:
         if self.action_selected == -1:
@@ -216,6 +217,9 @@ class Bag(Menu):
                 self.poke_select = -1
                 self.set_items()
             elif (self.action_selected == 0 and not g and u) or self.action_selected == 1 and u:
+                if not it[0].can_use(poke):
+                    sound_manager.start_in_first_empty_taunt(sounds.BLOCK)
+                    return
                 if self.use_callback is None:
                     it[0].use(poke)
                 else:
@@ -243,6 +247,11 @@ class Bag(Menu):
                     self.poke_select = 0
             elif (self.action_selected == 0 and not g and u) or self.action_selected == 1 and u:
                 if self.target is not None:
+                    if not it[0].can_use(self.target):
+                        sound_manager.start_in_first_empty_taunt(sounds.BLOCK)
+                        self.poke_select = -1
+                        self.action_selected = -1
+                        return
                     if self.use_callback is None:
                         it[0].use(self.target)
                     else:
@@ -315,39 +324,3 @@ class Bag(Menu):
             b -= 1
         b = min(b + 1, end)
         return a, b
-
-    @staticmethod
-    def draw_pokemon(display: pygame.Surface, poke: 'player_pokemon.PlayerPokemon',
-                     coord: tuple[int, int], poke_y: int,
-                     color: 'utils.color_t' = (255, 255, 255),
-                     text_color: 'utils.color_t' = (0, 0, 0),
-                     need_arrow: bool = False
-                     ):
-        x, y = coord
-        utils.draw_rond_rectangle(display, x, y, 49, 212, color)
-        if poke:
-            heal, max_heal = poke.heal, poke.get_max_heal()
-            utils.draw_progress_bar(display, (x + 42, y + 21), (170, 5), (52, 56, 61), (45, 181, 4), heal / max_heal)
-            display.blit(poke.get_front_image(0.5), (x - 20, y + 4 - poke_y))
-            if poke.item:
-                display.blit(poke.item.image, (x + 5, y + 25))
-            display.blit(
-                game.FONT_16.render(f'{heal}/{max_heal}', True, text_color),
-                (x + 42, y + 30))
-            display.blit(
-                tx := game.FONT_16.render(f'Lvl {poke.lvl}', True, text_color),
-                (x + 212 - tx.get_size()[0], y + 30))
-            display.blit(
-                game.FONT_20.render(poke.get_name(True), True, text_color),
-                (x + 42, y + 2))
-            display.blit(pygame.transform.scale(poke.poke_ball.image, (16, 16)), (x + 212, y + 5))
-
-            im = poke.combat_status.get_all_image()
-            if len(im) > 0:
-                current = im[min(utils.current_milli_time() % (len(im) * 2000) // 2000, len(im) - 1)]
-                utils.draw_rond_rectangle(display, x + 150, y + 8, 12, 50, current[1])
-                display.blit(tx := game.FONT_12.render(current[0], True, (255, 255, 255)),
-                             (x + 175 - tx.get_size()[0] // 2, y + 14 - tx.get_size()[1] // 2))
-
-            if need_arrow:
-                display.blit(utils.ARROW, (x - 50, y + 2))

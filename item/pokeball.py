@@ -7,7 +7,7 @@ import hud.bag as bag
 # POKE_BALL_IMAGE: pygame.Surface = pygame.image.load("assets/textures/item/pokeball.png")
 
 
-class Pokeball(item.Item):
+class Pokeball(item.GiveableItem):
 
     def __init__(self, _id: str, image_name: str, bonus: float):
         super().__init__("item.pokeball." + _id, image_name, item.POKE_BALLS)
@@ -34,8 +34,8 @@ class Pokeball(item.Item):
             i += 1
         return i
 
-    def is_giveable(self, condition: int):
-        return condition == bag.CONDITION_NORMAL
+    def is_usable(self, condition: int):
+        return condition == bag.CONDITION_BATTLE
 
 
 class MasterBall(Pokeball):
