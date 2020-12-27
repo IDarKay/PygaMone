@@ -34,6 +34,7 @@ FONT_12: pygame.font.Font = None
 FONT_16: pygame.font.Font = None
 FONT_20: pygame.font.Font = None
 FONT_24: pygame.font.Font = None
+FONT_BOLD_58: pygame.font.Font = None
 FONT_SIZE_12 = (0, 0)
 FONT_SIZE_16 = (0, 0)
 FONT_SIZE_20 = (0, 0)
@@ -109,12 +110,13 @@ class Game(object):
         self.screen = screen_s
 
         # asset load
-        global FONT_12, FONT_SIZE_12, FONT_16, FONT_SIZE_16, FONT_20, FONT_SIZE_20, FONT_24, FONT_SIZE_24
+        global FONT_12, FONT_SIZE_12, FONT_16, FONT_SIZE_16, FONT_20, FONT_SIZE_20, FONT_24, FONT_SIZE_24, FONT_BOLD_58
         FONT_12 = pygame.font.Font("assets/font/Togalite-Regular.otf", 12)
         FONT_16 = pygame.font.Font("assets/font/Togalite-Medium.otf", 16)
         FONT_20 = pygame.font.Font("assets/font/Togalite-Medium.otf", 20)
         FONT_24 = pygame.font.Font("assets/font/Togalite-Medium.otf", 24)
-        # FONT_24 = pygame.font.Font("assets/font/MyFont-Regular.otf", 24)
+        FONT_BOLD_58 = pygame.font.Font("assets/font/Togalite-bold.otf", 58)
+
         FONT_SIZE_12 = FONT_12.size('X')
         FONT_SIZE_16 = FONT_16.size('X')
         FONT_SIZE_20 = FONT_20.size('X')

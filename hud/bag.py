@@ -40,6 +40,7 @@ class Bag(Menu):
         self.condition = condition
         self.target = target
         self.sort = sort
+        self.cat_image = utils.color_image(utils.get_part_i(utils.MENU_IMAGE, (64, 0, 128, 64)), (0, 0, 0, 255))
 
         if len(white_list_category) > 0:
             black_list_category = item.CATEGORY.copy()
@@ -89,6 +90,10 @@ class Bag(Menu):
         display.fill("#ecdcdf")
         pygame.draw.polygon(display, "#e7a300", Bag.poly_1)
         pygame.draw.polygon(display, "#f2b71f", Bag.poly_2)
+
+        display.blit(self.cat_image, (10, 10))
+        display.blit(game.FONT_BOLD_58.render(game.get_game_instance().get_message("bag").upper(), True, (0, 0, 0)),
+                     (74, 10))
 
         self.draw_team(display)
         self.draw_items(display)
@@ -164,7 +169,7 @@ class Bag(Menu):
 
     def draw_team(self, display: pygame.Surface):
         _x = 106
-        _y = 60
+        _y = 70
         _time = utils.current_milli_time() - self.open_time
         part_time = _time % 2000
         poke_y = 0

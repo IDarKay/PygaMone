@@ -91,9 +91,6 @@ class MainMenu(Menu):
 
         utils.draw_button_info(display, **self.keys)
 
-        # info = game.FONT_16.render("todo: information here and back to line", True, (255, 255, 255))
-        # display.blit(info, (int(SURFACE_SIZE[0] * 0.25), int(SURFACE_SIZE[1] * 0.85)))
-
         for i in range(len(centre_circle)):
             c = centre_circle[i]
             if self.selected == i:
@@ -179,7 +176,6 @@ class SaveMenu(Menu):
         self.time_play = game.FONT_16.render(
             utils.time_to_string(game.get_game_instance().get_save_value("time_played", 0)),
             True, (0, 0, 0))
-        # todo: pokedex n
         self.pokedex = game.FONT_16.render(
             str(sum(map(game.POKEDEX_CATCH.__eq__, game.get_game_instance().get_pokedex_catch_status_values()))), True,
             (0, 0, 0))
@@ -187,6 +183,7 @@ class SaveMenu(Menu):
             str(datetime.fromtimestamp(game.get_game_instance().get_save_value("last_save", 0))
                 .strftime('%d/%m/%y  %H:%M')), True, (255, 255, 255))
         self.open_time = time.time()
+        self.cat_image = utils.color_image(utils.get_part_i(utils.MENU_IMAGE, (128, 0, 195, 64)), (0, 0, 0, 255))
 
     def render(self, display):
         if time.time() - self.open_time < 0.2:
@@ -195,6 +192,10 @@ class SaveMenu(Menu):
             display.fill((55, 193, 193))
             pygame.draw.polygon(display, (225, 223, 234), s_poly_1)
             pygame.draw.polygon(display, (51, 171, 169), s_poly_2)
+
+            display.blit(self.cat_image, (10, 10))
+            display.blit(game.FONT_BOLD_58.render(
+                game.get_game_instance().get_message("save").upper(), True, (0, 0, 0)), (74, 10))
 
             _x = SURFACE_SIZE[0] * 0.55
             _y = SURFACE_SIZE[1] * 0.38
@@ -298,14 +299,19 @@ class TeamMenu(Menu):
         self.box_object = [(game.FONT_20.render(game.get_game_instance().get_message(t), True, (0, 0, 0)),
                             game.FONT_20.render(game.get_game_instance().get_message(t), True, (255, 255, 255)))
                            for t in ["open_bag", "put_in_bag", "back"]]
+        self.cat_image = utils.color_image(utils.get_part_i(utils.MENU_IMAGE, (0, 0, 64, 64)), (0, 0, 0, 255))
 
     def render(self, display):
         display.fill((255, 255, 255))
         pygame.draw.polygon(display, (241, 65, 78), TeamMenu.t_poly_1)
         pygame.draw.polygon(display, (206, 51, 65), TeamMenu.t_poly_2)
         pygame.draw.rect(display, (0, 0, 0), (0, 570, 1060, 30))
+        display.blit(self.cat_image, (10, 10))
+        display.blit(game.FONT_BOLD_58.render(
+            game.get_game_instance().get_message("team").upper(), True, (0, 0, 0)), (74, 10))
+
         g_x = SURFACE_SIZE[0] * 0.1
-        g_y = SURFACE_SIZE[1] * 0.1
+        g_y = 70
 
         _time = utils.current_milli_time() - self.open_time
         part_time = _time % 2000
@@ -326,7 +332,7 @@ class TeamMenu(Menu):
                 text_color = (0, 0, 0) if self.selected != i else (255, 255, 255)
                 utils.draw_pokemon(display, self.player.team[i], (int(g_x), int(g_y)),
                                    poke_y, color=color, text_color=text_color)
-            g_y += SURFACE_SIZE[1] * 0.15
+            g_y += 80
 
         # draw move
         if self.move != -1:
