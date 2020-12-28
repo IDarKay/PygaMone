@@ -33,6 +33,9 @@ class Status(object):
     def get_animation(self, si: 'StatusInstance', pos: tuple[int, int]) -> Optional['battle.Animation']:
         return None
 
+    def get_catch_edit(self):
+        return 1
+
     @abstractmethod
     def apply(self, si: 'StatusInstance', turn: int) -> bool:
         '''
@@ -86,6 +89,9 @@ class BurnStatus(Status):
 
     def apply(self, si: 'StatusInstance', turn: int) -> NoReturn:
         return pokemon_type.FIRE not in si.poke.poke.types
+
+    def get_catch_edit(self):
+        return 1.5
 
     def get_animation(self, si: 'StatusInstance', pos: tuple[int, int]) -> Optional['battle.Animation']:
         return animation.BurnAnimation(pos)

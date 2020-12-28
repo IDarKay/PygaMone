@@ -33,9 +33,12 @@ class Bag(Menu):
                  sort: int = SORT_NONE,
                  target: Optional['player_pokemon.PlayerPokemon'] = None,
                  condition: int = CONDITION_NORMAL,
-                 use_callback: Optional[Callable[['item.Item', 'player_pokemon.PlayerPokemon'], NoReturn]] = None
+                 use_callback: Optional[Callable[
+                     ['item.Item', Optional['player_pokemon.PlayerPokemon']], NoReturn]] = None,
+                 close_menu_on_escape: bool = False
                  ):
         super().__init__(player)
+        self.close_menu_on_escape = close_menu_on_escape
         self.use_callback = use_callback
         self.condition = condition
         self.target = target
@@ -45,7 +48,8 @@ class Bag(Menu):
         if len(white_list_category) > 0:
             black_list_category = item.CATEGORY.copy()
             for e in white_list_category:
-                black_list_category.remove(e)
+                if e in black_list_category:
+                    black_list_category.remove(e)
         else:
             black_list_category = ()
         self.black_list_category = black_list_category
@@ -251,6 +255,12 @@ class Bag(Menu):
                 else:
                     self.poke_select = 0
             elif (self.action_selected == 0 and not g and u) or self.action_selected == 1 and u:
+                if not it[0].need_use_target():
+                    if self.use_callback is None:
+                        raise ValueError("Accept using of an item but with no target and no callback")
+                    game.game_instance.inv.remove_items(it[0])
+                    self.use_callback(it[0], None)
+                    return
                 if self.target is not None:
                     if not it[0].can_use(self.target):
                         sound_manager.start_in_first_empty_taunt(sounds.BLOCK)
@@ -277,7 +287,10 @@ class Bag(Menu):
         elif self.action_selected != -1:
             self.action_selected = -1
         else:
-            self.player.open_menu(hud_menu.MainMenu(self.player))
+            if not self.close_menu_on_escape:
+                self.player.open_menu(hud_menu.MainMenu(self.player))
+            else:
+                self.player.close_menu()
 
     def on_key_y(self, value: float, press: bool) -> NoReturn:
         if press:

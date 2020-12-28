@@ -47,6 +47,17 @@
   "battle.evolution_ask": "Oh ! What is happening? {0} seems to want to evolve ! [l] Do you want it ?",
   "battle.evolution": "{0} evolved to {1}!",
 
+  "battle.catch.fail_0": "Oh no! The Pokémon broke free!",
+  "battle.catch.fail_1": "Aww! It appeared to be caught!",
+  "battle.catch.fail_2": "Aargh! Almost had it!",
+  "battle.catch.fail_3": "Shoot! It was so close, too!",
+  "battle.catch.success": "All right! {0} was caught!",
+  "battle.catch.success.ask.send_to_pc": "Send him to a PC box",
+  "battle.catch.success.ask.include_to_team": "Include to team",
+  "battle.catch.success.ask": "What do you want to do of {0}",
+  "battle.catch.success.ask.send_to_pc.message": "{0} Send to PC",
+  "battle.catch.success.ask.include_to_team.message": "{0} Include into Team",
+
   "status.burn.ally.apply": "Ally {0} was burned!",
   "status.burn.ally.damage": "Ally {0} was hurt by it's burn!",
   "status.burn.ally.end": "Ally {0} wasn't burn anymore",

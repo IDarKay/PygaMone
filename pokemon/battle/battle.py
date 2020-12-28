@@ -1,5 +1,8 @@
-from typing import List, Tuple, NoReturn, Callable, Optional, Union
+from typing import List, Tuple, NoReturn, Callable, Optional, Union, Any
 
+from pygame import Surface
+
+from hud import bag
 from pokemon.battle import evolution_animaiton
 from pokemon.battle.animation import Animation
 import pokemon.player_pokemon as player_pokemon
@@ -11,6 +14,7 @@ import item
 import pokemon.battle.background as background
 import pokemon.abilitys as ability
 import hud.hud as hud
+import hud.menu as menu__
 import sounds
 import sound_manager
 import random
@@ -839,6 +843,200 @@ class LaunchPokemonAnimation(Animation):
         return 2
 
 
+class TryCatchAnimation(Animation):
+
+    def __init__(self, bat: 'Battle', poke_ball: 'item.pokeball.Pokeball'):
+        self.poke_ball = poke_ball
+        self.bat = bat
+        self.target_poke = bat.get_team(True)[0]
+        self.launcher = bat.get_poke_pose(False, 0, True)
+        self.target = bat.get_poke_pose(True, 0, True)
+        self.nb_shake = self.poke_ball.try_catch(self.target_poke)
+        self.init = 0
+        self.start_time = [0] * 4
+
+    def tick(self, display: Surface) -> bool:
+        if not (self.init & 0b1):
+            self.init |= 0b1
+            self.start_time[0] = utils.current_milli_time()
+            sound_manager.start_in_first_empty_taunt(sounds.BALL_THROW)
+        ps_t = utils.current_milli_time() - self.start_time[0]
+        x2, y2 = self.target[0], self.target[1] - 30
+        if ps_t <= 1000:
+            x1, y1 = self.launcher[0] + 40, self.launcher[1] - 50
+            a = (y2 - y1) / (x2 - x1)
+            b = y1 - a * x1
+            max_delta_x = x2 - x1
+
+            if ps_t % 1200 < 1000:
+                x = min(((ps_t % 1200) / 1000), 1) * max_delta_x + x1
+                y = (a * x + b) + (0.002 * (x - x1) * (x - x2))
+                display.blit(self.poke_ball.image, (x - 11, y - 11))
+        else:
+            if ps_t < 1600:
+                self.draw_absorb(display)
+                display.blit(self.poke_ball.image, (x2 - 11, y2 - 11))
+            else:
+                current_shake = (ps_t - 1600) // 1000
+                if current_shake >= self.nb_shake or current_shake >= 3:
+                    if self.nb_shake == 4:
+                        v = self.draw_catch(display)
+                        return v
+                    else:
+                        return self.draw_break(display)
+                else:
+                    self.draw_check(display, current_shake, (ps_t - 1600) % 1000)
+        return False
+
+    def draw_catch(self, display: Surface) -> bool:
+        if not (self.init & 0b1000):
+            self.init |= 0b1000
+            self.start_time[3] = utils.current_milli_time()
+            game.game_instance.player.open_dialogue(hud.Dialog('battle.catch.success', need_morph_text=True,
+                                                               speed_skip=False, speed=1, style=2, none_skip=True,
+                                                               text_var=[self.target_poke.get_name(True)]))
+            sound_manager.start_in_first_empty_taunt(sounds.CATCH)
+        ps_t = utils.current_milli_time() - self.start_time[3]
+        x2, y2 = self.target[0], self.target[1] - 30
+        display.blit(self.poke_ball.image, (x2 - 11, y2 - 11))
+        if ps_t > 2000:
+            self.bat.is_catch = True
+            self.target_poke.poke_ball = self.poke_ball
+            game.game_instance.player.close_dialogue()
+            return True
+        return False
+
+    def draw_break(self, display: Surface) -> bool:
+        if not (self.init & 0b100):
+            self.init |= 0b100
+            self.start_time[2] = utils.current_milli_time()
+            game.game_instance.player.open_dialogue(hud.Dialog(f'battle.catch.fail_{self.nb_shake}',
+                                                               need_morph_text=True, speed_skip=False,
+                                                               speed=1, style=2, none_skip=True))
+            sound_manager.start_in_first_empty_taunt(sounds.BALL_EXIT)
+        ps_t = utils.current_milli_time() - self.start_time[2]
+        if ps_t < 600:
+            self.target_poke.ram_data["battle_render"] = False
+            resize = ps_t / 600
+            im = utils.color_image(self.target_poke.get_front_image(2).copy(), (19, 143, 209, 200))
+            im = pygame.transform.scale(im, (int(im.get_size()[0] * resize), int(im.get_size()[1] * resize)))
+            p_c = self.bat.get_poke_pose(True, 0, size_edit=(resize, resize))
+            display.blit(im, (p_c[0], p_c[1]))
+        if ps_t > 600:
+            self.target_poke.ram_data["battle_render"] = True
+            return True
+        return False
+
+    def draw_check(self, display: Surface, check_n: int, ps_t):
+        if not (self.init & (2 ** (4 + check_n))):
+            self.init |= (2 ** (4 + check_n))
+            game.game_instance.player.open_dialogue(hud.Dialog([f'{check_n + 1}...'], speed_skip=False, speed=1,
+                                                                   style=2, none_skip=True))
+            sound_manager.start_in_first_empty_taunt(sounds.BALL_SHAKE)
+        x2, y2 = self.target[0], self.target[1] - 30
+        rotate = 0
+        if ps_t <= 150 or ps_t > 600:
+            rotate = 0
+        elif ps_t <= 300 or 450 < ps_t <= 600:
+            rotate = 22.5
+        elif ps_t <= 450:
+            rotate = 45
+        im = self.poke_ball.image
+        if rotate != 0:
+            if check_n % 2:
+                rotate = -rotate
+            im = pygame.transform.rotate(im, rotate)
+        display.blit(im, (x2 - 11, y2 - 11))
+
+    def draw_absorb(self, display: Surface):
+        if not (self.init & 0b10):
+            self.init |= 0b10
+            self.start_time[1] = utils.current_milli_time()
+        ps_t = utils.current_milli_time() - self.start_time[1]
+        if ps_t < 600:
+            self.target_poke.ram_data["battle_render"] = False
+            resize = 1 - ps_t / 600
+            im = utils.color_image(self.target_poke.get_front_image(2).copy(), (19, 143, 209, 200))
+            im = pygame.transform.scale(im, (int(im.get_size()[0] * resize), int(im.get_size()[1] * resize)))
+            p_c = self.bat.get_poke_pose(True, 0, size_edit=(resize, resize))
+            display.blit(im, (p_c[0], p_c[1]))
+
+    def is_priority(self) -> int:
+        return 10
+
+
+class CatchSuccess(Animation):
+
+    def __init__(self, poke: 'player_pokemon.PlayerPokemon'):
+        self.poke = poke
+        self.init = False
+        self.start = 0
+        self.bg = pygame.image.load('assets/textures/battle/bg/evolution.png')
+        self.question_answer = None
+        self.need_end = False
+        self.player = game.game_instance.player
+        game.game_instance.set_pokedex_catch(poke.id_)
+
+    def tick(self, display: Surface) -> bool:
+        if not self.init:
+            self.init = True
+            self.ask()
+        if self.need_end:
+            return True
+
+        display.blit(self.bg, (0, 0))
+        display.blit(im := self.poke.get_front_image(4), (530 - im.get_size()[0] // 2, 300 - im.get_size()[1] // 2))
+
+        if self.question_answer is not None:
+            # no
+            if self.question_answer == 0:
+                self.question_answer = None
+                self.player.pc.add_first_case_empty(self.poke)
+                self.player.open_dialogue(
+                    hud.Dialog('battle.catch.success.ask.send_to_pc.message', text_var=[self.poke.get_name(True)],
+                               callback=self.end_callback, speed=1, need_morph_text=True, style=2)
+                )
+                return False
+            elif self.question_answer == 1:
+                self.question_answer = None
+                print(self.player.get_non_null_team_number())
+                if self.player.get_non_null_team_number() < 6:
+                    self.player.team[5] = self.poke
+                    self.player.normalize_team()
+                    self.player.open_dialogue(
+                        hud.Dialog('battle.catch.success.ask.include_to_team.message', need_morph_text=True,
+                                   text_var=[self.poke.get_name(True)], callback=self.end_callback, style=2, speed=1)
+                    )
+                else:
+                    self.player.open_menu(menu__.TeamMenu(self.player, self.ask, self.switch_pokemon))
+        return False
+
+    def switch_pokemon(self, i):
+        self.player.close_menu()
+        self.player.move_pokemon_to_pc(i)
+        self.player.team[5] = self.poke
+        self.player.normalize_team()
+        self.player.open_dialogue(
+            hud.Dialog('battle.catch.success.ask.include_to_team.message', text_var=[self.poke.get_name(True)],
+                       callback=self.end_callback, need_morph_text=True, speed=1, style=2)
+        )
+
+    def ask(self):
+        self.player.close_menu()
+        self.question_answer = None
+        ask = game.game_instance.get_message("battle.catch.success.ask.send_to_pc"), \
+              game.game_instance.get_message("battle.catch.success.ask.include_to_team")
+        game.game_instance.player.open_dialogue(
+            hud.QuestionDialog('battle.catch.success.ask', self.callback, ask, speed=1, style=2, need_morph_text=True,
+                              text_var=[self.poke.get_name(True)]))
+
+    def end_callback(self):
+        self.player.close_dialogue()
+        self.need_end = True
+
+    def callback(self, value, index):
+        self.question_answer = index
+
 class Battle(object):
     # END_BASE_POINT: Tuple[int, int] = (SURFACE_SIZE[0] - 390, 0)
 
@@ -889,6 +1087,7 @@ class Battle(object):
         self.need_run_away = False
         self.evolution_table = [None] * 6
         self.multi_turn_ab: dict[str, tuple[ability.AbstractAbility, int, bool, int]] = {}
+        self.is_catch: Any = False
 
     def appear_pokemon(self, enemy: bool, case: int):
         if enemy:
@@ -946,6 +1145,11 @@ class Battle(object):
         sounds.HIT_NORMAL_DAMAGE.un_load()
         sounds.HIT_NOT_VERY_EFFECTIVE.un_load()
         sounds.HIT_SUPER_EFFECTIVE.un_load()
+        sounds.BALL_SHAKE.un_load()
+        sounds.BALL_EXIT.un_load()
+        sounds.BALL_THROW.un_load()
+        sounds.CATCH.un_load()
+        sounds.EVOLUTION.un_load()
         game.POKE_CACHE.clear()
         sounds.unload_poke_sound()
         for m in self.__ally_team.members + self.__enemy_team.members:
@@ -981,7 +1185,8 @@ class Battle(object):
         if simple:
             return c[0] + (self.base_size[0]) // 2, int(c[1] + (self.base_size[1] * 0.75)), parse_enemy_case(enemy, i)
         return c[0] + (self.base_size[0] // 2) - ((size[0] * size_edit[0]) // 2), int(
-            c[1] + (self.base_size[1] * 0.75) - ((poke.front_image_y if enemy else poke.back_image_y) * 2 * size_edit[1])), \
+            c[1] + (self.base_size[1] * 0.75) - (
+                        (poke.front_image_y if enemy else poke.back_image_y) * 2 * size_edit[1])), \
                parse_enemy_case(enemy, i)
 
     GRADIENT = [(0, 229, 29), (25, 205, 27), (50, 181, 26), (75, 157, 25), (100, 133, 24), (125, 109, 23),
@@ -1189,6 +1394,11 @@ class Battle(object):
 
         if self.current_play_ability:
             if self.current_play_ability.tick(display):
+                self.current_play_ability = None
+                if self.is_catch:
+                    self.queue_play_ability.clear()
+                    self.turn_count += 1
+                    return False
                 while len(self.queue_play_ability) > 0 and self.queue_play_ability[0].launcher_p.heal == 0:
                     del self.queue_play_ability[0]
                 if len(self.queue_play_ability) > 0:
@@ -1218,6 +1428,13 @@ class Battle(object):
                     self.next_to_show()
             return False
 
+        if self.is_catch:
+            if isinstance(self.is_catch, bool):
+                self.catch()
+                return False
+            else:
+                return self.is_catch
+
         if len(self.queue_play_ability) == 0 and self.current_play_ability is None:
             end_d = self.check_end()
             if end_d[0]:
@@ -1246,7 +1463,8 @@ class Battle(object):
                 if (new_id := self.evolution_table[i]) is not None:
                     poke = game.game_instance.player.team[i]
                     if poke and poke.heal > 0:
-                        Battle.TO_SHOW.append(self.start_new_animation(evolution_animaiton.EvolutionAnimation(self, poke, new_id)))
+                        Battle.TO_SHOW.append(
+                            self.start_new_animation(evolution_animaiton.EvolutionAnimation(self, poke, new_id)))
             if self.wild:
                 def over_load():
                     sound_manager.MUSIC_CHANNEL.stop()
@@ -1290,6 +1508,25 @@ class Battle(object):
 
             return over_load
 
+    def end_by_catch(self):
+        def over_load():
+            sound_manager.MUSIC_CHANNEL.stop()
+        self.is_catch = over_load
+
+    def catch(self):
+        all_xps = [0] * 6
+        enemy = self.__enemy[0], 0
+        for i in range(6):
+            p = game.game_instance.player.team[i]
+            if p and p.heal > 0:
+                all_xps[i] += self.get_xp_amount(i, *enemy)
+        if max(all_xps) > 0:
+            self.TO_SHOW.append(lambda: self.start_new_animation(xp_battle_animation.XpAnimation(self, all_xps)))
+
+        self.TO_SHOW.append(lambda: self.start_new_animation(CatchSuccess(self.__enemy[0])))
+        self.TO_SHOW.append(self.end_by_catch)
+        self.next_to_show()
+
     def check_death(self) -> NoReturn:
         start = len(self.TO_SHOW)
         ask_switch = 0
@@ -1322,7 +1559,6 @@ class Battle(object):
         if len(enemy_dead) > 0:
             all_xps = [0] * 6
             for enemy in enemy_dead:
-
                 for i in range(6):
                     p = game.game_instance.player.team[i]
                     if p and p.heal > 0:
@@ -1380,6 +1616,15 @@ class Battle(object):
                 self.status = 1
         elif self.selected_y[0] == 1:
             game.game_instance.player.open_menu(ChangePokemonMenu(game.game_instance.player, self.poke_choice_callback))
+        elif self.selected_y[0] == 2:
+            if self.wild:
+                white_list = (item.item.HEAL, item.item.BERRIES, item.item.POKE_BALLS, item.item.BATTLE_ITEMS)
+            else:
+                white_list = (item.item.HEAL, item.item.BERRIES, item.item.BATTLE_ITEMS)
+            game.game_instance.player.open_menu(bag.Bag(game.game_instance.player,
+                                                        white_list_category=white_list,
+                                                        condition=bag.CONDITION_BATTLE,
+                                                        use_callback=self.bag_callback, close_menu_on_escape=True))
         elif self.selected_y[0] == 3:
             p = self.__enemy[0]
             p2 = self.__ally[self.selected_not_bot]
@@ -1398,6 +1643,19 @@ class Battle(object):
     def run_away(self, success: bool):
         an = RunAway(self, success)
         self.do_ability_turn(an)
+
+    def bag_callback(self, item_: 'item.item.Item', poke: 'player_pokemon.PlayerPokemon') -> NoReturn:
+        game.game_instance.player.close_menu()
+        if isinstance(item_, item.pokeball.Pokeball):
+            if not self.wild:
+                return
+            an = TryCatchAnimation(self, item_)
+            self.do_ability_turn(an)
+
+        elif item_.category == item.item.HEAL or item.item.BERRIES:
+            pass
+        elif item_.category == item.item.BATTLE_ITEMS:
+            pass
 
     def poke_choice_callback(self, action: bool, value: int) -> NoReturn:
         game.game_instance.player.close_menu()
@@ -1547,7 +1805,7 @@ class Battle(object):
             self.menu_action[1]()
 
     def on_key_action(self) -> NoReturn:
-        if (not self.current_animation or not self.current_animation.on_key_action())\
+        if (not self.current_animation or not self.current_animation.on_key_action()) \
                 and self.menu_action[0] and not self.current_play_ability:
             self.menu_action[0]()
 

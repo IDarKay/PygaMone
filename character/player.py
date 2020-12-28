@@ -19,7 +19,10 @@ class PC(object):
 
     def __init__(self, data: List[Dict[str, Any]]):
 
-        self.__box: List[List[Optional["player_pokemon.PCPlayerPokemon"]]] = [[None] * MAX_POKE_IN_BOX] * NB_BOX
+        self.__box: List[List[Optional["player_pokemon.PCPlayerPokemon"]]] = []
+
+        for i in range(NB_BOX):
+            self.__box.append([None] * MAX_POKE_IN_BOX)
 
         for p in data:
             po = player_pokemon.PCPlayerPokemon.from_json(p)
@@ -154,7 +157,8 @@ class Player(character.Character):
         self.is_action_press = False
         self.last_close_dialogue = utils.current_milli_time()
         self.current_menu: Optional['menu_calass.Menu'] = None
-        self.team = [player_pokemon.PlayerPokemon.from_json(p) for p in game_i.get_save_value("team", [])]
+        self.team: list['player_pokemon.PlayerPokemon'] = [player_pokemon.PlayerPokemon.from_json(p) for p
+                                                           in game_i.get_save_value("team", [])]
         self.normalize_team()
         self.current_battle: Optional['battle.Battle'] = None
         self.speed_status = [False, False]
@@ -173,18 +177,14 @@ class Player(character.Character):
                 poke.combat_status.it.clear()
 
     def get_non_null_team_number(self) -> int:
-        if len(self.team) >= 6:
-            return 6
-        i = 0
-        while self.team[i]:
-            i += 1
-        return i
+        return 6 - self.team.count(None)
 
     def normalize_team(self) -> NoReturn:
-        if len(self.team) < 6:
-            for i in range(len(self.team), 6):
-                self.team.append(None)
-        elif len(self.team) > 6:
+        while None in self.team:
+            self.team.remove(None)
+        while len(self.team) < 6:
+            self.team.append(None)
+        if len(self.team) > 6:
             self.team = self.team[0:6]
             print("WARN to much pokemon in team deleting !")
 

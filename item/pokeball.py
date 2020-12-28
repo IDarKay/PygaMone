@@ -19,8 +19,8 @@ class Pokeball(item.GiveableItem):
 
         :return: 0 = no poke move 1 - 3 poke_nb move 4 = catch
         '''
-        # todo: do status condition
-        bonus_s = 1
+        # bonus_s = 1
+        bonus_s = max(p_poke.combat_status.it, key=lambda st: st.status.get_catch_edit(), default=1)
 
         a = (((3 * p_poke.get_max_heal() - 2 * p_poke.heal) * p_poke.poke.catch_rate * self.__bonus) / (3 * p_poke.get_max_heal())) * bonus_s
         if a < 0:
@@ -33,6 +33,9 @@ class Pokeball(item.GiveableItem):
         while i < 4 or random.randint(0, 65535) < b:
             i += 1
         return i
+
+    def need_use_target(self):
+        return False
 
     def is_usable(self, condition: int):
         return condition == bag.CONDITION_BATTLE

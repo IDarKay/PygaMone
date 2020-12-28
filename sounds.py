@@ -36,8 +36,12 @@ PLINK = Sound('assets/sound/plink.mp3')
 # todo: get file
 PLINK_2 = Sound('assets/sound/plink.mp3')
 BACK = Sound('assets/sound/plink.mp3')
-LVL_UP = Sound('assets/sound/plink.mp3')
+LVL_UP = Sound('assets/sound/level_up.mp3')
 EVOLUTION = Sound('assets/sound/evolution.mp3')
+BALL_EXIT = Sound('assets/sound/battle/BallExit.wav')
+BALL_SHAKE = Sound('assets/sound/battle/BallShake.wav')
+BALL_THROW = Sound('assets/sound/battle/BallThrow.wav')
+CATCH = Sound('assets/sound/battle/catch.mp3')
 
 BLOCK = Sound('assets/sound/block.mp3')
 SAVE = Sound('assets/sound/save.mp3')

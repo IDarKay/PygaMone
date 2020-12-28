@@ -5,10 +5,10 @@ import game
 NPC_IMAGE = pygame.image.load("assets/textures/character/npc.png")
 
 
-class Character(pygame.sprite.Sprite):
+class Character:
 
     def __init__(self, pos: Tuple[int, int], size: Tuple[int, int]):
-        super().__init__()
+        # super().__init__()
         self.size = size
         self.rect = pygame.Rect(pos[0] * game.CASE_SIZE, pos[1] * game.CASE_SIZE, size[0], size[1])
 

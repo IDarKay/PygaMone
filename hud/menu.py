@@ -1,4 +1,4 @@
-from typing import NoReturn
+from typing import NoReturn, Optional, Callable
 from hud.menu_calass import Menu
 from datetime import datetime
 import pygame
@@ -279,9 +279,14 @@ class TeamMenu(Menu):
         (int(x * 0.30), y),
     )
 
-    def __init__(self, player):
+    def __init__(self, player,
+                 escape_call_back: Optional[Callable[[], NoReturn]] = None,
+                 choice_call_back: Optional[Callable[[int], NoReturn]] = None
+                 ):
         super().__init__(player)
 
+        self.escape_call_back = escape_call_back
+        self.choice_call_back = choice_call_back
         self.selected = 0
         self.action_type = 0
         self.action_selected = -1
@@ -368,9 +373,14 @@ class TeamMenu(Menu):
                 return
             self.action_selected = -1
         else:
-            self.player.open_menu(MainMenu(self.player))
+            if self.escape_call_back is None:
+                self.player.open_menu(MainMenu(self.player))
+            else:
+                self.escape_call_back()
 
     def on_key_bike(self) -> NoReturn:
+        if self.choice_call_back is not None:
+            return
         if self.move != -1:
             if self.selected == self.move:
                 self.move = -1
@@ -405,7 +415,10 @@ class TeamMenu(Menu):
                 self.player.open_menu(TeamMenu(self.player))
         elif self.action_selected == -1:
             sound_manager.start_in_first_empty_taunt(sounds.PLINK)
-            self.action_selected = 0
+            if self.choice_call_back is None:
+                self.action_selected = 0
+            else:
+                self.choice_call_back(self.selected)
         else:
             if self.action_type == 0:
                 if self.action_selected != 4:

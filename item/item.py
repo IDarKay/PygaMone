@@ -37,6 +37,9 @@ class Item(object):
     def can_use(self, poke: 'player_pokemon.PlayerPokemon') -> bool:
         return False
 
+    def need_use_target(self):
+        return True
+
     def is_giveable(self, condition: int):
         return False
 

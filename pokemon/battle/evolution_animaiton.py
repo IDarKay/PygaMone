@@ -81,7 +81,6 @@ class EvolutionAnimation(Animation):
         self.need_end = True
         return False
 
-
     def callback(self, value, index):
         self._start = utils.current_milli_time()
         self.question_answer = index

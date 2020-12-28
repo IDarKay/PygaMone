@@ -60,33 +60,32 @@ NOT_CLASSIC = [C_S_CRITICAL, C_S_ACCURACY]
 
 class PlayerPokemon(object):
 
-    def __init__(self, _id: int, xp: int, ivs: Dict[str, int], heal: int,
-                 ability: List[PokemonAbility], poke_ball: 'item.Item', shiny: bool, female: bool, status: list[str],
-                 uuid_: Optional[uuid.UUID], it: Optional[str]):
-        self.id_ = _id
-        self.xp = xp
+    def __init__(self,  **data):
+        self.id_ = data["_id"]
+        self.xp = data.get("xp", 1)
         self.poke = pokemon.get_pokemon(self.id_)
         self.lvl = self.get_lvl()
-        self.ivs = ivs
-        self.heal = heal
-        self.shiny = shiny
-        self.female = female
-        self.uuid = uuid_ if uuid_ else uuid.uuid4()
+        self.ivs = ivs_from_int(data["ivs"]) if "ivs" in data else random_ivs()
+        self.heal = data.get("heal", -1)
+        self.shiny = data.get("shiny", False)
+        self.female = data.get("female")
+        self.uuid = data.get("uuid", uuid.uuid4())
+        it = data.get("item", None)
         self.item: Optional['item.item.Item'] = item.items.ITEMS.get(it, None) if it is not None and it != "none" else None
 
-        self.front_image = f'assets/textures/pokemon/{("shiny/" if shiny else "")}{("female/" if female and self.poke.have_female_image else "")}{(self.id_)}.png'
-        self.back_image = f'assets/textures/pokemon/back/{("shiny/" if shiny else "")}{("female/" if female and self.poke.have_female_image else "")}{(self.id_)}.png'
+        self.front_image = f'assets/textures/pokemon/{("shiny/" if self.shiny else "")}{("female/" if self.female and self.poke.have_female_image else "")}{(self.id_)}.png'
+        self.back_image = f'assets/textures/pokemon/back/{("shiny/" if self.shiny else "")}{("female/" if self.female and self.poke.have_female_image else "")}{(self.id_)}.png'
         self.front_image_y = self.get_first_color(self.front_image)
         self.back_image_y = self.get_first_color(self.back_image)
 
         self.stats = {}
         #combat_stats
-        self.combat_status: 'pokemon_status.PokeStatus' = pokemon_status.PokeStatus(self, status)
+        self.combat_status: 'pokemon_status.PokeStatus' = pokemon_status.PokeStatus(self, data.get("status", []))
         self.pokemon_stats_modifier: 'psm.PokeStatsModifier' = psm.PokeStatsModifier(self)
         self.calculate_stats()
-        self.ability: List[PokemonAbility] = ability
+        self.ability: List[PokemonAbility] = [PokemonAbility.deserialisation(a) for a in data["ability"]]
 
-        self.poke_ball: 'poke_item.Pokeball' = poke_ball
+        self.poke_ball: 'item.pokeball.Pokeball' = item.items.ITEMS[data.get("pokeball", "poke_ball")]
         self.use = False
         self.ram_data = {}
 
@@ -246,7 +245,6 @@ class PlayerPokemon(object):
             poke_ball = item.items.POKE_BALL
         poke = pokemon.get_pokemon(_id)
         xp = poke.get_xp(lvl)
-        ivs = random_ivs()
         # shiny = random.randint(0, 9191) == 0
         shiny = random.random() <= 0.0001220703125
         female = random.random() <= poke.female_rate
@@ -254,33 +252,24 @@ class PlayerPokemon(object):
         _ability = []
         for i in range(min(len(ability), 4)):
             _ability.append(PokemonAbility.new_ability(ability[i]))
-        return PlayerPokemon(_id, xp, ivs, -1, _ability, poke_ball, shiny, female, [], None, None)
+        _ability = [a.serialisation() for a in _ability]
+        return PlayerPokemon(_id=_id, xp=xp, ability=_ability, pokeball=poke_ball.identifier, shiny=shiny, female=female)
         pass
 
     @staticmethod
     def from_json(data) -> 'PlayerPokemon':
-        return PlayerPokemon(data["_id"], data["xp"],
-                             ivs_from_int(data["ivs"]), data["heal"],
-                             [PokemonAbility.deserialisation(a) for a in data["ability"]],
-                             item.items.ITEMS[data["pokeball"]],
-                             data["shiny"],
-                             data["female"],
-                             data["status"],
-                             uuid.UUID(data["uuid"]) if "uuid" in data else uuid.uuid4(),
-                             data.get("item", None)
-                             )
+        return PlayerPokemon(**data)
 
 
 class PCPlayerPokemon(PlayerPokemon):
 
-    def __init__(self, _id: int, xp: int, ivs: Dict[str, int], heal: int,
-                 ability: List[PokemonAbility], poke_ball: 'item.Item', box: int, case: int):
-        super().__init__(_id, xp, ivs, heal, ability, poke_ball)
-        self.box: int = box
-        self.case: int = case
+    def __init__(self,  **data):
+        super().__init__(**data)
+        self.box: int = data.get("box")
+        self.case: int = data.get("case")
 
     def to_none_pc(self) -> PlayerPokemon:
-        return PlayerPokemon(self.id_, self.xp, self.ivs, self.heal, self.ability, self.poke_ball)
+        return PlayerPokemon(**super().serialisation())
 
     def serialisation(self) -> Dict[str, Any]:
         su = super().serialisation()
@@ -290,15 +279,11 @@ class PCPlayerPokemon(PlayerPokemon):
 
     @staticmethod
     def from_none_pc(poke: PlayerPokemon, box: int, case: int):
-        return PCPlayerPokemon(poke.id_, poke.xp, poke.ivs, poke.heal, poke.ability, poke.poke_ball, box, case)
+        return PCPlayerPokemon(box=box, case=case, **poke.serialisation())
 
     @staticmethod
     def from_json(data) -> 'PCPlayerPokemon':
-        return PCPlayerPokemon(data["_id"], data["xp"],
-                             ivs_from_int(data["ivs"]), data["heal"],
-                             [PokemonAbility.deserialisation(a) for a in data["ability"]],
-                             item.items.ITEMS[data["pokeball"]]
-                             )
+        return PCPlayerPokemon(**data)
 
 # IVS =
 # 0000-0000-0000-0000-0000-0000-0000-0000
