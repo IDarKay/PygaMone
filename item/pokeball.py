@@ -3,6 +3,7 @@ import item.item as item
 import random
 import pokemon.player_pokemon as player_pokemon
 import hud.bag as bag
+from math import sqrt
 
 # POKE_BALL_IMAGE: pygame.Surface = pygame.image.load("assets/textures/item/pokeball.png")
 
@@ -27,10 +28,12 @@ class Pokeball(item.GiveableItem):
             a = 1
         elif a > 255:
             a = 255
-        b = 1048560 / (((16711680 / a) ** 0.5) ** 0.5)
-
+        print(a)
+        b = 1048560 / sqrt(sqrt(16711680 / a))
+        print(b)
+        print((b/65535)**4)
         i = 0
-        while i < 4 or random.randint(0, 65535) < b:
+        while i < 4 and random.randint(0, 65535) <= b:
             i += 1
         return i
 

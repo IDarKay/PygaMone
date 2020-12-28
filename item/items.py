@@ -19,8 +19,8 @@ def register(it: T) -> T:
 
 
 POKE_BALL: 'pokeball.Pokeball' = register(pokeball.Pokeball("poke_ball", "poke-ball", 1))
-GREAT_BALL: 'pokeball.Pokeball' = register(pokeball.Pokeball("great_ball", "great-ball", 1))
-ULTRA_BALL: 'pokeball.Pokeball' = register(pokeball.Pokeball("ultra_ball", "ultra-ball", 1))
+GREAT_BALL: 'pokeball.Pokeball' = register(pokeball.Pokeball("great_ball", "great-ball", 1.5))
+ULTRA_BALL: 'pokeball.Pokeball' = register(pokeball.Pokeball("ultra_ball", "ultra-ball", 2))
 MASTER_BALL: 'pokeball.MasterBall' = register(pokeball.MasterBall())
 
 POTION: 'potion.Potion' = register(potion.Potion("potion", "potion", 20))

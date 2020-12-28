@@ -320,7 +320,7 @@ class Game(object):
             self.display.blit(surf4, (0, 60))
 
         self.render_hud(self.display)
-        self.screen.blit(pygame.transform.scale(self.display, main.SCREEN_SIZE), (0, 0))
+        self.screen.blit(pygame.transform.scale(self.display, self.screen.get_size()), (0, 0))
         pygame.display.update()
 
     def render_hud(self, display):
