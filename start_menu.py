@@ -12,7 +12,7 @@ class StartMenu(object):
         self.__display.set_alpha(255)
         self.__open_time = utils.current_milli_time()
         # self.__sound = pygame.mixer.Sound('assets/sound/music/ps_1.mp3')
-        self.__sound = pygame.mixer.Sound('assets/sound/music/start.mp3')
+        self.__sound = pygame.mixer.Sound('assets/sound/music/start_japan.mp3')
         self.__logo = pygame.image.load('assets/textures/hud/logo_full.png')
 
         self.__bg = pygame.transform.scale(pygame.image.load('assets/textures/hud/main_screen.png'), main.SCREEN_SIZE)

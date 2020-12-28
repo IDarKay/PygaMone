@@ -1,6 +1,7 @@
 from abc import abstractmethod
 from pygame import Surface
 
+
 class Animation(object):
 
     @abstractmethod

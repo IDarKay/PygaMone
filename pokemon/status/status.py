@@ -1,4 +1,4 @@
-from typing import TypeVar, Dict, NoReturn
+from typing import TypeVar, Dict, NoReturn, Optional
 import pokemon.status.pokemon_status as pst
 
 STATUS: Dict[str, 'pst.Status'] = {}
@@ -15,10 +15,12 @@ def register(it: T) -> T:
     return it
 
 
-BURN: 'pst.BurnStatus' = register(pst.BurnStatus("burn"))
-FLINCH: 'pst.FlinchingStatus' = register(pst.FlinchingStatus("flinch"))
+BURN: Optional['pst.BurnStatus'] = None
+FLINCH: Optional['pst.FlinchingStatus'] = None
 
 
 def load() -> NoReturn:
-    # BURN: 'pst.BurnStatus'
+    global BURN, FLINCH
+    BURN = register(pst.BurnStatus("burn"))
+    FLINCH = register(pst.FlinchingStatus("flinch"))
     print(STATUS)

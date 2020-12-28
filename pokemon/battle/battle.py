@@ -7,7 +7,7 @@ import pokemon.pokemon
 import utils
 import pygame
 import game
-import item.items as items
+import item
 import pokemon.battle.background as background
 import pokemon.abilitys as ability
 import hud.hud as hud
@@ -866,7 +866,7 @@ class Battle(object):
         self.base_size = BASE_SIZES[max(self.nb_ally, self.nb_enemy) - 1]
         self.wild = wild
         self.__start_time = utils.current_milli_time()
-        self.poke_ball = pygame.transform.scale(items.POKE_BALL.image,
+        self.poke_ball = pygame.transform.scale(item.items.POKE_BALL.image,
                                                 (game.SURFACE_SIZE[1] // 8, game.SURFACE_SIZE[1] // 8))
         self.start_sound: pygame.mixer.Sound = pygame.mixer.Sound('assets/sound/music/pokemon-start-battle.mp3')
         self.animation: StartAnimation = animation()

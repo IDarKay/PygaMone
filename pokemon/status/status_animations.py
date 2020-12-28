@@ -2,10 +2,10 @@ import pygame
 import gif_manger
 import pygame_gif
 import utils
-import pokemon.battle.battle as battle
+import pokemon.battle as battle
 
 
-class BurnAnimation(battle.Animation):
+class BurnAnimation(battle.animation.Animation):
 
     def __init__(self, cord: tuple[int, int]):
         self.cord = cord

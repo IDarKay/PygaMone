@@ -9,7 +9,7 @@ by IDarKay
 
 ---
   [![Status](https://img.shields.io/badge/Status-development-green)]()
-  [![Release](https://img.shields.io/badge/Release-NONE-red)]()
+  [![GitHub Release](https://img.shields.io/github/v/release/IDarKay/PygaMone?include_prereleases&style=plastic)](https://github.com/IDarKay/PygaMone/releases/latest)
 ---
 
 ## 📝 Table of Contents
@@ -26,7 +26,7 @@ I'm totally open to any gameplay suggestion !
     
 ## 🛠️ Installation <a name = "instaltion"></a>
      
-    Sorry can't install for the moment
+    Get last installer in release
 
 ## 🔒 Soft Dependance <a name = "dependance"></a>
 
@@ -35,3 +35,12 @@ I'm totally open to any gameplay suggestion !
   [![Numpy](https://img.shields.io/badge/Numpy-pip_install_numpy==1.19.0-green)](https://numpy.org/)
   
   [![Pillow](https://img.shields.io/badge/Pillow-pip_install_pillow-green)](https://pillow.readthedocs.io/en/stable/)
+
+## 🔨 Build
+
+    First you need pyinstaller (pip install pyinstaller)
+    You need python 3.9.X and all Dependance
+    run in root project dire: pyinstaller ./pokemon.spec
+    normaly you will find dir in ./dict
+
+[![Pygame](https://img.shields.io/badge/Pygame-pyinstaller_pokemon.spec-green)]()

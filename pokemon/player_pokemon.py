@@ -5,9 +5,7 @@ import game
 import pokemon.pokemon as pokemon
 import pokemon.abilitys as p_ability
 import pokemon.abilitys_ as abilitys_
-import item.items as items
-import item.item as item
-import item.pokeball as poke_item
+import item
 import pokemon.status.pokemon_status as pokemon_status
 import pokemon.status.pokemon_stats_modifier as psm
 import random
@@ -74,7 +72,7 @@ class PlayerPokemon(object):
         self.shiny = shiny
         self.female = female
         self.uuid = uuid_ if uuid_ else uuid.uuid4()
-        self.item: Optional[item.Item] = items.ITEMS.get(it, None) if it is not None and it != "none" else None
+        self.item: Optional['item.item.Item'] = item.items.ITEMS.get(it, None) if it is not None and it != "none" else None
 
         self.front_image = f'assets/textures/pokemon/{("shiny/" if shiny else "")}{("female/" if female and self.poke.have_female_image else "")}{(self.id_)}.png'
         self.back_image = f'assets/textures/pokemon/back/{("shiny/" if shiny else "")}{("female/" if female and self.poke.have_female_image else "")}{(self.id_)}.png'
@@ -245,7 +243,7 @@ class PlayerPokemon(object):
     @staticmethod
     def create_pokemon(_id: int, lvl: int, poke_ball: 'item.Item' = None):
         if poke_ball is None:
-            poke_ball = items.POKE_BALL
+            poke_ball = item.items.POKE_BALL
         poke = pokemon.get_pokemon(_id)
         xp = poke.get_xp(lvl)
         ivs = random_ivs()
@@ -264,7 +262,7 @@ class PlayerPokemon(object):
         return PlayerPokemon(data["_id"], data["xp"],
                              ivs_from_int(data["ivs"]), data["heal"],
                              [PokemonAbility.deserialisation(a) for a in data["ability"]],
-                             items.ITEMS[data["pokeball"]],
+                             item.items.ITEMS[data["pokeball"]],
                              data["shiny"],
                              data["female"],
                              data["status"],
@@ -299,7 +297,7 @@ class PCPlayerPokemon(PlayerPokemon):
         return PCPlayerPokemon(data["_id"], data["xp"],
                              ivs_from_int(data["ivs"]), data["heal"],
                              [PokemonAbility.deserialisation(a) for a in data["ability"]],
-                             items.ITEMS[data["pokeball"]]
+                             item.items.ITEMS[data["pokeball"]]
                              )
 
 # IVS =
