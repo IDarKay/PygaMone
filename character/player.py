@@ -11,7 +11,7 @@ import pokemon.player_pokemon as player_pokemon
 import utils
 import option
 
-MAX_POKE_IN_BOX: int = 26
+MAX_POKE_IN_BOX: int = 36
 NB_BOX: int = 10
 
 
@@ -46,6 +46,9 @@ class PC(object):
                     self.add_poke(poke, b, c)
                     return True
         return False
+
+    def switch(self, case_1: tuple[int, int], case_2: tuple[int, int]):
+        self.__box[case_1[0]][case_1[1]], self.__box[case_2[0]][case_2[1]] = self.__box[case_2[0]][case_2[1]], self.__box[case_1[0]][case_1[1]]
 
     def add_poke(self, poke: 'player_pokemon.PlayerPokemon', box: int, case: int) -> bool:
         if self.get_poke(box, case):
@@ -422,3 +425,7 @@ class Player(character.Character):
             pass
         elif not self.current_menu:
             self.open_menu(hud_menu.MainMenu(self))
+
+    def on_key_menu_x(self, value: float, up: bool,):
+        if self.current_menu:
+            self.current_menu.on_key_menu_x(value, not up)

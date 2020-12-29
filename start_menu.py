@@ -1,8 +1,8 @@
 import pygame
-import main
 import utils
 import game
 import sound_manager
+
 
 class StartMenu(object):
 

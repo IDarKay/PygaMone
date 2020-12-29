@@ -4,7 +4,7 @@
   "collision": [0.0625, 0.0625, 0.9375, 0.9375],
   "display": [
     {
-      "image": "build/pokecenter",
+      "image": "tilt/pokecenter",
       "from": [208, 240],
       "to": [224, 256]
     }

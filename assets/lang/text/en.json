@@ -58,6 +58,9 @@
   "battle.catch.success.ask.send_to_pc.message": "{0} Send to PC",
   "battle.catch.success.ask.include_to_team.message": "{0} Include into Team",
 
+  "battle.item.use.self": "You use {0} on {1}",
+  "battle.item.use.other": "{0} use {1} on {2}",
+
   "status.burn.ally.apply": "Ally {0} was burned!",
   "status.burn.ally.damage": "Ally {0} was hurt by it's burn!",
   "status.burn.ally.end": "Ally {0} wasn't burn anymore",
@@ -96,6 +99,7 @@
   "save_game": "Save the game",
   "summary": "Summary",
   "move": "Move",
+  "box_n": "Box {0}",
   "heal": "Heal",
   "type": "Type",
   "size": "Size",
@@ -115,6 +119,8 @@
   "xp_point": "XP point",
   "next_level": "Next level",
   "next": "Next",
+  "box_next": "Next Box",
+  "box_previous": "Previous Box",
   "previous": "Previous",
   "actual_position": "Actual Position",
   "date_hour": "Date and hour",

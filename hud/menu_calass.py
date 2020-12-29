@@ -3,6 +3,7 @@ from abc import abstractmethod
 import character.player as char_play
 import pygame
 
+
 class Menu(object):
 
     def __init__(self, player: 'char_play.Player'):
@@ -13,6 +14,9 @@ class Menu(object):
 
     def on_key_y(self, value: float, press: bool) -> NoReturn:
         pass
+
+    def on_key_menu_x(self, value: float, press: bool) -> NoReturn:
+        self.on_key_x(value, press)
 
     def on_key_action(self) -> NoReturn:
         pass

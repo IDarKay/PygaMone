@@ -50,7 +50,6 @@ class BlockEvent(CollisionEvent):
     def __init__(self, data: Dict[str, Any]):
         super().__init__(BLOCK_EVENT, data, True)
 
-
 class WildEvent(CollisionEvent):
 
     def __init__(self, data: Dict[str, Any]):
@@ -226,6 +225,7 @@ class SquaredCollisionBox(CollisionBox):
     def __str__(self):
         return f'x1 {self.x1}, y1 {self.y1}, x2 {self.x2}, y2 {self.y2}, event {self.event}'
 
+
 class NPCTriggerCollisionBox(SquaredCollisionBox):
 
     def __init__(self, x1: float, y1: float, x2: float, y2: float, npc: 'char_npc.NPC'):
@@ -246,7 +246,6 @@ class NPCTriggerCollisionBox(SquaredCollisionBox):
 class SquaredTriggerCollisionBox(SquaredCollisionBox):
 
     def __init__(self, x1: float, y1: float, x2: float, y2: float, tr: 'triggers.Trigger'):
-
         super().__init__(x1, y1, x2, y2)
         self.tr = tr
 
@@ -263,7 +262,7 @@ class SquaredTriggerCollisionBox(SquaredCollisionBox):
             e = self.tr.side[face]
         elif "*" in self.tr.side:
             e = self.tr.side["*"]
-        if e:
+        if e is not None:
             self.tr.trigger(e)
         return x, y, False
 

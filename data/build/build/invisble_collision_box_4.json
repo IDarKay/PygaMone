@@ -4,7 +4,7 @@
   "collision": [-0.5, 0, 0, 1],
   "display": [
     {
-      "image": "build/empty"
+      "image": "tilt/empty"
     }
   ]
 }

@@ -49,6 +49,9 @@ HIT_NORMAL_DAMAGE = Sound('assets/sound/battle/NormalDamage.mp3')
 HIT_NOT_VERY_EFFECTIVE = Sound('assets/sound/battle/NotVeryEffective.mp3')
 HIT_SUPER_EFFECTIVE = Sound('assets/sound/battle/SuperEffective.mp3')
 
+PC_OPEN = Sound('assets/sound/PCOpen.wav')
+PC_CLOSE = Sound('assets/sound/PCClose.wav')
+
 POKE_SOUND: list[Optional[Sound]] = [None] * (NB_POKEMON + 1)
 
 

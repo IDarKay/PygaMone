@@ -3,9 +3,13 @@ import game_error as err
 import json
 import game
 import hud.hud as hud
+import sound_manager
+import sounds
+from hud import pc_hud
 
 LOAD_LVL = "LOAD_LVL"
 DIALOGUE = "DIALOGUE"
+PC = "PC"
 
 
 class Trigger(object):
@@ -53,6 +57,21 @@ class LoadLvlTrigger(Trigger):
         pass
 
 
+class PCTrigger(Trigger):
+
+    def __init__(self, _id: str, data: Dict[str, Any]):
+        super().__init__(_id, data)
+        print(self.side)
+
+    def dat(self, data) -> Tuple:
+        return ()
+
+    def trigger(self, data) -> NoReturn:
+        if game.game_instance.player.is_action_press and game.game_instance.player.current_menu is None:
+            sound_manager.start_in_first_empty_taunt(sounds.PC_OPEN)
+            game.game_instance.player.open_menu(pc_hud.PCHud(game.game_instance.player))
+
+
 class ShowTextTrigger(Trigger):
 
     def __init__(self, _id: str, data: Dict[str, Any]):
@@ -77,7 +96,8 @@ class ShowTextTrigger(Trigger):
 
 TRIGGERS: Dict[str, Callable[[str, Dict[str, Any]], Trigger]] = {
     LOAD_LVL: LoadLvlTrigger,
-    DIALOGUE: ShowTextTrigger
+    DIALOGUE: ShowTextTrigger,
+    PC: PCTrigger
 }
 
 

@@ -341,7 +341,7 @@ class Game(object):
         if self.player.freeze_time == -1:
             self.collision.clear()
             self.display.fill((0, 0, 0))
-            self.screen.blit(pygame.transform.scale(self.display, main.SCREEN_SIZE), (0, 0))
+            self.screen.blit(pygame.transform.scale(self.display, self.screen.get_size()), (0, 0))
             pygame.display.update()
             return True
 
@@ -380,6 +380,10 @@ class Game(object):
                     self.player.on_key_y(1, True)
                 elif k in option.KEY_RIGHT:
                     self.player.on_key_x(1, True)
+                elif k in option.KEY_MENU_LEFT:
+                    self.player.on_key_menu_x(-1, True)
+                elif k in option.KEY_FORWARDS:
+                    self.player.on_key_menu_x(1, True)
                 elif k in option.KEY_LEFT:
                     self.player.on_key_x(-1, True)
                 elif k in option.KEY_ACTION:
@@ -397,7 +401,10 @@ class Game(object):
                     self.player.on_key_x(1, False)
                 elif k in option.KEY_LEFT:
                     self.player.on_key_x(-1, False)
-
+                elif k in option.KEY_MENU_LEFT:
+                    self.player.on_key_menu_x(-1, False)
+                elif k in option.KEY_MENU_RIGHT:
+                    self.player.on_key_menu_x(1, False)
                 elif k in option.KEY_SPRINT:
                     self.player.on_key_sprint(event.type == pygame.JOYBUTTONDOWN, True)
                 elif k in option.KEY_BIKE:
