@@ -1,37 +1,46 @@
-## Welcome to GitHub Pages
+<div aligne="center">
+<h3>
+PyGamon
+</h3>
+<h5>
+by IDarKay
+</h5>
+</div>
 
-You can use the [editor on GitHub](https://github.com/IDarKay/PygaMone/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+---
+  [![Status](https://img.shields.io/badge/Status-development-green)]()
+  [![GitHub Release](https://img.shields.io/github/v/release/IDarKay/PygaMone?include_prereleases&style=plastic)](https://github.com/IDarKay/PygaMone/releases/latest)
+---
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+## 📝 Table of Contents
+- [About](#about)
+- [Installation](#instaltion)
+- [Dependence](#dependence)
 
-### Markdown
+## 🧐 About <a name = "about"></a>
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+This game is a none official pokemon game make with python and pygame.
+For the moment the game isn't playable, you can try but at your own peril.
+I'm totally open to any gameplay suggestion !
 
-```markdown
-Syntax highlighted code block
+    
+## 🛠️ Installation <a name = "instaltion"></a>
+     
+    Get last installer in release
 
-# Header 1
-## Header 2
-### Header 3
+## 🔒 Soft Dependance <a name = "dependance"></a>
 
-- Bulleted
-- List
+  [![Pygame](https://img.shields.io/badge/Pygame-pip_install_pygame-green)](https://www.pygame.org/)
+  
+  [![Numpy](https://img.shields.io/badge/Numpy-pip_install_numpy==1.19.0-green)](https://numpy.org/)
+  
+  [![Pillow](https://img.shields.io/badge/Pillow-pip_install_pillow-green)](https://pillow.readthedocs.io/en/stable/)
 
-1. Numbered
-2. List
+## 🔨 Build
 
-**Bold** and _Italic_ and `Code` text
+    First you need pyinstaller (pip install pyinstaller)
+    You need python 3.9.X and all Dependance
+    run in root project dire: pyinstaller ./pokemon.spec
+    normaly you will find dir in ./dict
 
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/IDarKay/PygaMone/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+[![Pygame](https://img.shields.io/badge/Pygame-pyinstaller_pokemon.spec-green)]()
