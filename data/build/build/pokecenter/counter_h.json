@@ -1,1 +1,1 @@
-{"collision": [0, 0, 1, 1], "collision_side": {}, "display": [{"image": "build/pokecenter", "start": [0.0, -0.3125], "rescale": 2, "from": [192, 476], "to": [208, 496]}]}
+{"collision": [0, 0, 1, 1], "collision_side": {}, "display": [{"image": "tilt/pokecenter", "start": [0.0, -0.3125], "rescale": 2, "from": [192, 476], "to": [208, 496]}]}

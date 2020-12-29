@@ -5,6 +5,9 @@ KEY_BACK = [pygame.K_s, pygame.K_DOWN, pygame.CONTROLLER_BUTTON_DPAD_DOWN]
 KEY_LEFT = [pygame.K_a, pygame.K_LEFT, pygame.CONTROLLER_BUTTON_DPAD_LEFT]
 KEY_RIGHT = [pygame.K_d, pygame.K_RIGHT, pygame.CONTROLLER_BUTTON_DPAD_RIGHT]
 
+KEY_MENU_LEFT = [pygame.K_q, None, pygame.CONTROLLER_BUTTON_BACK]
+KEY_MENU_RIGHT = [pygame.K_f, None, pygame.CONTROLLER_BUTTON_GUIDE]
+
 KEY_ACTION = [pygame.K_SPACE, pygame.K_RGUI, pygame.CONTROLLER_BUTTON_A]
 KEY_SPRINT = [pygame.K_x, None, pygame.CONTROLLER_BUTTON_X]
 KEY_BIKE = [pygame.K_z, None, pygame.CONTROLLER_BUTTON_Y]

@@ -931,7 +931,7 @@ class TryCatchAnimation(Animation):
         if not (self.init & (2 ** (4 + check_n))):
             self.init |= (2 ** (4 + check_n))
             game.game_instance.player.open_dialogue(hud.Dialog([f'{check_n + 1}...'], speed_skip=False, speed=1,
-                                                                   style=2, none_skip=True))
+                                                               style=2, none_skip=True))
             sound_manager.start_in_first_empty_taunt(sounds.BALL_SHAKE)
         x2, y2 = self.target[0], self.target[1] - 30
         rotate = 0
@@ -1028,7 +1028,7 @@ class CatchSuccess(Animation):
               game.game_instance.get_message("battle.catch.success.ask.include_to_team")
         game.game_instance.player.open_dialogue(
             hud.QuestionDialog('battle.catch.success.ask', self.callback, ask, speed=1, style=2, need_morph_text=True,
-                              text_var=[self.poke.get_name(True)]))
+                               text_var=[self.poke.get_name(True)]))
 
     def end_callback(self):
         self.player.close_dialogue()
@@ -1036,6 +1036,40 @@ class CatchSuccess(Animation):
 
     def callback(self, value, index):
         self.question_answer = index
+
+
+class UseItem(Animation):
+
+    def __init__(self, bat: 'Battle', it: 'item.item.Item', target: 'player_pokemon.PlayerPokemon',
+                 launcher: 'BattlePlayer'):
+        self.launcher = launcher
+        self.bat = bat
+        self.it = it
+        self.target = target
+        self.init = False
+        self.start = 0
+
+    def tick(self, display: Surface) -> bool:
+        if not self.init:
+            self.init = True
+            self.start = utils.current_milli_time()
+            self.it.use(self.target)
+            if self.launcher.bot:
+                d = hud.Dialog(
+                    "battle.item.use.other", speed_skip=False, none_skip=True, need_morph_text=True, style=2,
+                    text_var=[self.launcher.disp.name, self.it.get_name(), self.target.get_name(True)]
+                )
+            else:
+                d = hud.Dialog(
+                    "battle.item.use.self", speed_skip=False, none_skip=True, need_morph_text=True, style=2,
+                    text_var=[self.it.get_name(), self.target.get_name(True)]
+                )
+            game.game_instance.player.open_dialogue(d)
+        return (utils.current_milli_time() - self.start) > 2000
+
+    def is_priority(self) -> int:
+        return 2
+
 
 class Battle(object):
     # END_BASE_POINT: Tuple[int, int] = (SURFACE_SIZE[0] - 390, 0)
@@ -1186,7 +1220,7 @@ class Battle(object):
             return c[0] + (self.base_size[0]) // 2, int(c[1] + (self.base_size[1] * 0.75)), parse_enemy_case(enemy, i)
         return c[0] + (self.base_size[0] // 2) - ((size[0] * size_edit[0]) // 2), int(
             c[1] + (self.base_size[1] * 0.75) - (
-                        (poke.front_image_y if enemy else poke.back_image_y) * 2 * size_edit[1])), \
+                    (poke.front_image_y if enemy else poke.back_image_y) * 2 * size_edit[1])), \
                parse_enemy_case(enemy, i)
 
     GRADIENT = [(0, 229, 29), (25, 205, 27), (50, 181, 26), (75, 157, 25), (100, 133, 24), (125, 109, 23),
@@ -1511,6 +1545,7 @@ class Battle(object):
     def end_by_catch(self):
         def over_load():
             sound_manager.MUSIC_CHANNEL.stop()
+
         self.is_catch = over_load
 
     def catch(self):
@@ -1653,7 +1688,8 @@ class Battle(object):
             self.do_ability_turn(an)
 
         elif item_.category == item.item.HEAL or item.item.BERRIES:
-            pass
+            an = UseItem(self, item_, poke, self.__ally_team.get_none_bot())
+            self.do_ability_turn(an)
         elif item_.category == item.item.BATTLE_ITEMS:
             pass
 
@@ -1860,9 +1896,6 @@ def parse_enemy_case(enemy: bool, case: int) -> int:
 
 def unparse_enemy_case(value: int) -> tuple[bool, int]:
     return value >> 2 == 1, value & 0b11
-
-
-# def sub_sor(ab_list: List['Animation'], i):
 
 
 def sort_ab(ab_list: List['Animation']):

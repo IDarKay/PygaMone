@@ -4,7 +4,7 @@
   "display": [
     {
       "start": [0, -0.9375],
-      "image": "build/pokecenter",
+      "image": "tilt/pokecenter",
       "from": [144, 448],
       "to": [175, 475]
     }
