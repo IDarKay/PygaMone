@@ -1,12 +1,28 @@
 {
-  "type": "build",
-  "size":[2, 1],
-  "display": [
-    {
-      "start": [-0.3125, 0.0625],
-      "image": "tilt/pokecenter",
-      "from": [11, 404],
-      "to": [37, 420]
-    }
-  ]
+    "collision": [
+        0,
+        0,
+        0,
+        0
+    ],
+    "collision_side": {},
+    "display": [
+        {
+            "from": [
+                11,
+                404
+            ],
+            "image": "tilt/pokecenter",
+            "rescale": 2,
+            "start": [
+                -0.3125,
+                0.0625
+            ],
+            "to": [
+                37,
+                420
+            ]
+        }
+    ],
+    "fake_floor": true
 }

@@ -30,6 +30,7 @@ import pokemon.battle.wild_start as wild_start
 BLOCK_EVENT = "BLOCK"
 JUMP_EVENT = "JUMP"
 WILD_POKEMON = "WILD_POKEMON"
+IGNORE = "IGNORE"
 
 
 class CollisionEvent(object):
@@ -45,10 +46,17 @@ class CollisionEvent(object):
         return x, y
 
 
+class IgnoreEvent(CollisionEvent):
+
+    def __init__(self, data: Dict[str, Any]):
+        super().__init__(IGNORE, data, False)
+
+
 class BlockEvent(CollisionEvent):
 
     def __init__(self, data: Dict[str, Any]):
         super().__init__(BLOCK_EVENT, data, True)
+
 
 class WildEvent(CollisionEvent):
 
@@ -75,7 +83,8 @@ class JumpEvent(CollisionEvent):
 EVENTS: Dict[str, Callable[[Dict[str, Any]], CollisionEvent]]  = {
     BLOCK_EVENT: BlockEvent,
     JUMP_EVENT: JumpEvent,
-    WILD_POKEMON: WildEvent
+    WILD_POKEMON: WildEvent,
+    IGNORE: IgnoreEvent
 }
 
 

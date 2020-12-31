@@ -19,6 +19,8 @@ class Structure(object):
         if not data["display"]:
             raise er.StructureParseError("No display for {}".format(name))
 
+        self.fake_floor = data.get("fake_floor", False)
+
         self.display: List['displayer.Displayer'] = [displayer.parse(d, name) for d in data["display"]]
         self.collision: List[int] = data["collision"] if "collision" in data else EMPTY_COLLISION
         if len(self.collision) != 4:

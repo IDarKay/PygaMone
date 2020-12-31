@@ -150,8 +150,6 @@ class Game(object):
         self.display: 'pygame.Surface' = pygame.Surface(SURFACE_SIZE, pygame.HWSURFACE | pygame.SRCALPHA)
         self.player: 'player.Player' = player.Player(self)
 
-        self.trigger_cache = Cache()
-
         self.level = None
         load_coord = self.get_save_value("last_level_coord", [100, 100])
         self.load_level(self.get_save_value("last_level", "level_1"), load_coord[0], load_coord[1])
@@ -244,7 +242,6 @@ class Game(object):
 
     def unload_level(self):
         self.player.freeze_time = -1
-        self.trigger_cache.clear()
         global IMAGE_CACHE
         IMAGE_CACHE.clear()
         DISPLAYER_CACHE.clear()
@@ -254,7 +251,6 @@ class Game(object):
         self.level = level.Level(name)
         self.level.floor.load_asset()
         self.level.layer_1.load_asset()
-        self.level.load_asset(self.trigger_cache)
         self.player.set_pos((x, y))
         if not self.level.can_cycling:
             self.player.is_cycling = False
@@ -286,7 +282,7 @@ class Game(object):
                                         self.collision, [(self.player.rect.y + self.player.size[0], self.player.render)])
 
                 self.level.npc_render(self.display, self.collision)
-                self.level.load_trigger(start[0], start[1], self.trigger_cache, self.collision)
+                self.level.load_trigger(start[0], start[1], self.collision)
 
                 if self.debug:
                     self.render_collision()

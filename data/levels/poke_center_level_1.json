@@ -578,22 +578,32 @@
   },
   "trigger": [
     {
-      "id": "poke_center_level_1/pokecenter_exit",
       "loc": [
         7,
         8,
         10,
         9
-      ]
+      ],
+      "type": "LOAD_LVL",
+      "collision_side": {
+        "*": {
+          "lvl_name": "level_1",
+          "player_x": 12,
+          "player_y": 18
+        }
+      }
     },
     {
-      "id": "poke_center_level_1/pc",
       "loc": [
         12,
         1,
         13,
         2
-      ]
+      ],
+      "type": "PC",
+      "collision_side": {
+        "*": {}
+      }
     }
   ],
   "npc": [
