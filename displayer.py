@@ -47,7 +47,7 @@ class Displayer(object):
             # if "from" not in data:
             #     self.image_size = int(self.image.get_size()[0] * rescale), int(self.image.get_size()[0] * rescale)
             s = self.image.get_rect().size
-            self.image = pygame.transform.scale(self.image, (s[0] * rescale, s[1] * rescale))
+            self.image = pygame.transform.scale(self.image, (int(s[0] * rescale), int(s[1] * rescale)))
             # game.IMAGE_CACHE.put(path, self.image)
         self.image_size = self.image.get_size()
 

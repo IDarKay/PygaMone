@@ -30,6 +30,7 @@ class Layers(object):
     def __init__(self, level: 'Level', type_: str, data):
         self.level = level
         self.type = type_
+        self.floor = self.type == FLOOR
         self.key = data["key"]
         self.pattern: List[List[int]] = [[c for c in l] for l in data["pattern"]]
         self.size = len(self.pattern), len(self.pattern[0])
@@ -69,18 +70,22 @@ class Layers(object):
             else:
                 to_render[r_y].append([False, a[1]])
 
-        for x in range(x_start_mod, x_end_mod):
-            for y in range(y_start_mod, y_end_mod):
+        for y in range(y_start_mod, y_end_mod):
+            for x in range(x_start_mod, x_end_mod):
                 if x < 0 or x >= self.size[1] or y < 0 or y >= self.size[0]:
                     continue
                 key = self.keys[self.get_case(x, y)]
                 if key:
                     struct = self.level.struct[key]
-                    r_y = y * game.CASE_SIZE - 2
-                    if r_y not in to_render:
-                        to_render[r_y] = [[True, struct, x, y]]
+
+                    if self.floor or struct.fake_floor:
+                        struct.render(display, x * game.CASE_SIZE - x_start, y * game.CASE_SIZE - y_start, x, y, self.__random_tab, collision)
                     else:
-                        to_render[r_y].append([True, struct, x, y])
+                        r_y = y * game.CASE_SIZE - 2
+                        if r_y not in to_render:
+                            to_render[r_y] = [[True, struct, x, y]]
+                        else:
+                            to_render[r_y].append([True, struct, x, y])
 
         od = collections.OrderedDict(sorted(to_render.items()))
         for v in od.values():
@@ -121,16 +126,23 @@ class Level(object):
         if self.layer_1.size != self.floor.size:
             raise er.LevelParseError("Floor and layer haven't same size !! in {}".format(path))
 
-        self.trigger: List[Tuple[str, List[int]]] = []
+        # self.trigger: List[Tuple[str, List[int]]] = []
+        # if "trigger" in data:
+        #     for tr in data["trigger"]:
+        #         if "id" not in tr:
+        #             raise er.LevelParseError("Trigger with no id in {}".format(path))
+        #         _id = tr["id"]
+        #         if "loc" not in tr:
+        #             raise er.TriggerParseError("No loc in trigger id {}".format(_id))
+        #         loc = tr["loc"]
+        #         self.trigger.append((_id, loc))
+
+        self.trigger: list[triggers.Trigger] = []
         if "trigger" in data:
-            for tr in data["trigger"]:
-                if "id" not in tr:
-                    raise er.LevelParseError("Trigger with no id in {}".format(path))
-                _id = tr["id"]
-                if "loc" not in tr:
-                    raise er.TriggerParseError("No loc in trigger id {}".format(_id))
-                loc = tr["loc"]
-                self.trigger.append((_id, loc))
+            for tr_data in data["trigger"]:
+                self.trigger.append(triggers.load(tr_data))
+
+
 
         self.npc: List['npc.NPC'] = []
         if "npc" in data:
@@ -191,7 +203,6 @@ class Level(object):
                         tab[i - 2] = tab[i] - game.SURFACE_SIZE[i - 2]
         return tab[0:2]
 
-
     def get_random_wild(self, type_: str) -> Optional[tuple[int, int]]:
         if type_ in self.wild_pokemon_rdm:
             rdm_li = self.wild_pokemon_rdm[type_]
@@ -216,7 +227,7 @@ class Level(object):
             np.render(display)
             np.tick_render(display)
 
-    def load_trigger(self, x_start: float, y_start: float, cache: 'game.Cache', collision: 'col.Collision'):
+    def load_trigger(self, x_start: float, y_start: float, collision: 'col.Collision'):
         x_end = x_start + game.SURFACE_SIZE[0]
         y_end = y_start + game.SURFACE_SIZE[1]
         x_start_mod = (x_start // game.CASE_SIZE) - 5
@@ -225,25 +236,16 @@ class Level(object):
         y_end_mod = (y_end // game.CASE_SIZE) + 8
 
         for tr in self.trigger:
-            loc = tr[1]
+            loc = tr.loc
             if x_start_mod <= loc[0] <= x_end_mod and y_start_mod <= loc[1] <= y_end_mod:
-                trigger = cache.get(tr[0])
                 collision.add(col.SquaredTriggerCollisionBox(loc[0] * game.CASE_SIZE - x_start,
                                                              loc[1] * game.CASE_SIZE - y_start,
                                                              loc[2] * game.CASE_SIZE - x_start,
-                                                             loc[3] * game.CASE_SIZE - y_start, trigger))
+                                                             loc[3] * game.CASE_SIZE - y_start, tr))
 
     def load_sound(self) -> NoReturn:
         if self.sound:
             sound_manager.MUSIC_CHANNEL.play(self.sound, -1)
         else:
             sound_manager.MUSIC_CHANNEL.stop()
-
-    def load_asset(self, cache: 'game.Cache') -> NoReturn:
-        """
-        :type cache: game.Cache
-        """
-        for tr in self.trigger:
-            if not cache.have(tr[0]):
-                cache.put(tr[0], triggers.load(tr[0]))
 

@@ -6696,12 +6696,35 @@
     "sound": "music/route_1.mp3",
     "trigger": [
         {
-            "id": "level_1/poke_center_enter",
+            "type": "LOAD_LVL",
+            "collision_side": {
+                "down": {
+                    "lvl_name": "poke_center_level_1",
+                    "player_x": 8.03,
+                    "player_y": 6.1
+                }
+            },
             "loc": [
                 12,
                 18,
                 13,
                 19
+            ]
+        },
+        {
+            "type": "LOAD_LVL",
+            "collision_side": {
+                "*": {
+                    "lvl_name": "level_1_big_house_1_down",
+                    "player_x": 5.9,
+                    "player_y": 9.2
+                }
+            },
+            "loc": [
+                19.5,
+                17,
+                20.75,
+                18
             ]
         }
     ],

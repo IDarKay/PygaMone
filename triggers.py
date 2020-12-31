@@ -17,8 +17,11 @@ class Trigger(object):
     def __init__(self, _id: str, data: Dict[str, Any]):
         self.id_ = _id
         if "collision_side" not in data:
-            raise err.TriggerParseError("No collision_side in file wth id {}".format(id))
+            raise err.TriggerParseError("No collision_side in file wth id {}".format(_id))
         self.side: Dict[str, Tuple[Any]] = {}
+        if "loc" not in data:
+            raise err.TriggerParseError("No location in trigger with id {}".format(_id))
+        self.loc = data["loc"][0:4]
 
         for key, value in data["collision_side"].items():
             self.side[key] = self.dat(value)
@@ -101,15 +104,15 @@ TRIGGERS: Dict[str, Callable[[str, Dict[str, Any]], Trigger]] = {
 }
 
 
-def load(path: str) -> Trigger:
-    with open("data/trigger/{}.json".format(path), 'r', encoding='utf-8') as file:
-        data = json.load(file)
+def load(data: dict[str, Any]) -> Trigger:
+    # with open("data/trigger/{}.json".format(path), 'r', encoding='utf-8') as file:
+    #     data = json.load(file)
 
     if not data:
-        raise err.TriggerParseError("No data in {}".format(path))
+        raise err.TriggerParseError("No data")
 
     if "type" not in data:
-        raise err.TriggerParseError("No type in {}".format(path))
+        raise err.TriggerParseError("No type in data")
 
     type_ = data["type"]
 

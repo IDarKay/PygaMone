@@ -5,14 +5,22 @@ import start_menu
 import sys
 import utils
 import locale
-import ctypes
 
 
 def is_admin():
     try:
+        import ctypes
         return ctypes.windll.shell32.IsUserAnAdmin()
     except:
-        return False
+        return True
+
+
+def set_admin():
+    try:
+        import ctypes
+        ctypes.windll.shell32.ShellExecuteW(None, "runas", sys.executable, " ".join(sys.argv), None, 1)
+    except:
+        pass
 
 
 # Press the green button in the gutter to run the script.
@@ -35,4 +43,4 @@ if __name__ == '__main__':
         else:
             start_menu.StartMenu(screen)
     else:
-        ctypes.windll.shell32.ShellExecuteW(None, "runas", sys.executable, " ".join(sys.argv), None, 1)
+        set_admin()
