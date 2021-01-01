@@ -16,11 +16,15 @@ def register(it: T) -> T:
 
 
 BURN: Optional['pst.BurnStatus'] = None
+FREEZE: Optional['pst.FreezeStatus'] = None
+PARALYSIS: Optional['pst.ParalysisStatus'] = None
 FLINCH: Optional['pst.FlinchingStatus'] = None
 
 
 def load() -> NoReturn:
-    global BURN, FLINCH
+    global BURN, FLINCH, FREEZE, PARALYSIS
     BURN = register(pst.BurnStatus("burn"))
+    FREEZE = register(pst.FreezeStatus("freeze"))
+    PARALYSIS = register(pst.ParalysisStatus("paralysis"))
     FLINCH = register(pst.FlinchingStatus("flinch"))
     print(STATUS)

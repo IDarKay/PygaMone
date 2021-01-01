@@ -1,5 +1,6 @@
 from typing import TypeVar, Dict, NoReturn
 import pokemon.abilitys as abilitys
+from inspect import isclass
 
 ABILITYS: Dict[str, 'abilitys.AbstractAbility'] = {}
 
@@ -15,20 +16,8 @@ def register(it: T) -> T:
     return it
 
 
-# EMBER: 'abilitys.EmberAbility' =
-# TACKLE: 'abilitys.TackleAbility' =
-
-
 def load() -> NoReturn:
-    register(abilitys.EmberAbility())
-    register(abilitys.TackleAbility())
-    register(abilitys.AcidAbility())
-    register(abilitys.AbsorbAbility())
-    register(abilitys.AcidArmorAbility())
-    register(abilitys.AgilityAbility())
-    register(abilitys.AmnesiaAbility())
-    register(abilitys.AuroraBeamAbility())
-    register(abilitys.BarrageAbility())
-    register(abilitys.BarrierAbility())
-    register(abilitys.BideAbility())
-    register(abilitys.BiteAbility())
+    for attribute_name in dir(abilitys):
+        attribute = getattr(abilitys, attribute_name)
+        if isclass(attribute) and issubclass(attribute, abilitys.AbstractAbility) and attribute != abilitys.AbstractAbility:
+            register(attribute())

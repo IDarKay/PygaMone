@@ -11,7 +11,6 @@ import pokemon.pokemon as pokemon
 import hud.hud as hud
 import pokemon.abilitys_ as abilitys_
 import item.items as items
-import main
 import sys
 import pokemon.battle.wild_start as wild_start
 import utils
