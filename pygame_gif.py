@@ -37,7 +37,7 @@ class GifInstance(object):
 
 class PygameGif(object):
 
-    def __init__(self, file: object) -> object:
+    def __init__(self, file: str):
         images = readGif(file, False)
         self.__py_images = []
 

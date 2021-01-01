@@ -1,4 +1,5 @@
 from abc import abstractmethod
+import random
 from typing import Optional, NoReturn
 import pokemon.player_pokemon as player_pokemon
 import pokemon.battle.battle as battle
@@ -95,6 +96,79 @@ class BurnStatus(Status):
 
     def get_animation(self, si: 'StatusInstance', pos: tuple[int, int]) -> Optional['battle.Animation']:
         return animation.BurnAnimation(pos)
+
+
+class FreezeStatus(Status):
+
+    def __init__(self, id_: str):
+        super().__init__(id_, True)
+
+    def get_image(self, si: 'StatusInstance') -> Optional[tuple[str, tuple[int, int, int]]]:
+        return game.game_instance.get_message("status.freeze.image"), (152, 216, 216)
+
+    def get_apply_text(self, ally: bool) -> Optional[str]:
+        return f"status.freeze.{'ally' if ally else 'enemy'}.apply"
+
+    def get_damage_text(self, ally: bool) -> Optional[str]:
+        return f"status.freeze.{'ally' if ally else 'enemy'}.damage"
+
+    def get_end_text(self, ally: bool) -> Optional[str]:
+        return f"status.freeze.{'ally' if ally else 'enemy'}.end"
+
+    def get_cancel_text(self, ally: bool) -> Optional[str]:
+        return f"status.freeze.{'ally' if ally else 'enemy'}.cancel"
+
+    def attack(self, si: 'StatusInstance', turn: int, ab: 'ability.AbstractAbility') -> tuple[bool, bool, int]:
+        end = random.random() < 0.1
+        return end, not end, 0
+
+    def turn(self, si: 'StatusInstance', turn: int) -> tuple[bool, int]:
+        return False, 0
+
+    def apply(self, si: 'StatusInstance', turn: int) -> NoReturn:
+        return pokemon_type.ICE not in si.poke.poke.types
+
+    def get_catch_edit(self):
+        return 2
+
+    # def get_animation(self, si: 'StatusInstance', pos: tuple[int, int]) -> Optional['battle.Animation']:
+    #     return animation.BurnAnimation(pos)
+
+
+class ParalysisStatus(Status):
+
+    def __init__(self, id_: str):
+        super().__init__(id_, True)
+
+    def get_image(self, si: 'StatusInstance') -> Optional[tuple[str, tuple[int, int, int]]]:
+        return game.game_instance.get_message("status.paralysis.image"), (248, 208, 48)
+
+    def get_apply_text(self, ally: bool) -> Optional[str]:
+        return f"status.paralysis.{'ally' if ally else 'enemy'}.apply"
+
+    def get_damage_text(self, ally: bool) -> Optional[str]:
+        return f"status.paralysis.{'ally' if ally else 'enemy'}.damage"
+
+    def get_end_text(self, ally: bool) -> Optional[str]:
+        return f"status.paralysis.{'ally' if ally else 'enemy'}.end"
+
+    def get_cancel_text(self, ally: bool) -> Optional[str]:
+        return f"status.paralysis.{'ally' if ally else 'enemy'}.cancel"
+
+    def attack(self, si: 'StatusInstance', turn: int, ab: 'ability.AbstractAbility') -> tuple[bool, bool, int]:
+        return False, random.random() <= 0.25, 0
+
+    def turn(self, si: 'StatusInstance', turn: int) -> tuple[bool, int]:
+        return False, 0
+
+    def apply(self, si: 'StatusInstance', turn: int) -> NoReturn:
+        return pokemon_type.ELECTRIC not in si.poke.poke.types
+
+    def get_catch_edit(self):
+        return 1.5
+
+    # def get_animation(self, si: 'StatusInstance', pos: tuple[int, int]) -> Optional['battle.Animation']:
+    #     return animation.BurnAnimation(pos)
 
 
 class FlinchingStatus(Status):

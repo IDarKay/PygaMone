@@ -498,15 +498,12 @@ class PlayAbility(Animation):
                 ps_t -= time_e
 
             # check death
-            a = [False, len(self.bat.TO_SHOW) == 0]
             for t in range(len(self.__targets_p)):
                 if self.__targets_p[t].heal <= 0:
-                    a[0] = True
                     c = unparse_enemy_case(self.__targets[t][2])
                     data = {"case": c[1], "enemy": c[0]}
                     self.bat.TO_SHOW.append([self.bat.death_pokemon, data])
-            if a[0] and a[1]:
-                self.bat.next_to_show()
+            self.bat.next_to_show()
 
         game.game_instance.player.close_dialogue()
         return True
@@ -701,6 +698,7 @@ class DeathPokemonAnimation(Animation):
         if not self.init:
             self.init = True
             self.start_time = utils.current_milli_time()
+            self.poke.ram_data["battle_render"] = False
         ps_t = utils.current_milli_time() - self.start_time
 
         if self.bool_matrix[0]:
@@ -999,7 +997,6 @@ class CatchSuccess(Animation):
                 return False
             elif self.question_answer == 1:
                 self.question_answer = None
-                print(self.player.get_non_null_team_number())
                 if self.player.get_non_null_team_number() < 6:
                     self.player.team[5] = self.poke
                     self.player.normalize_team()
@@ -1122,6 +1119,7 @@ class Battle(object):
         self.evolution_table = [None] * 6
         self.multi_turn_ab: dict[str, tuple[ability.AbstractAbility, int, bool, int]] = {}
         self.is_catch: Any = False
+        self.need_do_end_turn = False
 
     def appear_pokemon(self, enemy: bool, case: int):
         if enemy:
@@ -1238,9 +1236,15 @@ class Battle(object):
                 if rac:
                     m = rac.get_move(enemy, i)
                     if c := rac.get_color(enemy, i):
-                        display.blit(poke.get_front_image_colored(c[1:], 2), (p_c[0] + m[1], p_c[1] + m[2]))
+                        im = poke.get_front_image_colored(c[1:], 2)
                     else:
-                        display.blit(poke.get_front_image(2), (p_c[0] + m[1], p_c[1] + m[2]))
+                        im = poke.get_front_image(2)
+                    if rac.get_resize(enemy, i):
+                        size = rac.get_resize(enemy, i)
+                        im = pygame.transform.scale(im, (int(im.get_size()[0] * size[1]),
+                                                         int(im.get_size()[1] * size[2])))
+                        p_c = self.get_poke_pose(enemy, i, size_edit=size[1:3])[0: 2]
+                    display.blit(im, (p_c[0] + m[1], p_c[1] + m[2]))
                 else:
                     display.blit(poke.get_front_image(2), p_c)
                 pygame.draw.polygon(display, (246, 250, 253), ((x, 20), (x + 100, 20), (x + 80, 60), (x - 20, 60)))
@@ -1440,26 +1444,31 @@ class Battle(object):
                     del self.queue_play_ability[0]
                     return False
                 else:
-                    self.current_play_ability = None
-                    self.turn_count += 1
-                    self.check_death()
-                    for ally in [True, False]:
-                        pks = self.__ally if ally else self.__enemy
-                        for ap_i in range(len(pks)):
-                            ap = pks[ap_i]
-                            if ap:
-                                for it in ap.combat_status.it:
-                                    back = it.status.turn(it, self.turn_count)
-                                    if back[0]:
-                                        data = {"anim": StatusRemoveAnimation(it.status, ap, True)}
-                                        Battle.TO_SHOW.append([self.start_new_animation, data])
-                                    else:
-                                        data = {"anim": StatusDamageAnimation(it, int(back[1]),
-                                                                              self.get_poke_pose(not ally, ap_i, True)[
-                                                                              0:2],
-                                                                              True)}
-                                        Battle.TO_SHOW.append([self.start_new_animation, data])
-                    self.next_to_show()
+                    self.need_do_end_turn = True
+            return False
+
+        if self.need_do_end_turn:
+            self.need_do_end_turn = False
+            self.current_play_ability = None
+            self.turn_count += 1
+            self.check_death()
+            for ally in [True, False]:
+                pks = self.__ally if ally else self.__enemy
+                for ap_i in range(len(pks)):
+                    ap = pks[ap_i]
+                    if ap:
+                        for it in ap.combat_status.it:
+                            back = it.status.turn(it, self.turn_count)
+                            if back[0]:
+                                data = {"anim": StatusRemoveAnimation(it.status, ap, True)}
+                                Battle.TO_SHOW.append([self.start_new_animation, data])
+                            else:
+                                data = {"anim": StatusDamageAnimation(it, int(back[1]),
+                                                                      self.get_poke_pose(not ally, ap_i, True)[
+                                                                      0:2],
+                                                                      True)}
+                                Battle.TO_SHOW.append([self.start_new_animation, data])
+            self.next_to_show()
             return False
 
         if self.is_catch:
@@ -1805,7 +1814,7 @@ class Battle(object):
         pk = (self.__enemy if enemy else self.__ally)[case]
         # storage = self.__enemy if enemy else self.__ally
         pose = self.get_poke_pose(enemy, case, False)
-        pk.ram_data["battle_render"] = False
+        # pk.ram_data["battle_render"] = False
         # storage[case] = None
         self.current_animation = DeathPokemonAnimation(self, pose, pk)
         self.current_animation_callback = callback if callback else self.next_to_show

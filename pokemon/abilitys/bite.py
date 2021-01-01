@@ -27,6 +27,7 @@ class BiteAbility(abilitys.AbstractAbility):
                          protect=True,
                          mirror_move=True,
                          target=abilitys.TARGET_ENEMY,
+
                          )
         self.render_during = 350
         self.need_sound = True

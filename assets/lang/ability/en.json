@@ -46,5 +46,29 @@
   "tackle": {
     "name": "Tackle",
     "description": "A physical attack in which the user charges and slams into the target with its whole body."
+  },
+  "blizzard": {
+    "name": "Blizzard",
+    "description": "A howling blizzard is summoned to strike opposing Pokémon. This may also leave the opposing Pokémon frozen."
+  },
+  "body_slam": {
+    "name": "Body Slam",
+    "description": "The user drops onto the target with its full body weight. This may also leave the target with paralysis."
+  },
+  "bone_club": {
+    "name": "Bone Club",
+    "description": "The user clubs the target with a bone. This may also make the target flinch."
+  },
+  "bonemerang": {
+    "name": "Bonemerang",
+    "description": "The user throws the bone it holds. The bone loops to hit the target twice, coming and going."
+  },
+  "bubble": {
+    "name": "Bubble",
+    "description": "A spray of countless bubbles is jetted at the opposing Pokémon. This may also lower their Speed stat."
+  },
+  "bubble_beam": {
+    "name": "Bubble Beam",
+    "description": "A spray of bubbles is forcefully ejected at the target. This may also lower the target's Speed stat."
   }
 }
