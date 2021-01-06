@@ -8,6 +8,16 @@
   "parent": 4,
   "size": 1.7,
   "weight": 90.5,
+  "ability": {
+    "scratch": 1,
+    "growl": 1,
+    "ember": 9,
+    "leer": 15,
+    "rage": 24,
+    "slash": 36,
+    "flamethrower": 46,
+    "fire_spin": 56
+  },
   "base_stats": {
     "hp": 78,
     "attack": 84,

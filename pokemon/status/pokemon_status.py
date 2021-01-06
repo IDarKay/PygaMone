@@ -171,6 +171,57 @@ class ParalysisStatus(Status):
     #     return animation.BurnAnimation(pos)
 
 
+class ConfuseStatus(Status):
+
+    def __init__(self, id_: str):
+        super().__init__(id_, True)
+
+    def get_image(self, si: 'StatusInstance') -> Optional[tuple[str, tuple[int, int, int]]]:
+        return game.game_instance.get_message("status.confuse.image"), (248, 208, 48)
+
+    def get_apply_text(self, ally: bool) -> Optional[str]:
+        return f"status.confuse.apply"
+
+    def get_damage_text(self, ally: bool) -> Optional[str]:
+        return f"status.confuse.damage"
+
+    def get_end_text(self, ally: bool) -> Optional[str]:
+        return f"status.confuse.end"
+
+    def get_cancel_text(self, ally: bool) -> Optional[str]:
+        return f"status.confuse.cancel"
+
+    def attack(self, si: 'StatusInstance', turn: int, ab: 'ability.AbstractAbility') -> tuple[bool, bool, int]:
+        n = si.poke.ram_data["confuse"]
+        n -= 1
+        si.poke.ram_data["confuse"] = n
+        if n <= 0:
+            del si.poke.ram_data["confuse"]
+        cancel = (random.random() <= 0.5 and n > 0)
+        return n <= 0, cancel, si.poke.get_max_heal() * 1/8 if cancel else 0
+
+    def turn(self, si: 'StatusInstance', turn: int) -> tuple[bool, int]:
+        return False, 0
+
+    @staticmethod
+    def __get_nb_hit() -> int:
+        r = random.random()
+        if r <= (1/3):
+            return 2
+        if r <= (2/3):
+            return 3
+        if r <= (5/6):
+            return 4
+        return 5
+
+    def apply(self, si: 'StatusInstance', turn: int) -> NoReturn:
+        si.poke.ram_data["confuse"] = ConfuseStatus.__get_nb_hit()
+        return True
+
+    # def get_animation(self, si: 'StatusInstance', pos: tuple[int, int]) -> Optional['battle.Animation']:
+    #     return animation.BurnAnimation(pos)
+
+
 class FlinchingStatus(Status):
 
     def __init__(self, id_: str):
@@ -195,6 +246,50 @@ class FlinchingStatus(Status):
         return False, 0
 
     def apply(self, si: 'StatusInstance', turn: int) -> NoReturn:
+        return True
+
+
+class ClampStatus(Status):
+
+    def __init__(self, id_: str):
+        super().__init__(id_, False)
+
+    def get_apply_text(self, ally: bool) -> Optional[str]:
+        return f"status.clamp.apply"
+
+    def get_damage_text(self, ally: bool) -> Optional[str]:
+        return f"status.clamp.damage"
+
+    def get_end_text(self, ally: bool) -> Optional[str]:
+        return f"status.clamp.cancel"
+
+    def get_cancel_text(self, ally: bool) -> Optional[str]:
+        return f"status.clamp.cancel"
+
+    def attack(self, si: 'StatusInstance', turn: int, ab: 'ability.AbstractAbility') -> tuple[bool, bool, int]:
+        return False, False, si.poke.get_max_heal() // 16
+
+    def turn(self, si: 'StatusInstance', turn: int) -> tuple[bool, int]:
+        n = si.poke.ram_data["clamped"]
+        n -= 1
+        si.poke.ram_data["clamped"] = n
+        if n <= 0:
+            del si.poke.ram_data["clamped"]
+        return n <= 0, 0
+
+    @staticmethod
+    def __get_nb_hit() -> int:
+        r = random.random()
+        if r <= (1/3):
+            return 2
+        if r <= (2/3):
+            return 3
+        if r <= (5/6):
+            return 4
+        return 5
+
+    def apply(self, si: 'StatusInstance', turn: int) -> NoReturn:
+        si.poke.ram_data["clamped"] = ClampStatus.__get_nb_hit()
         return True
 
 

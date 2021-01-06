@@ -13,7 +13,7 @@
   },
   "agility": {
     "name": "Agility",
-    "description": "The user relaxes and lightens its body to move faster. This sharply raises the Speed stat. "
+    "description": "The user relaxes and lightens its body to move faster. This sharply raises the Speed stat."
   },
   "amnesia": {
     "name": "Amnesia",
@@ -70,5 +70,41 @@
   "bubble_beam": {
     "name": "Bubble Beam",
     "description": "A spray of bubbles is forcefully ejected at the target. This may also lower the target's Speed stat."
+  },
+  "clamp": {
+    "name": "Clamp",
+    "description": "The target is clamped and squeezed by the user's very thick and sturdy shell for four to five turns."
+  },
+  "comet_punch": {
+    "name": "Comet Punch",
+    "description": "The target is hit with a flurry of punches that strike two to five times in a row."
+  },
+  "confuse_ray": {
+    "name": "Confuse Ray",
+    "description": "The target is exposed to a sinister ray that triggers confusion."
+  },
+  "confusion": {
+    "name": "Confusion",
+    "description": "The target is hit by a weak telekinetic force. This may also confuse the target."
+  },
+  "constrict": {
+    "name": "Constrict",
+    "description": "The target is attacked with long, creeping tentacles, vines, or the like. This may also lower the target's Speed stat."
+  },
+  "conversion": {
+    "name": "Conversion",
+    "description": "The user changes its type to become the same type as one of its moves."
+  },
+  "counter": {
+    "name": "Counter",
+    "description": "A retaliation move that counters any physical hit with double the damage."
+  },
+  "crabhammer": {
+    "name": "Crabhammer",
+    "description": "The target is hammered with a large pincer. Critical hits land more easily."
+  },
+  "cut": {
+    "name": "Cut",
+    "description": "The target is cut with a scythe or claw."
   }
 }
