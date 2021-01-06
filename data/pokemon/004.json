@@ -14,8 +14,14 @@
     }
   ],
   "ability": {
-    "ember": 1,
-    "tackle": 34
+    "scratch": 1,
+    "growl": 1,
+    "ember": 9,
+    "leer": 15,
+    "rage": 22,
+    "slash": 30,
+    "flamethrower": 38,
+    "fire_spin": 46
   },
   "base_stats": {
     "hp": 39,

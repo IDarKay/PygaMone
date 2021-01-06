@@ -14,7 +14,15 @@
     }
   ],
   "ability": {
-    "ember": 1
+    "tackle": 1,
+    "growl": 1,
+    "leach_seed": 7,
+    "vine_whip": 13,
+    "poison_powder": 20,
+    "razor_leaf": 27,
+    "growth": 34,
+    "sleep_powder": 41,
+    "solar_beam": 48
   },
   "base_stats": {
     "hp": 45,

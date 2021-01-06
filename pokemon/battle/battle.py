@@ -372,7 +372,9 @@ class PlayAbility(Animation):
             # damage*
 
             ps_t -= (2000 + self.__ab.get_render_during())
-            if ps_t < 1000 and self.__ab.category != ability.STATUS:
+            if ps_t < 1000:
+                if self.__ab.category == ability.STATUS:
+                    return False
                 if self.__bool_matrix[5]:
                     self.__bool_matrix[5] = False
                     if self.__max_type_multi != 0 and self.__max_damge != 0:

@@ -15,5 +15,15 @@
     "sp_attack": 85,
     "sp_defense": 105,
     "speed": 78
+  },
+  "ability": {
+    "tackle": 1,
+    "tail_whip": 1,
+    "bubble": 8,
+    "water_gun": 15,
+    "bite": 24,
+    "withdraw": 31,
+    "skull_bash": 42,
+    "hydro_pump": 52
   }
 }

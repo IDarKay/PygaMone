@@ -8,6 +8,17 @@
   "female_rate": 0.125,
   "size": 2,
   "weight": 100,
+  "ability": {
+    "tackle": 1,
+    "growl": 1,
+    "leach_seed": 7,
+    "vine_whip": 13,
+    "poison_powder": 20,
+    "razor_leaf": 30,
+    "growth": 43,
+    "sleep_powder": 55,
+    "solar_beam": 65
+  },
   "base_stats": {
     "hp": 80,
     "attack": 82,

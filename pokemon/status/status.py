@@ -18,7 +18,9 @@ def register(it: T) -> T:
 BURN: Optional['pst.BurnStatus'] = None
 FREEZE: Optional['pst.FreezeStatus'] = None
 PARALYSIS: Optional['pst.ParalysisStatus'] = None
+CONFUSE: Optional['pst.ParalysisStatus'] = None
 FLINCH: Optional['pst.FlinchingStatus'] = None
+CLAMP: Optional['pst.ClampStatus'] = None
 
 
 def load() -> NoReturn:
@@ -27,4 +29,6 @@ def load() -> NoReturn:
     FREEZE = register(pst.FreezeStatus("freeze"))
     PARALYSIS = register(pst.ParalysisStatus("paralysis"))
     FLINCH = register(pst.FlinchingStatus("flinch"))
+    globals()["CLAMP"] = register(pst.ClampStatus("clamp"))
+    globals()["CONFUSE"] = register(pst.ConfuseStatus("confuse"))
     print(STATUS)

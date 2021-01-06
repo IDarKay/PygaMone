@@ -14,6 +14,16 @@
       "pokemon": 6
     }
   ],
+  "ability": {
+    "scratch": 1,
+    "growl": 1,
+    "ember": 9,
+    "leer": 15,
+    "rage": 24,
+    "slash": 33,
+    "flamethrower": 42,
+    "fire_spin": 56
+  },
   "base_stats": {
     "hp": 58,
     "attack": 64,

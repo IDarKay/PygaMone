@@ -6,7 +6,6 @@ from importlib import import_module
 
 package_dir = Path(__file__).resolve().parent
 for (_, module_name, _) in iter_modules([package_dir]):
-
     if module_name == "abstract_ability":
         continue
     # import the module and iterate through its attributes

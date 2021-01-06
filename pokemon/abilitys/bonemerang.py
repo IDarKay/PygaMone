@@ -62,7 +62,6 @@ class BonemerangAbility(abilitys.AbstractAbility):
         b = y1 - a * x1
         max_delta_x = x2 - x1
         if 100 < ps_t < 1000 or 2600 < ps_t < 3500:
-            print(ps_t, ps_t - (100 if ps_t < 1000 else 2600), ps_t - (100 if ps_t < 1000 else 2600) / 900)
             x = min(((ps_t - (100 if ps_t < 1000 else 2600)) / 900), 1) * max_delta_x + x1
             y = (a * x + b) + (0.002 * (x - x1) * (x - x2))
             display.blit(pygame.transform.rotate(self.bone, (ps_t % 300) / 300 * 360), (x - 32, y - 32))

@@ -6,6 +6,8 @@ import pokemon.pokemon_type as pok_t
 import utils
 import os
 
+from pokemon import abilitys_
+
 NB_POKEMON: int = 9
 POKEMONS: List[Optional['Pokemon']] = [None for i in range(NB_POKEMON + 1)]
 
@@ -57,6 +59,8 @@ class Pokemon(object):
         self.curve: Callable[[int], float] = CURVE[self.curve_name]
         self.base_stats: Dict[str, int] = utils.get_args(data, "base_stats", id_)
         self.ability: Dict[str, int] = utils.get_args(data, "ability", id_, default={})
+        self.ability = {k: v for k, v in self.ability.items() if k in abilitys_.ABILITYS}
+        print(self.ability)
         self.catch_rate: float = utils.get_args(data, "catch_rate", id_)
         self.size = utils.get_args(data, "size", id_, default=0)
         self.weight = utils.get_args(data, "weight", id_, default=0)
@@ -66,15 +70,15 @@ class Pokemon(object):
         for key, value in self.ability.items():
             if value <= lvl:
                 back.append(key)
-        if self.parent != 0:
-            return back + get_pokemon(self.parent).get_all_possible_ability(lvl)
+        # if self.parent != 0:
+        #     return back + get_pokemon(self.parent).get_all_possible_ability(lvl)
         return back
 
     def get_ability_lvl(self, e):
         if e in self.ability:
             return self.ability[e]
-        if self.parent != 0:
-            return get_pokemon(self.parent).get_ability_lvl(e)
+        # if self.parent != 0:
+        #     return get_pokemon(self.parent).get_ability_lvl(e)
         raise ValueError("{} not in ability".format(e))
 
     def get_4_last_ability(self, lvl: int) -> List[str]:
@@ -90,8 +94,8 @@ class Pokemon(object):
         for key, value in self.ability.items():
             if value == lvl:
                 back.append(key)
-        if self.parent != 0:
-            return back + get_pokemon(self.parent).get_possible_ability_at_lvl(lvl)
+        # if self.parent != 0:
+        #     return back + get_pokemon(self.parent).get_possible_ability_at_lvl(lvl)
         return back
 
     def get_xp(self, lvl: int) -> int:
