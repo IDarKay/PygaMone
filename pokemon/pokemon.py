@@ -1,5 +1,4 @@
-import game_error as err
-from typing import Dict, List, Optional, Callable, Any, Set
+from typing import Dict, List, Optional, Callable, Any
 import json
 import game
 import pokemon.pokemon_type as pok_t
@@ -8,7 +7,7 @@ import os
 
 from pokemon import abilitys_
 
-NB_POKEMON: int = 9
+NB_POKEMON: int = 151
 POKEMONS: List[Optional['Pokemon']] = [None for i in range(NB_POKEMON + 1)]
 
 CURVE: Dict[str, Callable[[int], float]] = {
@@ -41,9 +40,6 @@ class Pokemon(object):
 
     def __init__(self, id_: int, data: Dict):
         self.id_: int = id_
-        self.parent: int = utils.get_args(data, "parent", id_, default=0, type_check=int)
-        if not (0 <= self.parent <= NB_POKEMON) or (self.parent == id_ and id_ != 0):
-            raise err.PokemonParseError("Pokemon ({}) have invalid parent !".format(id_))
         self.types: List['pok_t.Type'] = [pok_t.TYPES[t] for t in utils.get_args(data, "type", id_)]
         self.xp_points: int = utils.get_args(data, "xp_point", id_, type_check=int)
         self.color: str = utils.get_args(data, "color", id_, type_check=str)
@@ -70,15 +66,11 @@ class Pokemon(object):
         for key, value in self.ability.items():
             if value <= lvl:
                 back.append(key)
-        # if self.parent != 0:
-        #     return back + get_pokemon(self.parent).get_all_possible_ability(lvl)
         return back
 
     def get_ability_lvl(self, e):
         if e in self.ability:
             return self.ability[e]
-        # if self.parent != 0:
-        #     return get_pokemon(self.parent).get_ability_lvl(e)
         raise ValueError("{} not in ability".format(e))
 
     def get_4_last_ability(self, lvl: int) -> List[str]:
@@ -94,37 +86,32 @@ class Pokemon(object):
         for key, value in self.ability.items():
             if value == lvl:
                 back.append(key)
-        # if self.parent != 0:
-        #     return back + get_pokemon(self.parent).get_possible_ability_at_lvl(lvl)
         return back
 
     def get_xp(self, lvl: int) -> int:
         return CURVE_VALUE[self.curve_name][lvl]
 
     def get_lvl(self, xp) -> int:
-        if self.curve_name:
-            lvl = 0
-            values = CURVE_VALUE[self.curve_name]
-            while xp >= values[lvl]:
-                lvl += 1
-            return lvl - 1
-        else:
-            return int(get_pokemon(self.parent).get_lvl(xp))
+        lvl = 0
+        values = CURVE_VALUE[self.curve_name]
+        while xp >= values[lvl]:
+            lvl += 1
+        return lvl - 1
 
     def get_name(self, upper_first=False) -> str:
-        name = game.get_game_instance().get_poke_message(str(self.id_))["name"]
+        name = game.get_game_instance().get_poke_message(str(self.id_)).get("name", "unset")
         if upper_first:
             name = name[0].capitalize() + name[1:]
         return name
 
     def get_japan_name(self) -> str:
         try:
-            return game.get_game_instance().get_poke_message(str(self.id_))["japan"]
+            return game.get_game_instance().get_poke_message(str(self.id_)).get("japan", "unset")
         except KeyError:
             return ""
 
     def get_pokedex(self) -> str:
-        return game.get_game_instance().get_poke_message(str(self.id_))["pokedex"]
+        return game.get_game_instance().get_poke_message(str(self.id_)).get("pokedex", "unset")
 
     def get_evolution(self) -> List[Dict[str, int]]:
         return self.evolution
@@ -144,11 +131,19 @@ class Pokemon(object):
 
     @staticmethod
     def load_pokemons():
-        global POKEMONS
+        global POKEMONS, NB_POKEMON
         for i in range(0, NB_POKEMON + 1):
-            with open("data/pokemon/{}.json".format(to_3_digit(i)), "r", encoding='utf-8') as file:
-                data = json.load(file)
-                POKEMONS[i] = Pokemon(i, data)
+            try:
+                with open("data/pokemon/{}.json".format(to_3_digit(i)), "r", encoding='utf-8') as file:
+                    data = json.load(file)
+                    POKEMONS[i] = Pokemon(i, data)
+            except FileNotFoundError:
+                print(f'pokemon id : {i}, not found')
+                break
+        while POKEMONS[-1] is None:
+            del POKEMONS[-1]
+        NB_POKEMON = len(POKEMONS) - 1
+        print(NB_POKEMON)
 
 
 def get_pokemon(_id: int) -> Pokemon:

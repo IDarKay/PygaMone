@@ -1,0 +1,57 @@
+{
+    "ability": {
+        "confusion": 39,
+        "disable": 1,
+        "fury-swipes": 48,
+        "hydro-pump": 59,
+        "scratch": 1,
+        "tail-whip": 1
+    },
+    "ability_machine": [
+        "mega-punch",
+        "pay-day",
+        "mega-kick",
+        "body-slam",
+        "take-down",
+        "double-edge",
+        "water-gun",
+        "surf",
+        "ice-beam",
+        "blizzard",
+        "bubble-beam",
+        "hyper-beam",
+        "submission",
+        "counter",
+        "seismic-toss",
+        "strength",
+        "dig",
+        "toxic",
+        "rage",
+        "mimic",
+        "double-team",
+        "bide",
+        "swift",
+        "skull-bash",
+        "rest",
+        "substitute"
+    ],
+    "base_stats": {
+        "attack": 82,
+        "defense": 78,
+        "hp": 80,
+        "sp_attack": 95,
+        "sp_defense": 80,
+        "speed": 85
+    },
+    "catch_rate": 75,
+    "color": "BLUE",
+    "curve": "MEDIUM_FAST",
+    "evolution": [],
+    "female_rate": 0.5,
+    "size": 17,
+    "type": [
+        "WATER"
+    ],
+    "weight": 766,
+    "xp_point": 175
+}

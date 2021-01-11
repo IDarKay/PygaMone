@@ -1,0 +1,48 @@
+{
+    "ability": {
+        "bite": 12,
+        "fury-swipes": 33,
+        "growl": 1,
+        "pay-day": 17,
+        "scratch": 1,
+        "screech": 24,
+        "slash": 44
+    },
+    "ability_machine": [
+        "body-slam",
+        "take-down",
+        "double-edge",
+        "water-gun",
+        "bubble-beam",
+        "thunderbolt",
+        "thunder",
+        "toxic",
+        "rage",
+        "mimic",
+        "double-team",
+        "bide",
+        "swift",
+        "skull-bash",
+        "rest",
+        "substitute"
+    ],
+    "base_stats": {
+        "attack": 45,
+        "defense": 35,
+        "hp": 40,
+        "sp_attack": 40,
+        "sp_defense": 40,
+        "speed": 90
+    },
+    "catch_rate": 255,
+    "color": "YELLOW",
+    "curve": "MEDIUM_FAST",
+    "evolution": [],
+    "female_rate": 0.5,
+    "size": 4,
+    "type": [
+        "NORMAL"
+    ],
+    "weight": 42,
+    "xp_point": 58
+}

@@ -1,29 +1,60 @@
 {
-  "type": ["FIRE", "FLYING"],
-  "xp_point": 209,
-  "color": "RED",
-  "curve": "MEDIUM_SLOW",
-  "catch_rate": 45,
-  "female_rate": 0.125,
-  "parent": 4,
-  "size": 1.7,
-  "weight": 90.5,
-  "ability": {
-    "scratch": 1,
-    "growl": 1,
-    "ember": 9,
-    "leer": 15,
-    "rage": 24,
-    "slash": 36,
-    "flamethrower": 46,
-    "fire_spin": 56
-  },
-  "base_stats": {
-    "hp": 78,
-    "attack": 84,
-    "defense": 78,
-    "sp_attack": 109,
-    "sp_defense": 85,
-    "speed": 100
-  }
+    "ability": {
+        "ember": 1,
+        "fire-spin": 55,
+        "flamethrower": 46,
+        "growl": 1,
+        "leer": 1,
+        "rage": 24,
+        "scratch": 1,
+        "slash": 36
+    },
+    "ability_machine": [
+        "mega-punch",
+        "swords-dance",
+        "cut",
+        "mega-kick",
+        "body-slam",
+        "take-down",
+        "double-edge",
+        "hyper-beam",
+        "submission",
+        "counter",
+        "seismic-toss",
+        "strength",
+        "dragon-rage",
+        "earthquake",
+        "fissure",
+        "dig",
+        "toxic",
+        "mimic",
+        "double-team",
+        "reflect",
+        "bide",
+        "fire-blast",
+        "swift",
+        "skull-bash",
+        "rest",
+        "substitute"
+    ],
+    "base_stats": {
+        "attack": 84,
+        "defense": 78,
+        "hp": 78,
+        "sp_attack": 109,
+        "sp_defense": 85,
+        "speed": 100
+    },
+    "catch_rate": 45,
+    "color": "RED",
+    "curve": "MEDIUM_SLOW",
+    "evolution": [],
+    "female_rate": 0.5,
+    "size": 17,
+    "type": [
+        "FIRE",
+        "FLYING"
+    ],
+    "weight": 905,
+    "xp_point": 240
 }

@@ -1,0 +1,62 @@
+{
+    "ability": {
+        "double-slap": 1,
+        "metronome": 1,
+        "minimize": 1,
+        "sing": 1
+    },
+    "ability_machine": [
+        "mega-punch",
+        "mega-kick",
+        "body-slam",
+        "take-down",
+        "double-edge",
+        "water-gun",
+        "ice-beam",
+        "blizzard",
+        "bubble-beam",
+        "hyper-beam",
+        "submission",
+        "counter",
+        "seismic-toss",
+        "strength",
+        "solar-beam",
+        "thunderbolt",
+        "thunder-wave",
+        "thunder",
+        "toxic",
+        "psychic",
+        "rage",
+        "teleport",
+        "mimic",
+        "double-team",
+        "reflect",
+        "bide",
+        "fire-blast",
+        "skull-bash",
+        "flash",
+        "psywave",
+        "rest",
+        "tri-attack",
+        "substitute"
+    ],
+    "base_stats": {
+        "attack": 70,
+        "defense": 73,
+        "hp": 95,
+        "sp_attack": 95,
+        "sp_defense": 90,
+        "speed": 60
+    },
+    "catch_rate": 25,
+    "color": "PINK",
+    "curve": "FAST",
+    "evolution": [],
+    "female_rate": 0.5,
+    "size": 13,
+    "type": [
+        "NORMAL"
+    ],
+    "weight": 400,
+    "xp_point": 217
+}

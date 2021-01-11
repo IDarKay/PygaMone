@@ -1,0 +1,62 @@
+{
+    "ability": {
+        "body-slam": 1,
+        "poison-sting": 14,
+        "scratch": 1,
+        "tackle": 1,
+        "tail-whip": 1
+    },
+    "ability_machine": [
+        "mega-punch",
+        "pay-day",
+        "mega-kick",
+        "horn-drill",
+        "take-down",
+        "double-edge",
+        "water-gun",
+        "surf",
+        "ice-beam",
+        "blizzard",
+        "bubble-beam",
+        "hyper-beam",
+        "submission",
+        "counter",
+        "seismic-toss",
+        "strength",
+        "thunderbolt",
+        "thunder",
+        "earthquake",
+        "fissure",
+        "toxic",
+        "rage",
+        "mimic",
+        "double-team",
+        "reflect",
+        "bide",
+        "fire-blast",
+        "skull-bash",
+        "rest",
+        "rock-slide",
+        "substitute"
+    ],
+    "base_stats": {
+        "attack": 92,
+        "defense": 87,
+        "hp": 90,
+        "sp_attack": 75,
+        "sp_defense": 85,
+        "speed": 76
+    },
+    "catch_rate": 45,
+    "color": "BLUE",
+    "curve": "MEDIUM_SLOW",
+    "evolution": [],
+    "female_rate": 0.5,
+    "size": 13,
+    "type": [
+        "POISON",
+        "GROUND"
+    ],
+    "weight": 600,
+    "xp_point": 227
+}

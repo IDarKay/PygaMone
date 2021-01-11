@@ -1,0 +1,36 @@
+{
+  "type": [
+    "NORMAL",
+    "FLYING"
+  ],
+  "catch_rate": 255,
+  "xp_point": 52,
+  "color": "YELLOW",
+  "curve": "MEDIUM_SLOW",
+  "female_rate": 0.5,
+  "size": 0.3,
+  "weight": 1.8,
+  "evolution": [
+    {
+      "lvl": 18,
+      "pokemon": 17
+    }
+  ],
+  "ability": {
+    "gust": 1,
+    "sand_attack": 5,
+    "quick_attack": 12,
+    "whirlwind": 19,
+    "wing_attack": 28,
+    "agility": 36,
+    "mirror_move": 44
+  },
+  "base_stats": {
+    "hp": 40,
+    "attack": 45,
+    "defense": 40,
+    "sp_attack": 35,
+    "sp_defense": 35,
+    "speed": 56
+  }
+}

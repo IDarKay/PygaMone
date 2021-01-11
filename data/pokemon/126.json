@@ -1,0 +1,55 @@
+{
+    "ability": {
+        "confuse-ray": 39,
+        "ember": 1,
+        "fire-punch": 43,
+        "flamethrower": 55,
+        "leer": 36,
+        "smog": 52,
+        "smokescreen": 48
+    },
+    "ability_machine": [
+        "mega-punch",
+        "mega-kick",
+        "body-slam",
+        "take-down",
+        "double-edge",
+        "hyper-beam",
+        "submission",
+        "counter",
+        "seismic-toss",
+        "strength",
+        "toxic",
+        "psychic",
+        "rage",
+        "teleport",
+        "mimic",
+        "double-team",
+        "bide",
+        "metronome",
+        "fire-blast",
+        "skull-bash",
+        "psywave",
+        "rest",
+        "substitute"
+    ],
+    "base_stats": {
+        "attack": 95,
+        "defense": 57,
+        "hp": 65,
+        "sp_attack": 100,
+        "sp_defense": 85,
+        "speed": 93
+    },
+    "catch_rate": 45,
+    "color": "RED",
+    "curve": "MEDIUM_FAST",
+    "evolution": [],
+    "female_rate": 0.5,
+    "size": 13,
+    "type": [
+        "FIRE"
+    ],
+    "weight": 445,
+    "xp_point": 173
+}

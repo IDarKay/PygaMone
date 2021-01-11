@@ -1,0 +1,49 @@
+{
+    "ability": {
+        "aurora-beam": 1,
+        "growl": 1,
+        "headbutt": 1,
+        "ice-beam": 56,
+        "rest": 44,
+        "take-down": 50
+    },
+    "ability_machine": [
+        "pay-day",
+        "horn-drill",
+        "body-slam",
+        "double-edge",
+        "water-gun",
+        "surf",
+        "blizzard",
+        "bubble-beam",
+        "hyper-beam",
+        "strength",
+        "toxic",
+        "rage",
+        "mimic",
+        "double-team",
+        "bide",
+        "skull-bash",
+        "substitute"
+    ],
+    "base_stats": {
+        "attack": 70,
+        "defense": 80,
+        "hp": 90,
+        "sp_attack": 70,
+        "sp_defense": 95,
+        "speed": 70
+    },
+    "catch_rate": 75,
+    "color": "WHITE",
+    "curve": "MEDIUM_FAST",
+    "evolution": [],
+    "female_rate": 0.5,
+    "size": 17,
+    "type": [
+        "WATER",
+        "ICE"
+    ],
+    "weight": 1200,
+    "xp_point": 166
+}

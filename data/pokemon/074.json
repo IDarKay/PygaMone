@@ -1,0 +1,53 @@
+{
+    "ability": {
+        "defense-curl": 11,
+        "earthquake": 31,
+        "explosion": 36,
+        "harden": 26,
+        "rock-throw": 16,
+        "self-destruct": 21,
+        "tackle": 1
+    },
+    "ability_machine": [
+        "mega-punch",
+        "body-slam",
+        "take-down",
+        "double-edge",
+        "submission",
+        "counter",
+        "seismic-toss",
+        "strength",
+        "fissure",
+        "dig",
+        "toxic",
+        "rage",
+        "mimic",
+        "double-team",
+        "bide",
+        "metronome",
+        "fire-blast",
+        "rest",
+        "rock-slide",
+        "substitute"
+    ],
+    "base_stats": {
+        "attack": 80,
+        "defense": 100,
+        "hp": 40,
+        "sp_attack": 30,
+        "sp_defense": 30,
+        "speed": 20
+    },
+    "catch_rate": 255,
+    "color": "BROWN",
+    "curve": "MEDIUM_SLOW",
+    "evolution": [],
+    "female_rate": 0.5,
+    "size": 4,
+    "type": [
+        "ROCK",
+        "GROUND"
+    ],
+    "weight": 200,
+    "xp_point": 60
+}

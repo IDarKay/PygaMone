@@ -1,0 +1,57 @@
+{
+    "ability": {
+        "bone-club": 1,
+        "bonemerang": 48,
+        "focus-energy": 1,
+        "growl": 1,
+        "leer": 1,
+        "rage": 55,
+        "thrash": 41
+    },
+    "ability_machine": [
+        "mega-punch",
+        "mega-kick",
+        "body-slam",
+        "take-down",
+        "double-edge",
+        "water-gun",
+        "ice-beam",
+        "blizzard",
+        "bubble-beam",
+        "hyper-beam",
+        "submission",
+        "counter",
+        "seismic-toss",
+        "strength",
+        "earthquake",
+        "fissure",
+        "dig",
+        "toxic",
+        "mimic",
+        "double-team",
+        "bide",
+        "fire-blast",
+        "skull-bash",
+        "rest",
+        "substitute"
+    ],
+    "base_stats": {
+        "attack": 80,
+        "defense": 110,
+        "hp": 60,
+        "sp_attack": 50,
+        "sp_defense": 80,
+        "speed": 45
+    },
+    "catch_rate": 75,
+    "color": "BROWN",
+    "curve": "MEDIUM_FAST",
+    "evolution": [],
+    "female_rate": 0.5,
+    "size": 10,
+    "type": [
+        "GROUND"
+    ],
+    "weight": 450,
+    "xp_point": 149
+}

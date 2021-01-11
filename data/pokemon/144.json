@@ -1,0 +1,49 @@
+{
+    "ability": {
+        "agility": 55,
+        "blizzard": 51,
+        "ice-beam": 1,
+        "mist": 60,
+        "peck": 1
+    },
+    "ability_machine": [
+        "razor-wind",
+        "whirlwind",
+        "fly",
+        "take-down",
+        "double-edge",
+        "water-gun",
+        "bubble-beam",
+        "hyper-beam",
+        "toxic",
+        "rage",
+        "mimic",
+        "double-team",
+        "reflect",
+        "bide",
+        "swift",
+        "sky-attack",
+        "rest",
+        "substitute"
+    ],
+    "base_stats": {
+        "attack": 85,
+        "defense": 100,
+        "hp": 90,
+        "sp_attack": 95,
+        "sp_defense": 125,
+        "speed": 85
+    },
+    "catch_rate": 3,
+    "color": "BLUE",
+    "curve": "SLOW",
+    "evolution": [],
+    "female_rate": 0.5,
+    "size": 17,
+    "type": [
+        "ICE",
+        "FLYING"
+    ],
+    "weight": 554,
+    "xp_point": 261
+}

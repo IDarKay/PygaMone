@@ -1,0 +1,58 @@
+{
+    "ability": {
+        "confusion": 1,
+        "disable": 1,
+        "headbutt": 24,
+        "hypnosis": 1,
+        "meditate": 43,
+        "poison-gas": 33,
+        "pound": 1,
+        "psychic": 37
+    },
+    "ability_machine": [
+        "mega-punch",
+        "mega-kick",
+        "body-slam",
+        "take-down",
+        "double-edge",
+        "hyper-beam",
+        "submission",
+        "counter",
+        "seismic-toss",
+        "thunder-wave",
+        "toxic",
+        "rage",
+        "teleport",
+        "mimic",
+        "double-team",
+        "reflect",
+        "bide",
+        "metronome",
+        "skull-bash",
+        "dream-eater",
+        "flash",
+        "psywave",
+        "rest",
+        "tri-attack",
+        "substitute"
+    ],
+    "base_stats": {
+        "attack": 73,
+        "defense": 70,
+        "hp": 85,
+        "sp_attack": 73,
+        "sp_defense": 115,
+        "speed": 67
+    },
+    "catch_rate": 75,
+    "color": "YELLOW",
+    "curve": "MEDIUM_FAST",
+    "evolution": [],
+    "female_rate": 0.5,
+    "size": 16,
+    "type": [
+        "PSYCHIC"
+    ],
+    "weight": 756,
+    "xp_point": 169
+}

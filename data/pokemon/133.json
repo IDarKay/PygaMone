@@ -1,0 +1,43 @@
+{
+    "ability": {
+        "bite": 37,
+        "quick-attack": 27,
+        "sand-attack": 1,
+        "tackle": 1,
+        "tail-whip": 31,
+        "take-down": 45
+    },
+    "ability_machine": [
+        "body-slam",
+        "double-edge",
+        "toxic",
+        "rage",
+        "mimic",
+        "double-team",
+        "reflect",
+        "bide",
+        "swift",
+        "skull-bash",
+        "rest",
+        "substitute"
+    ],
+    "base_stats": {
+        "attack": 55,
+        "defense": 50,
+        "hp": 55,
+        "sp_attack": 45,
+        "sp_defense": 65,
+        "speed": 55
+    },
+    "catch_rate": 255,
+    "color": "BROWN",
+    "curve": "MEDIUM_FAST",
+    "evolution": [],
+    "female_rate": 0.5,
+    "size": 3,
+    "type": [
+        "NORMAL"
+    ],
+    "weight": 65,
+    "xp_point": 65
+}

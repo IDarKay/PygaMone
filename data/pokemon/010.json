@@ -1,0 +1,26 @@
+{
+    "ability": {
+        "string-shot": 1,
+        "tackle": 1
+    },
+    "ability_machine": [],
+    "base_stats": {
+        "attack": 30,
+        "defense": 35,
+        "hp": 45,
+        "sp_attack": 20,
+        "sp_defense": 20,
+        "speed": 45
+    },
+    "catch_rate": 255,
+    "color": "GREEN",
+    "curve": "MEDIUM_FAST",
+    "evolution": [],
+    "female_rate": 0.5,
+    "size": 3,
+    "type": [
+        "BUG"
+    ],
+    "weight": 29,
+    "xp_point": 39
+}

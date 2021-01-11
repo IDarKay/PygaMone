@@ -1,0 +1,45 @@
+{
+    "ability": {
+        "confuse-ray": 1,
+        "dream-eater": 35,
+        "hypnosis": 27,
+        "lick": 1,
+        "night-shade": 1
+    },
+    "ability_machine": [
+        "mega-drain",
+        "thunderbolt",
+        "thunder",
+        "toxic",
+        "psychic",
+        "rage",
+        "mimic",
+        "double-team",
+        "bide",
+        "self-destruct",
+        "psywave",
+        "explosion",
+        "rest",
+        "substitute"
+    ],
+    "base_stats": {
+        "attack": 35,
+        "defense": 30,
+        "hp": 30,
+        "sp_attack": 100,
+        "sp_defense": 35,
+        "speed": 80
+    },
+    "catch_rate": 190,
+    "color": "PURPLE",
+    "curve": "MEDIUM_SLOW",
+    "evolution": [],
+    "female_rate": 0.5,
+    "size": 13,
+    "type": [
+        "GHOST",
+        "POISON"
+    ],
+    "weight": 1,
+    "xp_point": 62
+}

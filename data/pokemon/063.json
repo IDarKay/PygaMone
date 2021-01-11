@@ -1,0 +1,49 @@
+{
+    "ability": {
+        "teleport": 1
+    },
+    "ability_machine": [
+        "mega-punch",
+        "mega-kick",
+        "body-slam",
+        "take-down",
+        "double-edge",
+        "submission",
+        "counter",
+        "seismic-toss",
+        "thunder-wave",
+        "toxic",
+        "psychic",
+        "rage",
+        "mimic",
+        "double-team",
+        "reflect",
+        "bide",
+        "metronome",
+        "skull-bash",
+        "flash",
+        "psywave",
+        "rest",
+        "tri-attack",
+        "substitute"
+    ],
+    "base_stats": {
+        "attack": 20,
+        "defense": 15,
+        "hp": 25,
+        "sp_attack": 105,
+        "sp_defense": 55,
+        "speed": 90
+    },
+    "catch_rate": 200,
+    "color": "BROWN",
+    "curve": "MEDIUM_SLOW",
+    "evolution": [],
+    "female_rate": 0.5,
+    "size": 9,
+    "type": [
+        "PSYCHIC"
+    ],
+    "weight": 195,
+    "xp_point": 62
+}

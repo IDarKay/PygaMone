@@ -1,0 +1,47 @@
+{
+    "ability": {
+        "agility": 36,
+        "drill-peck": 29,
+        "fury-attack": 15,
+        "growl": 1,
+        "leer": 9,
+        "mirror-move": 22,
+        "peck": 1
+    },
+    "ability_machine": [
+        "razor-wind",
+        "whirlwind",
+        "fly",
+        "take-down",
+        "double-edge",
+        "toxic",
+        "rage",
+        "mimic",
+        "double-team",
+        "bide",
+        "swift",
+        "sky-attack",
+        "rest",
+        "substitute"
+    ],
+    "base_stats": {
+        "attack": 60,
+        "defense": 30,
+        "hp": 40,
+        "sp_attack": 31,
+        "sp_defense": 31,
+        "speed": 70
+    },
+    "catch_rate": 255,
+    "color": "BROWN",
+    "curve": "MEDIUM_FAST",
+    "evolution": [],
+    "female_rate": 0.5,
+    "size": 3,
+    "type": [
+        "NORMAL",
+        "FLYING"
+    ],
+    "weight": 20,
+    "xp_point": 52
+}

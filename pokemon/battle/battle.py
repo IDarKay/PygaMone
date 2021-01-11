@@ -3,7 +3,7 @@ from typing import List, Tuple, NoReturn, Callable, Optional, Union, Any
 from pygame import Surface
 
 from hud import bag
-from pokemon.battle import evolution_animaiton
+from pokemon.battle import evolution_animaiton, battle_history
 from pokemon.battle.animation import Animation
 import pokemon.player_pokemon as player_pokemon
 import pokemon.pokemon
@@ -142,7 +142,7 @@ class RenderAbilityCallback(object):
         return self.get_move(enemy, case), self.get_color(enemy, case)
 
     def get_color(self, enemy: bool, case) -> Optional[
-        Union[tuple[int, int, int, int], tuple[int, int, int, int, int]]]:
+            Union[tuple[int, int, int, int], tuple[int, int, int, int, int]]]:
         v = parse_enemy_case(enemy, case)
         if self.color_editor_launcher and self.color_editor_launcher[0] == v:
             return self.color_editor_launcher
@@ -292,10 +292,13 @@ class PlayAbility(Animation):
         self.__max_type_multi = max(self.__d_status[0], key=lambda k: k[1])[1]
         self.__max_damge = max(self.__d_status[0], key=lambda k: k[0])[0]
         self.__damage_table = []
+        history_damage = {}
         for i in range(len(self.__targets_p)):
             poke = self.__targets_p[i]
             end_heal = poke.heal - self.__d_status[0][i][0]
             self.__damage_table.append((poke.heal, max(0, end_heal)))
+            history_damage[poke.uuid] = min(self.__d_status[0][i][0], poke.heal)
+        self.bat.history.add_move(self.bat.turn_count, battle_history.Move(self.__ab, self.launcher_p.uuid, history_damage))
         self.__effect_status = self.__ab.get_status_edit(self.launcher_p, self.__targets_p)
 
         if self.__ab.is_fail(self.launcher_p):
@@ -792,8 +795,8 @@ class CallBackPokemonAnimation(Animation):
                 return True
             return False
 
-    def is_priority(self) -> bool:
-        return False
+    def is_priority(self) -> int:
+        return 2
 
 
 class LaunchPokemonAnimation(Animation):
@@ -839,7 +842,7 @@ class LaunchPokemonAnimation(Animation):
                 return True
             return False
 
-    def is_priority(self) -> bool:
+    def is_priority(self) -> int:
         return 2
 
 
@@ -1079,6 +1082,7 @@ class Battle(object):
                  sound: 'sounds.Sound' = sounds.BATTLE_DPP_TRAINER
                  ):
 
+        self.history: 'battle_history.BattleHistory' = battle_history.BattleHistory()
         self.match_size = len(ally.case), len(enemy.case)
         self.__ally_team = ally
         self.__enemy_team = enemy
@@ -1107,7 +1111,7 @@ class Battle(object):
         self.bg_image: Optional[pygame.Surface] = None
         self.selected_y = [0, 3]
         self.selected_x = [0, 3]
-        self.menu_action: List[Callable[[], NoReturn]] = [None, None]
+        self.menu_action: List[Optional[Callable[[], NoReturn]]] = [None, None]
         self.status = 0
         self.turn_count = 0
         self.current_play_ability: Optional[PlayAbility] = None
@@ -1795,7 +1799,8 @@ class Battle(object):
                         all_pa.append(
                             PlayAbility(ab_, self, self.get_poke_pose(False, i, simple=True), poke, False, enemy_,
                                         case_))
-            sort_ab(all_pa)
+            # sort_ab(all_pa)
+            all_pa = sorted(all_pa, reverse=True)
             for pa in all_pa:
                 if isinstance(all_pa, PlayAbility):
                     pa.fix_heal()

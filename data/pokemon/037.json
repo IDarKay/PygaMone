@@ -1,0 +1,47 @@
+{
+    "ability": {
+        "confuse-ray": 28,
+        "ember": 1,
+        "fire-spin": 42,
+        "flamethrower": 35,
+        "quick-attack": 16,
+        "roar": 21,
+        "tail-whip": 1
+    },
+    "ability_machine": [
+        "body-slam",
+        "take-down",
+        "double-edge",
+        "dig",
+        "toxic",
+        "rage",
+        "mimic",
+        "double-team",
+        "reflect",
+        "bide",
+        "fire-blast",
+        "swift",
+        "skull-bash",
+        "rest",
+        "substitute"
+    ],
+    "base_stats": {
+        "attack": 41,
+        "defense": 40,
+        "hp": 38,
+        "sp_attack": 50,
+        "sp_defense": 65,
+        "speed": 65
+    },
+    "catch_rate": 190,
+    "color": "BROWN",
+    "curve": "MEDIUM_FAST",
+    "evolution": [],
+    "female_rate": 0.5,
+    "size": 6,
+    "type": [
+        "FIRE"
+    ],
+    "weight": 99,
+    "xp_point": 60
+}

@@ -1,0 +1,55 @@
+{
+    "ability": {
+        "absorb": 1,
+        "harden": 1,
+        "hydro-pump": 53,
+        "leer": 46,
+        "scratch": 1,
+        "slash": 39
+    },
+    "ability_machine": [
+        "razor-wind",
+        "swords-dance",
+        "mega-kick",
+        "body-slam",
+        "take-down",
+        "double-edge",
+        "water-gun",
+        "surf",
+        "ice-beam",
+        "blizzard",
+        "bubble-beam",
+        "hyper-beam",
+        "submission",
+        "seismic-toss",
+        "toxic",
+        "rage",
+        "mimic",
+        "double-team",
+        "reflect",
+        "bide",
+        "skull-bash",
+        "rest",
+        "substitute"
+    ],
+    "base_stats": {
+        "attack": 115,
+        "defense": 105,
+        "hp": 60,
+        "sp_attack": 65,
+        "sp_defense": 70,
+        "speed": 80
+    },
+    "catch_rate": 45,
+    "color": "BROWN",
+    "curve": "MEDIUM_FAST",
+    "evolution": [],
+    "female_rate": 0.5,
+    "size": 13,
+    "type": [
+        "ROCK",
+        "WATER"
+    ],
+    "weight": 405,
+    "xp_point": 173
+}

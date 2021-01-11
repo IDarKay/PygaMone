@@ -1,0 +1,49 @@
+{
+    "ability": {
+        "barrage": 1,
+        "hypnosis": 1,
+        "stomp": 28
+    },
+    "ability_machine": [
+        "take-down",
+        "double-edge",
+        "hyper-beam",
+        "strength",
+        "mega-drain",
+        "solar-beam",
+        "toxic",
+        "psychic",
+        "rage",
+        "teleport",
+        "mimic",
+        "double-team",
+        "reflect",
+        "bide",
+        "self-destruct",
+        "egg-bomb",
+        "psywave",
+        "explosion",
+        "rest",
+        "substitute"
+    ],
+    "base_stats": {
+        "attack": 95,
+        "defense": 85,
+        "hp": 95,
+        "sp_attack": 125,
+        "sp_defense": 75,
+        "speed": 55
+    },
+    "catch_rate": 45,
+    "color": "YELLOW",
+    "curve": "SLOW",
+    "evolution": [],
+    "female_rate": 0.5,
+    "size": 20,
+    "type": [
+        "GRASS",
+        "PSYCHIC"
+    ],
+    "weight": 1200,
+    "xp_point": 186
+}

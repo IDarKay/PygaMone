@@ -1,0 +1,50 @@
+{
+    "ability": {
+        "agility": 55,
+        "drill-peck": 1,
+        "light-screen": 60,
+        "thunder": 51,
+        "thunder-shock": 1
+    },
+    "ability_machine": [
+        "razor-wind",
+        "whirlwind",
+        "fly",
+        "take-down",
+        "double-edge",
+        "hyper-beam",
+        "thunderbolt",
+        "thunder-wave",
+        "toxic",
+        "rage",
+        "mimic",
+        "double-team",
+        "reflect",
+        "bide",
+        "swift",
+        "sky-attack",
+        "flash",
+        "rest",
+        "substitute"
+    ],
+    "base_stats": {
+        "attack": 90,
+        "defense": 85,
+        "hp": 90,
+        "sp_attack": 125,
+        "sp_defense": 90,
+        "speed": 100
+    },
+    "catch_rate": 3,
+    "color": "YELLOW",
+    "curve": "SLOW",
+    "evolution": [],
+    "female_rate": 0.5,
+    "size": 16,
+    "type": [
+        "ELECTRIC",
+        "FLYING"
+    ],
+    "weight": 526,
+    "xp_point": 261
+}

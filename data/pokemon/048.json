@@ -1,0 +1,47 @@
+{
+    "ability": {
+        "disable": 1,
+        "leech-life": 27,
+        "poison-powder": 24,
+        "psybeam": 35,
+        "psychic": 43,
+        "sleep-powder": 38,
+        "stun-spore": 30,
+        "tackle": 1
+    },
+    "ability_machine": [
+        "take-down",
+        "double-edge",
+        "mega-drain",
+        "solar-beam",
+        "toxic",
+        "rage",
+        "mimic",
+        "double-team",
+        "reflect",
+        "bide",
+        "psywave",
+        "rest",
+        "substitute"
+    ],
+    "base_stats": {
+        "attack": 55,
+        "defense": 50,
+        "hp": 60,
+        "sp_attack": 40,
+        "sp_defense": 55,
+        "speed": 45
+    },
+    "catch_rate": 190,
+    "color": "PURPLE",
+    "curve": "MEDIUM_FAST",
+    "evolution": [],
+    "female_rate": 0.5,
+    "size": 10,
+    "type": [
+        "BUG",
+        "POISON"
+    ],
+    "weight": 300,
+    "xp_point": 61
+}

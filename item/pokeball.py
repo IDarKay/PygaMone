@@ -28,10 +28,7 @@ class Pokeball(item.GiveableItem):
             a = 1
         elif a > 255:
             a = 255
-        print(a)
         b = 1048560 / sqrt(sqrt(16711680 / a))
-        print(b)
-        print((b/65535)**4)
         i = 0
         while i < 4 and random.randint(0, 65535) <= b:
             i += 1

@@ -19,12 +19,14 @@ class Animation(object):
 
     def __gt__(self, other):
         if isinstance(other, Animation):
-            return (self.is_priority() > other.is_priority()) or self.get_compare_value() > other.get_compare_value()
+            p1, p2 = self.is_priority(), other.is_priority()
+            return p1 > p2 or (p1 == p2 and self.get_compare_value() > other.get_compare_value())
         else:
             raise ValueError("other need be animation")
 
     def __lt__(self, other):
         if isinstance(other, Animation):
-            return (self.is_priority() < other.is_priority()) or self.get_compare_value() < other.get_compare_value()
+            p1, p2 = self.is_priority(), other.is_priority()
+            return p1 < p2 or (p1 == p2 and self.get_compare_value() < other.get_compare_value())
         else:
             raise ValueError("other need be animation")

@@ -19,39 +19,39 @@
     "8": 1
   },
   "money": 352,
-  "last_save": 1609942195,
-  "time_played": 1992800,
+  "last_save": 1610373897,
+  "time_played": 2424502,
   "team": [
     {
-      "_id": 6,
-      "xp": 11842,
+      "_id": 25,
+      "xp": 900132,
       "ivs": 44468,
-      "heal": 56,
+      "heal": 178,
       "ability": [
         {
-          "_id": "confuse_ray",
-          "pp": 31,
+          "_id": "confusion",
+          "pp": 30,
           "max_pp": 35
         },
         {
-          "_id": "barrier",
+          "_id": "defense_curl",
           "pp": 27,
           "max_pp": 34
         },
         {
-          "_id": "clamp",
+          "_id": "cut",
           "pp": 21,
           "max_pp": 25
         },
         {
-          "_id": "comet_punch",
-          "pp": 23,
+          "_id": "crabhammer",
+          "pp": 22,
           "max_pp": 25
         }
       ],
       "pokeball": "item.pokeball.master_ball",
       "shiny": true,
-      "female": false,
+      "female": true,
       "status": [],
       "uuid": "db2b1876-1305-4d4b-8d5e-5c1e12816b77",
       "item": "none"

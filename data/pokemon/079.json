@@ -1,0 +1,61 @@
+{
+    "ability": {
+        "amnesia": 40,
+        "confusion": 1,
+        "disable": 18,
+        "growl": 27,
+        "headbutt": 22,
+        "psychic": 48,
+        "water-gun": 33
+    },
+    "ability_machine": [
+        "pay-day",
+        "body-slam",
+        "take-down",
+        "double-edge",
+        "surf",
+        "ice-beam",
+        "blizzard",
+        "bubble-beam",
+        "strength",
+        "thunder-wave",
+        "earthquake",
+        "fissure",
+        "dig",
+        "toxic",
+        "rage",
+        "teleport",
+        "mimic",
+        "double-team",
+        "reflect",
+        "bide",
+        "fire-blast",
+        "swift",
+        "skull-bash",
+        "flash",
+        "psywave",
+        "rest",
+        "tri-attack",
+        "substitute"
+    ],
+    "base_stats": {
+        "attack": 65,
+        "defense": 65,
+        "hp": 90,
+        "sp_attack": 40,
+        "sp_defense": 40,
+        "speed": 15
+    },
+    "catch_rate": 190,
+    "color": "PINK",
+    "curve": "MEDIUM_FAST",
+    "evolution": [],
+    "female_rate": 0.5,
+    "size": 12,
+    "type": [
+        "WATER",
+        "PSYCHIC"
+    ],
+    "weight": 360,
+    "xp_point": 63
+}

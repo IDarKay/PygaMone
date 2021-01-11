@@ -1,0 +1,25 @@
+{
+    "ability": {
+        "harden": 1
+    },
+    "ability_machine": [],
+    "base_stats": {
+        "attack": 20,
+        "defense": 55,
+        "hp": 50,
+        "sp_attack": 25,
+        "sp_defense": 25,
+        "speed": 30
+    },
+    "catch_rate": 120,
+    "color": "GREEN",
+    "curve": "MEDIUM_FAST",
+    "evolution": [],
+    "female_rate": 0.5,
+    "size": 7,
+    "type": [
+        "BUG"
+    ],
+    "weight": 99,
+    "xp_point": 72
+}

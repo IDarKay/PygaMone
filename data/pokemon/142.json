@@ -1,0 +1,48 @@
+{
+    "ability": {
+        "agility": 1,
+        "bite": 38,
+        "hyper-beam": 54,
+        "supersonic": 33,
+        "take-down": 45,
+        "wing-attack": 1
+    },
+    "ability_machine": [
+        "razor-wind",
+        "whirlwind",
+        "fly",
+        "double-edge",
+        "dragon-rage",
+        "toxic",
+        "rage",
+        "mimic",
+        "double-team",
+        "reflect",
+        "bide",
+        "fire-blast",
+        "swift",
+        "sky-attack",
+        "rest",
+        "substitute"
+    ],
+    "base_stats": {
+        "attack": 105,
+        "defense": 65,
+        "hp": 80,
+        "sp_attack": 60,
+        "sp_defense": 75,
+        "speed": 130
+    },
+    "catch_rate": 45,
+    "color": "PURPLE",
+    "curve": "SLOW",
+    "evolution": [],
+    "female_rate": 0.5,
+    "size": 18,
+    "type": [
+        "ROCK",
+        "FLYING"
+    ],
+    "weight": 590,
+    "xp_point": 180
+}

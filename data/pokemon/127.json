@@ -1,0 +1,46 @@
+{
+    "ability": {
+        "focus-energy": 36,
+        "guillotine": 30,
+        "harden": 43,
+        "seismic-toss": 25,
+        "slash": 49,
+        "swords-dance": 54,
+        "vice-grip": 1
+    },
+    "ability_machine": [
+        "cut",
+        "body-slam",
+        "take-down",
+        "double-edge",
+        "hyper-beam",
+        "submission",
+        "strength",
+        "toxic",
+        "rage",
+        "mimic",
+        "double-team",
+        "bide",
+        "rest",
+        "substitute"
+    ],
+    "base_stats": {
+        "attack": 125,
+        "defense": 100,
+        "hp": 65,
+        "sp_attack": 55,
+        "sp_defense": 70,
+        "speed": 85
+    },
+    "catch_rate": 45,
+    "color": "BROWN",
+    "curve": "SLOW",
+    "evolution": [],
+    "female_rate": 0.5,
+    "size": 15,
+    "type": [
+        "BUG"
+    ],
+    "weight": 550,
+    "xp_point": 175
+}

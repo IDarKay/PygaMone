@@ -161,6 +161,7 @@ class Game(object):
         running = True
         self.direct_battle: list[bool, bool] = ["--direct_battle" in sys.argv, True]
         self.last_input_type = INPUT_TYPE_KEYBOARD
+        self.full_pokedex = "--full-pokedex" in sys.argv
         while self.tick():
             self.clock.tick(60)
         print("end")
@@ -442,6 +443,8 @@ class Game(object):
         return self.pokedex[s_id] if s_id in self.pokedex else POKEDEX_NEVER_SEEN
 
     def get_pokedex_status(self, id_: int) -> int:
+        if self.full_pokedex:
+            return 0b10
         return self.get_pokedex_e(id_) & 0b11
 
     def get_nb_view(self, id_: int) -> int:

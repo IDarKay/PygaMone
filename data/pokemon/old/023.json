@@ -1,0 +1,35 @@
+{
+  "type": [
+    "POISON"
+  ],
+  "catch_rate": 255,
+  "xp_point": 62,
+  "color": "PURPLE",
+  "curve": "MEDIUM_FAST",
+  "female_rate": 0.5,
+  "size": 2.0,
+  "weight": 6.9,
+  "evolution": [
+    {
+      "lvl": 20,
+      "pokemon": 22
+    }
+  ],
+  "ability": {
+    "wrap": 1,
+    "leer": 1,
+    "poison_sting": 10,
+    "bite": 17,
+    "glare": 24,
+    "screech": 31,
+    "acid": 38
+  },
+  "base_stats": {
+    "hp": 35,
+    "attack": 60,
+    "defense": 44,
+    "sp_attack": 40,
+    "sp_defense": 54,
+    "speed": 55
+  }
+}

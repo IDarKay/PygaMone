@@ -1,0 +1,55 @@
+{
+    "ability": {
+        "focus-energy": 27,
+        "fury-swipes": 21,
+        "karate-chop": 15,
+        "leer": 1,
+        "scratch": 1,
+        "seismic-toss": 33,
+        "thrash": 39
+    },
+    "ability_machine": [
+        "mega-punch",
+        "pay-day",
+        "mega-kick",
+        "body-slam",
+        "take-down",
+        "double-edge",
+        "submission",
+        "counter",
+        "strength",
+        "thunderbolt",
+        "thunder",
+        "dig",
+        "toxic",
+        "rage",
+        "mimic",
+        "double-team",
+        "bide",
+        "metronome",
+        "swift",
+        "skull-bash",
+        "rest",
+        "rock-slide",
+        "substitute"
+    ],
+    "base_stats": {
+        "attack": 80,
+        "defense": 35,
+        "hp": 40,
+        "sp_attack": 35,
+        "sp_defense": 45,
+        "speed": 70
+    },
+    "catch_rate": 190,
+    "color": "BROWN",
+    "curve": "MEDIUM_FAST",
+    "evolution": [],
+    "female_rate": 0.5,
+    "size": 5,
+    "type": [
+        "FIGHTING"
+    ],
+    "weight": 280,
+    "xp_point": 61
+}

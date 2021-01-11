@@ -1,0 +1,26 @@
+{
+    "ability": {
+        "splash": 1,
+        "tackle": 15
+    },
+    "ability_machine": [],
+    "base_stats": {
+        "attack": 10,
+        "defense": 55,
+        "hp": 20,
+        "sp_attack": 15,
+        "sp_defense": 20,
+        "speed": 80
+    },
+    "catch_rate": 255,
+    "color": "RED",
+    "curve": "SLOW",
+    "evolution": [],
+    "female_rate": 0.5,
+    "size": 9,
+    "type": [
+        "WATER"
+    ],
+    "weight": 100,
+    "xp_point": 40
+}

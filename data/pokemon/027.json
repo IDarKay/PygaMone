@@ -1,0 +1,51 @@
+{
+    "ability": {
+        "fury-swipes": 38,
+        "poison-sting": 24,
+        "sand-attack": 10,
+        "scratch": 1,
+        "slash": 17,
+        "swift": 31
+    },
+    "ability_machine": [
+        "swords-dance",
+        "cut",
+        "body-slam",
+        "take-down",
+        "double-edge",
+        "submission",
+        "seismic-toss",
+        "strength",
+        "earthquake",
+        "fissure",
+        "dig",
+        "toxic",
+        "rage",
+        "mimic",
+        "double-team",
+        "bide",
+        "skull-bash",
+        "rest",
+        "rock-slide",
+        "substitute"
+    ],
+    "base_stats": {
+        "attack": 75,
+        "defense": 85,
+        "hp": 50,
+        "sp_attack": 20,
+        "sp_defense": 30,
+        "speed": 40
+    },
+    "catch_rate": 255,
+    "color": "YELLOW",
+    "curve": "MEDIUM_FAST",
+    "evolution": [],
+    "female_rate": 0.5,
+    "size": 6,
+    "type": [
+        "GROUND"
+    ],
+    "weight": 120,
+    "xp_point": 60
+}

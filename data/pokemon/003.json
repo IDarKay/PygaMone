@@ -1,30 +1,50 @@
 {
-  "type": ["GRASS", "POISON"],
-  "xp_point": 236,
-  "color": "GREEN",
-  "parent": 2,
-  "curve": "MEDIUM_SLOW",
-  "catch_rate": 45,
-  "female_rate": 0.125,
-  "size": 2,
-  "weight": 100,
-  "ability": {
-    "tackle": 1,
-    "growl": 1,
-    "leach_seed": 7,
-    "vine_whip": 13,
-    "poison_powder": 20,
-    "razor_leaf": 30,
-    "growth": 43,
-    "sleep_powder": 55,
-    "solar_beam": 65
-  },
-  "base_stats": {
-    "hp": 80,
-    "attack": 82,
-    "defense": 83,
-    "sp_attack": 100,
-    "sp_defense": 100,
-    "speed": 80
-  }
+    "ability": {
+        "growl": 1,
+        "growth": 43,
+        "leech-seed": 1,
+        "poison-powder": 22,
+        "razor-leaf": 30,
+        "sleep-powder": 55,
+        "solar-beam": 65,
+        "tackle": 1,
+        "vine-whip": 1
+    },
+    "ability_machine": [
+        "swords-dance",
+        "cut",
+        "body-slam",
+        "take-down",
+        "double-edge",
+        "hyper-beam",
+        "mega-drain",
+        "toxic",
+        "rage",
+        "mimic",
+        "double-team",
+        "reflect",
+        "bide",
+        "rest",
+        "substitute"
+    ],
+    "base_stats": {
+        "attack": 82,
+        "defense": 83,
+        "hp": 80,
+        "sp_attack": 100,
+        "sp_defense": 100,
+        "speed": 80
+    },
+    "catch_rate": 45,
+    "color": "GREEN",
+    "curve": "MEDIUM_SLOW",
+    "evolution": [],
+    "female_rate": 0.5,
+    "size": 20,
+    "type": [
+        "GRASS",
+        "POISON"
+    ],
+    "weight": 1000,
+    "xp_point": 236
 }

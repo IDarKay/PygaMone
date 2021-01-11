@@ -1,0 +1,54 @@
+{
+    "ability": {
+        "harden": 1,
+        "tackle": 1,
+        "water-gun": 1
+    },
+    "ability_machine": [
+        "take-down",
+        "double-edge",
+        "surf",
+        "ice-beam",
+        "blizzard",
+        "bubble-beam",
+        "hyper-beam",
+        "thunderbolt",
+        "thunder-wave",
+        "thunder",
+        "toxic",
+        "psychic",
+        "rage",
+        "teleport",
+        "mimic",
+        "double-team",
+        "reflect",
+        "bide",
+        "swift",
+        "skull-bash",
+        "flash",
+        "psywave",
+        "rest",
+        "tri-attack",
+        "substitute"
+    ],
+    "base_stats": {
+        "attack": 75,
+        "defense": 85,
+        "hp": 60,
+        "sp_attack": 100,
+        "sp_defense": 85,
+        "speed": 115
+    },
+    "catch_rate": 60,
+    "color": "PURPLE",
+    "curve": "SLOW",
+    "evolution": [],
+    "female_rate": 0.5,
+    "size": 11,
+    "type": [
+        "WATER",
+        "PSYCHIC"
+    ],
+    "weight": 800,
+    "xp_point": 182
+}

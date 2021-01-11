@@ -1,0 +1,52 @@
+{
+    "ability": {
+        "aurora-beam": 1,
+        "clamp": 1,
+        "spike-cannon": 50,
+        "supersonic": 1,
+        "withdraw": 1
+    },
+    "ability_machine": [
+        "take-down",
+        "double-edge",
+        "water-gun",
+        "surf",
+        "ice-beam",
+        "blizzard",
+        "bubble-beam",
+        "hyper-beam",
+        "toxic",
+        "rage",
+        "teleport",
+        "mimic",
+        "double-team",
+        "reflect",
+        "bide",
+        "self-destruct",
+        "swift",
+        "explosion",
+        "rest",
+        "tri-attack",
+        "substitute"
+    ],
+    "base_stats": {
+        "attack": 95,
+        "defense": 180,
+        "hp": 50,
+        "sp_attack": 85,
+        "sp_defense": 45,
+        "speed": 70
+    },
+    "catch_rate": 60,
+    "color": "PURPLE",
+    "curve": "SLOW",
+    "evolution": [],
+    "female_rate": 0.5,
+    "size": 15,
+    "type": [
+        "WATER",
+        "ICE"
+    ],
+    "weight": 1325,
+    "xp_point": 184
+}

@@ -1,0 +1,54 @@
+{
+    "ability": {
+        "agility": 35,
+        "conversion": 1,
+        "psybeam": 23,
+        "recover": 28,
+        "sharpen": 1,
+        "tackle": 1,
+        "tri-attack": 42
+    },
+    "ability_machine": [
+        "take-down",
+        "double-edge",
+        "ice-beam",
+        "blizzard",
+        "hyper-beam",
+        "thunderbolt",
+        "thunder-wave",
+        "thunder",
+        "toxic",
+        "psychic",
+        "rage",
+        "teleport",
+        "mimic",
+        "double-team",
+        "reflect",
+        "bide",
+        "swift",
+        "skull-bash",
+        "flash",
+        "psywave",
+        "rest",
+        "substitute"
+    ],
+    "base_stats": {
+        "attack": 60,
+        "defense": 70,
+        "hp": 65,
+        "sp_attack": 85,
+        "sp_defense": 75,
+        "speed": 40
+    },
+    "catch_rate": 45,
+    "color": "PINK",
+    "curve": "MEDIUM_FAST",
+    "evolution": [],
+    "female_rate": 0.5,
+    "size": 8,
+    "type": [
+        "NORMAL"
+    ],
+    "weight": 365,
+    "xp_point": 79
+}

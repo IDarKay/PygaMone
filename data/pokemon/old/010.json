@@ -1,0 +1,28 @@
+{
+  "type": ["BUG"],
+  "xp_point": 53,
+  "color": "GREEN",
+  "curve": "MEDIUM_FAST",
+  "catch_rate": 255,
+  "female_rate": 0.5,
+  "size": 0.3,
+  "weight": 2.9,
+  "evolution": [
+    {
+      "lvl": 7,
+      "pokemon": 11
+    }
+  ],
+  "ability": {
+    "tackle": 1,
+    "string_shot": 1
+  },
+  "base_stats": {
+    "hp": 45,
+    "attack": 30,
+    "defense": 35,
+    "sp_attack": 20,
+    "sp_defense": 20,
+    "speed": 45
+  }
+}

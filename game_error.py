@@ -86,3 +86,12 @@ class LevelParseError(Exception):
             return "LevelParseError, {} ".format(self.message)
         else:
             return "LevelParseError has been raised"
+
+
+class NullPointerError(Exception):
+
+    def __init__(self, *args):
+        pass
+
+    def __str__(self):
+        return "NullPointerError"

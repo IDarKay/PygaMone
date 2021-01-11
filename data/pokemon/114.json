@@ -1,0 +1,49 @@
+{
+    "ability": {
+        "absorb": 29,
+        "bind": 1,
+        "constrict": 1,
+        "growth": 49,
+        "poison-powder": 32,
+        "slam": 45,
+        "sleep-powder": 39,
+        "stun-spore": 36
+    },
+    "ability_machine": [
+        "swords-dance",
+        "cut",
+        "body-slam",
+        "take-down",
+        "double-edge",
+        "hyper-beam",
+        "mega-drain",
+        "solar-beam",
+        "toxic",
+        "rage",
+        "mimic",
+        "double-team",
+        "bide",
+        "skull-bash",
+        "rest",
+        "substitute"
+    ],
+    "base_stats": {
+        "attack": 55,
+        "defense": 115,
+        "hp": 65,
+        "sp_attack": 100,
+        "sp_defense": 40,
+        "speed": 60
+    },
+    "catch_rate": 45,
+    "color": "BLUE",
+    "curve": "MEDIUM_FAST",
+    "evolution": [],
+    "female_rate": 0.5,
+    "size": 10,
+    "type": [
+        "GRASS"
+    ],
+    "weight": 350,
+    "xp_point": 87
+}
