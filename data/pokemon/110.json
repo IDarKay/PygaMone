@@ -1,0 +1,43 @@
+{
+    "ability": {
+        "explosion": 53,
+        "haze": 49,
+        "self-destruct": 43,
+        "sludge": 1,
+        "smog": 1,
+        "smokescreen": 39,
+        "tackle": 1
+    },
+    "ability_machine": [
+        "hyper-beam",
+        "thunderbolt",
+        "thunder",
+        "toxic",
+        "rage",
+        "mimic",
+        "double-team",
+        "bide",
+        "fire-blast",
+        "rest",
+        "substitute"
+    ],
+    "base_stats": {
+        "attack": 90,
+        "defense": 120,
+        "hp": 65,
+        "sp_attack": 85,
+        "sp_defense": 70,
+        "speed": 60
+    },
+    "catch_rate": 60,
+    "color": "PURPLE",
+    "curve": "MEDIUM_FAST",
+    "evolution": [],
+    "female_rate": 0.5,
+    "size": 12,
+    "type": [
+        "POISON"
+    ],
+    "weight": 95,
+    "xp_point": 172
+}

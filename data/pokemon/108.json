@@ -1,0 +1,62 @@
+{
+    "ability": {
+        "defense-curl": 23,
+        "disable": 15,
+        "screech": 39,
+        "slam": 31,
+        "stomp": 7,
+        "supersonic": 1,
+        "wrap": 1
+    },
+    "ability_machine": [
+        "mega-punch",
+        "swords-dance",
+        "cut",
+        "mega-kick",
+        "body-slam",
+        "take-down",
+        "double-edge",
+        "water-gun",
+        "surf",
+        "ice-beam",
+        "blizzard",
+        "bubble-beam",
+        "hyper-beam",
+        "submission",
+        "counter",
+        "seismic-toss",
+        "strength",
+        "thunderbolt",
+        "thunder",
+        "earthquake",
+        "fissure",
+        "toxic",
+        "rage",
+        "mimic",
+        "double-team",
+        "bide",
+        "fire-blast",
+        "skull-bash",
+        "rest",
+        "substitute"
+    ],
+    "base_stats": {
+        "attack": 55,
+        "defense": 75,
+        "hp": 90,
+        "sp_attack": 60,
+        "sp_defense": 75,
+        "speed": 30
+    },
+    "catch_rate": 45,
+    "color": "PINK",
+    "curve": "MEDIUM_FAST",
+    "evolution": [],
+    "female_rate": 0.5,
+    "size": 12,
+    "type": [
+        "NORMAL"
+    ],
+    "weight": 655,
+    "xp_point": 77
+}

@@ -39,14 +39,6 @@
     "name": "Bite",
     "description": "The target is bitten with viciously sharp fangs. This may also make the target flinch."
   },
-  "ember": {
-    "name": "Ember",
-    "description": "The target is attacked with small flames. This may also leave the target with a burn."
-  },
-  "tackle": {
-    "name": "Tackle",
-    "description": "A physical attack in which the user charges and slams into the target with its whole body."
-  },
   "blizzard": {
     "name": "Blizzard",
     "description": "A howling blizzard is summoned to strike opposing Pokémon. This may also leave the opposing Pokémon frozen."
@@ -106,5 +98,69 @@
   "cut": {
     "name": "Cut",
     "description": "The target is cut with a scythe or claw."
+  },
+  "defense_curl": {
+    "name": "Defense Curl",
+    "description": "The user curls up to conceal weak spots and raise its Defense stat."
+  },
+  "dig": {
+    "name": "Dig",
+    "description": "The user burrows into the ground, then attacks on the next turn."
+  },
+  "disable": {
+    "name": "Disable",
+    "description": "For four turns, this move prevents the target from using the move it last used."
+  },
+  "dizzy_punch": {
+    "name": "Dizzy Punch",
+    "description": "The target is hit with rhythmically launched punches. This may also leave the target confused."
+  },
+  "double_kick": {
+    "name": "Double Kick",
+    "description": "The target is quickly kicked twice in succession using both feet."
+  },
+  "double_slap": {
+    "name": "Double Slap",
+    "description": "The target is slapped repeatedly, back and forth, two to five times in a row."
+  },
+  "double_team": {
+    "name": "Double Team",
+    "description": "By moving rapidly, the user makes illusory copies of itself to raise its evasiveness."
+  },
+  "double_edge": {
+    "name": "Double-Edge",
+    "description": "A reckless, life-risking tackle. This also damages the user quite a lot."
+  },
+  "dragon_rage": {
+    "name": "Dragon Rage",
+    "description": "This attack hits the target with a shock wave of pure rage. This attack always inflicts 40 HP damage."
+  },
+  "dream_eater": {
+    "name": "Dream Eater",
+    "description": "The user eats the dreams of a sleeping target. The user's HP is restored by half the damage taken by the target."
+  },
+  "drill_peck": {
+    "name": "Drill Peck",
+    "description": "A corkscrewing attack with a sharp beak acting as a drill."
+  },
+  "earthquake": {
+    "name": "Earthquake",
+    "description": "The user sets off an earthquake that strikes every Pokémon around it."
+  },
+  "egg_bomb": {
+    "name": "Egg Bomb",
+    "description": "A large egg is hurled at the target with maximum force to inflict damage."
+  },
+  "ember": {
+    "name": "Ember",
+    "description": "The target is attacked with small flames. This may also leave the target with a burn."
+  },
+  "explosion": {
+    "name": "Explosion",
+    "description": "The user attacks everything around it by causing a tremendous explosion. The user faints upon using this move."
+  },
+  "tackle": {
+    "name": "Tackle",
+    "description": "A physical attack in which the user charges and slams into the target with its whole body."
   }
 }

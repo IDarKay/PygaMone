@@ -1,0 +1,49 @@
+{
+    "ability": {
+        "barrage": 1,
+        "hypnosis": 1,
+        "leech-seed": 28,
+        "poison-powder": 37,
+        "reflect": 25,
+        "sleep-powder": 48,
+        "solar-beam": 42,
+        "stun-spore": 32
+    },
+    "ability_machine": [
+        "take-down",
+        "double-edge",
+        "toxic",
+        "psychic",
+        "rage",
+        "teleport",
+        "mimic",
+        "double-team",
+        "bide",
+        "self-destruct",
+        "egg-bomb",
+        "psywave",
+        "explosion",
+        "rest",
+        "substitute"
+    ],
+    "base_stats": {
+        "attack": 40,
+        "defense": 80,
+        "hp": 60,
+        "sp_attack": 60,
+        "sp_defense": 45,
+        "speed": 40
+    },
+    "catch_rate": 90,
+    "color": "PINK",
+    "curve": "SLOW",
+    "evolution": [],
+    "female_rate": 0.5,
+    "size": 4,
+    "type": [
+        "GRASS",
+        "PSYCHIC"
+    ],
+    "weight": 25,
+    "xp_point": 65
+}

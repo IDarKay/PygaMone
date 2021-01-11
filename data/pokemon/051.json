@@ -1,0 +1,44 @@
+{
+    "ability": {
+        "dig": 1,
+        "earthquake": 47,
+        "growl": 1,
+        "sand-attack": 24,
+        "scratch": 1,
+        "slash": 35
+    },
+    "ability_machine": [
+        "body-slam",
+        "take-down",
+        "double-edge",
+        "hyper-beam",
+        "fissure",
+        "toxic",
+        "rage",
+        "mimic",
+        "double-team",
+        "bide",
+        "rest",
+        "rock-slide",
+        "substitute"
+    ],
+    "base_stats": {
+        "attack": 100,
+        "defense": 50,
+        "hp": 35,
+        "sp_attack": 50,
+        "sp_defense": 70,
+        "speed": 120
+    },
+    "catch_rate": 50,
+    "color": "BROWN",
+    "curve": "MEDIUM_FAST",
+    "evolution": [],
+    "female_rate": 0.5,
+    "size": 7,
+    "type": [
+        "GROUND"
+    ],
+    "weight": 333,
+    "xp_point": 149
+}

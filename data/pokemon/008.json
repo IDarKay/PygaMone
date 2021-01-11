@@ -1,36 +1,55 @@
 {
-  "type": ["WATER"],
-  "xp_point": 143,
-  "color": "RED",
-  "curve": "MEDIUM_SLOW",
-  "catch_rate": 45,
-  "female_rate": 0.125,
-  "parent": 7,
-  "size": 1,
-  "weight": 22.5,
-    "evolution": [
-    {
-      "lvl": 36,
-      "pokemon": 9
-    }
-  ],
-  "ability": {
-    "tackle": 1,
-    "tail_whip": 1,
-    "bubble": 8,
-    "water_gun": 15,
-    "bite": 24,
-    "withdraw": 31,
-    "skull_bash": 39,
-    "hydro_pump": 47
-  },
-  "base_stats": {
-    "hp": 59,
-    "attack": 63,
-    "defense": 80,
-    "sp_attack": 65,
-    "sp_defense": 80,
-    "speed": 58
-  }
+    "ability": {
+        "bite": 24,
+        "bubble": 1,
+        "hydro-pump": 47,
+        "skull-bash": 39,
+        "tackle": 1,
+        "tail-whip": 1,
+        "water-gun": 15,
+        "withdraw": 31
+    },
+    "ability_machine": [
+        "mega-punch",
+        "mega-kick",
+        "body-slam",
+        "take-down",
+        "double-edge",
+        "surf",
+        "ice-beam",
+        "blizzard",
+        "bubble-beam",
+        "submission",
+        "counter",
+        "seismic-toss",
+        "strength",
+        "dig",
+        "toxic",
+        "rage",
+        "mimic",
+        "double-team",
+        "reflect",
+        "bide",
+        "rest",
+        "substitute"
+    ],
+    "base_stats": {
+        "attack": 63,
+        "defense": 80,
+        "hp": 59,
+        "sp_attack": 65,
+        "sp_defense": 80,
+        "speed": 58
+    },
+    "catch_rate": 45,
+    "color": "BLUE",
+    "curve": "MEDIUM_SLOW",
+    "evolution": [],
+    "female_rate": 0.5,
+    "size": 10,
+    "type": [
+        "WATER"
+    ],
+    "weight": 225,
+    "xp_point": 142
 }
-

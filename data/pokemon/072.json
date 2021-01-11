@@ -1,0 +1,53 @@
+{
+    "ability": {
+        "acid": 1,
+        "barrier": 33,
+        "constrict": 27,
+        "hydro-pump": 48,
+        "poison-sting": 18,
+        "screech": 40,
+        "supersonic": 7,
+        "water-gun": 22,
+        "wrap": 13
+    },
+    "ability_machine": [
+        "swords-dance",
+        "cut",
+        "take-down",
+        "double-edge",
+        "surf",
+        "ice-beam",
+        "blizzard",
+        "bubble-beam",
+        "mega-drain",
+        "toxic",
+        "rage",
+        "mimic",
+        "double-team",
+        "reflect",
+        "bide",
+        "skull-bash",
+        "rest",
+        "substitute"
+    ],
+    "base_stats": {
+        "attack": 40,
+        "defense": 35,
+        "hp": 40,
+        "sp_attack": 50,
+        "sp_defense": 100,
+        "speed": 70
+    },
+    "catch_rate": 190,
+    "color": "BLUE",
+    "curve": "SLOW",
+    "evolution": [],
+    "female_rate": 0.5,
+    "size": 9,
+    "type": [
+        "WATER",
+        "POISON"
+    ],
+    "weight": 455,
+    "xp_point": 67
+}

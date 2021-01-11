@@ -1,0 +1,27 @@
+{
+    "ability": {
+        "poison-sting": 1,
+        "string-shot": 1
+    },
+    "ability_machine": [],
+    "base_stats": {
+        "attack": 35,
+        "defense": 30,
+        "hp": 40,
+        "sp_attack": 20,
+        "sp_defense": 20,
+        "speed": 50
+    },
+    "catch_rate": 255,
+    "color": "BROWN",
+    "curve": "MEDIUM_FAST",
+    "evolution": [],
+    "female_rate": 0.5,
+    "size": 3,
+    "type": [
+        "BUG",
+        "POISON"
+    ],
+    "weight": 32,
+    "xp_point": 39
+}

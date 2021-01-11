@@ -1,0 +1,30 @@
+{
+  "type": [
+    "POISON"
+  ],
+  "catch_rate": 120,
+  "xp_point": 118,
+  "color": "PURPLE",
+  "curve": "MEDIUM_SLOW",
+  "female_rate": 0,
+  "size": 0.9,
+  "weight": 19.5,
+  "ability": {
+    "lear": 1,
+    "tackle": 1,
+    "hom_attack": 8,
+    "double_kick": 12,
+    "poison_sting": 19,
+    "focus_energy": 27,
+    "fury_attack": 36,
+    "hom_drill": 46
+  },
+  "base_stats": {
+    "hp": 61,
+    "attack": 72,
+    "defense": 57,
+    "sp_attack": 55,
+    "sp_defense": 55,
+    "speed": 65
+  }
+}

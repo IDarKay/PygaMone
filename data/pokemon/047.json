@@ -1,0 +1,50 @@
+{
+    "ability": {
+        "growth": 48,
+        "leech-life": 1,
+        "scratch": 1,
+        "slash": 39,
+        "spore": 30,
+        "stun-spore": 1
+    },
+    "ability_machine": [
+        "swords-dance",
+        "cut",
+        "body-slam",
+        "take-down",
+        "double-edge",
+        "hyper-beam",
+        "mega-drain",
+        "solar-beam",
+        "dig",
+        "toxic",
+        "rage",
+        "mimic",
+        "double-team",
+        "reflect",
+        "bide",
+        "skull-bash",
+        "rest",
+        "substitute"
+    ],
+    "base_stats": {
+        "attack": 95,
+        "defense": 80,
+        "hp": 60,
+        "sp_attack": 60,
+        "sp_defense": 80,
+        "speed": 30
+    },
+    "catch_rate": 75,
+    "color": "RED",
+    "curve": "MEDIUM_FAST",
+    "evolution": [],
+    "female_rate": 0.5,
+    "size": 10,
+    "type": [
+        "BUG",
+        "GRASS"
+    ],
+    "weight": 295,
+    "xp_point": 142
+}

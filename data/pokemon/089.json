@@ -1,0 +1,48 @@
+{
+    "ability": {
+        "acid-armor": 60,
+        "disable": 1,
+        "harden": 45,
+        "minimize": 33,
+        "poison-gas": 1,
+        "pound": 1,
+        "screech": 53,
+        "sludge": 37
+    },
+    "ability_machine": [
+        "body-slam",
+        "hyper-beam",
+        "mega-drain",
+        "thunderbolt",
+        "thunder",
+        "toxic",
+        "rage",
+        "mimic",
+        "double-team",
+        "bide",
+        "self-destruct",
+        "fire-blast",
+        "explosion",
+        "rest",
+        "substitute"
+    ],
+    "base_stats": {
+        "attack": 105,
+        "defense": 75,
+        "hp": 105,
+        "sp_attack": 65,
+        "sp_defense": 100,
+        "speed": 50
+    },
+    "catch_rate": 75,
+    "color": "PURPLE",
+    "curve": "MEDIUM_FAST",
+    "evolution": [],
+    "female_rate": 0.5,
+    "size": 12,
+    "type": [
+        "POISON"
+    ],
+    "weight": 300,
+    "xp_point": 175
+}

@@ -1,0 +1,51 @@
+{
+    "ability": {
+        "bubble": 1,
+        "crabhammer": 42,
+        "guillotine": 25,
+        "harden": 49,
+        "leer": 1,
+        "stomp": 34,
+        "vice-grip": 1
+    },
+    "ability_machine": [
+        "swords-dance",
+        "cut",
+        "body-slam",
+        "take-down",
+        "double-edge",
+        "water-gun",
+        "surf",
+        "ice-beam",
+        "blizzard",
+        "bubble-beam",
+        "hyper-beam",
+        "strength",
+        "toxic",
+        "rage",
+        "mimic",
+        "double-team",
+        "bide",
+        "rest",
+        "substitute"
+    ],
+    "base_stats": {
+        "attack": 130,
+        "defense": 115,
+        "hp": 55,
+        "sp_attack": 50,
+        "sp_defense": 50,
+        "speed": 75
+    },
+    "catch_rate": 60,
+    "color": "RED",
+    "curve": "MEDIUM_FAST",
+    "evolution": [],
+    "female_rate": 0.5,
+    "size": 13,
+    "type": [
+        "WATER"
+    ],
+    "weight": 600,
+    "xp_point": 166
+}

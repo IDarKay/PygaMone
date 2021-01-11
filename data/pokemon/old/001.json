@@ -1,0 +1,36 @@
+{
+  "type": ["GRASS", "POISON"],
+  "xp_point": 64,
+  "color": "GREEN",
+  "curve": "MEDIUM_SLOW",
+  "catch_rate": 45,
+  "female_rate": 0.125,
+  "size": 0.7,
+  "weight": 6.9,
+  "evolution": [
+    {
+      "lvl": 16,
+      "pokemon": 2
+    }
+  ],
+  "ability": {
+    "tackle": 1,
+    "growl": 1,
+    "leach_seed": 7,
+    "vine_whip": 13,
+    "poison_powder": 20,
+    "razor_leaf": 27,
+    "growth": 34,
+    "sleep_powder": 41,
+    "solar_beam": 48
+  },
+  "base_stats": {
+    "hp": 45,
+    "attack": 49,
+    "defense": 49,
+    "sp_attack": 65,
+    "sp_defense": 65,
+    "speed": 318
+  }
+}
+

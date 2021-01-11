@@ -1,0 +1,51 @@
+{
+    "ability": {
+        "confusion": 1,
+        "poison-powder": 15,
+        "psybeam": 32,
+        "sleep-powder": 17,
+        "stun-spore": 16,
+        "supersonic": 21,
+        "whirlwind": 26
+    },
+    "ability_machine": [
+        "razor-wind",
+        "take-down",
+        "double-edge",
+        "hyper-beam",
+        "mega-drain",
+        "solar-beam",
+        "toxic",
+        "psychic",
+        "rage",
+        "teleport",
+        "mimic",
+        "double-team",
+        "reflect",
+        "bide",
+        "swift",
+        "psywave",
+        "rest",
+        "substitute"
+    ],
+    "base_stats": {
+        "attack": 45,
+        "defense": 50,
+        "hp": 60,
+        "sp_attack": 90,
+        "sp_defense": 80,
+        "speed": 70
+    },
+    "catch_rate": 45,
+    "color": "WHITE",
+    "curve": "MEDIUM_FAST",
+    "evolution": [],
+    "female_rate": 0.5,
+    "size": 11,
+    "type": [
+        "BUG",
+        "FLYING"
+    ],
+    "weight": 320,
+    "xp_point": 178
+}

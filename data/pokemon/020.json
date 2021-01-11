@@ -1,0 +1,51 @@
+{
+    "ability": {
+        "focus-energy": 27,
+        "hyper-fang": 14,
+        "quick-attack": 1,
+        "super-fang": 41,
+        "tackle": 1,
+        "tail-whip": 1
+    },
+    "ability_machine": [
+        "body-slam",
+        "take-down",
+        "double-edge",
+        "water-gun",
+        "ice-beam",
+        "blizzard",
+        "bubble-beam",
+        "hyper-beam",
+        "thunderbolt",
+        "thunder",
+        "dig",
+        "toxic",
+        "rage",
+        "mimic",
+        "double-team",
+        "bide",
+        "swift",
+        "skull-bash",
+        "rest",
+        "substitute"
+    ],
+    "base_stats": {
+        "attack": 81,
+        "defense": 60,
+        "hp": 55,
+        "sp_attack": 50,
+        "sp_defense": 70,
+        "speed": 97
+    },
+    "catch_rate": 127,
+    "color": "BROWN",
+    "curve": "MEDIUM_FAST",
+    "evolution": [],
+    "female_rate": 0.5,
+    "size": 7,
+    "type": [
+        "NORMAL"
+    ],
+    "weight": 185,
+    "xp_point": 145
+}

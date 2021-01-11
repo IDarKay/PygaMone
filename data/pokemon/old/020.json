@@ -1,0 +1,28 @@
+{
+  "type": [
+    "NORMAL"
+  ],
+  "catch_rate": 127,
+  "xp_point": 116,
+  "color": "BROWN",
+  "curve": "MEDIUM_FAST",
+  "female_rate": 0.5,
+  "size": 0.7,
+  "weight": 18.5,
+  "ability": {
+    "tackle": 1,
+    "tail_whip": 5,
+    "quick_attack": 12,
+    "hyper_fang": 19,
+    "focus_energy": 28,
+    "super_fang": 41
+  },
+  "base_stats": {
+    "hp": 55,
+    "attack": 81,
+    "defense": 60,
+    "sp_attack": 50,
+    "sp_defense": 70,
+    "speed": 97
+  }
+}

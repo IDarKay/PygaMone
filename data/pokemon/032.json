@@ -1,0 +1,48 @@
+{
+    "ability": {
+        "double-kick": 43,
+        "focus-energy": 21,
+        "fury-attack": 29,
+        "horn-attack": 8,
+        "horn-drill": 36,
+        "leer": 1,
+        "poison-sting": 14,
+        "tackle": 1
+    },
+    "ability_machine": [
+        "body-slam",
+        "take-down",
+        "double-edge",
+        "blizzard",
+        "thunderbolt",
+        "thunder",
+        "toxic",
+        "rage",
+        "mimic",
+        "double-team",
+        "reflect",
+        "bide",
+        "skull-bash",
+        "rest",
+        "substitute"
+    ],
+    "base_stats": {
+        "attack": 57,
+        "defense": 40,
+        "hp": 46,
+        "sp_attack": 40,
+        "sp_defense": 40,
+        "speed": 50
+    },
+    "catch_rate": 235,
+    "color": "PURPLE",
+    "curve": "MEDIUM_SLOW",
+    "evolution": [],
+    "female_rate": 0.5,
+    "size": 5,
+    "type": [
+        "POISON"
+    ],
+    "weight": 90,
+    "xp_point": 55
+}

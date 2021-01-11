@@ -1,15 +1,16 @@
 from typing import Optional
 import pygame
 
-NB_POKEMON: int = 9
+NB_POKEMON: int = 151
 __all__ : list['Sound'] = []
+
 
 class Sound(object):
 
     def __init__(self, path: str):
         __all__.append(self)
         self.path = path
-        self.sound: Optional[pygame.mixer.Sound]= None
+        self.sound: Optional[pygame.mixer.Sound] = None
 
     def get(self):
         if self.sound is None:

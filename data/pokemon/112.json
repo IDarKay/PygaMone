@@ -1,0 +1,63 @@
+{
+    "ability": {
+        "fury-attack": 1,
+        "horn-attack": 1,
+        "horn-drill": 48,
+        "leer": 55,
+        "stomp": 1,
+        "tail-whip": 1,
+        "take-down": 64
+    },
+    "ability_machine": [
+        "mega-punch",
+        "pay-day",
+        "mega-kick",
+        "body-slam",
+        "double-edge",
+        "water-gun",
+        "surf",
+        "ice-beam",
+        "blizzard",
+        "bubble-beam",
+        "hyper-beam",
+        "submission",
+        "counter",
+        "seismic-toss",
+        "strength",
+        "thunderbolt",
+        "thunder",
+        "earthquake",
+        "fissure",
+        "dig",
+        "toxic",
+        "rage",
+        "mimic",
+        "double-team",
+        "bide",
+        "fire-blast",
+        "skull-bash",
+        "rest",
+        "rock-slide",
+        "substitute"
+    ],
+    "base_stats": {
+        "attack": 130,
+        "defense": 120,
+        "hp": 105,
+        "sp_attack": 45,
+        "sp_defense": 45,
+        "speed": 40
+    },
+    "catch_rate": 60,
+    "color": "GRAY",
+    "curve": "SLOW",
+    "evolution": [],
+    "female_rate": 0.5,
+    "size": 19,
+    "type": [
+        "GROUND",
+        "ROCK"
+    ],
+    "weight": 1200,
+    "xp_point": 170
+}

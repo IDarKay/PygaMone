@@ -1,0 +1,34 @@
+{
+  "type": ["WATER"],
+  "xp_point": 66,
+  "color": "BLUE",
+  "curve": "MEDIUM_SLOW",
+  "catch_rate": 45,
+  "female_rate": 0.125,
+  "size": 0.5,
+  "weight": 9,
+  "evolution": [
+    {
+      "lvl": 16,
+      "pokemon": 8
+    }
+  ],
+  "ability": {
+    "tackle": 1,
+    "tail_whip": 1,
+    "bubble": 8,
+    "water_gun": 15,
+    "bite": 22,
+    "withdraw": 28,
+    "skull_bash": 35,
+    "hydro_pump": 42
+  },
+  "base_stats": {
+    "hp": 44,
+    "attack": 48,
+    "defense": 65,
+    "sp_attack": 50,
+    "sp_defense": 64,
+    "speed": 43
+  }
+}

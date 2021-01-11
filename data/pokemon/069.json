@@ -1,0 +1,49 @@
+{
+    "ability": {
+        "acid": 26,
+        "growth": 1,
+        "poison-powder": 15,
+        "razor-leaf": 33,
+        "slam": 42,
+        "sleep-powder": 18,
+        "stun-spore": 21,
+        "vine-whip": 1,
+        "wrap": 13
+    },
+    "ability_machine": [
+        "swords-dance",
+        "cut",
+        "take-down",
+        "double-edge",
+        "mega-drain",
+        "solar-beam",
+        "toxic",
+        "rage",
+        "mimic",
+        "double-team",
+        "reflect",
+        "bide",
+        "rest",
+        "substitute"
+    ],
+    "base_stats": {
+        "attack": 75,
+        "defense": 35,
+        "hp": 50,
+        "sp_attack": 70,
+        "sp_defense": 30,
+        "speed": 40
+    },
+    "catch_rate": 255,
+    "color": "GREEN",
+    "curve": "MEDIUM_SLOW",
+    "evolution": [],
+    "female_rate": 0.5,
+    "size": 7,
+    "type": [
+        "GRASS",
+        "POISON"
+    ],
+    "weight": 40,
+    "xp_point": 60
+}

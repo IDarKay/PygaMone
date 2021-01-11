@@ -1,0 +1,25 @@
+{
+    "ability": {
+        "transform": 1
+    },
+    "ability_machine": [],
+    "base_stats": {
+        "attack": 48,
+        "defense": 48,
+        "hp": 48,
+        "sp_attack": 48,
+        "sp_defense": 48,
+        "speed": 48
+    },
+    "catch_rate": 35,
+    "color": "PURPLE",
+    "curve": "MEDIUM_FAST",
+    "evolution": [],
+    "female_rate": 0.5,
+    "size": 3,
+    "type": [
+        "NORMAL"
+    ],
+    "weight": 40,
+    "xp_point": 101
+}

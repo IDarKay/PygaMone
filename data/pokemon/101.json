@@ -1,0 +1,48 @@
+{
+    "ability": {
+        "explosion": 50,
+        "light-screen": 29,
+        "screech": 1,
+        "self-destruct": 22,
+        "sonic-boom": 1,
+        "swift": 40,
+        "tackle": 1
+    },
+    "ability_machine": [
+        "take-down",
+        "hyper-beam",
+        "thunderbolt",
+        "thunder-wave",
+        "thunder",
+        "toxic",
+        "rage",
+        "teleport",
+        "mimic",
+        "double-team",
+        "reflect",
+        "bide",
+        "skull-bash",
+        "flash",
+        "rest",
+        "substitute"
+    ],
+    "base_stats": {
+        "attack": 50,
+        "defense": 70,
+        "hp": 60,
+        "sp_attack": 80,
+        "sp_defense": 80,
+        "speed": 150
+    },
+    "catch_rate": 60,
+    "color": "RED",
+    "curve": "MEDIUM_FAST",
+    "evolution": [],
+    "female_rate": 0.5,
+    "size": 12,
+    "type": [
+        "ELECTRIC"
+    ],
+    "weight": 666,
+    "xp_point": 172
+}

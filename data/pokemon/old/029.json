@@ -1,0 +1,36 @@
+{
+  "type": [
+    "POISON"
+  ],
+  "catch_rate": 235,
+  "xp_point": 60,
+  "color": "BLUE",
+  "curve": "MEDIUM_SLOW",
+  "female_rate": 1,
+  "size": 0.4,
+  "weight": 7.0,
+  "evolution": [
+    {
+      "lvl": 16,
+      "pokemon": 30
+    }
+  ],
+  "ability": {
+    "growl": 1,
+    "tackle": 1,
+    "scratch": 8,
+    "double_kick": 12,
+    "poison_sting": 17,
+    "tail_whip": 23,
+    "bite": 29,
+    "fury_swipes": 38
+  },
+  "base_stats": {
+    "hp": 55,
+    "attack": 47,
+    "defense": 52,
+    "sp_attack": 40,
+    "sp_defense": 40,
+    "speed": 41
+  }
+}

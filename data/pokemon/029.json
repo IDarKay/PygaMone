@@ -1,0 +1,48 @@
+{
+    "ability": {
+        "bite": 29,
+        "double-kick": 43,
+        "fury-swipes": 36,
+        "growl": 1,
+        "poison-sting": 14,
+        "scratch": 8,
+        "tackle": 1,
+        "tail-whip": 21
+    },
+    "ability_machine": [
+        "body-slam",
+        "take-down",
+        "double-edge",
+        "blizzard",
+        "thunderbolt",
+        "thunder",
+        "toxic",
+        "rage",
+        "mimic",
+        "double-team",
+        "reflect",
+        "bide",
+        "skull-bash",
+        "rest",
+        "substitute"
+    ],
+    "base_stats": {
+        "attack": 47,
+        "defense": 52,
+        "hp": 55,
+        "sp_attack": 40,
+        "sp_defense": 40,
+        "speed": 41
+    },
+    "catch_rate": 235,
+    "color": "BLUE",
+    "curve": "MEDIUM_SLOW",
+    "evolution": [],
+    "female_rate": 0.5,
+    "size": 4,
+    "type": [
+        "POISON"
+    ],
+    "weight": 70,
+    "xp_point": 55
+}

@@ -1,0 +1,45 @@
+{
+    "ability": {
+        "agility": 42,
+        "double-team": 24,
+        "focus-energy": 20,
+        "leer": 17,
+        "quick-attack": 1,
+        "slash": 29,
+        "swords-dance": 35
+    },
+    "ability_machine": [
+        "cut",
+        "take-down",
+        "double-edge",
+        "hyper-beam",
+        "toxic",
+        "rage",
+        "mimic",
+        "bide",
+        "swift",
+        "skull-bash",
+        "rest",
+        "substitute"
+    ],
+    "base_stats": {
+        "attack": 110,
+        "defense": 80,
+        "hp": 70,
+        "sp_attack": 55,
+        "sp_defense": 80,
+        "speed": 105
+    },
+    "catch_rate": 45,
+    "color": "GREEN",
+    "curve": "MEDIUM_FAST",
+    "evolution": [],
+    "female_rate": 0.5,
+    "size": 15,
+    "type": [
+        "BUG",
+        "FLYING"
+    ],
+    "weight": 560,
+    "xp_point": 100
+}

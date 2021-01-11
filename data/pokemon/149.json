@@ -1,0 +1,57 @@
+{
+    "ability": {
+        "agility": 1,
+        "dragon-rage": 45,
+        "hyper-beam": 60,
+        "leer": 1,
+        "slam": 35,
+        "thunder-wave": 1,
+        "wrap": 1
+    },
+    "ability_machine": [
+        "razor-wind",
+        "horn-drill",
+        "body-slam",
+        "take-down",
+        "double-edge",
+        "water-gun",
+        "surf",
+        "ice-beam",
+        "blizzard",
+        "bubble-beam",
+        "strength",
+        "thunderbolt",
+        "thunder",
+        "toxic",
+        "rage",
+        "mimic",
+        "double-team",
+        "reflect",
+        "bide",
+        "fire-blast",
+        "swift",
+        "skull-bash",
+        "rest",
+        "substitute"
+    ],
+    "base_stats": {
+        "attack": 134,
+        "defense": 95,
+        "hp": 91,
+        "sp_attack": 100,
+        "sp_defense": 100,
+        "speed": 80
+    },
+    "catch_rate": 45,
+    "color": "BROWN",
+    "curve": "SLOW",
+    "evolution": [],
+    "female_rate": 0.5,
+    "size": 22,
+    "type": [
+        "DRAGON",
+        "FLYING"
+    ],
+    "weight": 2100,
+    "xp_point": 270
+}

@@ -1,0 +1,31 @@
+{
+  "type": [
+    "BUG",
+    "POISON"
+  ],
+  "xp_point": 52,
+  "color": "GREEN",
+  "curve": "MEDIUM_FAST",
+  "catch_rate": 255,
+  "female_rate": 0.5,
+  "size": 0.3,
+  "weight": 3.2,
+  "evolution": [
+    {
+      "lvl": 7,
+      "pokemon": 14
+    }
+  ],
+  "ability": {
+    "poison_sting": 1,
+    "string_shot": 1
+  },
+  "base_stats": {
+    "hp": 40,
+    "attack": 35,
+    "defense": 30,
+    "sp_attack": 20,
+    "sp_defense": 20,
+    "speed": 50
+  }
+}

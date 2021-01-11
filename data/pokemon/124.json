@@ -1,0 +1,58 @@
+{
+    "ability": {
+        "blizzard": 58,
+        "body-slam": 39,
+        "double-slap": 23,
+        "ice-punch": 31,
+        "lick": 18,
+        "lovely-kiss": 1,
+        "pound": 1,
+        "thrash": 47
+    },
+    "ability_machine": [
+        "mega-punch",
+        "mega-kick",
+        "take-down",
+        "double-edge",
+        "water-gun",
+        "ice-beam",
+        "bubble-beam",
+        "hyper-beam",
+        "submission",
+        "counter",
+        "seismic-toss",
+        "toxic",
+        "psychic",
+        "rage",
+        "teleport",
+        "mimic",
+        "double-team",
+        "reflect",
+        "bide",
+        "metronome",
+        "skull-bash",
+        "psywave",
+        "rest",
+        "substitute"
+    ],
+    "base_stats": {
+        "attack": 50,
+        "defense": 35,
+        "hp": 65,
+        "sp_attack": 115,
+        "sp_defense": 95,
+        "speed": 95
+    },
+    "catch_rate": 45,
+    "color": "RED",
+    "curve": "MEDIUM_FAST",
+    "evolution": [],
+    "female_rate": 0.5,
+    "size": 14,
+    "type": [
+        "ICE",
+        "PSYCHIC"
+    ],
+    "weight": 406,
+    "xp_point": 159
+}

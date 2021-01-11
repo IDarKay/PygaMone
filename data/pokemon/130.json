@@ -1,0 +1,52 @@
+{
+    "ability": {
+        "bite": 1,
+        "dragon-rage": 1,
+        "hydro-pump": 1,
+        "hyper-beam": 52,
+        "leer": 1
+    },
+    "ability_machine": [
+        "body-slam",
+        "take-down",
+        "double-edge",
+        "water-gun",
+        "surf",
+        "ice-beam",
+        "blizzard",
+        "bubble-beam",
+        "strength",
+        "thunderbolt",
+        "thunder",
+        "toxic",
+        "rage",
+        "mimic",
+        "double-team",
+        "reflect",
+        "bide",
+        "fire-blast",
+        "skull-bash",
+        "rest",
+        "substitute"
+    ],
+    "base_stats": {
+        "attack": 125,
+        "defense": 79,
+        "hp": 95,
+        "sp_attack": 60,
+        "sp_defense": 100,
+        "speed": 81
+    },
+    "catch_rate": 45,
+    "color": "BLUE",
+    "curve": "SLOW",
+    "evolution": [],
+    "female_rate": 0.5,
+    "size": 65,
+    "type": [
+        "WATER",
+        "FLYING"
+    ],
+    "weight": 2350,
+    "xp_point": 189
+}

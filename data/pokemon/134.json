@@ -1,0 +1,53 @@
+{
+    "ability": {
+        "acid-armor": 42,
+        "bite": 40,
+        "haze": 44,
+        "hydro-pump": 54,
+        "mist": 48,
+        "quick-attack": 1,
+        "sand-attack": 1,
+        "tackle": 1,
+        "tail-whip": 37,
+        "water-gun": 1
+    },
+    "ability_machine": [
+        "body-slam",
+        "take-down",
+        "double-edge",
+        "surf",
+        "ice-beam",
+        "blizzard",
+        "bubble-beam",
+        "hyper-beam",
+        "toxic",
+        "rage",
+        "mimic",
+        "double-team",
+        "reflect",
+        "bide",
+        "swift",
+        "skull-bash",
+        "rest",
+        "substitute"
+    ],
+    "base_stats": {
+        "attack": 65,
+        "defense": 60,
+        "hp": 130,
+        "sp_attack": 110,
+        "sp_defense": 95,
+        "speed": 65
+    },
+    "catch_rate": 45,
+    "color": "BLUE",
+    "curve": "MEDIUM_FAST",
+    "evolution": [],
+    "female_rate": 0.5,
+    "size": 10,
+    "type": [
+        "WATER"
+    ],
+    "weight": 290,
+    "xp_point": 184
+}

@@ -1,0 +1,50 @@
+{
+    "ability": {
+        "acid": 47,
+        "bite": 17,
+        "glare": 27,
+        "leer": 1,
+        "poison-sting": 1,
+        "screech": 36,
+        "wrap": 1
+    },
+    "ability_machine": [
+        "body-slam",
+        "take-down",
+        "double-edge",
+        "hyper-beam",
+        "strength",
+        "mega-drain",
+        "earthquake",
+        "fissure",
+        "dig",
+        "toxic",
+        "rage",
+        "mimic",
+        "double-team",
+        "bide",
+        "skull-bash",
+        "rest",
+        "rock-slide",
+        "substitute"
+    ],
+    "base_stats": {
+        "attack": 95,
+        "defense": 69,
+        "hp": 60,
+        "sp_attack": 65,
+        "sp_defense": 79,
+        "speed": 80
+    },
+    "catch_rate": 90,
+    "color": "PURPLE",
+    "curve": "MEDIUM_FAST",
+    "evolution": [],
+    "female_rate": 0.5,
+    "size": 35,
+    "type": [
+        "POISON"
+    ],
+    "weight": 650,
+    "xp_point": 157
+}

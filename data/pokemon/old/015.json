@@ -1,0 +1,29 @@
+{
+  "type": [
+    "BUG",
+    "POISON"
+  ],
+  "xp_point": 159,
+  "color": "GREEN",
+  "curve": "MEDIUM_FAST",
+  "catch_rate": 45,
+  "female_rate": 0.5,
+  "size": 1,
+  "weight": 1.4,
+  "ability": {
+    "fury_attack": 12,
+    "focus_energy": 12,
+    "twineedle": 20,
+    "rage": 25,
+    "pin_missile": 30,
+    "agility": 35
+  },
+  "base_stats": {
+    "hp": 65,
+    "attack": 90,
+    "defense": 40,
+    "sp_attack": 45,
+    "sp_defense": 80,
+    "speed": 75
+  }
+}

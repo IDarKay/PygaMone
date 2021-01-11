@@ -1,0 +1,50 @@
+{
+    "ability": {
+        "leer": 35,
+        "rage": 44,
+        "stomp": 21,
+        "tackle": 1,
+        "tail-whip": 28,
+        "take-down": 51
+    },
+    "ability_machine": [
+        "horn-drill",
+        "body-slam",
+        "double-edge",
+        "ice-beam",
+        "blizzard",
+        "hyper-beam",
+        "strength",
+        "thunderbolt",
+        "thunder",
+        "earthquake",
+        "fissure",
+        "toxic",
+        "mimic",
+        "double-team",
+        "bide",
+        "fire-blast",
+        "skull-bash",
+        "rest",
+        "substitute"
+    ],
+    "base_stats": {
+        "attack": 100,
+        "defense": 95,
+        "hp": 75,
+        "sp_attack": 40,
+        "sp_defense": 70,
+        "speed": 110
+    },
+    "catch_rate": 45,
+    "color": "BROWN",
+    "curve": "SLOW",
+    "evolution": [],
+    "female_rate": 0.5,
+    "size": 14,
+    "type": [
+        "NORMAL"
+    ],
+    "weight": 884,
+    "xp_point": 172
+}

@@ -1,0 +1,52 @@
+{
+    "ability": {
+        "horn-attack": 1,
+        "hydro-pump": 49,
+        "leer": 39,
+        "spike-cannon": 44,
+        "water-gun": 1,
+        "withdraw": 1
+    },
+    "ability_machine": [
+        "horn-drill",
+        "body-slam",
+        "take-down",
+        "double-edge",
+        "surf",
+        "ice-beam",
+        "blizzard",
+        "bubble-beam",
+        "hyper-beam",
+        "submission",
+        "seismic-toss",
+        "toxic",
+        "rage",
+        "mimic",
+        "double-team",
+        "reflect",
+        "bide",
+        "skull-bash",
+        "rest",
+        "substitute"
+    ],
+    "base_stats": {
+        "attack": 60,
+        "defense": 125,
+        "hp": 70,
+        "sp_attack": 115,
+        "sp_defense": 70,
+        "speed": 55
+    },
+    "catch_rate": 45,
+    "color": "BLUE",
+    "curve": "MEDIUM_FAST",
+    "evolution": [],
+    "female_rate": 0.5,
+    "size": 10,
+    "type": [
+        "ROCK",
+        "WATER"
+    ],
+    "weight": 350,
+    "xp_point": 173
+}

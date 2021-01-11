@@ -1,0 +1,48 @@
+{
+    "ability": {
+        "amnesia": 38,
+        "body-slam": 31,
+        "bubble": 1,
+        "double-slap": 25,
+        "hydro-pump": 45,
+        "hypnosis": 16,
+        "water-gun": 19
+    },
+    "ability_machine": [
+        "take-down",
+        "double-edge",
+        "surf",
+        "ice-beam",
+        "blizzard",
+        "bubble-beam",
+        "toxic",
+        "psychic",
+        "rage",
+        "mimic",
+        "double-team",
+        "bide",
+        "skull-bash",
+        "psywave",
+        "rest",
+        "substitute"
+    ],
+    "base_stats": {
+        "attack": 50,
+        "defense": 40,
+        "hp": 40,
+        "sp_attack": 40,
+        "sp_defense": 40,
+        "speed": 90
+    },
+    "catch_rate": 255,
+    "color": "BLUE",
+    "curve": "MEDIUM_SLOW",
+    "evolution": [],
+    "female_rate": 0.5,
+    "size": 6,
+    "type": [
+        "WATER"
+    ],
+    "weight": 124,
+    "xp_point": 60
+}

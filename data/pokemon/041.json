@@ -1,0 +1,45 @@
+{
+    "ability": {
+        "bite": 15,
+        "confuse-ray": 21,
+        "haze": 36,
+        "leech-life": 1,
+        "supersonic": 10,
+        "wing-attack": 28
+    },
+    "ability_machine": [
+        "razor-wind",
+        "whirlwind",
+        "take-down",
+        "double-edge",
+        "mega-drain",
+        "toxic",
+        "rage",
+        "mimic",
+        "double-team",
+        "bide",
+        "swift",
+        "rest",
+        "substitute"
+    ],
+    "base_stats": {
+        "attack": 45,
+        "defense": 35,
+        "hp": 40,
+        "sp_attack": 30,
+        "sp_defense": 40,
+        "speed": 55
+    },
+    "catch_rate": 255,
+    "color": "PURPLE",
+    "curve": "MEDIUM_FAST",
+    "evolution": [],
+    "female_rate": 0.5,
+    "size": 8,
+    "type": [
+        "POISON",
+        "FLYING"
+    ],
+    "weight": 75,
+    "xp_point": 49
+}

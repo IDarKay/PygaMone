@@ -1,0 +1,56 @@
+{
+    "ability": {
+        "body-slam": 1,
+        "double-slap": 1,
+        "hypnosis": 1,
+        "water-gun": 1
+    },
+    "ability_machine": [
+        "mega-punch",
+        "mega-kick",
+        "take-down",
+        "double-edge",
+        "surf",
+        "ice-beam",
+        "blizzard",
+        "bubble-beam",
+        "hyper-beam",
+        "submission",
+        "counter",
+        "seismic-toss",
+        "strength",
+        "earthquake",
+        "fissure",
+        "toxic",
+        "psychic",
+        "rage",
+        "mimic",
+        "double-team",
+        "bide",
+        "metronome",
+        "skull-bash",
+        "psywave",
+        "rest",
+        "substitute"
+    ],
+    "base_stats": {
+        "attack": 95,
+        "defense": 95,
+        "hp": 90,
+        "sp_attack": 70,
+        "sp_defense": 90,
+        "speed": 70
+    },
+    "catch_rate": 45,
+    "color": "BLUE",
+    "curve": "MEDIUM_SLOW",
+    "evolution": [],
+    "female_rate": 0.5,
+    "size": 13,
+    "type": [
+        "WATER",
+        "FIGHTING"
+    ],
+    "weight": 540,
+    "xp_point": 230
+}

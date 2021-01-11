@@ -1,0 +1,757 @@
+{
+  "1": {
+    "name": "Bulbizarre",
+    "japan": "\u30d5\u30b7\u30ae\u30c0\u30cd",
+    "pokedex": "Bulbizarre passe son temps \u00e0 faire la sieste sous le soleil.\nIl y a une graine sur son dos. Il absorbe les rayons du soleil\npour faire doucement pousser la graine."
+  },
+  "2": {
+    "name": "Herbizarre",
+    "japan": "\u30d5\u30b7\u30ae\u30bd\u30a6",
+    "pokedex": "Un bourgeon a pouss\u00e9 sur le dos de ce Pok\u00e9mon. Pour en\nsupporter le poids, Herbizarre a d\u00fb se muscler les pattes.\nLorsqu\u2019il commence \u00e0 se pr\u00e9lasser au soleil, \u00e7a signifie que\nson bourgeon va \u00e9clore, donnant naissance \u00e0 une fleur."
+  },
+  "3": {
+    "name": "Florizarre",
+    "japan": "\u30d5\u30b7\u30ae\u30d0\u30ca",
+    "pokedex": "Une belle fleur se trouve sur le dos de Florizarre.\nElle prend une couleur vive lorsqu\u2019elle est bien nourrie et bien\nensoleill\u00e9e. Le parfum de cette fleur peut apaiser les gens."
+  },
+  "4": {
+    "name": "Salam\u00e8che",
+    "japan": "\u30d2\u30c8\u30ab\u30b2",
+    "pokedex": "La flamme qui br\u00fble au bout de sa queue indique l\u2019humeur\nde ce Pok\u00e9mon. Elle vacille lorsque Salam\u00e8che est content.\nEn revanche, lorsqu\u2019il s\u2019\u00e9nerve, la flamme prend\nde l\u2019importance et br\u00fble plus ardemment."
+  },
+  "5": {
+    "name": "Reptincel",
+    "japan": "\u30ea\u30b6\u30fc\u30c9",
+    "pokedex": "Reptincel lac\u00e8re ses ennemis sans piti\u00e9 gr\u00e2ce \u00e0 ses griffes\nac\u00e9r\u00e9es. S\u2019il rencontre un ennemi puissant, il devient agressif\net la flamme au bout de sa queue s\u2019embrase et prend\nune couleur bleu clair."
+  },
+  "6": {
+    "name": "Dracaufeu",
+    "japan": "\u30ea\u30b6\u30fc\u30c9\u30f3",
+    "pokedex": "Dracaufeu parcourt les cieux pour trouver des adversaires\n\u00e0 sa mesure. Il crache de puissantes flammes capables de\nfaire fondre n\u2019importe quoi. Mais il ne dirige jamais son souffle\ndestructeur vers un ennemi plus faible."
+  },
+  "7": {
+    "name": "Carapuce",
+    "japan": "\u30bc\u30cb\u30ac\u30e1",
+    "pokedex": "La carapace de Carapuce ne sert pas qu\u2019\u00e0 le prot\u00e9ger.\nLa forme ronde de sa carapace et ses rainures lui permettent\nd\u2019am\u00e9liorer son hydrodynamisme.\nCe Pok\u00e9mon nage extr\u00eamement vite."
+  },
+  "8": {
+    "name": "Carabaffe",
+    "japan": "\u30ab\u30e1\u30fc\u30eb",
+    "pokedex": "Carabaffe a une large queue recouverte d\u2019une \u00e9paisse\nfourrure. Elle devient de plus en plus fonc\u00e9e avec l\u2019\u00e2ge.\nLes \u00e9raflures sur la carapace de ce Pok\u00e9mon t\u00e9moignent\nde son exp\u00e9rience au combat."
+  },
+  "9": {
+    "name": "Tortank",
+    "japan": "\u30ab\u30e1\u30c3\u30af\u30b9",
+    "pokedex": "Tortank dispose de canons \u00e0 eau \u00e9mergeant de sa carapace.\nIls sont tr\u00e8s pr\u00e9cis et peuvent envoyer des balles d\u2019eau\ncapables de faire mouche sur une cible situ\u00e9e \u00e0 plus de 50 m."
+  },
+  "10": {
+    "name": "Chenipan",
+    "japan": "\u30ad\u30e3\u30bf\u30d4\u30fc",
+    "pokedex": "Chenipan a un app\u00e9tit d\u2019ogre. Il peut engloutir des feuilles\nplus grosses que lui. Les antennes de ce Pok\u00e9mon d\u00e9gagent\nune odeur particuli\u00e8rement ent\u00eatante."
+  },
+  "11": {
+    "name": "Chrysacier",
+    "japan": "\u30c8\u30e9\u30f3\u30bb\u30eb",
+    "pokedex": "La carapace prot\u00e9geant ce Pok\u00e9mon est dure comme du\nm\u00e9tal. Chrysacier ne bouge pas beaucoup. Il reste immobile\npour pr\u00e9parer les organes \u00e0 l\u2019int\u00e9rieur de sa carapace en vue\nd\u2019une \u00e9volution future."
+  },
+  "12": {
+    "name": "Papilusion",
+    "japan": "\u30d0\u30bf\u30d5\u30ea\u30fc",
+    "pokedex": "Papilusion est tr\u00e8s dou\u00e9 pour rep\u00e9rer le d\u00e9licieux nectar qu\u2019il\nbutine dans les fleurs. Il peut d\u00e9tecter, extraire et transporter\nle nectar de fleurs situ\u00e9es \u00e0 plus de 10 km de son nid."
+  },
+  "13": {
+    "name": "Aspicot",
+    "japan": "\u30d3\u30fc\u30c9\u30eb",
+    "pokedex": "L\u2019odorat d\u2019Aspicot est extr\u00eamement d\u00e9velopp\u00e9. Il lui suffit de\nrenifler ses feuilles pr\u00e9f\u00e9r\u00e9es avec son gros appendice nasal\npour les reconna\u00eetre entre mille."
+  },
+  "14": {
+    "name": "Coconfort",
+    "japan": "\u30b3\u30af\u30fc\u30f3",
+    "pokedex": "Coconfort est la plupart du temps immobile et reste\naccroch\u00e9 \u00e0 un arbre. Cependant, int\u00e9rieurement, il est\ntr\u00e8s actif, car il se pr\u00e9pare pour sa prochaine \u00e9volution.\nEn touchant sa carapace, on peut sentir sa chaleur."
+  },
+  "15": {
+    "name": "Dardargnan",
+    "japan": "\u30b9\u30d4\u30a2\u30fc",
+    "pokedex": "Dardargnan est extr\u00eamement possessif. Il vaut mieux ne pas\ntoucher son nid si on veut \u00e9viter d\u2019avoir des ennuis.\nLorsqu\u2019ils sont en col\u00e8re, ces Pok\u00e9mon attaquent en masse."
+  },
+  "16": {
+    "name": "Roucool",
+    "japan": "\u30dd\u30c3\u30dd",
+    "pokedex": "Roucool a un excellent sens de l\u2019orientation. Il est capable de\nretrouver son nid sans jamais se tromper, m\u00eame s\u2019il est tr\u00e8s\nloin de chez lui et dans un environnement qu\u2019il ne conna\u00eet pas."
+  },
+  "17": {
+    "name": "Roucoups",
+    "japan": "\u30d4\u30b8\u30e7\u30f3",
+    "pokedex": "Roucoups utilise une vaste surface pour son territoire.\nCe Pok\u00e9mon surveille r\u00e9guli\u00e8rement son espace a\u00e9rien.\nSi quelqu\u2019un p\u00e9n\u00e8tre sur son territoire, il corrige l\u2019ennemi\nsans piti\u00e9 d\u2019un coup de ses terribles serres."
+  },
+  "18": {
+    "name": "Roucarnage",
+    "japan": "\u30d4\u30b8\u30e7\u30c3\u30c8",
+    "pokedex": "Ce Pok\u00e9mon est dot\u00e9 d\u2019un plumage magnifique et luisant.\nBien des Dresseurs sont captiv\u00e9s par la beaut\u00e9 fatale de\nsa huppe et d\u00e9cident de choisir Roucarnage comme leur\nPok\u00e9mon favori."
+  },
+  "19": {
+    "name": "Rattata",
+    "japan": "\u30b3\u30e9\u30c3\u30bf",
+    "pokedex": "Rattata est extr\u00eamement prudent. M\u00eame lorsqu\u2019il est endormi,\nil fait pivoter ses oreilles pour \u00e9couter autour de lui.\nEn ce qui concerne son habitat, il n\u2019est vraiment pas difficile.\nIl peut faire son nid n\u2019importe o\u00f9."
+  },
+  "20": {
+    "name": "Rattatac",
+    "japan": "\u30e9\u30c3\u30bf",
+    "pokedex": "Les crocs robustes de Rattatac poussent constamment.\nPour \u00e9viter qu\u2019ils raclent le sol, il se fait les dents sur\ndes cailloux ou des troncs d\u2019arbre. Il lui arrive m\u00eame\nde ronger les murs des maisons."
+  },
+  "21": {
+    "name": "Piafabec",
+    "japan": "\u30aa\u30cb\u30b9\u30ba\u30e1",
+    "pokedex": "Piafabec crie tellement fort qu\u2019il peut \u00eatre entendu \u00e0 1 km\nde distance. Ces Pok\u00e9mon se pr\u00e9viennent d\u2019un danger\nen entonnant une m\u00e9lop\u00e9e tr\u00e8s aigu\u00eb, qu\u2019ils se renvoient\nles uns les autres, comme un \u00e9cho."
+  },
+  "22": {
+    "name": "Rapasdepic",
+    "japan": "\u30aa\u30cb\u30c9\u30ea\u30eb",
+    "pokedex": "On reconna\u00eet un Rapasdepic \u00e0 son long cou et \u00e0 son bec\nallong\u00e9. Ces attributs lui permettent d\u2019attraper facilement\nses proies dans la terre ou dans l\u2019eau. Il bouge son bec\nlong et fin avec une grande agilit\u00e9."
+  },
+  "23": {
+    "name": "Abo",
+    "japan": "\u30a2\u30fc\u30dc",
+    "pokedex": "Abo s\u2019enroule en spirale pour dormir. Sa t\u00eate reste relev\u00e9e\nde telle sorte que cette position lui permette de r\u00e9agir\nrapidement si une menace survenait."
+  },
+  "24": {
+    "name": "Arbok",
+    "japan": "\u30a2\u30fc\u30dc\u30c3\u30af",
+    "pokedex": "Ce Pok\u00e9mon dot\u00e9 d\u2019une force extraordinaire peut \u00e9trangler\nses proies avec son corps. Il peut m\u00eame \u00e9craser des tonneaux\nm\u00e9talliques. Une fois sous l\u2019\u00e9treinte d\u2019Arbok, il est impossible\nde lui \u00e9chapper."
+  },
+  "25": {
+    "name": "Pikachu",
+    "japan": "\u30d4\u30ab\u30c1\u30e5\u30a6",
+    "pokedex": "Ce Pok\u00e9mon dispose de petites poches dans les joues pour\nstocker de l\u2019\u00e9lectricit\u00e9. Elles semblent se charger pendant\nque Pikachu dort. Il lib\u00e8re parfois un peu d\u2019\u00e9lectricit\u00e9\nlorsqu\u2019il n\u2019est pas encore bien r\u00e9veill\u00e9."
+  },
+  "26": {
+    "name": "Raichu",
+    "japan": "\u30e9\u30a4\u30c1\u30e5\u30a6",
+    "pokedex": "Ce Pok\u00e9mon lib\u00e8re un faible champ \u00e9lectrique tout autour\nde son corps, ce qui le rend l\u00e9g\u00e8rement lumineux dans le noir.\nRaichu plante sa queue dans le sol pour \u00e9vacuer de\nl\u2019\u00e9lectricit\u00e9."
+  },
+  "27": {
+    "name": "Sabelette",
+    "japan": "\u30b5\u30f3\u30c9",
+    "pokedex": "Sabelette a une peau tr\u00e8s s\u00e8che et extr\u00eamement dure.\nCe Pok\u00e9mon peut s\u2019enrouler sur lui-m\u00eame pour repousser\nles attaques. La nuit, il s\u2019enterre dans le sable du d\u00e9sert\npour dormir."
+  },
+  "28": {
+    "name": "Sablaireau",
+    "japan": "\u30b5\u30f3\u30c9\u30d1\u30f3",
+    "pokedex": "Sablaireau peut enrouler son corps pour prendre la forme\nd\u2019une balle h\u00e9riss\u00e9e de pointes. Ce Pok\u00e9mon essaie de faire\npeur \u00e0 son ennemi en le frappant avec ses pointes.\nPuis, il se rue sur lui avec ses griffes ac\u00e9r\u00e9es."
+  },
+  "29": {
+    "name": "Nidoran\u2640",
+    "japan": "\u30cb\u30c9\u30e9\u30f3\u2640",
+    "pokedex": "Nidoran\u2640 est couvert de pointes qui s\u00e9cr\u00e8tent un poison\npuissant. On pense que ce petit Pok\u00e9mon a d\u00e9velopp\u00e9\nces pointes pour se d\u00e9fendre. Lorsqu\u2019il est en col\u00e8re,\nune horrible toxine sort de sa corne."
+  },
+  "30": {
+    "name": "Nidorina",
+    "japan": "\u30cb\u30c9\u30ea\u30fc\u30ca",
+    "pokedex": "Lorsqu\u2019un Nidorina est avec ses amis ou sa famille, il replie\nses pointes pour ne pas blesser ses proches. Ce Pok\u00e9mon\ndevient vite nerveux lorsqu\u2019il est s\u00e9par\u00e9 de son groupe."
+  },
+  "31": {
+    "name": "Nidoqueen",
+    "japan": "\u30cb\u30c9\u30af\u30a4\u30f3",
+    "pokedex": "Le corps de Nidoqueen est prot\u00e9g\u00e9 par des \u00e9cailles\nextr\u00eamement dures. Il aime envoyer ses ennemis voler en leur\nfon\u00e7ant dessus. Ce Pok\u00e9mon utilise toute sa puissance\nlorsqu\u2019il prot\u00e8ge ses petits."
+  },
+  "32": {
+    "name": "Nidoran\u2642",
+    "japan": "\u30cb\u30c9\u30e9\u30f3\u2642",
+    "pokedex": "Nidoran\u2642 a d\u00e9velopp\u00e9 des muscles pour bouger\nses oreilles. Ainsi, il peut les orienter \u00e0 sa guise.\nCe Pok\u00e9mon peut entendre le plus discret des bruits."
+  },
+  "33": {
+    "name": "Nidorino",
+    "japan": "\u30cb\u30c9\u30ea\u30fc\u30ce",
+    "pokedex": "Nidorino dispose d\u2019une corne plus dure que du diamant.\nS\u2019il sent une pr\u00e9sence hostile, toutes les pointes de son dos\nse h\u00e9rissent d\u2019un coup, puis il d\u00e9fie son ennemi."
+  },
+  "34": {
+    "name": "Nidoking",
+    "japan": "\u30cb\u30c9\u30ad\u30f3\u30b0",
+    "pokedex": "L\u2019\u00e9paisse queue de Nidoking est d\u2019une puissance incroyable.\nEn un seul coup, il peut renverser une tour m\u00e9tallique.\nLorsque ce Pok\u00e9mon se d\u00e9cha\u00eene, plus rien ne peut l\u2019arr\u00eater."
+  },
+  "35": {
+    "name": "M\u00e9lof\u00e9e",
+    "japan": "\u30d4\u30c3\u30d4",
+    "pokedex": "Les nuits de pleine lune, des groupes de ces Pok\u00e9mon\nsortent jouer. Lorsque l\u2019aube commence \u00e0 poindre,\nles M\u00e9lof\u00e9e fatigu\u00e9s rentrent dans leur retraite montagneuse\net vont dormir, blottis les uns contre les autres."
+  },
+  "36": {
+    "name": "M\u00e9lodelfe",
+    "japan": "\u30d4\u30af\u30b7\u30fc",
+    "pokedex": "Les M\u00e9lodelfe se d\u00e9placent en sautant doucement,\ncomme s\u2019ils volaient. Leur d\u00e9marche l\u00e9g\u00e8re leur permet\nm\u00eame de marcher sur l\u2019eau. On raconte qu\u2019ils se prom\u00e8nent\nsur les lacs, les soirs o\u00f9 la lune est claire."
+  },
+  "37": {
+    "name": "Goupix",
+    "japan": "\u30ed\u30b3\u30f3",
+    "pokedex": "\u00c0 l\u2019int\u00e9rieur du corps de Goupix se trouve une flamme\nqui ne s\u2019\u00e9teint jamais. Pendant la journ\u00e9e, lorsque\nla temp\u00e9rature augmente, ce Pok\u00e9mon crache des flammes\npour \u00e9viter que son corps ne devienne trop chaud."
+  },
+  "38": {
+    "name": "Feunard",
+    "japan": "\u30ad\u30e5\u30a6\u30b3\u30f3",
+    "pokedex": "La l\u00e9gende raconte que Feunard est apparu lorsque\nneuf sorciers aux pouvoirs sacr\u00e9s d\u00e9cid\u00e8rent de fusionner.\nCe Pok\u00e9mon est tr\u00e8s intelligent. Il comprend la langue\ndes hommes."
+  },
+  "39": {
+    "name": "Rondoudou",
+    "japan": "\u30d7\u30ea\u30f3",
+    "pokedex": "Lorsque ce Pok\u00e9mon chante, il ne s\u2019arr\u00eate pas pour respirer.\nQuand il se bat contre un adversaire qu\u2019il ne peut pas\nfacilement endormir, Rondoudou reste donc sans respirer,\nmettant sa vie en danger."
+  },
+  "40": {
+    "name": "Grodoudou",
+    "japan": "\u30d7\u30af\u30ea\u30f3",
+    "pokedex": "Le corps de Grodoudou est tr\u00e8s \u00e9lastique. S\u2019il inspire\nprofond\u00e9ment, ce Pok\u00e9mon peut se gonfler \u00e0 volont\u00e9.\nUne fois gonfl\u00e9, Grodoudou peut rebondir comme un ballon."
+  },
+  "41": {
+    "name": "Nosferapti",
+    "japan": "\u30ba\u30d0\u30c3\u30c8",
+    "pokedex": "Nosferapti \u00e9vite la lumi\u00e8re du soleil, car \u00e7a le rend malade.\nPendant la journ\u00e9e, il reste dans les cavernes ou \u00e0 l\u2019ombre\ndes vieilles maisons, o\u00f9 il dort, la t\u00eate \u00e0 l\u2019envers."
+  },
+  "42": {
+    "name": "Nosferalto",
+    "japan": "\u30b4\u30eb\u30d0\u30c3\u30c8",
+    "pokedex": "Nosferalto mord sa proie gr\u00e2ce \u00e0 ses quatre crocs pour\nboire son sang. Il ne sort que lorsque la nuit est noire\net sans lune, pour voleter en qu\u00eate de gens et de Pok\u00e9mon\n\u00e0 mordre."
+  },
+  "43": {
+    "name": "Mystherbe",
+    "japan": "\u30ca\u30be\u30ce\u30af\u30b5",
+    "pokedex": "Mystherbe cherche un sol fertile et riche en nutriments,\npour s\u2019y planter. Pendant la journ\u00e9e, quand il est plant\u00e9,\nles pieds de ce Pok\u00e9mon changent de forme et deviennent\nsimilaires \u00e0 des racines."
+  },
+  "44": {
+    "name": "Ortide",
+    "japan": "\u30af\u30b5\u30a4\u30cf\u30ca",
+    "pokedex": "Ortide bave un miel qui sent horriblement mauvais.\nApparemment, il adore cette odeur naus\u00e9abonde.\nIl en renifle les fum\u00e9es toxiques et se met \u00e0 baver\ndu miel de plus belle."
+  },
+  "45": {
+    "name": "Rafflesia",
+    "japan": "\u30e9\u30d5\u30ec\u30b7\u30a2",
+    "pokedex": "Rafflesia dispose des plus grands p\u00e9tales du monde.\nIl s\u2019en sert pour attirer ses proies avant de les endormir\navec ses spores toxiques. Ce Pok\u00e9mon n\u2019a plus alors\nqu\u2019\u00e0 attraper sa proie et \u00e0 la manger."
+  },
+  "46": {
+    "name": "Paras",
+    "japan": "\u30d1\u30e9\u30b9",
+    "pokedex": "Paras accueille des champignons parasites appel\u00e9s tochukaso\nqui poussent sur son dos. Ils grandissent gr\u00e2ce aux nutriments\ntrouv\u00e9s sur le dos de ce Pok\u00e9mon Insecte.\nIls peuvent rallonger l\u2019esp\u00e9rance de vie."
+  },
+  "47": {
+    "name": "Parasect",
+    "japan": "\u30d1\u30e9\u30bb\u30af\u30c8",
+    "pokedex": "On sait que les Parasect vivent en groupe dans les grands\narbres et se nourrissent des nutriments contenus dans le tronc\net les racines. Lorsqu\u2019un arbre infest\u00e9 meurt, ils se pr\u00e9cipitent\nvers le prochain."
+  },
+  "48": {
+    "name": "Mimitoss",
+    "japan": "\u30b3\u30f3\u30d1\u30f3",
+    "pokedex": "On raconte que Mimitoss a \u00e9volu\u00e9 avec une fourrure de poils\nfins et drus qui prot\u00e8ge son corps tout entier. Il est dot\u00e9 de\ngrands yeux capables de rep\u00e9rer ses proies, m\u00eame minuscules."
+  },
+  "49": {
+    "name": "A\u00e9romite",
+    "japan": "\u30e2\u30eb\u30d5\u30a9\u30f3",
+    "pokedex": "A\u00e9romite est un Pok\u00e9mon nocturne, il ne sort donc que\nla nuit. Ses proies pr\u00e9f\u00e9r\u00e9es sont les petits insectes qui\nse rassemblent autour des r\u00e9verb\u00e8res, attir\u00e9s par la lumi\u00e8re."
+  },
+  "50": {
+    "name": "Taupiqueur",
+    "japan": "\u30c7\u30a3\u30b0\u30c0",
+    "pokedex": "Les Taupiqueur sont \u00e9lev\u00e9s dans la plupart des fermes.\nEn effet, lorsque ce Pok\u00e9mon creuse quelque part, le sol\nest comme labour\u00e9, pr\u00eat \u00e0 recevoir les semences.\nOn peut alors y planter de d\u00e9licieux l\u00e9gumes."
+  },
+  "51": {
+    "name": "Triopikeur",
+    "japan": "\u30c0\u30b0\u30c8\u30ea\u30aa",
+    "pokedex": "Les Triopikeur sont en fait des tripl\u00e9s qui ont \u00e9merg\u00e9 du\nm\u00eame corps. C\u2019est pourquoi chaque tripl\u00e9 pense exactement\ncomme les deux autres. Ils creusent inlassablement, dans\nune coop\u00e9ration parfaite."
+  },
+  "52": {
+    "name": "Miaouss",
+    "japan": "\u30cb\u30e3\u30fc\u30b9",
+    "pokedex": "Miaouss peut rentrer ses griffes dans ses pattes pour r\u00f4der\ngracieusement sans laisser de traces. \u00c9trangement,\nce Pok\u00e9mon raffole des pi\u00e8ces d\u2019or qui brillent \u00e0 la lumi\u00e8re."
+  },
+  "53": {
+    "name": "Persian",
+    "japan": "\u30da\u30eb\u30b7\u30a2\u30f3",
+    "pokedex": "Persian a six grosses vibrisses qui lui donnent un air costaud\net lui permettent de sentir les mouvements de l\u2019air pour savoir\nce qui se trouve \u00e0 proximit\u00e9. Il devient docile lorsqu\u2019on\nl\u2019attrape par les moustaches."
+  },
+  "54": {
+    "name": "Psykokwak",
+    "japan": "\u30b3\u30c0\u30c3\u30af",
+    "pokedex": "Lorsqu\u2019il utilise son myst\u00e9rieux pouvoir, Psykokwak\nne s\u2019en souvient pas. Apparemment, il ne peut pas garder\nce genre d\u2019\u00e9v\u00e9nement en m\u00e9moire, car il pratique ce pouvoir\ndans un \u00e9tat proche du sommeil profond."
+  },
+  "55": {
+    "name": "Akwakwak",
+    "japan": "\u30b4\u30eb\u30c0\u30c3\u30af",
+    "pokedex": "Akwakwak est le Pok\u00e9mon qui nage le plus vite.\nIl nage sans se fatiguer, m\u00eame lorsque la mer est agit\u00e9e.\nIl sauve parfois des gens coinc\u00e9s dans les navires bloqu\u00e9s\nen haute mer."
+  },
+  "56": {
+    "name": "F\u00e9rosinge",
+    "japan": "\u30de\u30f3\u30ad\u30fc",
+    "pokedex": "Lorsque F\u00e9rosinge commence \u00e0 trembler et que sa respiration\ndevient haletante, cela signifie qu\u2019il est en col\u00e8re. En outre,\nla moutarde lui monte au nez tellement vite qu\u2019il est presque\nimpossible d\u2019\u00e9chapper \u00e0 sa col\u00e8re."
+  },
+  "57": {
+    "name": "Colossinge",
+    "japan": "\u30aa\u30b3\u30ea\u30b6\u30eb",
+    "pokedex": "Lorsque Colossinge devient furieux, sa circulation sanguine\ns\u2019acc\u00e9l\u00e8re. Du coup, ses muscles sont encore plus puissants.\nEn revanche, il devient bien moins intelligent."
+  },
+  "58": {
+    "name": "Caninos",
+    "japan": "\u30ac\u30fc\u30c7\u30a3",
+    "pokedex": "Caninos a un odorat tr\u00e8s d\u00e9velopp\u00e9. Ce Pok\u00e9mon n\u2019oublie\njamais un parfum, quel qu\u2019il soit. Il utilise son puissant sens\nolfactif pour deviner les \u00e9motions des autres cr\u00e9atures\nvivantes."
+  },
+  "59": {
+    "name": "Arcanin",
+    "japan": "\u30a6\u30a4\u30f3\u30c7\u30a3",
+    "pokedex": "Arcanin est c\u00e9l\u00e8bre pour son extraordinaire vitesse.\nOn le dit capable de parcourir plus de 10\u202f000 km en 24 h.\nLe feu qui fait rage \u00e0 l\u2019int\u00e9rieur du corps de ce Pok\u00e9mon\nest la source de son pouvoir."
+  },
+  "60": {
+    "name": "Ptitard",
+    "japan": "\u30cb\u30e7\u30ed\u30e2",
+    "pokedex": "Ptitard a une peau tr\u00e8s fine. On peut m\u00eame voir les\nentrailles en spirale de ce Pok\u00e9mon \u00e0 travers sa peau.\nMalgr\u00e9 sa finesse, cette peau est aussi tr\u00e8s \u00e9lastique.\nM\u00eame les crocs les plus ac\u00e9r\u00e9s rebondissent dessus."
+  },
+  "61": {
+    "name": "T\u00eatarte",
+    "japan": "\u30cb\u30e7\u30ed\u30be",
+    "pokedex": "La peau de T\u00eatarte est toujours maintenue humide par\nun liquide huileux. Gr\u00e2ce \u00e0 cette protection graisseuse,\nil peut facilement se glisser hors de l\u2019\u00e9treinte de n\u2019importe\nquel ennemi."
+  },
+  "62": {
+    "name": "Tartard",
+    "japan": "\u30cb\u30e7\u30ed\u30dc\u30f3",
+    "pokedex": "Les muscles solides et surd\u00e9velopp\u00e9s de Tartard ne se\nfatiguent jamais, quels que soient les efforts qu\u2019il produit.\nCe Pok\u00e9mon est tellement endurant qu\u2019il peut traverser\nun oc\u00e9an \u00e0 la nage avec une \u00e9tonnante facilit\u00e9."
+  },
+  "63": {
+    "name": "Abra",
+    "japan": "\u30b1\u30fc\u30b7\u30a3",
+    "pokedex": "Abra doit dormir dix-huit heures par jour. S\u2019il dort moins,\nce Pok\u00e9mon ne peut plus utiliser ses pouvoirs t\u00e9l\u00e9kin\u00e9tiques.\nLorsqu\u2019il est attaqu\u00e9, Abra s\u2019enfuit en utilisant T\u00e9l\u00e9port,\nsans m\u00eame se r\u00e9veiller."
+  },
+  "64": {
+    "name": "Kadabra",
+    "japan": "\u30e6\u30f3\u30b2\u30e9\u30fc",
+    "pokedex": "Kadabra tient une cuiller en argent dans la main. Elle est\nutilis\u00e9e pour amplifier les ondes alpha de son cerveau.\nSans elle, on raconte que ce Pok\u00e9mon ne peut utiliser que\nla moiti\u00e9 de ses pouvoirs t\u00e9l\u00e9kin\u00e9tiques."
+  },
+  "65": {
+    "name": "Alakazam",
+    "japan": "\u30d5\u30fc\u30c7\u30a3\u30f3",
+    "pokedex": "Le cerveau d\u2019Alakazam grossit sans arr\u00eat, multipliant sans\ncesse ses cellules. Ce Pok\u00e9mon a un QI incroyablement\n\u00e9lev\u00e9, de 5\u202f000. Il peut garder en m\u00e9moire tout ce qui\ns\u2019est pass\u00e9 dans le monde."
+  },
+  "66": {
+    "name": "Machoc",
+    "japan": "\u30ef\u30f3\u30ea\u30ad\u30fc",
+    "pokedex": "Machoc s\u2019entra\u00eene en soulevant un Gravalanch, comme\ns\u2019il s\u2019agissait d\u2019halt\u00e8res. Certains Machoc voyagent un peu\npartout dans le monde pour apprendre \u00e0 ma\u00eetriser tous\nles types d\u2019arts martiaux."
+  },
+  "67": {
+    "name": "Machopeur",
+    "japan": "\u30b4\u30fc\u30ea\u30ad\u30fc",
+    "pokedex": "Machopeur pratique le body-building tous les jours,\nm\u00eame lorsqu\u2019il aide les gens \u00e0 r\u00e9aliser de durs travaux.\nPendant ses cong\u00e9s, ce Pok\u00e9mon va s\u2019entra\u00eener dans\nles champs et les montagnes."
+  },
+  "68": {
+    "name": "Mackogneur",
+    "japan": "\u30ab\u30a4\u30ea\u30ad\u30fc",
+    "pokedex": "Mackogneur est c\u00e9l\u00e8bre, car c\u2019est le seul Pok\u00e9mon qui\na r\u00e9ussi \u00e0 ma\u00eetriser tous les types d\u2019arts martiaux.\nS\u2019il parvient \u00e0 attraper son ennemi avec ses quatre bras,\nil le projette par-del\u00e0 l\u2019horizon."
+  },
+  "69": {
+    "name": "Ch\u00e9tiflor",
+    "japan": "\u30de\u30c0\u30c4\u30dc\u30df",
+    "pokedex": "Le corps long et flexible de Ch\u00e9tiflor lui permet de se tordre\net d\u2019osciller pour \u00e9viter tout type d\u2019attaque, m\u00eame les plus\npuissantes. Ce Pok\u00e9mon crache un fluide corrosif qui peut\nm\u00eame dissoudre le fer."
+  },
+  "70": {
+    "name": "Boustiflor",
+    "japan": "\u30a6\u30c4\u30c9\u30f3",
+    "pokedex": "Boustiflor est dot\u00e9 d\u2019un gros crochet. La nuit, ce Pok\u00e9mon\ns\u2019accroche \u00e0 une branche pour s\u2019endormir. Quand il a\nun sommeil agit\u00e9, il se r\u00e9veille par terre."
+  },
+  "71": {
+    "name": "Empiflor",
+    "japan": "\u30a6\u30c4\u30dc\u30c3\u30c8",
+    "pokedex": "Empiflor est dot\u00e9 d\u2019une longue liane qui part de sa t\u00eate.\nCette liane se balance et remue comme un animal pour attirer\nses proies. Lorsque l\u2019une d\u2019elles s\u2019approche un peu trop pr\u00e8s,\nce Pok\u00e9mon l\u2019avale enti\u00e8rement."
+  },
+  "72": {
+    "name": "Tentacool",
+    "japan": "\u30e1\u30ce\u30af\u30e9\u30b2",
+    "pokedex": "Gr\u00e2ce \u00e0 l\u2019eau de son corps, Tentacool convertit la lumi\u00e8re\ndu soleil absorb\u00e9e et la renvoie sous forme de rayon\nd\u2019\u00e9nergie. Ce Pok\u00e9mon lance ces rayons par le petit\norgane rond situ\u00e9 au-dessus de ses yeux."
+  },
+  "73": {
+    "name": "Tentacruel",
+    "japan": "\u30c9\u30af\u30af\u30e9\u30b2",
+    "pokedex": "Les tentacules de Tentacruel peuvent s\u2019allonger et se r\u00e9tracter\n\u00e0 volont\u00e9. Il serre sa proie dans ses tentacules et l\u2019affaiblit\nen lui injectant une toxine. Il peut attraper jusqu\u2019\u00e0 80 proies\nen m\u00eame temps."
+  },
+  "74": {
+    "name": "Racaillou",
+    "japan": "\u30a4\u30b7\u30c4\u30d6\u30c6",
+    "pokedex": "Pour dormir profond\u00e9ment, Racaillou s\u2019enterre \u00e0 moiti\u00e9\ndans le sol. Il ne se r\u00e9veille pas, m\u00eame si des randonneurs\nlui marchent dessus. Au petit matin, ce Pok\u00e9mon roule en\ncontrebas en qu\u00eate de nourriture."
+  },
+  "75": {
+    "name": "Gravalanch",
+    "japan": "\u30b4\u30ed\u30fc\u30f3",
+    "pokedex": "La nourriture pr\u00e9f\u00e9r\u00e9e de Gravalanch est la roche.\nCe Pok\u00e9mon escalade parfois les montagnes, d\u00e9vorant\nles rochers sur son passage. Une fois au sommet,\nil se laisse rouler jusqu\u2019en bas."
+  },
+  "76": {
+    "name": "Grolem",
+    "japan": "\u30b4\u30ed\u30fc\u30cb\u30e3",
+    "pokedex": "On sait que les Grolem se laissent rouler en bas\ndes montagnes. Afin d\u2019\u00e9viter qu\u2019ils roulent sur les maisons\ndes gens, des tranch\u00e9es ont \u00e9t\u00e9 creus\u00e9es le long des\nmontagnes pour les guider dans leurs descentes infernales."
+  },
+  "77": {
+    "name": "Ponyta",
+    "japan": "\u30dd\u30cb\u30fc\u30bf",
+    "pokedex": "\u00c0 sa naissance, Ponyta est tr\u00e8s faible. Il peut \u00e0 peine tenir\ndebout. Ce Pok\u00e9mon se muscle en tr\u00e9buchant et en tombant,\nlorsqu\u2019il essaie de suivre ses parents."
+  },
+  "78": {
+    "name": "Galopa",
+    "japan": "\u30ae\u30e3\u30ed\u30c3\u30d7",
+    "pokedex": "On voit souvent Galopa trotter dans les champs et les plaines.\nCependant, lorsque ce Pok\u00e9mon s\u2019en donne la peine, il peut\ngaloper \u00e0 plus de 240 km/h et sa crini\u00e8re flamboyante\ns\u2019embrase."
+  },
+  "79": {
+    "name": "Ramoloss",
+    "japan": "\u30e4\u30c9\u30f3",
+    "pokedex": "Ramoloss trempe sa queue dans l\u2019eau au bord des rivi\u00e8res\npour attraper ses proies. Cependant, ce Pok\u00e9mon oublie\nsouvent ce qu\u2019il fait l\u00e0 et passe des jours entiers \u00e0 tra\u00eener\nau bord de l\u2019eau."
+  },
+  "80": {
+    "name": "Flagadoss",
+    "japan": "\u30e4\u30c9\u30e9\u30f3",
+    "pokedex": "Flagadoss a un Kokiyas solidement attach\u00e9 \u00e0 sa queue.\nDu coup, il ne peut plus l\u2019utiliser pour p\u00eacher. Flagadoss est\ndonc oblig\u00e9, \u00e0 contrec\u0153ur, de nager pour attraper ses proies."
+  },
+  "81": {
+    "name": "Magn\u00e9ti",
+    "japan": "\u30b3\u30a4\u30eb",
+    "pokedex": "Magn\u00e9ti flotte dans les airs en \u00e9mettant des ondes\n\u00e9lectromagn\u00e9tiques par les aimants sur ses c\u00f4t\u00e9s.\nCes ondes annulent les effets de la gravit\u00e9. Ce Pok\u00e9mon\nne peut plus voler si son stock d\u2019\u00e9lectricit\u00e9 est \u00e9puis\u00e9."
+  },
+  "82": {
+    "name": "Magn\u00e9ton",
+    "japan": "\u30ec\u30a2\u30b3\u30a4\u30eb",
+    "pokedex": "Magn\u00e9ton \u00e9met un puissant champ magn\u00e9tique qui neutralise\nles appareils \u00e9lectroniques. Certaines villes demandent\naux propri\u00e9taires de ces Pok\u00e9mon de les garder dans\nleurs Pok\u00e9 Balls."
+  },
+  "83": {
+    "name": "Canarticho",
+    "japan": "\u30ab\u30e2\u30cd\u30ae",
+    "pokedex": "On voit souvent des Canarticho avec une tige, r\u00e9cup\u00e9r\u00e9e sur\nune plante quelconque. Apparemment, ils peuvent distinguer\nles bonnes des mauvaises. On a vu ces Pok\u00e9mon se battre\npour des histoires de tiges."
+  },
+  "84": {
+    "name": "Doduo",
+    "japan": "\u30c9\u30fc\u30c9\u30fc",
+    "pokedex": "Les deux t\u00eates de Doduo contiennent des cerveaux\ntotalement identiques. Une \u00e9tude scientifique d\u00e9montra\nque dans des cas rares, certains de ces Pok\u00e9mon\nposs\u00e8dent des cerveaux diff\u00e9rents."
+  },
+  "85": {
+    "name": "Dodrio",
+    "japan": "\u30c9\u30fc\u30c9\u30ea\u30aa",
+    "pokedex": "Apparemment, Dodrio ne se contente pas d\u2019avoir trois t\u00eates.\nIl semble \u00e9galement avoir trois c\u0153urs et six poumons,\nce qui lui permet de courir tr\u00e8s longtemps sans s\u2019\u00e9puiser."
+  },
+  "86": {
+    "name": "Otaria",
+    "japan": "\u30d1\u30a6\u30ef\u30a6",
+    "pokedex": "Otaria chasse ses proies dans l\u2019eau gel\u00e9e, sous la couche de\nglace. Lorsqu\u2019il cherche \u00e0 respirer, il perce un trou en frappant\nla glace avec la partie saillante de sa t\u00eate."
+  },
+  "87": {
+    "name": "Lamantine",
+    "japan": "\u30b8\u30e5\u30b4\u30f3",
+    "pokedex": "Lamantine adore piquer un roupillon \u00e0 m\u00eame la glace. Il y a\ntr\u00e8s longtemps, un marin ayant aper\u00e7u ce Pok\u00e9mon dormant\nsur un glacier a cru voir une sir\u00e8ne."
+  },
+  "88": {
+    "name": "Tadmorv",
+    "japan": "\u30d9\u30c8\u30d9\u30bf\u30fc",
+    "pokedex": "Tadmorv est apparu dans la vase accumul\u00e9e sur un bord\nde mer pollu\u00e9. Ce Pok\u00e9mon aime tout ce qui est d\u00e9go\u00fbtant.\nUne substance pleine de germes suinte constamment\nde tout son corps."
+  },
+  "89": {
+    "name": "Grotadmorv",
+    "japan": "\u30d9\u30c8\u30d9\u30c8\u30f3",
+    "pokedex": "Ce Pok\u00e9mon ne mange que ce qui est r\u00e9pugnant et abject.\nLes Grotadmorv se rassemblent dans les villes o\u00f9 les gens\njettent tout par terre, dans la rue."
+  },
+  "90": {
+    "name": "Kokiyas",
+    "japan": "\u30b7\u30a7\u30eb\u30c0\u30fc",
+    "pokedex": "La nuit, ce Pok\u00e9mon utilise sa grande langue pour creuser\nun trou dans le sable des fonds marins afin d\u2019y dormir.\nUne fois endormi, Kokiyas referme sa coquille, mais laisse\nsa langue d\u00e9passer."
+  },
+  "91": {
+    "name": "Crustabri",
+    "japan": "\u30d1\u30eb\u30b7\u30a7\u30f3",
+    "pokedex": "Crustabri est capable de se d\u00e9placer dans les fonds marins\nen avalant de l\u2019eau et en la rejetant vers l\u2019arri\u00e8re.\nCe Pok\u00e9mon envoie des pointes en utilisant la m\u00eame m\u00e9thode."
+  },
+  "92": {
+    "name": "Fantominus",
+    "japan": "\u30b4\u30fc\u30b9",
+    "pokedex": "Fantominus est principalement constitu\u00e9 de mati\u00e8re gazeuse.\nLorsqu\u2019il est expos\u00e9 au vent, son corps gazeux se disperse\net diminue. Des groupes de ce Pok\u00e9mon se rassemblent sous\nles auvents des maisons pour se prot\u00e9ger."
+  },
+  "93": {
+    "name": "Spectrum",
+    "japan": "\u30b4\u30fc\u30b9\u30c8",
+    "pokedex": "Spectrum est un Pok\u00e9mon dangereux. Si l\u2019un d\u2019entre eux fait\nsigne d\u2019approcher, il ne faut jamais l\u2019\u00e9couter. Ce Pok\u00e9mon\nrisque de sortir sa langue pour essayer de voler votre vie."
+  },
+  "94": {
+    "name": "Ectoplasma",
+    "japan": "\u30b2\u30f3\u30ac\u30fc",
+    "pokedex": "Parfois, pendant les nuits noires, une ombre projet\u00e9e par\nun r\u00e9verb\u00e8re peut tout \u00e0 coup vous d\u00e9passer. Il s\u2019agit d\u2019un\nEctoplasma qui court, en se faisant passer pour l\u2019ombre\nde quelqu\u2019un d\u2019autre."
+  },
+  "95": {
+    "name": "Onix",
+    "japan": "\u30a4\u30ef\u30fc\u30af",
+    "pokedex": "Onix a dans le cerveau un aimant qui lui sert de boussole.\nIl permet \u00e0 ce Pok\u00e9mon de ne pas se perdre pendant\nqu\u2019il creuse. En prenant de l\u2019\u00e2ge, son corps s\u2019arrondit\net se polit."
+  },
+  "96": {
+    "name": "Soporifik",
+    "japan": "\u30b9\u30ea\u30fc\u30d7",
+    "pokedex": "Lorsque les enfants ont le nez qui les d\u00e9mange en dormant,\nc\u2019est sans doute parce que ce Pok\u00e9mon se tient au-dessus\nde leur oreiller, afin d\u2019essayer de manger leurs r\u00eaves par\nleurs narines."
+  },
+  "97": {
+    "name": "Hypnomade",
+    "japan": "\u30b9\u30ea\u30fc\u30d1\u30fc",
+    "pokedex": "Hypnomade tient un pendule dans sa main. Le mouvement\nde balancier et les reflets brillants du pendule hypnotisent\nprofond\u00e9ment son ennemi. Lorsque ce Pok\u00e9mon cherche\nses proies, il nettoie son pendule."
+  },
+  "98": {
+    "name": "Krabby",
+    "japan": "\u30af\u30e9\u30d6",
+    "pokedex": "Krabby vit sur les plages, enterr\u00e9 dans le sable. Sur les plages\no\u00f9 on trouve peu de nourriture, on peut voir ces Pok\u00e9mon\nse disputer pour d\u00e9fendre leur territoire."
+  },
+  "99": {
+    "name": "Krabboss",
+    "japan": "\u30ad\u30f3\u30b0\u30e9\u30fc",
+    "pokedex": "Krabboss est dot\u00e9 d\u2019une pince gigantesque, surdimensionn\u00e9e.\nIl l\u2019agite en l\u2019air pour communiquer avec ses semblables.\nEn revanche, sa pince est tellement lourde que ce Pok\u00e9mon\nse fatigue tr\u00e8s vite."
+  },
+  "100": {
+    "name": "Voltorbe",
+    "japan": "\u30d3\u30ea\u30ea\u30c0\u30de",
+    "pokedex": "Voltorbe est extr\u00eamement sensible. Il explose au moindre\nchoc. On raconte qu\u2019il fut cr\u00e9\u00e9 par l\u2019exposition d\u2019une\nPok\u00e9 Ball \u00e0 une puissante dose d\u2019\u00e9nergie."
+  },
+  "101": {
+    "name": "\u00c9lectrode",
+    "japan": "\u30de\u30eb\u30de\u30a4\u30f3",
+    "pokedex": "L\u2019une des caract\u00e9ristiques d\u2019\u00c9lectrode est son attirance\npour l\u2019\u00e9lectricit\u00e9. Ces Pok\u00e9mon posent probl\u00e8me lorsqu\u2019ils\nse rassemblent dans les centrales \u00e9lectriques pour se nourrir\nde courant fra\u00eechement g\u00e9n\u00e9r\u00e9."
+  },
+  "102": {
+    "name": "Noeunoeuf",
+    "japan": "\u30bf\u30de\u30bf\u30de",
+    "pokedex": "Ce Pok\u00e9mon est constitu\u00e9 de six \u0153ufs formant une grappe\nserr\u00e9e. Ces six \u0153ufs s\u2019attirent mutuellement et pivotent.\nQuand des fissures apparaissent sur les coquilles, \u00e7a signifie\nque Noeunoeuf est sur le point d\u2019\u00e9voluer."
+  },
+  "103": {
+    "name": "Noadkoko",
+    "japan": "\u30ca\u30c3\u30b7\u30fc",
+    "pokedex": "Noadkoko vient des tropiques. \u00c0 force de vivre sous un soleil\nardent, ses t\u00eates ont rapidement grandi. On raconte que\nlorsque ses t\u00eates tombent, elles se rassemblent et forment\nun Noeunoeuf."
+  },
+  "104": {
+    "name": "Osselait",
+    "japan": "\u30ab\u30e9\u30ab\u30e9",
+    "pokedex": "La maman d\u2019Osselait lui manque terriblement et il ne la reverra\njamais. La lune le fait pleurer, car elle lui rappelle sa m\u00e8re.\nLes taches sur le cr\u00e2ne que porte ce Pok\u00e9mon sont\nles marques de ses larmes."
+  },
+  "105": {
+    "name": "Ossatueur",
+    "japan": "\u30ac\u30e9\u30ac\u30e9",
+    "pokedex": "Ossatueur est la forme \u00e9volu\u00e9e d\u2019Osselait. Il a surmont\u00e9\nle chagrin caus\u00e9 par la perte de sa maman et s\u2019est endurci.\nLe temp\u00e9rament d\u00e9cid\u00e9 et entier de ce Pok\u00e9mon le rend\ntr\u00e8s difficile \u00e0 amadouer."
+  },
+  "106": {
+    "name": "Kicklee",
+    "japan": "\u30b5\u30ef\u30e0\u30e9\u30fc",
+    "pokedex": "Les jambes de Kicklee peuvent se contracter et s\u2019\u00e9tirer\n\u00e0 volont\u00e9. Gr\u00e2ce \u00e0 ces jambes \u00e0 ressort, il terrasse ses\nennemis en les rouant de coups de pied. Apr\u00e8s les combats,\nil masse ses jambes pour \u00e9viter de sentir la fatigue."
+  },
+  "107": {
+    "name": "Tygnon",
+    "japan": "\u30a8\u30d3\u30ef\u30e9\u30fc",
+    "pokedex": "On raconte que Tygnon dispose de l\u2019\u00e9tat d\u2019esprit d\u2019un boxeur\nqui s\u2019entra\u00eene pour le championnat du monde. Ce Pok\u00e9mon\nest dot\u00e9 d\u2019une t\u00e9nacit\u00e9 \u00e0 toute \u00e9preuve et n\u2019abandonne\njamais face \u00e0 l\u2019adversit\u00e9."
+  },
+  "108": {
+    "name": "Excelangue",
+    "japan": "\u30d9\u30ed\u30ea\u30f3\u30ac",
+    "pokedex": "Chaque fois qu\u2019Excelangue d\u00e9couvre quelque chose\nde nouveau, il le l\u00e8che. Sa m\u00e9moire est bas\u00e9e sur le go\u00fbt\net la texture des objets. Il n\u2019aime pas les choses acides."
+  },
+  "109": {
+    "name": "Smogo",
+    "japan": "\u30c9\u30ac\u30fc\u30b9",
+    "pokedex": "Smogo est compos\u00e9 de substances toxiques. Il m\u00e9lange\ndes toxines et des d\u00e9tritus pour d\u00e9clencher une r\u00e9action\nchimique g\u00e9n\u00e9rant un gaz tr\u00e8s dangereux. Plus la temp\u00e9rature\nest \u00e9lev\u00e9e, plus la quantit\u00e9 de gaz est importante."
+  },
+  "110": {
+    "name": "Smogogo",
+    "japan": "\u30de\u30bf\u30c9\u30ac\u30b9",
+    "pokedex": "Smogogo r\u00e9tr\u00e9cit ou gonfle ses deux corps pour m\u00e9langer\nles gaz toxiques qui s\u2019y trouvent. Lorsque les gaz sont bien\nm\u00e9lang\u00e9s, la toxine devient tr\u00e8s puissante. Le Pok\u00e9mon\nse putr\u00e9fie aussi un peu plus."
+  },
+  "111": {
+    "name": "Rhinocorne",
+    "japan": "\u30b5\u30a4\u30db\u30fc\u30f3",
+    "pokedex": "Le cerveau de Rhinocorne est tout petit, \u00e0 tel point que\nlorsqu\u2019il attaque, il lui arrive d\u2019oublier pourquoi il a commenc\u00e9\n\u00e0 charger. Il lui arrive de se souvenir qu\u2019il a d\u00e9moli certaines\nchoses."
+  },
+  "112": {
+    "name": "Rhinof\u00e9ros",
+    "japan": "\u30b5\u30a4\u30c9\u30f3",
+    "pokedex": "La corne de Rhinof\u00e9ros lui sert de foreuse. Il l\u2019utilise pour\nd\u00e9truire des rochers et des cailloux. Ce Pok\u00e9mon charge\nde temps en temps dans du magma en fusion, mais sa peau\nblind\u00e9e le prot\u00e8ge de la chaleur."
+  },
+  "113": {
+    "name": "Leveinard",
+    "japan": "\u30e9\u30c3\u30ad\u30fc",
+    "pokedex": "Leveinard pond tous les jours des \u0153ufs pleins de vitamines.\nCes \u0153ufs sont tellement bons que les gens les mangent\nm\u00eame quand ils n\u2019ont pas faim."
+  },
+  "114": {
+    "name": "Saquedeneu",
+    "japan": "\u30e2\u30f3\u30b8\u30e3\u30e9",
+    "pokedex": "Les lianes de Saquedeneu se brisent facilement lorsqu\u2019on\nles attrape. Cela ne lui fait pas mal et lui permet simplement\nde s\u2019\u00e9chapper rapidement. Les lianes cass\u00e9es repoussent\nle lendemain."
+  },
+  "115": {
+    "name": "Kangourex",
+    "japan": "\u30ac\u30eb\u30fc\u30e9",
+    "pokedex": "Lorsqu\u2019on rencontre un petit Kangourex qui joue tout seul,\nil ne faut jamais le d\u00e9ranger ou essayer de l\u2019attraper.\nLes parents du b\u00e9b\u00e9 Pok\u00e9mon sont s\u00fbrement dans le coin\net ils risquent d\u2019entrer dans une col\u00e8re noire."
+  },
+  "116": {
+    "name": "Hypotrempe",
+    "japan": "\u30bf\u30c3\u30c4\u30fc",
+    "pokedex": "Lorsque Hypotrempe sent un danger, il lib\u00e8re instinctivement\nune \u00e9paisse encre noire pour pouvoir s\u2019\u00e9chapper.\nCe Pok\u00e9mon nage en agitant sa nageoire dorsale."
+  },
+  "117": {
+    "name": "Hypoc\u00e9an",
+    "japan": "\u30b7\u30fc\u30c9\u30e9",
+    "pokedex": "Hypoc\u00e9an d\u00e9clenche des tourbillons en faisant tournoyer\nson corps. Ces tourbillons sont assez puissants pour engloutir\ndes bateaux de p\u00eache. Ce Pok\u00e9mon affaiblit sa proie gr\u00e2ce \u00e0\nces courants, puis l\u2019avale en une bouch\u00e9e."
+  },
+  "118": {
+    "name": "Poissir\u00e8ne",
+    "japan": "\u30c8\u30b5\u30ad\u30f3\u30c8",
+    "pokedex": "Poissir\u00e8ne adore nager librement dans les rivi\u00e8res et\nles \u00e9tangs. Si l\u2019un de ces Pok\u00e9mon est mis dans un aquarium,\nil n\u2019h\u00e9sitera pas \u00e0 casser la vitre avec sa puissante corne pour\ns\u2019enfuir."
+  },
+  "119": {
+    "name": "Poissoroy",
+    "japan": "\u30a2\u30ba\u30de\u30aa\u30a6",
+    "pokedex": "Les Poissoroy font tout pour prot\u00e9ger leurs \u0153ufs.\nLes m\u00e2les et les femelles patrouillent pour surveiller le nid et\nles \u0153ufs. La garde de ces \u0153ufs dure un peu plus d\u2019un mois."
+  },
+  "120": {
+    "name": "Stari",
+    "japan": "\u30d2\u30c8\u30c7\u30de\u30f3",
+    "pokedex": "Stari communique apparemment avec les \u00e9toiles dans\nle ciel en faisant clignoter son c\u0153ur rouge. Si des parties\nde son corps sont cass\u00e9es, ce Pok\u00e9mon les r\u00e9g\u00e9n\u00e8re."
+  },
+  "121": {
+    "name": "Staross",
+    "japan": "\u30b9\u30bf\u30fc\u30df\u30fc",
+    "pokedex": "Staross nage en faisant tournoyer son corps en forme d\u2019\u00e9toile,\nun peu \u00e0 la mani\u00e8re d\u2019une h\u00e9lice de bateau. Le c\u0153ur au centre\ndu corps de ce Pok\u00e9mon brille de sept couleurs."
+  },
+  "122": {
+    "name": "M. Mime",
+    "japan": "\u30d0\u30ea\u30e4\u30fc\u30c9",
+    "pokedex": "M. Mime est un pantomime hors pair. Ses gestes et ses\nmouvements parviennent \u00e0 faire croire que quelque chose\nd\u2019invisible existe r\u00e9ellement. Lorsqu\u2019on y croit, ces choses\ndeviennent palpables."
+  },
+  "123": {
+    "name": "Ins\u00e9cateur",
+    "japan": "\u30b9\u30c8\u30e9\u30a4\u30af",
+    "pokedex": "Ins\u00e9cateur est incroyablement rapide. Sa vitesse fulgurante\nam\u00e9liore l\u2019efficacit\u00e9 des deux lames situ\u00e9es sur ses avant-bras.\nElles sont si coupantes qu\u2019elles peuvent trancher un \u00e9norme\ntronc d\u2019arbre en un coup."
+  },
+  "124": {
+    "name": "Lippoutou",
+    "japan": "\u30eb\u30fc\u30b8\u30e5\u30e9",
+    "pokedex": "Lippoutou marche en rythme, ondule de tout son corps et\nse d\u00e9hanche comme s\u2019il dansait. Ses mouvements sont si\ncommunicatifs que les gens qui le voient sont soudain pris\nd\u2019une terrible envie de bouger les hanches, sans r\u00e9fl\u00e9chir."
+  },
+  "125": {
+    "name": "\u00c9lektek",
+    "japan": "\u30a8\u30ec\u30d6\u30fc",
+    "pokedex": "Lorsqu\u2019une temp\u00eate approche, des groupes entiers de\nce Pok\u00e9mon se battent pour grimper sur les hauteurs,\no\u00f9 la foudre a le plus de chance de tomber. Certaines villes\nse servent d\u2019\u00c9lektek en guise de paratonnerres."
+  },
+  "126": {
+    "name": "Magmar",
+    "japan": "\u30d6\u30fc\u30d0\u30fc",
+    "pokedex": "Lorsqu\u2019il se bat, Magmar fait jaillir des flammes de son corps\npour intimider son adversaire. Les explosions enflamm\u00e9es de\nce Pok\u00e9mon d\u00e9clenchent des vagues de chaleur qui embrasent\nla v\u00e9g\u00e9tation environnante."
+  },
+  "127": {
+    "name": "Scarabrute",
+    "japan": "\u30ab\u30a4\u30ed\u30b9",
+    "pokedex": "Scarabrute est dot\u00e9 de cornes imposantes. Des pointes\njaillissent de la surface de ses cornes. Ces pointes s\u2019enfoncent\nprofond\u00e9ment dans le corps de l\u2019ennemi, l\u2019emp\u00eachant ainsi\nde s\u2019\u00e9chapper."
+  },
+  "128": {
+    "name": "Tauros",
+    "japan": "\u30b1\u30f3\u30bf\u30ed\u30b9",
+    "pokedex": "Ce Pok\u00e9mon n\u2019est pas satisfait s\u2019il ne d\u00e9truit pas tout sur\nson passage. Lorsque Tauros ne trouve pas d\u2019adversaire,\nil se rue sur de gros arbres et les d\u00e9racine pour passer\nses nerfs."
+  },
+  "129": {
+    "name": "Magicarpe",
+    "japan": "\u30b3\u30a4\u30ad\u30f3\u30b0",
+    "pokedex": "Magicarpe est virtuellement inutile en combat. Il se contente\nde faire des ronds dans l\u2019eau. On le consid\u00e8re plut\u00f4t faible.\nPourtant, ce Pok\u00e9mon est tr\u00e8s robuste et peut survivre\ndans n\u2019importe quel environnement, m\u00eame tr\u00e8s pollu\u00e9."
+  },
+  "130": {
+    "name": "L\u00e9viator",
+    "japan": "\u30ae\u30e3\u30e9\u30c9\u30b9",
+    "pokedex": "Lorsque L\u00e9viator commence \u00e0 s\u2019\u00e9nerver, sa nature violente\nne se calme qu\u2019une fois qu\u2019il a tout r\u00e9duit en cendres.\nLa fureur de ce Pok\u00e9mon peut durer pendant un mois."
+  },
+  "131": {
+    "name": "Lokhlass",
+    "japan": "\u30e9\u30d7\u30e9\u30b9",
+    "pokedex": "Les Lokhlass sont en voie d\u2019extinction. Le soir, on entend\nce Pok\u00e9mon chantonner une complainte m\u00e9lancolique,\nesp\u00e9rant retrouver ses rares cong\u00e9n\u00e8res."
+  },
+  "132": {
+    "name": "M\u00e9tamorph",
+    "japan": "\u30e1\u30bf\u30e2\u30f3",
+    "pokedex": "M\u00e9tamorph peut modifier sa structure mol\u00e9culaire pour\nprendre d\u2019autres formes. Lorsqu\u2019il essaie de se transformer\nde m\u00e9moire, il lui arrive de se tromper sur certains d\u00e9tails."
+  },
+  "133": {
+    "name": "\u00c9voli",
+    "japan": "\u30a4\u30fc\u30d6\u30a4",
+    "pokedex": "\u00c9voli a une structure g\u00e9n\u00e9tique instable qui se transforme\nen fonction de l\u2019environnement dans lequel il vit.\nCe Pok\u00e9mon peut \u00e9voluer gr\u00e2ce aux radiations de\ndiverses pierres."
+  },
+  "134": {
+    "name": "Aquali",
+    "japan": "\u30b7\u30e3\u30ef\u30fc\u30ba",
+    "pokedex": "Aquali a subi une mutation spontan\u00e9e. Des nageoires et\ndes branchies sont apparues sur son corps, ce qui lui permet\nde vivre dans les fonds marins. Ce Pok\u00e9mon peut contr\u00f4ler\nl\u2019eau \u00e0 volont\u00e9."
+  },
+  "135": {
+    "name": "Voltali",
+    "japan": "\u30b5\u30f3\u30c0\u30fc\u30b9",
+    "pokedex": "Les cellules de Voltali g\u00e9n\u00e8rent un courant de faible intensit\u00e9.\nCe pouvoir est amplifi\u00e9 par l\u2019\u00e9lectricit\u00e9 statique de ses poils,\nce qui lui permet d\u2019envoyer des \u00e9clairs. Sa fourrure h\u00e9riss\u00e9e\nest faite d\u2019aiguilles charg\u00e9es d\u2019\u00e9lectricit\u00e9."
+  },
+  "136": {
+    "name": "Pyroli",
+    "japan": "\u30d6\u30fc\u30b9\u30bf\u30fc",
+    "pokedex": "La fourrure soyeuse de Pyroli a une fonction anatomique.\nElle rejette la chaleur dans l\u2019air pour que son corps ne\nsurchauffe pas. La temp\u00e9rature du corps de ce Pok\u00e9mon\npeut atteindre 900 \u00b0C."
+  },
+  "137": {
+    "name": "Porygon",
+    "japan": "\u30dd\u30ea\u30b4\u30f3",
+    "pokedex": "Porygon est capable de se d\u00e9compiler et de retourner \u00e0 l\u2019\u00e9tat\nde programme informatique pour entrer dans le cyberespace.\nCe Pok\u00e9mon est prot\u00e9g\u00e9 contre le piratage, il est donc\nimpossible de le copier."
+  },
+  "138": {
+    "name": "Amonita",
+    "japan": "\u30aa\u30e0\u30ca\u30a4\u30c8",
+    "pokedex": "Amonita est l\u2019un des Pok\u00e9mon disparus depuis longtemps\net qui furent ressuscit\u00e9s \u00e0 partir de fossiles.\nLorsqu\u2019il est attaqu\u00e9 par un ennemi, il se r\u00e9tracte dans\nsa coquille."
+  },
+  "139": {
+    "name": "Amonistar",
+    "japan": "\u30aa\u30e0\u30b9\u30bf\u30fc",
+    "pokedex": "Amonistar utilise ses tentacules pour capturer ses proies.\nOn pense que l\u2019esp\u00e8ce s\u2019est \u00e9teinte parce que sa coquille\n\u00e9tait devenue trop grande et trop lourde, ce qui rendait\nses mouvements lents et pesants."
+  },
+  "140": {
+    "name": "Kabuto",
+    "japan": "\u30ab\u30d6\u30c8",
+    "pokedex": "Kabuto est un Pok\u00e9mon ressuscit\u00e9 \u00e0 partir d\u2019un fossile.\nCependant, on a d\u00e9couvert des sp\u00e9cimens vivants.\nCe Pok\u00e9mon n\u2019a pas chang\u00e9 depuis 300 millions d\u2019ann\u00e9es."
+  },
+  "141": {
+    "name": "Kabutops",
+    "japan": "\u30ab\u30d6\u30c8\u30d7\u30b9",
+    "pokedex": "Jadis, Kabutops plongeait dans les profondeurs pour trouver\nses proies. Apparemment, ce Pok\u00e9mon vivant sur terre est\nl\u2019\u00e9volution d\u2019une cr\u00e9ature marine, comme le prouvent\nles changements dans ses branchies."
+  },
+  "142": {
+    "name": "Pt\u00e9ra",
+    "japan": "\u30d7\u30c6\u30e9",
+    "pokedex": "Pt\u00e9ra est un Pok\u00e9mon de l\u2019\u00e8re des dinosaures. Il fut ressuscit\u00e9\n\u00e0 partir de cellules extraites d\u2019un morceau d\u2019ambre. On pense\nqu\u2019il \u00e9tait le roi des cieux \u00e0 l\u2019\u00e9poque pr\u00e9historique."
+  },
+  "143": {
+    "name": "Ronflex",
+    "japan": "\u30ab\u30d3\u30b4\u30f3",
+    "pokedex": "Les journ\u00e9es de Ronflex se r\u00e9sument aux repas et aux siestes.\nC\u2019est un Pok\u00e9mon tellement gentil que les enfants n\u2019h\u00e9sitent\npas \u00e0 jouer sur son \u00e9norme ventre."
+  },
+  "144": {
+    "name": "Artikodin",
+    "japan": "\u30d5\u30ea\u30fc\u30b6\u30fc",
+    "pokedex": "Artikodin est un Pok\u00e9mon Oiseau l\u00e9gendaire qui peut\ncontr\u00f4ler la glace. Le battement de ses ailes g\u00e8le l\u2019air\ntout autour de lui. C\u2019est pourquoi on dit que lorsque\nce Pok\u00e9mon vole, il va neiger."
+  },
+  "145": {
+    "name": "\u00c9lecthor",
+    "japan": "\u30b5\u30f3\u30c0\u30fc",
+    "pokedex": "\u00c9lecthor est un Pok\u00e9mon Oiseau l\u00e9gendaire capable de\ncontr\u00f4ler l\u2019\u00e9lectricit\u00e9. Il vit g\u00e9n\u00e9ralement dans les nuages\norageux. Ce Pok\u00e9mon gagne en puissance lorsqu\u2019il est\nfrapp\u00e9 par la foudre."
+  },
+  "146": {
+    "name": "Sulfura",
+    "japan": "\u30d5\u30a1\u30a4\u30e4\u30fc",
+    "pokedex": "Sulfura est un Pok\u00e9mon Oiseau l\u00e9gendaire capable de\ncontr\u00f4ler le feu. On raconte que lorsque ce Pok\u00e9mon est\nbless\u00e9, il se baigne dans le magma en \u00e9bullition d\u2019un volcan\npour se soigner."
+  },
+  "147": {
+    "name": "Minidraco",
+    "japan": "\u30df\u30cb\u30ea\u30e5\u30a6",
+    "pokedex": "Minidraco mue constamment, renouvelant sans arr\u00eat sa peau.\nEn effet, l\u2019\u00e9nergie vitale de son corps augmente r\u00e9guli\u00e8rement\net sa mue lui permet d\u2019\u00e9viter d\u2019atteindre des niveaux\nincontr\u00f4lables."
+  },
+  "148": {
+    "name": "Draco",
+    "japan": "\u30cf\u30af\u30ea\u30e5\u30fc",
+    "pokedex": "Draco stocke une quantit\u00e9 d\u2019\u00e9nergie consid\u00e9rable dans\nson corps. On raconte qu\u2019il peut modifier les conditions\nclimatiques autour de lui en d\u00e9chargeant l\u2019\u00e9nergie contenue\ndans les cristaux de son cou et de sa queue."
+  },
+  "149": {
+    "name": "Dracolosse",
+    "japan": "\u30ab\u30a4\u30ea\u30e5\u30fc",
+    "pokedex": "Dracolosse est capable de faire le tour de la plan\u00e8te en seize\nheures \u00e0 peine. C\u2019est un Pok\u00e9mon au grand c\u0153ur qui ram\u00e8ne\n\u00e0 bon port les navires perdus dans les temp\u00eates."
+  },
+  "150": {
+    "name": "Mewtwo",
+    "japan": "\u30df\u30e5\u30a6\u30c4\u30fc",
+    "pokedex": "Mewtwo est un Pok\u00e9mon cr\u00e9\u00e9 par manipulation g\u00e9n\u00e9tique.\nCependant, bien que les connaissances scientifiques des\nhumains aient r\u00e9ussi \u00e0 cr\u00e9er son corps, elles n\u2019ont pas pu\ndoter Mewtwo d\u2019un c\u0153ur sensible."
+  },
+  "151": {
+    "name": "Mew",
+    "japan": "\u30df\u30e5\u30a6",
+    "pokedex": "On dit que Mew poss\u00e8de le code g\u00e9n\u00e9tique de tous les autres\nPok\u00e9mon. Il peut se rendre invisible \u00e0 sa guise, ce qui lui\npermet de ne pas se faire remarquer quand il s\u2019approche\ndes gens."
+  }
+}

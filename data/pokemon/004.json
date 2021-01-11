@@ -1,34 +1,56 @@
 {
-  "type": ["FIRE"],
-  "xp_point": 65,
-  "color": "RED",
-  "curve": "MEDIUM_SLOW",
-  "catch_rate": 45,
-  "female_rate": 0.125,
-  "size": 0.6,
-  "weight": 8.5,
-  "evolution": [
-    {
-      "lvl": 16,
-      "pokemon": 5
-    }
-  ],
-  "ability": {
-    "scratch": 1,
-    "growl": 1,
-    "ember": 9,
-    "leer": 15,
-    "rage": 22,
-    "slash": 30,
-    "flamethrower": 38,
-    "fire_spin": 46
-  },
-  "base_stats": {
-    "hp": 39,
-    "attack": 52,
-    "defense": 43,
-    "sp_attack": 60,
-    "sp_defense": 50,
-    "speed": 65
-  }
+    "ability": {
+        "ember": 9,
+        "fire-spin": 46,
+        "flamethrower": 38,
+        "growl": 1,
+        "leer": 15,
+        "rage": 22,
+        "scratch": 1,
+        "slash": 30
+    },
+    "ability_machine": [
+        "mega-punch",
+        "swords-dance",
+        "cut",
+        "mega-kick",
+        "body-slam",
+        "take-down",
+        "double-edge",
+        "submission",
+        "counter",
+        "seismic-toss",
+        "strength",
+        "dragon-rage",
+        "dig",
+        "toxic",
+        "mimic",
+        "double-team",
+        "reflect",
+        "bide",
+        "fire-blast",
+        "swift",
+        "skull-bash",
+        "rest",
+        "substitute"
+    ],
+    "base_stats": {
+        "attack": 52,
+        "defense": 43,
+        "hp": 39,
+        "sp_attack": 60,
+        "sp_defense": 50,
+        "speed": 65
+    },
+    "catch_rate": 45,
+    "color": "RED",
+    "curve": "MEDIUM_SLOW",
+    "evolution": [],
+    "female_rate": 0.5,
+    "size": 6,
+    "type": [
+        "FIRE"
+    ],
+    "weight": 85,
+    "xp_point": 62
 }

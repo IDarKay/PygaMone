@@ -220,7 +220,7 @@ class PokeDexInfo(Menu):
                 pygame.draw.rect(display, "#d2d2d2", (x, y, l // 2, s))
                 pygame.draw.rect(display, "#f3f3f3", (x + l // 2, y, l // 2, h))
             y += s
-        pygame.draw.rect(display, "#ffffff", (x, y, l, h * 3))
+        pygame.draw.rect(display, "#ffffff", (x, y, l, int(h * 4.5)))
         x += 5
         y += 10
         for p_l in hud.Dialog.split(poke.get_pokedex(), 40):

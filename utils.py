@@ -1,6 +1,8 @@
 from typing import Dict, List, Any, Tuple, Optional, Union, TypeVar, Callable, NoReturn
 import time
 import pygame
+
+import game_error
 import game_error as err
 import game
 import pokemon.pokemon_type as pokemon_type
@@ -406,3 +408,12 @@ def draw_table(display: pygame.Surface, /, y: int, x: int, h: int, c: int, l: in
                 pygame.draw.rect(display, split_color_2, (x + half, y, l - half, c))
             y += c
     return y
+
+
+T = TypeVar('T')
+
+
+def check_not_null(obj: T) -> T:
+    if obj is None:
+        raise game_error.NullPointerError()
+    return obj

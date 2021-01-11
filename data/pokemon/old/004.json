@@ -1,0 +1,34 @@
+{
+  "type": ["FIRE"],
+  "xp_point": 65,
+  "color": "RED",
+  "curve": "MEDIUM_SLOW",
+  "catch_rate": 45,
+  "female_rate": 0.125,
+  "size": 0.6,
+  "weight": 8.5,
+  "evolution": [
+    {
+      "lvl": 16,
+      "pokemon": 5
+    }
+  ],
+  "ability": {
+    "scratch": 1,
+    "growl": 1,
+    "ember": 9,
+    "leer": 15,
+    "rage": 22,
+    "slash": 30,
+    "flamethrower": 38,
+    "fire_spin": 46
+  },
+  "base_stats": {
+    "hp": 39,
+    "attack": 52,
+    "defense": 43,
+    "sp_attack": 60,
+    "sp_defense": 50,
+    "speed": 65
+  }
+}
