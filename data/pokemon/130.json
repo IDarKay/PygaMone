@@ -29,6 +29,7 @@
         "rest",
         "substitute"
     ],
+    "base_happiness": 70,
     "base_stats": {
         "attack": 125,
         "defense": 79,
@@ -42,11 +43,11 @@
     "curve": "SLOW",
     "evolution": [],
     "female_rate": 0.5,
-    "size": 65,
+    "size": 6.5,
     "type": [
         "WATER",
         "FLYING"
     ],
-    "weight": 2350,
+    "weight": 235.0,
     "xp_point": 189
 }

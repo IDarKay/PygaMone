@@ -26,6 +26,7 @@
         "rest",
         "substitute"
     ],
+    "base_happiness": 70,
     "base_stats": {
         "attack": 57,
         "defense": 40,
@@ -38,11 +39,11 @@
     "color": "PURPLE",
     "curve": "MEDIUM_SLOW",
     "evolution": [],
-    "female_rate": 0.5,
-    "size": 5,
+    "female_rate": 0.0,
+    "size": 0.5,
     "type": [
         "POISON"
     ],
-    "weight": 90,
+    "weight": 9.0,
     "xp_point": 55
 }

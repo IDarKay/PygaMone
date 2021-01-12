@@ -28,6 +28,7 @@
         "rest",
         "substitute"
     ],
+    "base_happiness": 70,
     "base_stats": {
         "attack": 90,
         "defense": 55,
@@ -41,10 +42,10 @@
     "curve": "MEDIUM_FAST",
     "evolution": [],
     "female_rate": 0.5,
-    "size": 8,
+    "size": 0.8,
     "type": [
         "ELECTRIC"
     ],
-    "weight": 300,
+    "weight": 30.0,
     "xp_point": 218
 }

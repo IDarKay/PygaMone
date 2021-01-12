@@ -39,7 +39,7 @@ class BideAbility(abilitys.AbstractAbility):
         return False
 
     def unload_assets(self) -> bool:
-        if super().load_assets():
+        if super().unload_assets():
             gif_manger.CONTACT.un_load()
             gif_manger.BIDE.un_load()
             del self.glass

@@ -30,6 +30,7 @@
         "rock-slide",
         "substitute"
     ],
+    "base_happiness": 70,
     "base_stats": {
         "attack": 95,
         "defense": 115,
@@ -43,11 +44,11 @@
     "curve": "MEDIUM_SLOW",
     "evolution": [],
     "female_rate": 0.5,
-    "size": 10,
+    "size": 1.0,
     "type": [
         "ROCK",
         "GROUND"
     ],
-    "weight": 1050,
+    "weight": 105.0,
     "xp_point": 137
 }

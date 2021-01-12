@@ -40,6 +40,7 @@
         "tri-attack",
         "substitute"
     ],
+    "base_happiness": 70,
     "base_stats": {
         "attack": 70,
         "defense": 45,
@@ -52,11 +53,11 @@
     "color": "PINK",
     "curve": "FAST",
     "evolution": [],
-    "female_rate": 0.5,
-    "size": 10,
+    "female_rate": 0.75,
+    "size": 1.0,
     "type": [
         "NORMAL"
     ],
-    "weight": 120,
+    "weight": 12.0,
     "xp_point": 196
 }

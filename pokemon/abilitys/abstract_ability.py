@@ -1,3 +1,4 @@
+from abc import abstractmethod, ABC
 from typing import NoReturn, Any, Optional
 
 import pygame
@@ -95,7 +96,7 @@ class AbstractAbility(object):
         return table
 
     # noinspection PyPep8Naming
-    def get_damage(self, launcher: "p_poke.PlayerPokemon", targets: list['p_poke.PlayerPokemon']) ->\
+    def get_damage(self, launcher: "p_poke.PlayerPokemon", targets: list['p_poke.PlayerPokemon']) -> \
             tuple[list[tuple[int, float]], bool, int]:
         self.last_launcher = launcher
         if self.category == STATUS:
@@ -143,7 +144,7 @@ class AbstractAbility(object):
         recoil = (back[0][0] * self.recoil) if self.recoil == RECOIL_DAMAGE else self.recoil
         return back, max(crit), recoil
 
-    def is_fail(self, poke: 'p_poke.PlayerPokemon'):
+    def is_fail(self, poke: 'p_poke.PlayerPokemon', target: 'p_poke.PlayerPokemon'):
         if self.accuracy == -1:
             return False
         return not (random.random() < (self.accuracy * poke.get_stats(p_poke.C_S_ACCURACY, True) / 100))
@@ -200,4 +201,59 @@ class AbstractAbility(object):
 
     def render(self, display: pygame.Surface, target: list[tuple[int, int, int]],
                launcher: tuple[int, int, int], ps_t: int, first_time: bool) -> NoReturn:
+        pass
+
+
+class AbstractMultiHitAbility(AbstractAbility):
+
+    __hit_vars_render: list[bool]
+    __hit_vars_rac: list[bool]
+
+    def __init__(self, id_, **data):
+        super().__init__(id_, **data)
+
+    def get_render_during(self):
+        return self.get_hit_during() * self.last_nb_hit
+
+    @abstractmethod
+    def get_hit_during(self) -> int:
+        pass
+
+    @abstractmethod
+    def get_nb_hit(self) -> int:
+        pass
+
+    def get_rac(self, target: list[tuple[int, int, int]],
+                launcher: tuple[int, int, int], ps_t: int, first_time: bool) -> 'battle_.RenderAbilityCallback':
+        if first_time:
+            self.__hit_vars_rac = [False] * self.last_nb_hit
+
+        c_hit = min(self.last_nb_hit - 1, ps_t // self.get_hit_during())
+        hit_first_time = False
+        if not self.__hit_vars_rac[c_hit]:
+            self.__hit_vars_rac[c_hit] = True
+            hit_first_time = True
+
+        return self.hit_rac(target, launcher, ps_t % self.get_hit_during(), hit_first_time, c_hit)
+
+    def render(self, display: pygame.Surface, target: list[tuple[int, int, int]],
+               launcher: tuple[int, int, int], ps_t: int, first_time: bool) -> NoReturn:
+
+        if first_time:
+            self.__hit_vars_render = [False] * self.last_nb_hit
+
+        c_hit = min(self.last_nb_hit - 1, ps_t // self.get_hit_during())
+        hit_first_time = False
+        if not self.__hit_vars_render[c_hit]:
+            self.__hit_vars_render[c_hit] = True
+            hit_first_time = True
+        self.hit_render(display, target, launcher, ps_t % self.get_hit_during(), hit_first_time, c_hit)
+
+    def hit_rac(self, target: list[tuple[int, int, int]],
+                launcher: tuple[int, int, int], ps_t: int, first_time: bool, hit: int) \
+            -> 'battle_.RenderAbilityCallback':
+        return battle_.RenderAbilityCallback()
+
+    def hit_render(self, display: pygame.Surface, target: list[tuple[int, int, int]],
+                   launcher: tuple[int, int, int], ps_t: int, first_time: bool, hit: int) -> NoReturn:
         pass

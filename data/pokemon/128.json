@@ -28,6 +28,7 @@
         "rest",
         "substitute"
     ],
+    "base_happiness": 70,
     "base_stats": {
         "attack": 100,
         "defense": 95,
@@ -40,11 +41,11 @@
     "color": "BROWN",
     "curve": "SLOW",
     "evolution": [],
-    "female_rate": 0.5,
-    "size": 14,
+    "female_rate": 0.0,
+    "size": 1.4,
     "type": [
         "NORMAL"
     ],
-    "weight": 884,
+    "weight": 88.4,
     "xp_point": 172
 }

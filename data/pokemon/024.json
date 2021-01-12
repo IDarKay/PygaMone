@@ -28,6 +28,7 @@
         "rock-slide",
         "substitute"
     ],
+    "base_happiness": 70,
     "base_stats": {
         "attack": 95,
         "defense": 69,
@@ -41,10 +42,10 @@
     "curve": "MEDIUM_FAST",
     "evolution": [],
     "female_rate": 0.5,
-    "size": 35,
+    "size": 3.5,
     "type": [
         "POISON"
     ],
-    "weight": 650,
+    "weight": 65.0,
     "xp_point": 157
 }

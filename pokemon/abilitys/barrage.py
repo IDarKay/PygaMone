@@ -38,7 +38,7 @@ class BarrageAbility(abilitys.AbstractAbility):
         return False
 
     def unload_assets(self) -> bool:
-        if super().load_assets():
+        if super().unload_assets():
             del self.ball
             del self.current_vars
             return True

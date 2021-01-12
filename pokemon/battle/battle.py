@@ -3,6 +3,7 @@ from typing import List, Tuple, NoReturn, Callable, Optional, Union, Any
 from pygame import Surface
 
 from hud import bag
+from pokemon import abilitys_
 from pokemon.battle import evolution_animaiton, battle_history
 from pokemon.battle.animation import Animation
 import pokemon.player_pokemon as player_pokemon
@@ -115,6 +116,7 @@ class RenderAbilityCallback(object):
 
     def __init__(self, move_target: Optional[List[Tuple[int, int, int]]] = None,
                  move_launcher: Tuple[int, int, int] = None,
+                 cut_launcher: tuple[int, bool] = None,
                  color_editor_target: List[Union[Tuple[int, int, int, int], Tuple[int, int, int, int, int]]] = None,
                  color_editor_launcher: Union[Tuple[int, int, int, int], Tuple[int, int, int, int, int]] = None,
                  size_edit_launcher: tuple[int, float, float] = None,
@@ -122,6 +124,7 @@ class RenderAbilityCallback(object):
                  ):
         self.move_target = move_target
         self.move_launcher = move_launcher
+        self.cut_launcher = cut_launcher
         self.color_editor_target = color_editor_target
         self.color_editor_launcher = color_editor_launcher
         self.size_edit_launcher = size_edit_launcher
@@ -142,7 +145,7 @@ class RenderAbilityCallback(object):
         return self.get_move(enemy, case), self.get_color(enemy, case)
 
     def get_color(self, enemy: bool, case) -> Optional[
-            Union[tuple[int, int, int, int], tuple[int, int, int, int, int]]]:
+        Union[tuple[int, int, int, int], tuple[int, int, int, int, int]]]:
         v = parse_enemy_case(enemy, case)
         if self.color_editor_launcher and self.color_editor_launcher[0] == v:
             return self.color_editor_launcher
@@ -151,6 +154,16 @@ class RenderAbilityCallback(object):
                 if c[0] == v:
                     return c
         return None
+
+    def get_cut(self, enemy: bool, case) -> bool:
+        v = parse_enemy_case(enemy, case)
+        if self.cut_launcher and self.cut_launcher[0] == v:
+            return self.cut_launcher[1]
+        # if self.move_target:
+        #     for mv in self.move_target:
+        #         if mv[0] == v:
+        #             return mv
+        return False
 
     def get_move(self, enemy: bool, case) -> tuple[int, int, int]:
         v = parse_enemy_case(enemy, case)
@@ -287,6 +300,15 @@ class PlayAbility(Animation):
         self.__start_time: int = utils.current_milli_time()
         self.__targets_p: List['player_pokemon.PlayerPokemon'] = self.bat.get_target(self.__ab, self.__l_enemy,
                                                                                      self.__enemy, self.__case)
+
+        if self.__ab.is_fail(self.launcher_p, self.__targets_p[0] if len(self.__targets_p) > 0 else None) or sum(
+                map(lambda pk: not pk.ram_data.get("invisible", False), self.__targets_p)) == 0:
+            self.cancel = True
+            Battle.TO_SHOW.append(lambda: self.bat.start_new_animation(
+                SimpleDialogue("battle.miss_attack", text_var=[self.launcher_p.get_name(True)])))
+            self.bat.next_to_show()
+            return
+
         self.__d_status: Tuple[List[Tuple[int, float]], bool, int] = self.__ab.get_damage(self.launcher_p,
                                                                                           self.__targets_p)
         self.__max_type_multi = max(self.__d_status[0], key=lambda k: k[1])[1]
@@ -298,15 +320,9 @@ class PlayAbility(Animation):
             end_heal = poke.heal - self.__d_status[0][i][0]
             self.__damage_table.append((poke.heal, max(0, end_heal)))
             history_damage[poke.uuid] = min(self.__d_status[0][i][0], poke.heal)
-        self.bat.history.add_move(self.bat.turn_count, battle_history.Move(self.__ab, self.launcher_p.uuid, history_damage))
+        self.bat.history.add_move(self.bat.turn_count,
+                                  battle_history.Move(self.__ab, self.launcher_p.uuid, history_damage))
         self.__effect_status = self.__ab.get_status_edit(self.launcher_p, self.__targets_p)
-
-        if self.__ab.is_fail(self.launcher_p):
-            self.cancel = True
-            Battle.TO_SHOW.append(lambda: self.bat.start_new_animation(
-                SimpleDialogue("battle.miss_attack", text_var=[self.launcher_p.get_name(True)])))
-            self.bat.next_to_show()
-            return
 
         # remove impossible element
         self.__effect_status_fix = [], []
@@ -1096,7 +1112,7 @@ class Battle(object):
 
         self.nb_not_bot: Tuple[int] = self.__ally_team.get_none_bot().case_number
         self.selected_not_bot: int = min(self.nb_not_bot)
-        self.player_queue = []
+        self.player_queue: list['Animation'] = []
 
         self.base_size = BASE_SIZES[max(self.nb_ally, self.nb_enemy) - 1]
         self.wild = wild
@@ -1239,20 +1255,33 @@ class Battle(object):
             poke = self.__enemy[i]
             if "battle_render" not in poke.ram_data or poke.ram_data["battle_render"]:
                 x = Battle.INFO_enemy[i]
-                if rac:
-                    m = rac.get_move(enemy, i)
-                    if c := rac.get_color(enemy, i):
-                        im = poke.get_front_image_colored(c[1:], 2)
+                if "battle_render_bt" not in poke.ram_data or poke.ram_data["battle_render_bt"]:
+                    blit_ = None
+                    if rac:
+                        m = rac.get_move(enemy, i)
+                        if c := rac.get_color(enemy, i):
+                            im = poke.get_front_image_colored(c[1:], 2)
+                        else:
+                            im = poke.get_front_image(2)
+                        if rac.get_resize(enemy, i):
+                            size = rac.get_resize(enemy, i)
+                            im = pygame.transform.scale(im, (int(im.get_size()[0] * size[1]),
+                                                             int(im.get_size()[1] * size[2])))
+                            p_c = self.get_poke_pose(enemy, i, size_edit=size[1:3])[0: 2]
+                        if rac.get_cut(enemy, i):
+                            ground = self.get_poke_pose(enemy, i, simple=True)[1]
+                            dif = ground - (p_c[1] + m[2])
+                            if dif <= 0:
+                                blit_ = -1
+                            else:
+                                blit_ = (0, 0, im.get_size()[0], dif)
+                        if blit_ != -1:
+                            if blit_ is not None:
+                                display.blit(im, (p_c[0] + m[1], p_c[1] + m[2]), blit_)
+                            else:
+                                display.blit(im, (p_c[0] + m[1], p_c[1] + m[2]))
                     else:
-                        im = poke.get_front_image(2)
-                    if rac.get_resize(enemy, i):
-                        size = rac.get_resize(enemy, i)
-                        im = pygame.transform.scale(im, (int(im.get_size()[0] * size[1]),
-                                                         int(im.get_size()[1] * size[2])))
-                        p_c = self.get_poke_pose(enemy, i, size_edit=size[1:3])[0: 2]
-                    display.blit(im, (p_c[0] + m[1], p_c[1] + m[2]))
-                else:
-                    display.blit(poke.get_front_image(2), p_c)
+                        display.blit(poke.get_front_image(2), p_c)
                 pygame.draw.polygon(display, (246, 250, 253), ((x, 20), (x + 100, 20), (x + 80, 60), (x - 20, 60)))
                 pygame.draw.polygon(display, (255, 255, 255),
                                     ((x + 100, 20), (x + 220, 20), (x + 200, 60), (x + 80, 60)))
@@ -1276,22 +1305,34 @@ class Battle(object):
             poke = self.__ally[i]
             if "battle_render" not in poke.ram_data or poke.ram_data["battle_render"]:
                 x = Battle.INFO_ally[i]
-                if rac:
-                    m = rac.get_move(enemy, i)
-
-                    if c := rac.get_color(enemy, i):
-                        im = poke.get_back_image_colored(c[1:], 2)
+                if "battle_render_bt" not in poke.ram_data or poke.ram_data["battle_render_bt"]:
+                    if rac:
+                        m = rac.get_move(enemy, i)
+                        blit_ = None
+                        if c := rac.get_color(enemy, i):
+                            im = poke.get_back_image_colored(c[1:], 2)
+                        else:
+                            im = poke.get_back_image(2)
+                        if rac.get_resize(enemy, i):
+                            size = rac.get_resize(enemy, i)
+                            im = pygame.transform.scale(im, (int(im.get_size()[0] * size[1]),
+                                                             int(im.get_size()[1] * size[2])))
+                            p_c = self.get_poke_pose(enemy, i, size_edit=size[1:3])[0: 2]
+                        if rac.get_cut(enemy, i):
+                            ground = self.get_poke_pose(enemy, i, simple=True)[1]
+                            dif = ground - (p_c[1] + m[2])
+                            if dif <= 0:
+                                blit_ = -1
+                            else:
+                                blit_ = (0, 0, im.get_size()[0], dif)
+                        if blit_ != -1:
+                            if blit_ is not None:
+                                display.blit(im, (p_c[0] + m[1], p_c[1] + m[2]), blit_)
+                            else:
+                                display.blit(im, (p_c[0] + m[1], p_c[1] + m[2]))
                     else:
-                        im = poke.get_back_image(2)
-                    if rac.get_resize(enemy, i):
-                        size = rac.get_resize(enemy, i)
-                        im = pygame.transform.scale(im, (int(im.get_size()[0] * size[1]),
-                                                         int(im.get_size()[1] * size[2])))
-                        p_c = self.get_poke_pose(enemy, i, size_edit=size[1:3])[0: 2]
+                        display.blit(poke.get_back_image(2), p_c)
 
-                    display.blit(im, (p_c[0] + m[1], p_c[1] + m[2]))
-                else:
-                    display.blit(poke.get_back_image(2), p_c)
                 pygame.draw.polygon(display, (246, 250, 253),
                                     ((x + 210, 530), (x + 100, 530), (x + 70, 580), (x + 180, 580)))
                 pygame.draw.polygon(display, (255, 255, 255),
@@ -1333,8 +1374,12 @@ class Battle(object):
     def draw_ability(self, display: pygame.Surface, u: int) -> NoReturn:
         x = 800
         y = 400
+        disable = self.__ally[u].ram_data.get("disable_ab", [])
+        disable = disable[0] if len(disable) > 0 else -1
         for i in range(4):
-            utils.draw_ability_2(display, (x, y), self.__ally[u].get_ability(i), border=self.selected_y[0] == i)
+
+            utils.draw_ability_2(display, (x, y), self.__ally[u].get_ability(i), border=self.selected_y[0] == i,
+                                 disable=disable == i)
             if self.selected_y[0] == i:
                 display.blit(self.arrow, (x - 50, y + 2))
             y += 50
@@ -1662,8 +1707,32 @@ class Battle(object):
                                 self.__ally[self.selected_not_bot], False, enemy_, case_)
                 self.do_ability_turn(p)
             else:
-                self.menu_action = [self.ability_action, self.ability_escape]
-                self.status = 1
+                disable = self.__ally[self.selected_not_bot].ram_data.get("disable_ab", [-1])[0]
+                have_choice = False
+                for i in range(len(poke.ability)):
+                    if i != disable and poke.ability[i] is not None and poke.ability[i].pp > 0:
+                        have_choice = True
+                if have_choice:
+                    self.menu_action = [self.ability_action, self.ability_escape]
+                    self.status = 1
+                else:
+                    self.run_away_c = 0
+                    ab = player_pokemon.PokemonAbility(abilitys_.DEFAULT, 1, 1)
+                    if ab.ability.target != ability.TARGET_BOTH and len(
+                            self.__ally if ab.ability.target == ability.TARGET_ALLY else self.__enemy) == 1 or ab.ability.target == ability.TARGET_SELF:
+                        self.do_attack(ab, ab.ability.target == ability.TARGET_ENEMY, self.selected_not_bot)
+                    else:
+                        self.selected_y = [0, -1] if ab.ability.target == ability.TARGET_ALLY else \
+                            [1, -1] if ab.ability.target == ability.TARGET_SELF else [0, 2]
+                        self.selected_x = [0, max(self.nb_ally, self.nb_enemy)]
+                        self.current_ab = ab
+                        self.menu_action = [
+                            lambda: self.do_attack(self.current_ab, self.selected_y[0] == 0,
+                                                   self.selected_x[1] - 1 - self.selected_x[0]),
+                            self.ability_escape()
+                        ]
+                        self.status = 2
+
         elif self.selected_y[0] == 1:
             game.game_instance.player.open_menu(ChangePokemonMenu(game.game_instance.player, self.poke_choice_callback))
         elif self.selected_y[0] == 2:
@@ -1717,11 +1786,12 @@ class Battle(object):
 
     def ability_action(self) -> NoReturn:
         ab = self.__ally[self.selected_not_bot].get_ability(self.selected_y[0])
-        if ab and ab.pp > 0:
+        print(self.__ally[self.selected_not_bot].ram_data.get("disable_ab", [-1])[0], self.selected_y[0])
+        if ab and ab.pp > 0 and self.selected_y[0] != self.__ally[self.selected_not_bot].ram_data.get("disable_ab", [-1])[0]:
             self.run_away_c = 0
             if ab.ability.target != ability.TARGET_BOTH and len(
                     self.__ally if ab.ability.target == ability.TARGET_ALLY else self.__enemy) == 1 or ab.ability.target == ability.TARGET_SELF:
-                self.do_attack(ab, ab.ability.target == ability.TARGET_ENEMY, self.selected_not_bot)
+                self.do_attack(ab, ab.ability.target == ability.TARGET_ENEMY, 0 if ab.ability.target == ability.TARGET_ENEMY else self.selected_not_bot)
             else:
                 self.selected_y = [0, -1] if ab.ability.target == ability.TARGET_ALLY else \
                     [1, -1] if ab.ability.target == ability.TARGET_SELF else [0, 2]
@@ -1753,7 +1823,12 @@ class Battle(object):
 
         if len(self.player_queue) == len(self.nb_not_bot):
             self.selected_not_bot = 0
-            all_pa: List[PlayAbility] = self.player_queue
+            all_pa: List[Animation] = self.player_queue
+
+            for e in self.player_queue:
+                if isinstance(e, PlayAbility):
+                    e.launcher_p.remove_one_disable()
+
             for i in range(self.nb_enemy):
                 poke = self.__enemy[i]
                 if poke.uuid in self.multi_turn_ab:
@@ -1767,6 +1842,7 @@ class Battle(object):
                         self.multi_turn_ab[poke.uuid] = (ab_, tuple_[1] - 1, enemy_, case_)
                 else:
                     ab_ = poke.ge_rdm_ability()
+                    poke.remove_one_disable()
                     enemy_ = random.randint(0,
                                             1) == 1 if ab_.target == ability.TARGET_BOTH else ab_.target == ability.TARGET_ENEMY
                     case_ = random.randint(0, self.nb_ally - 1) if enemy_ else random.randint(0, self.nb_enemy - 1)
@@ -1790,6 +1866,7 @@ class Battle(object):
                     else:
                         poke = self.__ally[i]
                         ab_ = poke.ge_rdm_ability()
+                        poke.remove_one_disable()
                         enemy_ = random.randint(0,
                                                 1) == 1 if ab_.target == ability.TARGET_BOTH else ab_.target == ability.TARGET_ENEMY
                         case_ = random.randint(0, self.nb_enemy - 1) if enemy_ else random.randint(0, self.nb_ally - 1)

@@ -24,6 +24,7 @@
         "rest",
         "substitute"
     ],
+    "base_happiness": 70,
     "base_stats": {
         "attack": 125,
         "defense": 100,
@@ -37,10 +38,10 @@
     "curve": "SLOW",
     "evolution": [],
     "female_rate": 0.5,
-    "size": 15,
+    "size": 1.5,
     "type": [
         "BUG"
     ],
-    "weight": 550,
+    "weight": 55.0,
     "xp_point": 175
 }

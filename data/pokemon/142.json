@@ -25,6 +25,7 @@
         "rest",
         "substitute"
     ],
+    "base_happiness": 70,
     "base_stats": {
         "attack": 105,
         "defense": 65,
@@ -37,12 +38,12 @@
     "color": "PURPLE",
     "curve": "SLOW",
     "evolution": [],
-    "female_rate": 0.5,
-    "size": 18,
+    "female_rate": 0.125,
+    "size": 1.8,
     "type": [
         "ROCK",
         "FLYING"
     ],
-    "weight": 590,
+    "weight": 59.0,
     "xp_point": 180
 }

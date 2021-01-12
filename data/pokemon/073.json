@@ -31,6 +31,7 @@
         "rest",
         "substitute"
     ],
+    "base_happiness": 70,
     "base_stats": {
         "attack": 70,
         "defense": 65,
@@ -44,11 +45,11 @@
     "curve": "SLOW",
     "evolution": [],
     "female_rate": 0.5,
-    "size": 16,
+    "size": 1.6,
     "type": [
         "WATER",
         "POISON"
     ],
-    "weight": 550,
+    "weight": 55.0,
     "xp_point": 180
 }

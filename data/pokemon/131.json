@@ -34,6 +34,7 @@
         "rest",
         "substitute"
     ],
+    "base_happiness": 70,
     "base_stats": {
         "attack": 85,
         "defense": 80,
@@ -47,11 +48,11 @@
     "curve": "SLOW",
     "evolution": [],
     "female_rate": 0.5,
-    "size": 25,
+    "size": 2.5,
     "type": [
         "WATER",
         "ICE"
     ],
-    "weight": 2200,
+    "weight": 220.0,
     "xp_point": 187
 }

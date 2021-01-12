@@ -37,6 +37,7 @@
         "rock-slide",
         "substitute"
     ],
+    "base_happiness": 70,
     "base_stats": {
         "attack": 95,
         "defense": 80,
@@ -49,11 +50,11 @@
     "color": "BROWN",
     "curve": "MEDIUM_FAST",
     "evolution": [],
-    "female_rate": 0.5,
-    "size": 22,
+    "female_rate": 1.0,
+    "size": 2.2,
     "type": [
         "NORMAL"
     ],
-    "weight": 800,
+    "weight": 80.0,
     "xp_point": 172
 }

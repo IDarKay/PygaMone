@@ -27,6 +27,7 @@
         "rest",
         "substitute"
     ],
+    "base_happiness": 70,
     "base_stats": {
         "attack": 55,
         "defense": 115,
@@ -40,10 +41,10 @@
     "curve": "MEDIUM_FAST",
     "evolution": [],
     "female_rate": 0.5,
-    "size": 10,
+    "size": 1.0,
     "type": [
         "GRASS"
     ],
-    "weight": 350,
+    "weight": 35.0,
     "xp_point": 87
 }

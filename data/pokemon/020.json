@@ -29,6 +29,7 @@
         "rest",
         "substitute"
     ],
+    "base_happiness": 70,
     "base_stats": {
         "attack": 81,
         "defense": 60,
@@ -42,10 +43,10 @@
     "curve": "MEDIUM_FAST",
     "evolution": [],
     "female_rate": 0.5,
-    "size": 7,
+    "size": 0.7,
     "type": [
         "NORMAL"
     ],
-    "weight": 185,
+    "weight": 18.5,
     "xp_point": 145
 }

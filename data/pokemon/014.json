@@ -3,6 +3,7 @@
         "harden": 1
     },
     "ability_machine": [],
+    "base_happiness": 70,
     "base_stats": {
         "attack": 25,
         "defense": 50,
@@ -16,11 +17,11 @@
     "curve": "MEDIUM_FAST",
     "evolution": [],
     "female_rate": 0.5,
-    "size": 6,
+    "size": 0.6,
     "type": [
         "BUG",
         "POISON"
     ],
-    "weight": 100,
+    "weight": 10.0,
     "xp_point": 72
 }

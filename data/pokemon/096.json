@@ -35,6 +35,7 @@
         "tri-attack",
         "substitute"
     ],
+    "base_happiness": 70,
     "base_stats": {
         "attack": 48,
         "defense": 45,
@@ -48,10 +49,10 @@
     "curve": "MEDIUM_FAST",
     "evolution": [],
     "female_rate": 0.5,
-    "size": 10,
+    "size": 1.0,
     "type": [
         "PSYCHIC"
     ],
-    "weight": 324,
+    "weight": 32.4,
     "xp_point": 66
 }

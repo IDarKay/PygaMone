@@ -36,7 +36,7 @@ class AmnesiaAbility(abilitys.AbstractAbility):
         return False
 
     def unload_assets(self) -> bool:
-        if super().load_assets():
+        if super().unload_assets():
             del self.gif
             del self.g_i
             return True

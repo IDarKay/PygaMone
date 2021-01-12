@@ -26,6 +26,7 @@
         "rest",
         "substitute"
     ],
+    "base_happiness": 70,
     "base_stats": {
         "attack": 49,
         "defense": 49,
@@ -38,12 +39,12 @@
     "color": "GREEN",
     "curve": "MEDIUM_SLOW",
     "evolution": [],
-    "female_rate": 0.5,
-    "size": 7,
+    "female_rate": 0.125,
+    "size": 0.7,
     "type": [
         "GRASS",
         "POISON"
     ],
-    "weight": 69,
+    "weight": 6.9,
     "xp_point": 64
 }

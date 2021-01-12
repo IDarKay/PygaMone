@@ -40,7 +40,7 @@ class AuroraBeamAbility(abilitys.AbstractAbility):
         self.need_sound = True
 
     def unload_assets(self) -> bool:
-        if super().load_assets():
+        if super().unload_assets():
             del self.current_vars
             return True
         return False

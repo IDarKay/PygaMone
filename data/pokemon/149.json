@@ -34,6 +34,7 @@
         "rest",
         "substitute"
     ],
+    "base_happiness": 35,
     "base_stats": {
         "attack": 134,
         "defense": 95,
@@ -47,11 +48,11 @@
     "curve": "SLOW",
     "evolution": [],
     "female_rate": 0.5,
-    "size": 22,
+    "size": 2.2,
     "type": [
         "DRAGON",
         "FLYING"
     ],
-    "weight": 2100,
+    "weight": 210.0,
     "xp_point": 270
 }

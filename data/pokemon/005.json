@@ -34,6 +34,7 @@
         "rest",
         "substitute"
     ],
+    "base_happiness": 70,
     "base_stats": {
         "attack": 64,
         "defense": 58,
@@ -46,11 +47,11 @@
     "color": "RED",
     "curve": "MEDIUM_SLOW",
     "evolution": [],
-    "female_rate": 0.5,
-    "size": 11,
+    "female_rate": 0.125,
+    "size": 1.1,
     "type": [
         "FIRE"
     ],
-    "weight": 190,
+    "weight": 19.0,
     "xp_point": 142
 }
