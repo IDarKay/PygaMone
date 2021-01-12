@@ -24,6 +24,7 @@
         "rest",
         "substitute"
     ],
+    "base_happiness": 70,
     "base_stats": {
         "attack": 80,
         "defense": 70,
@@ -37,11 +38,11 @@
     "curve": "MEDIUM_FAST",
     "evolution": [],
     "female_rate": 0.5,
-    "size": 16,
+    "size": 1.6,
     "type": [
         "POISON",
         "FLYING"
     ],
-    "weight": 550,
+    "weight": 55.0,
     "xp_point": 159
 }

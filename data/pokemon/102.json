@@ -26,6 +26,7 @@
         "rest",
         "substitute"
     ],
+    "base_happiness": 70,
     "base_stats": {
         "attack": 40,
         "defense": 80,
@@ -39,11 +40,11 @@
     "curve": "SLOW",
     "evolution": [],
     "female_rate": 0.5,
-    "size": 4,
+    "size": 0.4,
     "type": [
         "GRASS",
         "PSYCHIC"
     ],
-    "weight": 25,
+    "weight": 2.5,
     "xp_point": 65
 }

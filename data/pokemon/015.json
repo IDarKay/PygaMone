@@ -24,6 +24,7 @@
         "rest",
         "substitute"
     ],
+    "base_happiness": 70,
     "base_stats": {
         "attack": 90,
         "defense": 40,
@@ -37,11 +38,11 @@
     "curve": "MEDIUM_FAST",
     "evolution": [],
     "female_rate": 0.5,
-    "size": 10,
+    "size": 1.0,
     "type": [
         "BUG",
         "POISON"
     ],
-    "weight": 295,
+    "weight": 29.5,
     "xp_point": 178
 }

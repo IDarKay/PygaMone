@@ -4,6 +4,7 @@
         "tackle": 15
     },
     "ability_machine": [],
+    "base_happiness": 70,
     "base_stats": {
         "attack": 10,
         "defense": 55,
@@ -17,10 +18,10 @@
     "curve": "SLOW",
     "evolution": [],
     "female_rate": 0.5,
-    "size": 9,
+    "size": 0.9,
     "type": [
         "WATER"
     ],
-    "weight": 100,
+    "weight": 10.0,
     "xp_point": 40
 }

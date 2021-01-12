@@ -7,11 +7,11 @@ import sound_manager
 import pokemon.battle.battle as battle_
 import pokemon.player_pokemon as p_poke
 import pygame
+from pokemon.status import status
 
 
 class CounterAbility(abilitys.AbstractAbility):
 
-    img_g: Union[pygame.Surface]
     img_y: Union[pygame.Surface]
 
     def __init__(self):
@@ -37,10 +37,10 @@ class CounterAbility(abilitys.AbstractAbility):
         damage = bat.history.get_damage_on(bat.turn_count, launcher.uuid, lambda move: move.get_move().type == "PHYSICAL") * 2
         return [(damage, 1)] * len(targets), False, 0
 
-    def is_fail(self, poke_: 'p_poke.PlayerPokemon'):
+    def is_fail(self, poke_: 'p_poke.PlayerPokemon', target: 'p_poke.PlayerPokemon'):
         bat = game.game_instance.player.current_battle
         damage = bat.history.get_damage_on(bat.turn_count, poke_.uuid, lambda move: move.get_move().type == "PHYSICAL") * 2
-        return damage == 0 or super().is_fail(poke_)
+        return damage == 0 or super().is_fail(poke_, target)
 
     def get_rac(self, target: list[type[int, int, int]],
                 launcher: tuple[int, int, int], ps_t: int, first_time: bool) -> 'battle_.RenderAbilityCallback':
@@ -65,7 +65,7 @@ class CounterAbility(abilitys.AbstractAbility):
         return False
 
     def unload_assets(self) -> bool:
-        if super().load_assets():
+        if super().unload_assets():
             del self.img_y
             return True
         return False
@@ -75,9 +75,9 @@ class CounterAbility(abilitys.AbstractAbility):
 
         if first_time:
             sound_manager.start_in_first_empty_taunt(self.sound)
-
         if ps_t > 850:
-            size = (1 - min(ps_t / 1000, 1)) * 8 + 1
+            ps_t -= 850
+            size = (1 - min(ps_t / 1000, 1)) * 4 + 1
             sizes = self.img_y.get_size()
             sizes = (int(sizes[0] * size), int(sizes[1] * size))
             im = pygame.transform.scale(self.img_y, sizes)

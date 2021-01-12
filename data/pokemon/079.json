@@ -38,6 +38,7 @@
         "tri-attack",
         "substitute"
     ],
+    "base_happiness": 70,
     "base_stats": {
         "attack": 65,
         "defense": 65,
@@ -51,11 +52,11 @@
     "curve": "MEDIUM_FAST",
     "evolution": [],
     "female_rate": 0.5,
-    "size": 12,
+    "size": 1.2,
     "type": [
         "WATER",
         "PSYCHIC"
     ],
-    "weight": 360,
+    "weight": 36.0,
     "xp_point": 63
 }

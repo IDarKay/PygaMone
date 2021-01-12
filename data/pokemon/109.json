@@ -20,6 +20,7 @@
         "rest",
         "substitute"
     ],
+    "base_happiness": 70,
     "base_stats": {
         "attack": 65,
         "defense": 95,
@@ -33,10 +34,10 @@
     "curve": "MEDIUM_FAST",
     "evolution": [],
     "female_rate": 0.5,
-    "size": 6,
+    "size": 0.6,
     "type": [
         "POISON"
     ],
-    "weight": 10,
+    "weight": 1.0,
     "xp_point": 68
 }

@@ -22,6 +22,7 @@
         "rest",
         "substitute"
     ],
+    "base_happiness": 70,
     "base_stats": {
         "attack": 50,
         "defense": 45,
@@ -35,11 +36,11 @@
     "curve": "MEDIUM_SLOW",
     "evolution": [],
     "female_rate": 0.5,
-    "size": 16,
+    "size": 1.6,
     "type": [
         "GHOST",
         "POISON"
     ],
-    "weight": 1,
+    "weight": 0.1,
     "xp_point": 142
 }

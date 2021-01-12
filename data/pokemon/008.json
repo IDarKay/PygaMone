@@ -33,6 +33,7 @@
         "rest",
         "substitute"
     ],
+    "base_happiness": 70,
     "base_stats": {
         "attack": 63,
         "defense": 80,
@@ -45,11 +46,11 @@
     "color": "BLUE",
     "curve": "MEDIUM_SLOW",
     "evolution": [],
-    "female_rate": 0.5,
-    "size": 10,
+    "female_rate": 0.125,
+    "size": 1.0,
     "type": [
         "WATER"
     ],
-    "weight": 225,
+    "weight": 22.5,
     "xp_point": 142
 }

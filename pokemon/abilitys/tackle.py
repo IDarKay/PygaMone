@@ -42,8 +42,9 @@ class TackleAbility(abilitys.AbstractAbility):
         return battle_.RenderAbilityCallback(move_launcher=l_move, move_target=e_move)
 
     def unload_assets(self) -> bool:
-        if super().load_assets():
+        if super().unload_assets():
             gif_manger.CONTACT.un_load()
+            del self.g_i
             return True
         return False
 

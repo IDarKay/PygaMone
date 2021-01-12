@@ -26,6 +26,7 @@
         "skull-bash",
         "substitute"
     ],
+    "base_happiness": 70,
     "base_stats": {
         "attack": 70,
         "defense": 80,
@@ -39,11 +40,11 @@
     "curve": "MEDIUM_FAST",
     "evolution": [],
     "female_rate": 0.5,
-    "size": 17,
+    "size": 1.7,
     "type": [
         "WATER",
         "ICE"
     ],
-    "weight": 1200,
+    "weight": 120.0,
     "xp_point": 166
 }

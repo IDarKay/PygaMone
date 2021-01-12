@@ -4,6 +4,7 @@
         "tackle": 1
     },
     "ability_machine": [],
+    "base_happiness": 70,
     "base_stats": {
         "attack": 30,
         "defense": 35,
@@ -17,10 +18,10 @@
     "curve": "MEDIUM_FAST",
     "evolution": [],
     "female_rate": 0.5,
-    "size": 3,
+    "size": 0.3,
     "type": [
         "BUG"
     ],
-    "weight": 29,
+    "weight": 2.9,
     "xp_point": 39
 }

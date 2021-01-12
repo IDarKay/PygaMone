@@ -25,6 +25,7 @@
         "rest",
         "substitute"
     ],
+    "base_happiness": 70,
     "base_stats": {
         "attack": 80,
         "defense": 75,
@@ -38,11 +39,11 @@
     "curve": "MEDIUM_SLOW",
     "evolution": [],
     "female_rate": 0.5,
-    "size": 15,
+    "size": 1.5,
     "type": [
         "NORMAL",
         "FLYING"
     ],
-    "weight": 395,
+    "weight": 39.5,
     "xp_point": 216
 }

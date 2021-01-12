@@ -1,9 +1,9 @@
-from typing import TypeVar, Dict, NoReturn
+from typing import TypeVar, Dict, NoReturn, Optional
 import pokemon.abilitys as abilitys
 from inspect import isclass
 
 ABILITYS: Dict[str, 'abilitys.AbstractAbility'] = {}
-
+DEFAULT= "tackle"
 T = TypeVar('T', )
 
 
@@ -17,7 +17,9 @@ def register(it: T) -> T:
 
 
 def load() -> NoReturn:
+    global DEFAULT
     for attribute_name in dir(abilitys):
         attribute = getattr(abilitys, attribute_name)
-        if isclass(attribute) and issubclass(attribute, abilitys.AbstractAbility) and attribute != abilitys.AbstractAbility:
+        if isclass(attribute) and issubclass(attribute, abilitys.AbstractAbility)\
+                and attribute != abilitys.AbstractAbility and attribute != abilitys.AbstractMultiHitAbility:
             register(attribute())

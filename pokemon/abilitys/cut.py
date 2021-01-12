@@ -49,7 +49,7 @@ class CutAbility(abilitys.AbstractAbility):
         return battle_.RenderAbilityCallback()
 
     def unload_assets(self) -> bool:
-        if super().load_assets():
+        if super().unload_assets():
             del self.ball
             del self.cut
             del self.random_vec

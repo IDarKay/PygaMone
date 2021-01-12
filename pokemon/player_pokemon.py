@@ -163,13 +163,28 @@ class PlayerPokemon(object):
         self.pokemon_stats_modifier.reset()
         self.combat_status.reset()
 
+    def remove_one_disable(self):
+        if "disable_ab" in self.ram_data:
+            data = self.ram_data["disable_ab"]
+            if data[1] <= 1:
+                del self.ram_data["disable_ab"]
+            else:
+                self.ram_data["disable_ab"] = data[0], data[1] - 1
+
     def ge_rdm_ability(self) -> Optional['p_ability.AbstractAbility']:
         le = len(self.ability)
         if le == 0:
-            return None
+            return abilitys_.ABILITYS[abilitys_.DEFAULT]
         if le == 1:
             return self.ability[0].ability
-        return self.ability[random.randint(0, le - 1)].ability
+        p_ab = []
+        ban = self.ram_data.get("disable_ab", [-1])[0]
+        for i in range(len(self.ability)):
+            if ban != i and self.ability[i] is not None and self.ability[i].pp > 0:
+                p_ab.append(self.ability[i])
+        if len(p_ab) == 0:
+            return abilitys_.ABILITYS[abilitys_.DEFAULT]
+        return p_ab[random.randint(0, len(p_ab) - 1)].ability
 
     def get_ability(self, slot: int) -> Optional[PokemonAbility]:
         if slot < 0 or slot > 4:

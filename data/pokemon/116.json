@@ -24,6 +24,7 @@
         "rest",
         "substitute"
     ],
+    "base_happiness": 70,
     "base_stats": {
         "attack": 40,
         "defense": 70,
@@ -37,10 +38,10 @@
     "curve": "MEDIUM_FAST",
     "evolution": [],
     "female_rate": 0.5,
-    "size": 4,
+    "size": 0.4,
     "type": [
         "WATER"
     ],
-    "weight": 80,
+    "weight": 8.0,
     "xp_point": 59
 }

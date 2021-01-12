@@ -27,6 +27,7 @@
         "rest",
         "substitute"
     ],
+    "base_happiness": 35,
     "base_stats": {
         "attack": 90,
         "defense": 85,
@@ -40,11 +41,11 @@
     "curve": "SLOW",
     "evolution": [],
     "female_rate": 0.5,
-    "size": 16,
+    "size": 1.6,
     "type": [
         "ELECTRIC",
         "FLYING"
     ],
-    "weight": 526,
+    "weight": 52.6,
     "xp_point": 261
 }

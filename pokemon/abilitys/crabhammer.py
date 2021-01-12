@@ -47,7 +47,7 @@ class CrabhammerAbility(abilitys.AbstractAbility):
         return battle_.RenderAbilityCallback()
 
     def unload_assets(self) -> bool:
-        if super().load_assets():
+        if super().unload_assets():
             del self.bubble
             del self.random_vec
             return True

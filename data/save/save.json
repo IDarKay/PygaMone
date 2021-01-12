@@ -29,22 +29,22 @@
       "heal": 178,
       "ability": [
         {
-          "_id": "confusion",
+          "_id": "dig",
           "pp": 30,
           "max_pp": 35
         },
         {
-          "_id": "defense_curl",
+          "_id": "disable",
           "pp": 27,
           "max_pp": 34
         },
         {
-          "_id": "cut",
+          "_id": "dizzy_punch",
           "pp": 21,
           "max_pp": 25
         },
         {
-          "_id": "crabhammer",
+          "_id": "double_kick",
           "pp": 22,
           "max_pp": 25
         }

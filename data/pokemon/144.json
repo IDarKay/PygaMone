@@ -26,6 +26,7 @@
         "rest",
         "substitute"
     ],
+    "base_happiness": 35,
     "base_stats": {
         "attack": 85,
         "defense": 100,
@@ -39,11 +40,11 @@
     "curve": "SLOW",
     "evolution": [],
     "female_rate": 0.5,
-    "size": 17,
+    "size": 1.7,
     "type": [
         "ICE",
         "FLYING"
     ],
-    "weight": 554,
+    "weight": 55.4,
     "xp_point": 261
 }

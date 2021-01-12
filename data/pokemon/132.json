@@ -3,6 +3,7 @@
         "transform": 1
     },
     "ability_machine": [],
+    "base_happiness": 70,
     "base_stats": {
         "attack": 48,
         "defense": 48,
@@ -16,10 +17,10 @@
     "curve": "MEDIUM_FAST",
     "evolution": [],
     "female_rate": 0.5,
-    "size": 3,
+    "size": 0.3,
     "type": [
         "NORMAL"
     ],
-    "weight": 40,
+    "weight": 4.0,
     "xp_point": 101
 }

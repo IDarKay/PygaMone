@@ -55,7 +55,7 @@ class ClampAbility(abilitys.AbstractAbility):
         return battle_.RenderAbilityCallback()
 
     def unload_assets(self) -> bool:
-        if super().load_assets():
+        if super().unload_assets():
             del self.img_l
             del self.img_r
             return True

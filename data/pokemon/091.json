@@ -29,6 +29,7 @@
         "tri-attack",
         "substitute"
     ],
+    "base_happiness": 70,
     "base_stats": {
         "attack": 95,
         "defense": 180,
@@ -42,11 +43,11 @@
     "curve": "SLOW",
     "evolution": [],
     "female_rate": 0.5,
-    "size": 15,
+    "size": 1.5,
     "type": [
         "WATER",
         "ICE"
     ],
-    "weight": 1325,
+    "weight": 132.5,
     "xp_point": 184
 }

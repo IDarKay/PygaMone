@@ -50,7 +50,7 @@ class BodySlamAbility(abilitys.AbstractAbility):
         return battle_.RenderAbilityCallback(move_launcher=l_move, size_edit_target=e_size)
 
     def unload_assets(self) -> bool:
-        if super().load_assets():
+        if super().unload_assets():
             gif_manger.CONTACT.un_load()
             return True
         return False

@@ -99,7 +99,6 @@ def draw_select_box(display: pygame.Surface, _x: float, _y: float,
                     over_color: color_t = (0, 0, 0),
                     bg_color: color_t = (255, 255, 255),
                     bg_border: color_t = (100, 100, 100)):
-
     max_width = max(text, key=lambda s: s[0].get_size()[0])[0].get_size()[0] + 20
     if width < max_width:
         width = max_width
@@ -129,7 +128,7 @@ def draw_rond_rectangle(display: pygame.Surface, _x: float, _y: float,
 # R = TypeVar('R', pygame.Rect, pygame.RectType, tuple[int, int, int, int])
 
 def draw_split_rectangle(display: pygame.Surface, rect: tuple[int, int, int, int], split_up: float, split_down: float,
-                              color: color_t, color_2: color_t):
+                         color: color_t, color_2: color_t):
     pygame.draw.rect(display, color, rect)
     poly = (
         (rect[0] + rect[2] * split_up, rect[1]),
@@ -140,7 +139,8 @@ def draw_split_rectangle(display: pygame.Surface, rect: tuple[int, int, int, int
     pygame.draw.polygon(display, color_2, poly)
 
 
-def draw_split_rond_rectangle(display: pygame.Surface, rect: tuple[int, int, int, int], split_up: float, split_down: float,
+def draw_split_rond_rectangle(display: pygame.Surface, rect: tuple[int, int, int, int], split_up: float,
+                              split_down: float,
                               color: color_t, color_2: color_t):
     height = rect[3] * 0.5
     pygame.draw.circle(display, color, (rect[0], rect[1] + height), height)
@@ -174,10 +174,11 @@ def draw_ability(display: pygame.Surface, coord: Tuple[int, int], p_ability: 'pl
                  color_1: color_t = (255, 255, 255), color_2: color_t = (70, 68, 69),
                  text_color_1: color_t = (0, 0, 0), text_color_2: color_t = (255, 255, 255)):
     draw_split_rond_rectangle(display, (coord[0], coord[1], 320, 34), 0.85, 0.8, color_1, color_2)
-    display.blit(game.FONT_20.render(p_ability.ability.get_name() if p_ability else "-------------", True, text_color_1),
-                 (coord[0] + 5, coord[1] + 6))
+    display.blit(
+        game.FONT_20.render(p_ability.ability.get_name() if p_ability else "-------------", True, text_color_1),
+        (coord[0] + 5, coord[1] + 6))
     if p_ability:
-        draw_type(display, coord[0] + 160, coord[1] + 8,  p_ability.ability.type)
+        draw_type(display, coord[0] + 160, coord[1] + 8, p_ability.ability.type)
 
     pp = "{}/{}".format(p_ability.pp, p_ability.max_pp) if p_ability else "--/--"
     move = game.FONT_SIZE_20[0] * (1.8 if not p_ability else (2.5 if p_ability.pp > 9 else 1.5))
@@ -187,26 +188,29 @@ def draw_ability(display: pygame.Surface, coord: Tuple[int, int], p_ability: 'pl
 
 
 def draw_ability_2(display: pygame.Surface, coord: Tuple[int, int],
-                   p_ability: 'player_pokemon.PokemonAbility', border: bool = False):
+                   p_ability: 'player_pokemon.PokemonAbility', border: bool = False, disable=False):
     type_color = p_ability.ability.type.image.get_at((0, 0)) if p_ability else (255, 255, 255)
     if border:
         draw_rond_rectangle(display, coord[0] - 3, coord[1] - 3, 46, 226, (0, 0, 0))
-    draw_split_rond_rectangle(display, (coord[0], coord[1],  220, 40), 0.75, 0.67, type_color, (0, 0, 0))
+    draw_split_rond_rectangle(display, (coord[0], coord[1], 220, 40), 0.75, 0.67, type_color, (0, 0, 0))
     # draw_rond_rectangle(display, coord[0] + 180, coord[1], 40, 40, (0, 0, 0))
     if p_ability:
-        display.blit(pygame.transform.scale(p_ability.ability.type.image, (44, 32)), (coord[0] - 10, coord[1] + 4), pygame.Rect(0, 0, 32, 32))
+        display.blit(pygame.transform.scale(p_ability.ability.type.image, (44, 32)), (coord[0] - 10, coord[1] + 4),
+                     pygame.Rect(0, 0, 32, 32))
 
-    display.blit(tx := game.FONT_20.render(p_ability.ability.get_name() if p_ability else "-------------", True, (0, 0, 0)),
+    display.blit(tx := game.FONT_20.render(game.game_instance.get_message(
+        "disable") if disable else p_ability.ability.get_name() if p_ability else "-------------", True,
+                                           (230, 59, 16) if disable else (0, 0, 0)),
                  (coord[0] + 23, coord[1] + 20 - tx.get_size()[1] // 2))
     pp = "{}/{}".format(p_ability.pp, p_ability.max_pp) if p_ability else "--/--"
 
-    display.blit(tx := game.FONT_20.render(pp, True, (255, 255, 255) if p_ability is None or p_ability.pp > 0 else (166, 26, 2)),
-                 (coord[0] + 193 - tx.get_size()[0] // 2, coord[1] + 20 - tx.get_size()[1] // 2))
+    display.blit(
+        tx := game.FONT_20.render(pp, True, (255, 255, 255) if p_ability is None or p_ability.pp > 0 else (166, 26, 2)),
+        (coord[0] + 193 - tx.get_size()[0] // 2, coord[1] + 20 - tx.get_size()[1] // 2))
 
 
 def draw_progress_bar(display: pygame.Surface, coord: Tuple[float, float], size: Tuple[float, float],
                       bg_color: color_t, color: color_t, progress: float):
-
     pygame.draw.rect(display, bg_color, pygame.Rect(coord[0], coord[1], size[0], size[1]))
     pygame.draw.rect(display, color, pygame.Rect(coord[0], coord[1], size[0] * progress, size[1]))
 
@@ -251,7 +255,6 @@ def color_image(surface: pygame.Surface, color: color_t) -> pygame.Surface:
 
 
 def get_first_color(surface: pygame.Surface) -> Tuple[int, int]:
-
     size = surface.get_size()
 
     def _y_():
@@ -298,15 +301,15 @@ def remove_holes(surface, background=(0, 0, 0)):
 
     neighbours = (0, 1), (0, -1), (1, 0), (-1, 0)
 
-    for row in range(1, height-1):
-        for col in range(1, width-1):
+    for row in range(1, height - 1):
+        for col in range(1, width - 1):
             if contains_background[row, col]:
                 average = np.zeros(shape=(1, 3), dtype=np.uint16)
                 elements = 0
                 for y, x in neighbours:
-                    if not contains_background[row+y, col+x]:
+                    if not contains_background[row + y, col + x]:
                         elements += 1
-                        average += array[row+y, col+x]
+                        average += array[row + y, col + x]
                 if elements > 2:  # Only apply average if more than 2 neighbours is not of background color.
                     array[row, col] = average // elements
 
@@ -321,7 +324,8 @@ def draw_arrow(display: pygame.Surface, up: bool, x: int, y: int, color: color_t
     pygame.draw.polygon(display, color, p)
 
 
-def get_center(surface: pygame.Surface, rec: tuple[int, int, int, int], center_x=True, center_y=True) -> tuple[int, int]:
+def get_center(surface: pygame.Surface, rec: tuple[int, int, int, int], center_x=True, center_y=True) -> tuple[
+    int, int]:
     size = surface.get_size()
     x = rec[0] + rec[2] // 2 - size[0] // 2 if center_x else rec[0]
     y = rec[1] + rec[3] // 2 - size[1] // 2 if center_y else rec[1]

@@ -43,7 +43,7 @@ class CometPunchAbility(abilitys.AbstractAbility):
         return False
 
     def unload_assets(self) -> bool:
-        if super().load_assets():
+        if super().unload_assets():
             del self.img_g
             del self.img_y
             del self.current_vars
