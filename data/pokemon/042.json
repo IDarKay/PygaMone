@@ -1,24 +1,24 @@
 {
     "ability": {
         "bite": 1,
-        "confuse-ray": 21,
+        "confuse_ray": 21,
         "haze": 43,
-        "leech-life": 1,
+        "leech_life": 1,
         "screech": 1,
         "supersonic": 10,
-        "wing-attack": 32
+        "wing_attack": 32
     },
     "ability_machine": [
-        "razor-wind",
+        "razor_wind",
         "whirlwind",
-        "take-down",
-        "double-edge",
-        "hyper-beam",
-        "mega-drain",
+        "take_down",
+        "double_edge",
+        "hyper_beam",
+        "mega_drain",
         "toxic",
         "rage",
         "mimic",
-        "double-team",
+        "double_team",
         "bide",
         "swift",
         "rest",

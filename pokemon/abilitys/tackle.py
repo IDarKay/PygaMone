@@ -21,14 +21,14 @@ class TackleAbility(abilitys.AbstractAbility):
                          protect=True,
                          mirror_move=True,
                          king_rock=True,
-                         target=abilitys.TARGET_ENEMY)
+                         target=abilitys.TARGET_ENEMY
+                         )
 
         self.render_during = 1300
         self.need_sound = True
-        self.__data: list[bool] = [False]
 
     def get_rac(self, target: list[tuple[int, int, int]],
-               launcher: tuple[int, int, int], ps_t: int, first_time: bool) -> 'battle_.RenderAbilityCallback':
+                launcher: tuple[int, int, int], ps_t: int, first_time: bool) -> 'battle_.RenderAbilityCallback':
         l_move = None
         e_move = None
         if ps_t < 500:
@@ -51,8 +51,6 @@ class TackleAbility(abilitys.AbstractAbility):
     def render(self, display: pygame.display, target: list[tuple[int, int, int]],
                launcher: tuple[int, int, int], ps_t: int, first_time: bool) -> NoReturn:
         if first_time:
-            self.__data = [True]
-
             self.g_i = []
             gif = gif_manger.CONTACT.get()
             sound_manager.start_in_first_empty_taunt(self.sound)

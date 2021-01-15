@@ -18,17 +18,18 @@ def register(it: T) -> T:
 BURN: Optional['pst.BurnStatus'] = None
 FREEZE: Optional['pst.FreezeStatus'] = None
 PARALYSIS: Optional['pst.ParalysisStatus'] = None
+SLEEP: Optional['pst.SleepStatus'] = None
 CONFUSE: Optional['pst.ParalysisStatus'] = None
 FLINCH: Optional['pst.FlinchingStatus'] = None
 CLAMP: Optional['pst.ClampStatus'] = None
 
 
 def load() -> NoReturn:
-    global BURN, FLINCH, FREEZE, PARALYSIS
-    BURN = register(pst.BurnStatus("burn"))
-    FREEZE = register(pst.FreezeStatus("freeze"))
-    PARALYSIS = register(pst.ParalysisStatus("paralysis"))
-    FLINCH = register(pst.FlinchingStatus("flinch"))
+    globals()["BURN"] = register(pst.BurnStatus("burn"))
+    globals()["FREEZE"] = register(pst.FreezeStatus("freeze"))
+    globals()["PARALYSIS"] = register(pst.ParalysisStatus("paralysis"))
+    globals()["FLINCH"] = register(pst.FlinchingStatus("flinch"))
     globals()["CLAMP"] = register(pst.ClampStatus("clamp"))
     globals()["CONFUSE"] = register(pst.ConfuseStatus("confuse"))
+    globals()["SLEEP"] = register(pst.SleepStatus("sleep"))
     print(STATUS)

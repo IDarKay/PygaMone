@@ -116,15 +116,21 @@ class RenderAbilityCallback(object):
 
     def __init__(self, move_target: Optional[List[Tuple[int, int, int]]] = None,
                  move_launcher: Tuple[int, int, int] = None,
+                 rotate_launcher: tuple[int, float] = None,
+                 rotate_target: list[tuple[int, float]] = None,
                  cut_launcher: tuple[int, bool] = None,
+                 cut_target: list[tuple[int, bool]] = None,
                  color_editor_target: List[Union[Tuple[int, int, int, int], Tuple[int, int, int, int, int]]] = None,
                  color_editor_launcher: Union[Tuple[int, int, int, int], Tuple[int, int, int, int, int]] = None,
                  size_edit_launcher: tuple[int, float, float] = None,
                  size_edit_target: List[tuple[int, float, float]] = None
                  ):
+        self.rotate_target = rotate_target
+        self.rotate_launcher = rotate_launcher
         self.move_target = move_target
         self.move_launcher = move_launcher
         self.cut_launcher = cut_launcher
+        self.cut_target = cut_target
         self.color_editor_target = color_editor_target
         self.color_editor_launcher = color_editor_launcher
         self.size_edit_launcher = size_edit_launcher
@@ -155,14 +161,24 @@ class RenderAbilityCallback(object):
                     return c
         return None
 
+    def get_rotate(self, enemy: bool, case) -> float:
+        v = parse_enemy_case(enemy, case)
+        if self.rotate_launcher and self.rotate_launcher[0] == v:
+            return self.rotate_launcher[1]
+        if self.rotate_target:
+            for rot in self.rotate_target:
+                if rot[0] == v:
+                    return rot[1]
+        return False
+
     def get_cut(self, enemy: bool, case) -> bool:
         v = parse_enemy_case(enemy, case)
         if self.cut_launcher and self.cut_launcher[0] == v:
             return self.cut_launcher[1]
-        # if self.move_target:
-        #     for mv in self.move_target:
-        #         if mv[0] == v:
-        #             return mv
+        if self.cut_target:
+            for cut in self.cut_target:
+                if cut[0] == v:
+                    return cut[1]
         return False
 
     def get_move(self, enemy: bool, case) -> tuple[int, int, int]:
@@ -1212,7 +1228,10 @@ class Battle(object):
                     p.reset_combat_status()
                     for a in p.ability:
                         if a:
-                            a.ability.unload_assets()
+                            try:
+                                a.ability.unload_assets()
+                            except Exception:
+                                pass
 
     def __del__(self):
         self.unload_assets()
@@ -1268,6 +1287,8 @@ class Battle(object):
                             im = pygame.transform.scale(im, (int(im.get_size()[0] * size[1]),
                                                              int(im.get_size()[1] * size[2])))
                             p_c = self.get_poke_pose(enemy, i, size_edit=size[1:3])[0: 2]
+                        if rot := rac.get_rotate(enemy, i):
+                            im = pygame.transform.rotate(im, rot)
                         if rac.get_cut(enemy, i):
                             ground = self.get_poke_pose(enemy, i, simple=True)[1]
                             dif = ground - (p_c[1] + m[2])
@@ -1318,6 +1339,8 @@ class Battle(object):
                             im = pygame.transform.scale(im, (int(im.get_size()[0] * size[1]),
                                                              int(im.get_size()[1] * size[2])))
                             p_c = self.get_poke_pose(enemy, i, size_edit=size[1:3])[0: 2]
+                        if rot := rac.get_rotate(enemy, i):
+                            im = pygame.transform.rotate(im, rot)
                         if rac.get_cut(enemy, i):
                             ground = self.get_poke_pose(enemy, i, simple=True)[1]
                             dif = ground - (p_c[1] + m[2])

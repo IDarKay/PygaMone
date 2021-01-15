@@ -1,16 +1,16 @@
 {
     "ability": {
-        "fury-attack": 40,
-        "horn-attack": 1,
-        "horn-drill": 45,
+        "fury_attack": 40,
+        "horn_attack": 1,
+        "horn_drill": 45,
         "leer": 50,
         "stomp": 30,
-        "tail-whip": 35,
-        "take-down": 55
+        "tail_whip": 35,
+        "take_down": 55
     },
     "ability_machine": [
-        "body-slam",
-        "double-edge",
+        "body_slam",
+        "double_edge",
         "strength",
         "thunderbolt",
         "thunder",
@@ -20,12 +20,12 @@
         "toxic",
         "rage",
         "mimic",
-        "double-team",
+        "double_team",
         "bide",
-        "fire-blast",
-        "skull-bash",
+        "fire_blast",
+        "skull_bash",
         "rest",
-        "rock-slide",
+        "rock_slide",
         "substitute"
     ],
     "base_happiness": 70,

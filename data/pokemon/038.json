@@ -1,25 +1,25 @@
 {
     "ability": {
         "ember": 1,
-        "quick-attack": 1,
+        "quick_attack": 1,
         "roar": 1,
-        "tail-whip": 1
+        "tail_whip": 1
     },
     "ability_machine": [
-        "body-slam",
-        "take-down",
-        "double-edge",
-        "hyper-beam",
+        "body_slam",
+        "take_down",
+        "double_edge",
+        "hyper_beam",
         "dig",
         "toxic",
         "rage",
         "mimic",
-        "double-team",
+        "double_team",
         "reflect",
         "bide",
-        "fire-blast",
+        "fire_blast",
         "swift",
-        "skull-bash",
+        "skull_bash",
         "rest",
         "substitute"
     ],

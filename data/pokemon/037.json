@@ -1,27 +1,27 @@
 {
     "ability": {
-        "confuse-ray": 28,
+        "confuse_ray": 28,
         "ember": 1,
-        "fire-spin": 42,
+        "fire_spin": 42,
         "flamethrower": 35,
-        "quick-attack": 16,
+        "quick_attack": 16,
         "roar": 21,
-        "tail-whip": 1
+        "tail_whip": 1
     },
     "ability_machine": [
-        "body-slam",
-        "take-down",
-        "double-edge",
+        "body_slam",
+        "take_down",
+        "double_edge",
         "dig",
         "toxic",
         "rage",
         "mimic",
-        "double-team",
+        "double_team",
         "reflect",
         "bide",
-        "fire-blast",
+        "fire_blast",
         "swift",
-        "skull-bash",
+        "skull_bash",
         "rest",
         "substitute"
     ],

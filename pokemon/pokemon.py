@@ -56,7 +56,7 @@ class Pokemon(object):
         self.base_stats: Dict[str, int] = utils.get_args(data, "base_stats", id_)
         self.ability: Dict[str, int] = utils.get_args(data, "ability", id_, default={})
         self.ability = {k: v for k, v in self.ability.items() if k in abilitys_.ABILITYS}
-        print(self.ability)
+        print(self.id_, self.ability)
         self.catch_rate: float = utils.get_args(data, "catch_rate", id_)
         self.size = utils.get_args(data, "size", id_, default=0)
         self.weight = utils.get_args(data, "weight", id_, default=0)

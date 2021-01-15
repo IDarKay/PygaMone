@@ -1,23 +1,23 @@
 {
     "ability": {
         "screech": 47,
-        "sonic-boom": 21,
+        "sonic_boom": 21,
         "supersonic": 29,
         "swift": 41,
         "tackle": 1,
-        "thunder-shock": 25,
-        "thunder-wave": 35
+        "thunder_shock": 25,
+        "thunder_wave": 35
     },
     "ability_machine": [
-        "take-down",
-        "double-edge",
+        "take_down",
+        "double_edge",
         "thunderbolt",
         "thunder",
         "toxic",
         "rage",
         "teleport",
         "mimic",
-        "double-team",
+        "double_team",
         "reflect",
         "bide",
         "flash",

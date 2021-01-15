@@ -64,7 +64,6 @@ class PCTrigger(Trigger):
 
     def __init__(self, _id: str, data: Dict[str, Any]):
         super().__init__(_id, data)
-        print(self.side)
 
     def dat(self, data) -> Tuple:
         return ()

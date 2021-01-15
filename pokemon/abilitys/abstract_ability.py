@@ -57,7 +57,7 @@ class AbstractAbility(object):
         self.target = self.get_args("target", default=TARGET_ENEMY, type_check=int)
         self.range = self.get_args("range", default=RANGE_MONO, type_check=int)
         self.recoil_type = self.get_args("recoil_type", default=NO_RECOIL, type_check=int)
-        self.recoil = self.get_args("recoil", default=0, type_check=int)
+        self.recoil = self.get_args("recoil", default=0, type_check=(int, float))
         self.is_priority = self.get_args("is_priority", default=0, type_check=int)
         self.render_during = 0
         self.load = False
@@ -142,7 +142,7 @@ class AbstractAbility(object):
                 back.append((0, 0.0))
 
         recoil = (back[0][0] * self.recoil) if self.recoil == RECOIL_DAMAGE else self.recoil
-        return back, max(crit), recoil
+        return back, max(crit), int(recoil)
 
     def is_fail(self, poke: 'p_poke.PlayerPokemon', target: 'p_poke.PlayerPokemon'):
         if self.accuracy == -1:

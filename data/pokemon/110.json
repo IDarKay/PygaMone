@@ -2,22 +2,22 @@
     "ability": {
         "explosion": 53,
         "haze": 49,
-        "self-destruct": 43,
+        "self_destruct": 43,
         "sludge": 1,
         "smog": 1,
         "smokescreen": 39,
         "tackle": 1
     },
     "ability_machine": [
-        "hyper-beam",
+        "hyper_beam",
         "thunderbolt",
         "thunder",
         "toxic",
         "rage",
         "mimic",
-        "double-team",
+        "double_team",
         "bide",
-        "fire-blast",
+        "fire_blast",
         "rest",
         "substitute"
     ],

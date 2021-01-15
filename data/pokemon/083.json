@@ -1,29 +1,29 @@
 {
     "ability": {
         "agility": 31,
-        "fury-attack": 15,
+        "fury_attack": 15,
         "leer": 7,
         "peck": 1,
-        "sand-attack": 1,
+        "sand_attack": 1,
         "slash": 39,
-        "swords-dance": 23
+        "swords_dance": 23
     },
     "ability_machine": [
-        "razor-wind",
+        "razor_wind",
         "cut",
         "whirlwind",
         "fly",
-        "body-slam",
-        "take-down",
-        "double-edge",
+        "body_slam",
+        "take_down",
+        "double_edge",
         "toxic",
         "rage",
         "mimic",
-        "double-team",
+        "double_team",
         "reflect",
         "bide",
         "swift",
-        "skull-bash",
+        "skull_bash",
         "rest",
         "substitute"
     ],

@@ -98,6 +98,59 @@ class BurnStatus(Status):
         return animation.BurnAnimation(pos)
 
 
+class SleepStatus(Status):
+
+    def __init__(self, id_: str):
+        super().__init__(id_, True)
+
+    def get_image(self, si: 'StatusInstance') -> Optional[tuple[str, tuple[int, int, int]]]:
+        return game.game_instance.get_message("status.sleep.image"), (152, 216, 216)
+
+    def get_apply_text(self, ally: bool) -> Optional[str]:
+        return f"status.sleep.{'ally' if ally else 'enemy'}.apply"
+
+    def get_damage_text(self, ally: bool) -> Optional[str]:
+        return ""
+
+    def get_end_text(self, ally: bool) -> Optional[str]:
+        return f"status.sleep.{'ally' if ally else 'enemy'}.end"
+
+    def get_cancel_text(self, ally: bool) -> Optional[str]:
+        return f"status.sleep.{'ally' if ally else 'enemy'}.cancel"
+
+    def attack(self, si: 'StatusInstance', turn: int, ab: 'ability.AbstractAbility') -> tuple[bool, bool, int]:
+        n = si.poke.ram_data["sleep"]
+        n -= 1
+        si.poke.ram_data["sleep"] = n
+        if n <= 0:
+            del si.poke.ram_data["sleep"]
+        return n <= 0, n > 0, 0
+
+    @staticmethod
+    def __get_nb_hit() -> int:
+        r = random.random()
+        if r <= (1/3):
+            return 2
+        if r <= (2/3):
+            return 3
+        if r <= (5/6):
+            return 4
+        return 5
+
+    def turn(self, si: 'StatusInstance', turn: int) -> tuple[bool, int]:
+        return False, 0
+
+    def apply(self, si: 'StatusInstance', turn: int) -> NoReturn:
+        si.poke.ram_data["sleep"] = SleepStatus.__get_nb_hit()
+        return True
+
+    def get_catch_edit(self):
+        return 2
+
+    # def get_animation(self, si: 'StatusInstance', pos: tuple[int, int]) -> Optional['battle.Animation']:
+    #     return animation.BurnAnimation(pos)
+
+
 class FreezeStatus(Status):
 
     def __init__(self, id_: str):

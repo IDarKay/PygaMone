@@ -2,7 +2,7 @@
     "ability": {
         "explosion": 48,
         "haze": 45,
-        "self-destruct": 40,
+        "self_destruct": 40,
         "sludge": 32,
         "smog": 1,
         "smokescreen": 37,
@@ -14,9 +14,9 @@
         "toxic",
         "rage",
         "mimic",
-        "double-team",
+        "double_team",
         "bide",
-        "fire-blast",
+        "fire_blast",
         "rest",
         "substitute"
     ],
