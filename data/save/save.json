@@ -29,22 +29,22 @@
       "heal": 178,
       "ability": [
         {
-          "_id": "dig",
+          "_id": "dream_eater",
           "pp": 30,
           "max_pp": 35
         },
         {
-          "_id": "disable",
+          "_id": "double_edge",
           "pp": 27,
           "max_pp": 34
         },
         {
-          "_id": "dizzy_punch",
+          "_id": "dragon_rage",
           "pp": 21,
           "max_pp": 25
         },
         {
-          "_id": "double_kick",
+          "_id": "drill_peck",
           "pp": 22,
           "max_pp": 25
         }

@@ -7,7 +7,6 @@ import sound_manager
 import pokemon.battle.battle as battle_
 import pokemon.player_pokemon as p_poke
 import pygame
-from pokemon.status import status
 
 
 class CounterAbility(abilitys.AbstractAbility):
@@ -34,12 +33,12 @@ class CounterAbility(abilitys.AbstractAbility):
             tuple[list[tuple[int, float]], bool, int]:
 
         bat = game.game_instance.player.current_battle
-        damage = bat.history.get_damage_on(bat.turn_count, launcher.uuid, lambda move: move.get_move().type == "PHYSICAL") * 2
+        damage = bat.history.get_damage_on(bat.turn_count, launcher.uuid, lambda move: move.get_move().category == "PHYSICAL") * 2
         return [(damage, 1)] * len(targets), False, 0
 
     def is_fail(self, poke_: 'p_poke.PlayerPokemon', target: 'p_poke.PlayerPokemon'):
         bat = game.game_instance.player.current_battle
-        damage = bat.history.get_damage_on(bat.turn_count, poke_.uuid, lambda move: move.get_move().type == "PHYSICAL") * 2
+        damage = bat.history.get_damage_on(bat.turn_count, poke_.uuid, lambda move: move.get_move().category == "PHYSICAL") * 2
         return damage == 0 or super().is_fail(poke_, target)
 
     def get_rac(self, target: list[type[int, int, int]],

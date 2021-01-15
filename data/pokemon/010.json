@@ -1,6 +1,6 @@
 {
     "ability": {
-        "string-shot": 1,
+        "string_shot": 1,
         "tackle": 1
     },
     "ability_machine": [],

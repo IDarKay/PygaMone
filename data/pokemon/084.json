@@ -1,26 +1,26 @@
 {
     "ability": {
         "agility": 44,
-        "drill-peck": 30,
-        "fury-attack": 24,
+        "drill_peck": 30,
+        "fury_attack": 24,
         "growl": 20,
         "peck": 1,
         "rage": 36,
-        "tri-attack": 40
+        "tri_attack": 40
     },
     "ability_machine": [
         "whirlwind",
         "fly",
-        "body-slam",
-        "take-down",
-        "double-edge",
+        "body_slam",
+        "take_down",
+        "double_edge",
         "toxic",
         "mimic",
-        "double-team",
+        "double_team",
         "reflect",
         "bide",
-        "skull-bash",
-        "sky-attack",
+        "skull_bash",
+        "sky_attack",
         "rest",
         "substitute"
     ],

@@ -8,7 +8,6 @@ import sound_manager
 
 class DoubleKickAbility(abilitys.AbstractMultiHitAbility):
     foot: Union[pygame.Surface]
-    current_vars: list
 
     def __init__(self):
         super().__init__(id_='double_kick',
@@ -39,7 +38,6 @@ class DoubleKickAbility(abilitys.AbstractMultiHitAbility):
     def unload_assets(self) -> bool:
         if super().unload_assets():
             del self.foot
-            del self.current_vars
             return True
         return False
 
@@ -60,7 +58,6 @@ class DoubleKickAbility(abilitys.AbstractMultiHitAbility):
                    launcher: tuple[int, int, int], ps_t: int, first_time: bool, hit: int) -> NoReturn:
         if first_time:
             sound_manager.start_in_first_empty_taunt(self.sound)
-        print(ps_t)
         if ps_t < 1000:
             ps_t %= 500
             if ps_t > 450:

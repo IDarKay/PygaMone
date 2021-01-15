@@ -1,7 +1,7 @@
 {
     "ability": {
-        "poison-sting": 1,
-        "string-shot": 1
+        "poison_sting": 1,
+        "string_shot": 1
     },
     "ability_machine": [],
     "base_happiness": 70,

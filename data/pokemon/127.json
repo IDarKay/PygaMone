@@ -1,25 +1,25 @@
 {
     "ability": {
-        "focus-energy": 36,
+        "focus_energy": 36,
         "guillotine": 30,
         "harden": 43,
-        "seismic-toss": 25,
+        "seismic_toss": 25,
         "slash": 49,
-        "swords-dance": 54,
-        "vice-grip": 1
+        "swords_dance": 54,
+        "vice_grip": 1
     },
     "ability_machine": [
         "cut",
-        "body-slam",
-        "take-down",
-        "double-edge",
-        "hyper-beam",
+        "body_slam",
+        "take_down",
+        "double_edge",
+        "hyper_beam",
         "submission",
         "strength",
         "toxic",
         "rage",
         "mimic",
-        "double-team",
+        "double_team",
         "bide",
         "rest",
         "substitute"

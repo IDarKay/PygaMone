@@ -1,28 +1,28 @@
 {
     "ability": {
         "agility": 55,
-        "drill-peck": 1,
-        "light-screen": 60,
+        "drill_peck": 1,
+        "light_screen": 60,
         "thunder": 51,
-        "thunder-shock": 1
+        "thunder_shock": 1
     },
     "ability_machine": [
-        "razor-wind",
+        "razor_wind",
         "whirlwind",
         "fly",
-        "take-down",
-        "double-edge",
-        "hyper-beam",
+        "take_down",
+        "double_edge",
+        "hyper_beam",
         "thunderbolt",
-        "thunder-wave",
+        "thunder_wave",
         "toxic",
         "rage",
         "mimic",
-        "double-team",
+        "double_team",
         "reflect",
         "bide",
         "swift",
-        "sky-attack",
+        "sky_attack",
         "flash",
         "rest",
         "substitute"

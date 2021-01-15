@@ -1,22 +1,22 @@
 {
     "ability": {
-        "confuse-ray": 1,
-        "dream-eater": 38,
+        "confuse_ray": 1,
+        "dream_eater": 38,
         "hypnosis": 29,
         "lick": 1,
-        "night-shade": 1
+        "night_shade": 1
     },
     "ability_machine": [
-        "mega-drain",
+        "mega_drain",
         "thunderbolt",
         "thunder",
         "toxic",
         "psychic",
         "rage",
         "mimic",
-        "double-team",
+        "double_team",
         "bide",
-        "self-destruct",
+        "self_destruct",
         "psywave",
         "explosion",
         "rest",

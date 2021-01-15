@@ -1,28 +1,28 @@
 {
     "ability": {
         "bite": 29,
-        "double-kick": 43,
-        "fury-swipes": 36,
+        "double_kick": 43,
+        "fury_swipes": 36,
         "growl": 1,
-        "poison-sting": 14,
+        "poison_sting": 14,
         "scratch": 8,
         "tackle": 1,
-        "tail-whip": 21
+        "tail_whip": 21
     },
     "ability_machine": [
-        "body-slam",
-        "take-down",
-        "double-edge",
+        "body_slam",
+        "take_down",
+        "double_edge",
         "blizzard",
         "thunderbolt",
         "thunder",
         "toxic",
         "rage",
         "mimic",
-        "double-team",
+        "double_team",
         "reflect",
         "bide",
-        "skull-bash",
+        "skull_bash",
         "rest",
         "substitute"
     ],

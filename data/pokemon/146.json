@@ -1,25 +1,25 @@
 {
     "ability": {
         "agility": 55,
-        "fire-spin": 1,
+        "fire_spin": 1,
         "leer": 51,
         "peck": 1,
-        "sky-attack": 60
+        "sky_attack": 60
     },
     "ability_machine": [
-        "razor-wind",
+        "razor_wind",
         "whirlwind",
         "fly",
-        "take-down",
-        "double-edge",
-        "hyper-beam",
+        "take_down",
+        "double_edge",
+        "hyper_beam",
         "toxic",
         "rage",
         "mimic",
-        "double-team",
+        "double_team",
         "reflect",
         "bide",
-        "fire-blast",
+        "fire_blast",
         "swift",
         "rest",
         "substitute"

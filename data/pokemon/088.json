@@ -1,26 +1,26 @@
 {
     "ability": {
-        "acid-armor": 55,
+        "acid_armor": 55,
         "disable": 1,
         "harden": 42,
         "minimize": 33,
-        "poison-gas": 30,
+        "poison_gas": 30,
         "pound": 1,
         "screech": 48,
         "sludge": 37
     },
     "ability_machine": [
-        "body-slam",
-        "mega-drain",
+        "body_slam",
+        "mega_drain",
         "thunderbolt",
         "thunder",
         "toxic",
         "rage",
         "mimic",
-        "double-team",
+        "double_team",
         "bide",
-        "self-destruct",
-        "fire-blast",
+        "self_destruct",
+        "fire_blast",
         "explosion",
         "rest",
         "substitute"

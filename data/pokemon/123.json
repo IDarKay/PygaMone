@@ -1,24 +1,24 @@
 {
     "ability": {
         "agility": 42,
-        "double-team": 24,
-        "focus-energy": 20,
+        "double_team": 24,
+        "focus_energy": 20,
         "leer": 17,
-        "quick-attack": 1,
+        "quick_attack": 1,
         "slash": 29,
-        "swords-dance": 35
+        "swords_dance": 35
     },
     "ability_machine": [
         "cut",
-        "take-down",
-        "double-edge",
-        "hyper-beam",
+        "take_down",
+        "double_edge",
+        "hyper_beam",
         "toxic",
         "rage",
         "mimic",
         "bide",
         "swift",
-        "skull-bash",
+        "skull_bash",
         "rest",
         "substitute"
     ],

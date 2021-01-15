@@ -1,28 +1,28 @@
 {
     "ability": {
         "growth": 41,
-        "leech-life": 20,
+        "leech_life": 20,
         "scratch": 1,
         "slash": 34,
         "spore": 27,
-        "stun-spore": 13
+        "stun_spore": 13
     },
     "ability_machine": [
-        "swords-dance",
+        "swords_dance",
         "cut",
-        "body-slam",
-        "take-down",
-        "double-edge",
-        "mega-drain",
-        "solar-beam",
+        "body_slam",
+        "take_down",
+        "double_edge",
+        "mega_drain",
+        "solar_beam",
         "dig",
         "toxic",
         "rage",
         "mimic",
-        "double-team",
+        "double_team",
         "reflect",
         "bide",
-        "skull-bash",
+        "skull_bash",
         "rest",
         "substitute"
     ],

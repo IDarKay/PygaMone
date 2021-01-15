@@ -1,27 +1,27 @@
 {
     "ability": {
         "amnesia": 38,
-        "body-slam": 31,
+        "body_slam": 31,
         "bubble": 1,
-        "double-slap": 25,
-        "hydro-pump": 45,
+        "double_slap": 25,
+        "hydro_pump": 45,
         "hypnosis": 16,
-        "water-gun": 19
+        "water_gun": 19
     },
     "ability_machine": [
-        "take-down",
-        "double-edge",
+        "take_down",
+        "double_edge",
         "surf",
-        "ice-beam",
+        "ice_beam",
         "blizzard",
-        "bubble-beam",
+        "bubble_beam",
         "toxic",
         "psychic",
         "rage",
         "mimic",
-        "double-team",
+        "double_team",
         "bide",
-        "skull-bash",
+        "skull_bash",
         "psywave",
         "rest",
         "substitute"
