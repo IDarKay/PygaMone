@@ -45,11 +45,6 @@ class Pokemon(object):
         self.color: str = utils.get_args(data, "color", id_, type_check=str)
         self.evolution: List[Dict[str, Any]] = utils.get_args(data, "evolution", id_, default=[])
         self.female_rate: float = utils.get_args(data, "female_rate", id_)
-
-        # self.display: displayer.Displayer = displayer.parse(utils.get_args(data, "display", id_),
-        #                                                     "pokemon/" + to_3_digit(id_))
-        # self.back_display: displayer.Displayer = displayer.parse(utils.get_args(data, "back_display", id_),
-        #                                                          "pokemon/" + to_3_digit(id_))
         self.have_female_image = os.path.isfile(f'assets/textures/pokemon/female/{self.id_}.png')
         self.curve_name: str = utils.get_args(data, "curve", id_, type_check=str)
         self.curve: Callable[[int], float] = CURVE[self.curve_name]
