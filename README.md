@@ -44,3 +44,14 @@ I'm totally open to any gameplay suggestion !
     normaly you will find dir in ./dict
 
 [![Pygame](https://img.shields.io/badge/Pygame-pyinstaller_pokemon.spec-green)]()
+
+## 🖼️ Screen
+
+
+![World](https://raw.githubusercontent.com/IDarKay/PygaMone/master/docs/screen_0.png)
+
+
+![Battle](https://raw.githubusercontent.com/IDarKay/PygaMone/master/docs/screen_1.png)
+
+
+![Building](https://raw.githubusercontent.com/IDarKay/PygaMone/master/docs/screen_2.png)
