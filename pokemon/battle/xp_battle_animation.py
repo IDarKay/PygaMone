@@ -262,8 +262,6 @@ class PokemonWonAttackAnimation(XpA):
         self._bat.TO_SHOW.insert(0, lambda: self._bat.start_new_animation(XpAnimationAdd(
             self._bat, self.__xp_tab, self.xp_i, self.__edit,
             self.get_next_i((self.__poke_i, self.attack_i)), self.__attack_edit)))
-        # self._bat.TO_SHOW.append(lambda: self._bat.start_new_animation(PokemonWonAttackAnimation(
-        #     self._bat, self.__xp_tab, self.get_next_i((self.__poke_i, self.attack_i)), self.__edit, self self.__attack_edit)))
 
     def question_callback(self, name, index):
         self.__answer = index
